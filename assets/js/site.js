@@ -1,4 +1,4 @@
-/* ===== AP Study — shared behaviour =====
+/* ===== Apogee — shared behaviour =====
    Every page sets <body data-root="..."> (relative path to the site root),
    and optionally data-course / data-unit to highlight the current unit.
    Unit pages put each chapter in <div class="chapter" id="..." data-title="...">.
@@ -27,7 +27,7 @@
     });
     header.innerHTML = `
       <div class="in">
-        <a class="brand" href="${root}index.html"><span class="dot"></span><span class="word">AP Study</span></a>
+        <a class="brand" href="${root}index.html"><span class="dot"></span><span class="word">Apogee</span></a>
         <span class="spacer"></span>
         <div class="dd">
           <button class="navbtn" aria-expanded="false" aria-haspopup="true">Courses ▾</button>

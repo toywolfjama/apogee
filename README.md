@@ -1,4 +1,6 @@
-# AP Study
+# Apogee
+
+*Reach your highest point.*
 
 Free AP review pages: explanations, in-depth breakdowns of each idea, worked examples, and self-checking practice questions.
 
