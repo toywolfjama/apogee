@@ -7,6 +7,19 @@
 (function () {
   const body = document.body;
   const root = body.dataset.root || "";
+
+  /* ---------- settings (saved in this browser) ---------- */
+  const DEFAULTS = { models: true, motion: true, big: false };
+  let settings = Object.assign({}, DEFAULTS);
+  try { Object.assign(settings, JSON.parse(localStorage.getItem("apogee-settings") || "{}")); } catch (e) {}
+  function applySettings() {
+    body.classList.toggle("no-models", !settings.models);
+    body.classList.toggle("no-motion", !settings.motion);
+    body.classList.toggle("big-text", !!settings.big);
+    try { localStorage.setItem("apogee-settings", JSON.stringify(settings)); } catch (e) {}
+    document.dispatchEvent(new CustomEvent("chapterchange"));
+  }
+  applySettings();
   const courses = window.SITE_COURSES || [];
 
   /* ---------- header with course dropdown ---------- */
@@ -29,22 +42,34 @@
       <div class="in">
         <a class="brand" href="${root}index.html"><span class="dot"></span><span class="word">Apogee</span></a>
         <span class="spacer"></span>
+        <div class="dd dd-settings">
+          <button class="navbtn icon" aria-expanded="false" aria-haspopup="true" aria-label="Settings" title="Settings">⚙<span class="lbl"> Settings</span></button>
+          <div class="dd-menu settings-menu" role="menu">
+            <div class="course">Settings</div>
+            <label class="set-row"><span><b>Animated models</b><small>Turn off to practice like a real exam</small></span><input type="checkbox" data-set="models"><i class="sw"></i></label>
+            <label class="set-row"><span><b>Background &amp; motion effects</b><small>Starfield, fades and transitions</small></span><input type="checkbox" data-set="motion"><i class="sw"></i></label>
+            <label class="set-row"><span><b>Larger text</b><small>Easier reading on small screens</small></span><input type="checkbox" data-set="big"><i class="sw"></i></label>
+          </div>
+        </div>
         <div class="dd">
           <button class="navbtn" aria-expanded="false" aria-haspopup="true">Courses ▾</button>
           <div class="dd-menu" role="menu">${menu}</div>
         </div>
       </div>`;
     body.prepend(header);
-    const btn = header.querySelector(".dd .navbtn"), dd = header.querySelector(".dd-menu");
-    btn.addEventListener("click", e => {
-      e.stopPropagation();
-      const open = dd.classList.toggle("open");
-      btn.setAttribute("aria-expanded", open);
+    const menus = [...header.querySelectorAll(".dd")].map(d => ({ btn: d.querySelector(".navbtn"), dd: d.querySelector(".dd-menu") }));
+    const closeAll = except => menus.forEach(m => { if (m !== except) { m.dd.classList.remove("open"); m.btn.setAttribute("aria-expanded", "false"); } });
+    menus.forEach(m => m.btn.addEventListener("click", e => {
+      e.stopPropagation(); closeAll(m);
+      const open = m.dd.classList.toggle("open");
+      m.btn.setAttribute("aria-expanded", open);
+    }));
+    document.addEventListener("click", e => { if (!e.target.closest(".dd")) closeAll(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeAll(); });
+    header.querySelectorAll("[data-set]").forEach(cb => {
+      cb.checked = !!settings[cb.dataset.set];
+      cb.addEventListener("change", () => { settings[cb.dataset.set] = cb.checked; applySettings(); });
     });
-    document.addEventListener("click", e => {
-      if (!dd.contains(e.target)) { dd.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); }
-    });
-    document.addEventListener("keydown", e => { if (e.key === "Escape") { dd.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); } });
     return header;
   }
 
@@ -77,7 +102,7 @@
       });
       // chip
       const chip = document.createElement("button");
-      chip.className = "chip";
+      chip.className = "chip" + (ch.dataset.hard ? " hard" : "");
       chip.dataset.target = ch.id;
       chip.innerHTML = `<span class="n">${i + 1}</span>${ch.dataset.short || title}`;
       chip.addEventListener("click", () => go(ch.id, true));
@@ -215,7 +240,7 @@
   /* ---------- motion ---------- */
   const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   let io = null;
-  if (!reduce && "IntersectionObserver" in window) {
+  if (!reduce && settings.motion && "IntersectionObserver" in window) {
     io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0, rootMargin: "0px 0px -30px 0px" });
   }
   function revealIn(scope) {
@@ -260,15 +285,18 @@
     }
     let shoot = null, lastShoot = 0;
     function frame(now) {
+      const still = body.classList.contains("no-motion");
+      if (still && frame.drawn) { requestAnimationFrame(frame); return; }
+      frame.drawn = still;
       c.clearRect(0, 0, w, h);
-      const par = scrollY * 0.04;
+      const par = still ? 0 : scrollY * 0.04;
       for (const st of stars) {
-        if (!reduce) { st.x -= st.s * 0.25; if (st.x < -2) st.x = w + 2; }
-        const a = 0.35 + 0.55 * (0.5 + 0.5 * Math.sin(now / 900 * (0.5 + st.z) + st.p));
+        if (!reduce && !still) { st.x -= st.s * 0.25; if (st.x < -2) st.x = w + 2; }
+        const a = still ? 0.6 : 0.35 + 0.55 * (0.5 + 0.5 * Math.sin(now / 900 * (0.5 + st.z) + st.p));
         c.globalAlpha = a; c.fillStyle = st.z > 0.85 ? "#eafe07" : st.z > 0.7 ? "#9fd0ff" : "#ffffff";
         c.beginPath(); c.arc(st.x, (st.y - par * st.z + h) % h, st.r, 0, 7); c.fill();
       }
-      if (!reduce) {
+      if (!reduce && !still) {
         if (!shoot && now - lastShoot > 7000 && Math.random() < 0.01) { shoot = { x: Math.random() * w * 0.7 + w * 0.3, y: Math.random() * h * 0.4, t: 0 }; lastShoot = now; }
         if (shoot) {
           shoot.t += 0.025; const k = shoot.t, x = shoot.x - k * 260, y = shoot.y + k * 120;
@@ -280,7 +308,7 @@
       c.globalAlpha = 1;
       if (!reduce) requestAnimationFrame(frame);
     }
-    init(); addEventListener("resize", init); requestAnimationFrame(frame);
+    init(); addEventListener("resize", () => { init(); frame.drawn = false; }); requestAnimationFrame(frame);
   }
   starfield();
 

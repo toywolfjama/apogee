@@ -14,7 +14,7 @@
 <div class="hero">
   <span class="kicker">AP Physics 1 · Unit 3</span>
   <h1>Work, Energy <span class="hl">&amp;</span> Power<br><span class="hl">+</span> Momentum</h1>
-  <p>Explanations, worked examples, in-depth breakdowns of each idea, a momentum problem set, and 24 practice questions with explanations.</p>
+  <p>Explanations, worked examples, in-depth breakdowns of each idea, a momentum problem set, 40 practice questions, 14 challenge questions and a timed practice exam.</p>
 </div>
 
 <main class="page">
@@ -28,6 +28,7 @@
     <li>Work through each topic. Try each worked example before reading the solution. Open a <b>deep explanation</b> when you want the full reasoning behind an idea.</li>
     <li>Review <b>Common mistakes</b>.</li>
     <li>Do the <b>problem set</b> and <b>practice questions</b>. For any you miss, read the explanation and return to that topic.</li>
+    <li>When you feel ready, try the <b>Challenge</b> questions, then take the timed <b>Practice Exam</b>. Turn off animated models in <b>⚙ Settings</b> for a real exam feel.</li>
   </ol>
   <div class="box plain"><b class="lbl">Note</b>In the current AP Physics 1 course (since 2024), <b>Unit 3 is Work, Energy &amp; Power</b> and <b>Unit 4 is Linear Momentum</b>. Both are covered here. This page uses <span class="eq">g = 10 m/s²</span>, as the exam does unless told otherwise.</div>
 </section>
@@ -627,6 +628,21 @@
   </div>
 </section>
 </div>
+<div class="chapter" id="challenge" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-set">
+  <h2>Challenge questions</h2>
+  <p class="sub">The hardest kind of question the exam can throw at you: multi-step problems, traps and subtle concepts. Getting half right is a good result. Every explanation names the trap answer, so read them even when you get one right.</p>
+  <div class="box plain"><b class="lbl">Tip</b>Want it to feel like the real test? Open <b>⚙ Settings</b> and turn off <b>Animated models</b>.</div>
+  <div class="quiz" data-src="quiz-challenge" data-tags='{"e":"Energy","m":"Momentum"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box">
+  <h2>Practice exam</h2>
+  <p class="sub">A timed exam in the AP format: Section I is multiple choice (conceptual and calculation); Section II is free response, scored with a rubric. No feedback until you submit.</p>
+  <div class="exam" data-src="exam-unit3"></div>
+</section>
+</div>
 </main>
 
 <footer>Apogee · AP Physics 1 · g = 10 m/s²</footer>
@@ -1084,11 +1100,845 @@
   "sim": {
    "type": "fall"
   }
+ },
+ {
+  "t": "e",
+  "q": "Object A (1 kg) moves at 4 m/s. Object B (4 kg) moves at 1 m/s. Which statement is correct?",
+  "o": [
+   "They have equal momentum and equal kinetic energy",
+   "They have equal kinetic energy, and B has more momentum",
+   "They have equal momentum, and A has more kinetic energy",
+   "B has more momentum and more kinetic energy"
+  ],
+  "a": 2,
+  "x": "p_A = 1×4 = 4 and p_B = 4×1 = 4 kg·m/s, so momenta are equal. K_A = ½(1)(16) = 8 J and K_B = ½(4)(1) = 2 J. Speed is squared in K, so the faster object wins."
+ },
+ {
+  "t": "e",
+  "q": "A 3.0 kg ball is thrown straight up and rises 5.0 m. How much work does gravity do on the ball during the rise?",
+  "o": [
+   "−150 J",
+   "+15 J",
+   "0 J",
+   "+150 J"
+  ],
+  "a": 0,
+  "x": "Gravity (down) is opposite the displacement (up): W = mg·d·cos 180° = −(3)(10)(5) = −150 J. Gravity removes kinetic energy on the way up."
+ },
+ {
+  "t": "e",
+  "q": "A spring launcher fires a ball horizontally. If the spring is compressed twice as far, the launch speed becomes…",
+  "o": [
+   "√2 times as large",
+   "the same",
+   "4 times as large",
+   "2 times as large"
+  ],
+  "a": 3,
+  "x": "U_s = ½kx² becomes 4×. All of it becomes K = ½mv², so v² is 4× and v is 2×.",
+  "sim": {
+   "type": "spring",
+   "k": 200,
+   "x": 0.1
+  }
+ },
+ {
+  "t": "e",
+  "q": "A motor lifts a 50 kg crate 10 m at constant speed in 20 s. What is the motor's average power output?",
+  "o": [
+   "5000 W",
+   "500 W",
+   "25 W",
+   "250 W"
+  ],
+  "a": 3,
+  "x": "W = mgh = (50)(10)(10) = 5000 J. P = W/t = 5000/20 = 250 W.",
+  "sim": {
+   "type": "lift",
+   "m": 50,
+   "h": 10
+  }
+ },
+ {
+  "t": "e",
+  "q": "A 2.0 kg block starts from rest at the top of a rough ramp 5.0 m high and reaches the bottom at 8.0 m/s. How much energy was converted to thermal energy?",
+  "o": [
+   "36 J",
+   "100 J",
+   "64 J",
+   "0 J"
+  ],
+  "a": 0,
+  "x": "Start: U = mgh = 100 J. End: K = ½(2)(64) = 64 J. The missing 100 − 64 = 36 J became thermal energy through friction."
+ },
+ {
+  "t": "e",
+  "q": "A force on an object is +6 N from x = 0 to 3 m, then −4 N from x = 3 m to 5 m. What is the total work done by the force?",
+  "o": [
+   "10 J",
+   "2 J",
+   "26 J",
+   "18 J"
+  ],
+  "a": 0,
+  "x": "Area above the axis: 6 × 3 = 18 J. Area below: −4 × 2 = −8 J. Net work = 18 − 8 = 10 J."
+ },
+ {
+  "t": "e",
+  "q": "A satellite moves in a circular orbit at constant speed. How much work does gravity do on it over one quarter of an orbit?",
+  "o": [
+   "Negative work",
+   "It depends on the satellite's mass",
+   "Zero work",
+   "Positive work"
+  ],
+  "a": 2,
+  "x": "In a circular orbit, gravity points toward the center while the velocity is tangent to the circle. They're always perpendicular, so W = 0 and the speed stays constant."
+ },
+ {
+  "t": "e",
+  "q": "A 1000 kg car speeds up from 10 m/s to 20 m/s. What net work was done on the car?",
+  "o": [
+   "200,000 J",
+   "50,000 J",
+   "150,000 J",
+   "100,000 J"
+  ],
+  "a": 2,
+  "x": "W_net = ΔK = ½(1000)(20²) − ½(1000)(10²) = 200,000 − 50,000 = 150,000 J. Note it is not ½m(Δv)², which would give 50,000 J."
+ },
+ {
+  "t": "m",
+  "q": "A 0.20 kg ball moving at +15 m/s is caught and brought to rest. What impulse did the catcher's glove give the ball?",
+  "o": [
+   "−3.0 N·s",
+   "−0.75 N·s",
+   "+3.0 N·s",
+   "−30 N·s"
+  ],
+  "a": 0,
+  "x": "J = Δp = m(v_f − v_i) = 0.20(0 − 15) = −3.0 N·s. The negative sign means the glove pushed opposite the ball's motion.",
+  "sim": {
+   "type": "bounce",
+   "m": 0.2,
+   "v": 15,
+   "vf": 0
+  }
+ },
+ {
+  "t": "m",
+  "q": "Why do you bend your knees when you land after a jump?",
+  "o": [
+   "It reduces the impulse needed to stop",
+   "It increases your kinetic energy",
+   "It increases the stopping time, which reduces the force",
+   "It reduces the change in momentum"
+  ],
+  "a": 2,
+  "x": "You must lose the same momentum either way, so the impulse FΔt is fixed. Bending your knees makes Δt longer, so F is smaller.",
+  "sim": {
+   "type": "egg"
+  }
+ },
+ {
+  "t": "m",
+  "q": "A 3.0 kg cart moving at +4.0 m/s hits a 1.0 kg cart at rest. Afterward the 3.0 kg cart moves at +2.0 m/s. What is the 1.0 kg cart's velocity?",
+  "o": [
+   "+12 m/s",
+   "+2.0 m/s",
+   "+4.0 m/s",
+   "+6.0 m/s"
+  ],
+  "a": 3,
+  "x": "(3)(4) + 0 = (3)(2) + (1)v → 12 = 6 + v → v = +6.0 m/s. Check: K before = 24 J, after = 6 + 18 = 24 J, so this collision happens to be elastic.",
+  "sim": {
+   "type": "collide",
+   "m1": 3,
+   "v1": 4,
+   "m2": 1,
+   "v2": 0,
+   "mode": "given",
+   "v1f": 2,
+   "known": [
+    "v1f"
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "Two objects have the same momentum. Object A has twice the mass of object B. How do their kinetic energies compare?",
+  "o": [
+   "K_B = 4K_A",
+   "K_A = 2K_B",
+   "K_B = 2K_A",
+   "K_A = K_B"
+  ],
+  "a": 2,
+  "x": "K = p²/(2m). Same p, so K is inversely proportional to mass. B has half the mass, so twice the kinetic energy."
+ },
+ {
+  "t": "m",
+  "q": "A 6.0 kg object at rest explodes into two pieces. A 2.0 kg piece moves at +9.0 m/s. What is the velocity of the 4.0 kg piece?",
+  "o": [
+   "+4.5 m/s",
+   "−3.0 m/s",
+   "−9.0 m/s",
+   "−4.5 m/s"
+  ],
+  "a": 3,
+  "x": "Total momentum stays 0: 0 = (2)(9) + (4)v → v = −18/4 = −4.5 m/s.",
+  "sim": {
+   "type": "explode",
+   "m1": 4,
+   "m2": 2,
+   "v0": 0,
+   "v2f": 9,
+   "known": [
+    "v2f"
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "Two skaters stand at rest on frictionless ice and push off each other. What happens to the velocity of their center of mass?",
+  "o": [
+   "It moves toward the lighter skater",
+   "It depends on how hard they push",
+   "It moves toward the heavier skater",
+   "It stays at rest"
+  ],
+  "a": 3,
+  "x": "No external horizontal force acts, so total momentum stays zero. Total momentum = (total mass)(v_cm), so v_cm stays zero.",
+  "sim": {
+   "type": "explode",
+   "m1": 60,
+   "m2": 40,
+   "v0": 0,
+   "v2f": 3,
+   "known": [
+    "v2f"
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "A bat applies a force that rises steadily from 0 to 400 N and back to 0 over 0.050 s (a triangle on a force-time graph) to a 0.50 kg ball at rest. What is the ball's final speed?",
+  "o": [
+   "20 m/s",
+   "80 m/s",
+   "40 m/s",
+   "10 m/s"
+  ],
+  "a": 0,
+  "x": "Impulse = triangle area = ½(0.050)(400) = 10 N·s. Δv = J/m = 10/0.50 = 20 m/s."
+ },
+ {
+  "t": "e",
+  "q": "A ball is thrown straight up. At the very top of its path, which is true (ignoring air resistance)?",
+  "o": [
+   "K is at its maximum",
+   "K = 0 and U_g is at its maximum",
+   "The net force on the ball is zero",
+   "The ball's acceleration is zero"
+  ],
+  "a": 1,
+  "x": "At the top the ball is momentarily at rest, so K = 0 and all the energy is gravitational potential. Gravity still acts, so the net force and acceleration are not zero."
  }
 ]
+</script>
+<script type="application/json" id="quiz-challenge">
+[
+ {
+  "t": "m",
+  "q": "A 0.010 kg bullet embeds in a 0.990 kg block hanging from a light string. The block and bullet swing up to a height of 0.20 m. What was the bullet's initial speed?",
+  "o": [
+   "2.0 m/s",
+   "2000 m/s",
+   "20 m/s",
+   "200 m/s"
+  ],
+  "a": 3,
+  "x": "Two stages. Swing (energy): ½V² = gh → V = √(2·10·0.20) = 2.0 m/s. Collision (momentum): (0.010)v = (1.000)(2.0) → v = 200 m/s. The trap answer, 20 m/s, comes from using energy conservation for the collision, where most of the kinetic energy becomes thermal energy."
+ },
+ {
+  "t": "e",
+  "q": "A 2.0 kg block is pressed against a spring (k = 800 N/m), compressing it 0.20 m, on a floor with μ_k = 0.25. It's released from rest. How far from the release point does the block stop?",
+  "o": [
+   "3.2 m",
+   "0.80 m",
+   "1.6 m",
+   "3.0 m"
+  ],
+  "a": 0,
+  "x": "U_s = ½(800)(0.20)² = 16 J. Friction f = μmg = 0.25(2)(10) = 5 N acts over the whole path, including while the spring is pushing. All 16 J becomes thermal energy: 5d = 16 → d = 3.2 m from release. The trap answer 3.0 m is how far it slides after leaving the spring."
+ },
+ {
+  "t": "e",
+  "q": "A small cart is released from rest on a frictionless track and goes around a vertical loop of radius R. What is the minimum release height (above the bottom of the loop) for it to stay on the track at the top?",
+  "o": [
+   "1.5R",
+   "2R",
+   "3R",
+   "2.5R"
+  ],
+  "a": 3,
+  "x": "At the top, the minimum speed is when gravity alone supplies the centripetal force: mg = mv²/R → v² = gR. Energy: mgh = mg(2R) + ½m(gR) → h = 2R + 0.5R = 2.5R. Answer 2R forgets the cart still needs speed at the top."
+ },
+ {
+  "t": "m",
+  "q": "A 2.0 kg cart moving at +6.0 m/s collides elastically with a 4.0 kg cart at rest. What is the velocity of the 2.0 kg cart afterward?",
+  "o": [
+   "−6.0 m/s",
+   "−2.0 m/s",
+   "0 m/s",
+   "+2.0 m/s"
+  ],
+  "a": 1,
+  "x": "Elastic 1D: v₁′ = (m₁ − m₂)v₁/(m₁ + m₂) = (2 − 4)(6)/6 = −2.0 m/s, and v₂′ = 2m₁v₁/(m₁ + m₂) = +4.0 m/s. Check momentum: 12 = (2)(−2) + (4)(4) = 12 ✓. Check K: 36 J = 4 + 32 ✓. A lighter cart bounces back off a heavier one.",
+  "sim": {
+   "type": "collide",
+   "m1": 2,
+   "v1": 6,
+   "m2": 4,
+   "v2": 0,
+   "mode": "elastic"
+  }
+ },
+ {
+  "t": "m",
+  "q": "A moving cart of mass m hits and sticks to an identical-type cart of mass 3m at rest. What fraction of the original kinetic energy is converted to other forms?",
+  "o": [
+   "25%",
+   "75%",
+   "50%",
+   "100%"
+  ],
+  "a": 1,
+  "x": "v_f = mv/(4m) = v/4. K_f = ½(4m)(v/4)² = ½mv²/4, which is 25% of K_i. So 75% is converted to thermal energy, sound and deformation. In general K_f/K_i = m₁/(m₁ + m₂) when the second object starts at rest.",
+  "sim": {
+   "type": "collide",
+   "m1": 1,
+   "v1": 4,
+   "m2": 3,
+   "v2": 0,
+   "mode": "stick"
+  }
+ },
+ {
+  "t": "m",
+  "q": "An object at rest explodes into two pieces. Piece A has 3 times the mass of piece B. What is the ratio K_B / K_A?",
+  "o": [
+   "1",
+   "1/3",
+   "9",
+   "3"
+  ],
+  "a": 3,
+  "x": "Momentum: the pieces have equal and opposite momenta, |p_A| = |p_B|. With K = p²/(2m), K_B/K_A = m_A/m_B = 3. The lighter piece gets most of the energy.",
+  "sim": {
+   "type": "explode",
+   "m1": 3,
+   "m2": 1,
+   "v0": 0,
+   "v2f": 3,
+   "known": [
+    "v2f"
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "A 1200 kg car drives at a constant 15 m/s up a straight road that rises 1 m for every 10 m traveled along the road. Air and rolling resistance total 500 N. What power must the engine deliver?",
+  "o": [
+   "187,500 W",
+   "18,000 W",
+   "25,500 W",
+   "7,500 W"
+  ],
+  "a": 2,
+  "x": "Constant speed means the engine's force balances gravity's component along the slope plus resistance. sin θ = 1/10, so mg sin θ = (1200)(10)(0.1) = 1200 N. F = 1200 + 500 = 1700 N. P = Fv = (1700)(15) = 25,500 W. 7,500 W ignores the hill; 187,500 W uses the full weight instead of its component."
+ },
+ {
+  "t": "m",
+  "q": "A 2.0 kg object moving at −5.0 m/s experiences a force of +20 N for 3.0 s, then −10 N for the next 2.0 s. What is its final velocity?",
+  "o": [
+   "+25 m/s",
+   "+15 m/s",
+   "+35 m/s",
+   "+20 m/s"
+  ],
+  "a": 1,
+  "x": "Net impulse = (20)(3) + (−10)(2) = 60 − 20 = +40 N·s. Δv = 40/2 = +20 m/s. v_f = −5 + 20 = +15 m/s. Answer +35 m/s ignores the negative area."
+ },
+ {
+  "t": "e",
+  "q": "Two identical carts on a frictionless track are each pushed by the same constant force over the same distance. Cart A starts at rest; cart B is already moving in the direction of the force. Compared with cart A, cart B gains…",
+  "o": [
+   "the same kinetic energy and the same momentum",
+   "more kinetic energy and more momentum",
+   "the same kinetic energy and less momentum",
+   "less kinetic energy and the same momentum"
+  ],
+  "a": 2,
+  "x": "Same force × same distance = same work, so the same ΔK. But B is moving faster, so it covers the distance in less time. Less time means less impulse (FΔt), so B gains less momentum. This question separates work (force × distance) from impulse (force × time)."
+ },
+ {
+  "t": "e",
+  "q": "Block 1 slides from rest down a frictionless incline of height h. Block 2 (same mass) is dropped from rest from the same height h. Which quantity is the same for both just before they reach the bottom?",
+  "o": [
+   "Impulse delivered by gravity",
+   "Speed",
+   "Time taken",
+   "Momentum"
+  ],
+  "a": 1,
+  "x": "Both lose the same U_g = mgh, so both have the same speed. Their momenta point in different directions, so momentum differs. The incline takes longer, so gravity acts for more time and delivers a larger impulse (mg·Δt) on block 1."
+ },
+ {
+  "t": "m",
+  "q": "A 50 kg person stands on a 10 kg cart at rest on a frictionless floor. They throw a 2.0 kg ball horizontally at 12 m/s toward a wall. The ball bounces back elastically at 12 m/s and the person catches it. What is the final velocity of the person, cart and ball together? (Take toward the wall as +.)",
+  "o": [
+   "0 m/s",
+   "−0.40 m/s",
+   "−0.80 m/s",
+   "−0.77 m/s"
+  ],
+  "a": 3,
+  "x": "Throw: 0 = (2)(12) + (60)v → v = −0.40 m/s. The returning ball has p = (2)(−12) = −24 kg·m/s; the person+cart have (60)(−0.40) = −24 kg·m/s. Catch (stick): −48 = (62)v_f → v_f ≈ −0.77 m/s. The wall gave the system an external impulse, which is why the total isn't zero. −0.80 m/s forgets to include the ball's mass after the catch."
+ },
+ {
+  "t": "e",
+  "q": "A 0.50 kg pendulum bob on a 0.80 m string is released from rest with the string horizontal. What is the tension in the string at the lowest point?",
+  "o": [
+   "5.0 N",
+   "10 N",
+   "15 N",
+   "20 N"
+  ],
+  "a": 2,
+  "x": "Energy: v² = 2gL = 2(10)(0.80) = 16 m²/s². At the bottom, T − mg = mv²/L → T = (0.5)(10) + (0.5)(16)/0.80 = 5 + 10 = 15 N. That's 3mg, true for any release from horizontal.",
+  "sim": {
+   "type": "pendulum",
+   "h": 0.8,
+   "L": 0.8
+  }
+ },
+ {
+  "t": "e",
+  "q": "A spring with k = 100 N/m is already stretched 0.10 m. How much work is needed to stretch it further, to 0.30 m?",
+  "o": [
+   "6.0 J",
+   "4.0 J",
+   "8.0 J",
+   "2.0 J"
+  ],
+  "a": 1,
+  "x": "W = ΔU_s = ½k(x_f² − x_i²) = ½(100)(0.09 − 0.01) = 4.0 J. Using ½k(Δx)² = 2.0 J is the common mistake: the spring is already pushing back hard at 0.10 m."
+ },
+ {
+  "t": "m",
+  "q": "A ball is dropped onto a hard floor and bounces back up to a lower height. During the brief collision with the floor, which is true?",
+  "o": [
+   "The ball–Earth system's momentum is conserved, and its kinetic energy decreases",
+   "The ball's momentum is conserved",
+   "The ball–Earth system's kinetic energy is conserved",
+   "The floor exerts zero net impulse on the ball"
+  ],
+  "a": 0,
+  "x": "The floor exerts a large impulse on the ball, reversing its momentum, so the ball alone doesn't conserve momentum. For the ball–Earth system the forces are internal, so total momentum is conserved (Earth's recoil is just tiny). The lower bounce shows kinetic energy was lost to thermal energy and sound."
+ }
+]
+</script>
+<script type="application/json" id="exam-unit3">
+{
+ "title": "Unit 3 Practice Exam: Work, Energy, Power & Momentum",
+ "mcqMinutes": 40,
+ "frqMinutes": 30,
+ "tags": {
+  "e": "Energy",
+  "m": "Momentum"
+ },
+ "mcq": [
+  {
+   "t": "e",
+   "k": "concept",
+   "q": "A box is pushed across a rough floor at constant velocity. What is the net work done on the box?",
+   "o": [
+    "It depends on how far the box moves",
+    "Negative, because friction does work",
+    "Zero",
+    "Positive, because the push does work"
+   ],
+   "a": 2,
+   "x": "Constant velocity means ΔK = 0, so W_net = 0. The push does positive work and friction does equal negative work."
+  },
+  {
+   "t": "e",
+   "k": "calc",
+   "q": "A 0.50 kg ball moves at 6.0 m/s. What is its kinetic energy?",
+   "o": [
+    "1.5 J",
+    "9.0 J",
+    "3.0 J",
+    "18 J"
+   ],
+   "a": 1,
+   "x": "K = ½(0.50)(6.0²) = 9.0 J."
+  },
+  {
+   "t": "e",
+   "k": "concept",
+   "q": "At the highest point of its swing, a pendulum bob has…",
+   "o": [
+    "zero total mechanical energy",
+    "zero kinetic energy and maximum potential energy",
+    "maximum kinetic energy and minimum potential energy",
+    "equal kinetic and potential energy"
+   ],
+   "a": 1,
+   "x": "The bob stops for an instant at the top of its swing, so K = 0 and U_g is at its maximum."
+  },
+  {
+   "t": "e",
+   "k": "calc",
+   "q": "An 80 kg skier starts from rest and descends a frictionless slope, dropping 30 m vertically. About how fast is the skier moving at the bottom?",
+   "o": [
+    "24 m/s",
+    "600 m/s",
+    "17 m/s",
+    "30 m/s"
+   ],
+   "a": 0,
+   "x": "v = √(2gh) = √(2·10·30) = √600 ≈ 24.5 m/s. The mass cancels."
+  },
+  {
+   "t": "e",
+   "k": "calc",
+   "q": "A spring with k = 400 N/m is compressed 0.050 m. How much elastic potential energy does it store?",
+   "o": [
+    "1.0 J",
+    "10 J",
+    "0.50 J",
+    "20 J"
+   ],
+   "a": 2,
+   "x": "U_s = ½(400)(0.050)² = 0.50 J."
+  },
+  {
+   "t": "e",
+   "k": "concept",
+   "q": "Two identical balls are thrown from the top of a building with the same speed: one straight up and one straight down. Ignoring air resistance, which hits the ground with the greater speed?",
+   "o": [
+    "The one thrown down",
+    "It depends on the height of the building",
+    "The one thrown up",
+    "They hit with the same speed"
+   ],
+   "a": 3,
+   "x": "Both start with the same K and the same U_g, so both have the same total energy and reach the ground at the same speed. The one thrown up just takes longer."
+  },
+  {
+   "t": "e",
+   "k": "calc",
+   "q": "A 20 N force pulls a crate 4.0 m across the floor. The force is directed 60° above the horizontal. How much work does the force do?",
+   "o": [
+    "40 J",
+    "80 J",
+    "69 J",
+    "160 J"
+   ],
+   "a": 0,
+   "x": "W = Fd cos θ = (20)(4.0)(0.5) = 40 J."
+  },
+  {
+   "t": "e",
+   "k": "calc",
+   "q": "A 900 W motor runs for 30 s. How much energy does it transfer?",
+   "o": [
+    "27,000 J",
+    "900 J",
+    "2,700 J",
+    "30 J"
+   ],
+   "a": 0,
+   "x": "E = Pt = (900)(30) = 27,000 J."
+  },
+  {
+   "t": "e",
+   "k": "concept",
+   "q": "A student pushes a box across the floor by pushing down on it at an angle below the horizontal. Compared with the box's weight, the normal force is…",
+   "o": [
+    "greater",
+    "equal",
+    "smaller",
+    "zero"
+   ],
+   "a": 0,
+   "x": "The push has a downward component, so the floor must push up with N = mg + F sin θ, which is larger than the weight. That also increases friction."
+  },
+  {
+   "t": "e",
+   "k": "calc",
+   "q": "A car moving at 15 m/s stops in 18 m. With the same braking force, how far would it take to stop from 30 m/s?",
+   "o": [
+    "18 m",
+    "54 m",
+    "72 m",
+    "36 m"
+   ],
+   "a": 2,
+   "x": "d ∝ v². Doubling the speed gives 4 × 18 = 72 m."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "What is the momentum of a 0.15 kg baseball moving at 40 m/s?",
+   "o": [
+    "0.375 kg·m/s",
+    "120 kg·m/s",
+    "6.0 kg·m/s",
+    "267 kg·m/s"
+   ],
+   "a": 2,
+   "x": "p = mv = (0.15)(40) = 6.0 kg·m/s."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A constant force of 250 N acts on an object for 0.040 s. What impulse does it deliver?",
+   "o": [
+    "1.0 N·s",
+    "0.16 N·s",
+    "6,250 N·s",
+    "10 N·s"
+   ],
+   "a": 3,
+   "x": "J = FΔt = (250)(0.040) = 10 N·s."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 1500 kg car moving at 10 m/s rear-ends a 1000 kg car at rest. The cars lock together. What is their speed just after the collision?",
+   "o": [
+    "15 m/s",
+    "10 m/s",
+    "4.0 m/s",
+    "6.0 m/s"
+   ],
+   "a": 3,
+   "x": "(1500)(10) = (2500)v → v = 6.0 m/s."
+  },
+  {
+   "t": "m",
+   "k": "concept",
+   "q": "A large truck collides head-on with a small car. During the collision, how does the force on the car compare with the force on the truck?",
+   "o": [
+    "They are equal in magnitude",
+    "It depends on their speeds",
+    "The force on the car is larger",
+    "The force on the truck is larger"
+   ],
+   "a": 0,
+   "x": "Newton's third law: the forces are equal and opposite. The car gets a much larger acceleration because its mass is smaller."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 0.40 kg ball hits a wall at 10 m/s and rebounds at 8.0 m/s. What is the magnitude of the ball's change in momentum?",
+   "o": [
+    "0.80 kg·m/s",
+    "7.2 kg·m/s",
+    "18 kg·m/s",
+    "4.0 kg·m/s"
+   ],
+   "a": 1,
+   "x": "Take toward the wall as +: Δp = 0.40(−8.0 − 10) = −7.2 kg·m/s. Magnitude 7.2. Subtracting speeds (0.8) is the trap."
+  },
+  {
+   "t": "m",
+   "k": "concept",
+   "q": "In a perfectly inelastic collision with negligible external forces, which is true?",
+   "o": [
+    "Kinetic energy is conserved; momentum decreases",
+    "Momentum is conserved; kinetic energy decreases",
+    "Neither is conserved",
+    "Momentum and kinetic energy are both conserved"
+   ],
+   "a": 1,
+   "x": "Momentum is conserved in every collision with negligible external impulse. When objects stick, some kinetic energy always becomes other forms."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 10 kg object at rest explodes into a 4.0 kg piece moving at +6.0 m/s and a 6.0 kg piece. What is the velocity of the 6.0 kg piece?",
+   "o": [
+    "−4.0 m/s",
+    "−6.0 m/s",
+    "−2.4 m/s",
+    "+4.0 m/s"
+   ],
+   "a": 0,
+   "x": "0 = (4)(6) + (6)v → v = −4.0 m/s."
+  },
+  {
+   "t": "m",
+   "k": "concept",
+   "q": "On a graph of net force versus time for an object, the area under the curve represents the object's…",
+   "o": [
+    "power",
+    "change in kinetic energy",
+    "change in momentum",
+    "work done"
+   ],
+   "a": 2,
+   "x": "Area = F·Δt = impulse = Δp."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 2.0 kg cart moving at 3.0 m/s collides elastically head-on with an identical 2.0 kg cart at rest. What is the first cart's speed afterward?",
+   "o": [
+    "0 m/s",
+    "1.5 m/s",
+    "3.0 m/s",
+    "6.0 m/s"
+   ],
+   "a": 0,
+   "x": "Elastic collision with equal masses and one at rest: the velocities swap. The first cart stops; the second leaves at 3.0 m/s."
+  },
+  {
+   "t": "m",
+   "k": "concept",
+   "q": "Two carts at rest are pushed apart by a compressed spring between them. Cart A has twice the mass of cart B. Which is true just after they separate?",
+   "o": [
+    "Both carts have the same kinetic energy",
+    "Cart B has more kinetic energy",
+    "Cart A has more momentum",
+    "Cart B has more momentum"
+   ],
+   "a": 1,
+   "x": "Total momentum stays zero, so the momenta are equal in magnitude. K = p²/(2m), so the lighter cart B has twice the kinetic energy of A."
+  }
+ ],
+ "frq": [
+  {
+   "q": "A 0.50 kg block is held against a spring (k = 200 N/m) compressed 0.10 m on a horizontal frictionless surface. The block is released and later slides up a frictionless ramp.",
+   "parts": [
+    {
+     "p": "(a) Calculate the maximum height the block reaches on the ramp.",
+     "rubric": [
+      [
+       "Finds the spring energy: U_s = ½kx² = 1.0 J",
+       1
+      ],
+      [
+       "Sets spring energy equal to mgh (energy conservation)",
+       1
+      ],
+      [
+       "Gets h = 0.20 m",
+       1
+      ]
+     ],
+     "answer": "U_s = ½(200)(0.10)² = 1.0 J. All of it becomes U_g at the top: 1.0 = (0.50)(10)h → h = 0.20 m."
+    },
+    {
+     "p": "(b) Suppose the ramp has friction instead. Would the block reach a greater, smaller or equal height? Explain using energy.",
+     "rubric": [
+      [
+       "States the height is smaller",
+       1
+      ],
+      [
+       "Explains that friction transforms some kinetic energy into thermal energy, leaving less for U_g",
+       1
+      ]
+     ],
+     "answer": "Smaller. Kinetic friction does negative work as the block slides, transforming part of the mechanical energy into thermal energy of the block and ramp. Less energy is left to become gravitational potential energy, so the block stops lower."
+    },
+    {
+     "p": "(c) On the original frictionless ramp, the spring is now compressed 0.20 m. Predict the new maximum height and justify your answer without fully recalculating.",
+     "rubric": [
+      [
+       "Predicts h = 0.80 m",
+       1
+      ],
+      [
+       "Justifies with U_s ∝ x² (doubling x gives 4× the energy, and h ∝ U_s)",
+       1
+      ]
+     ],
+     "answer": "0.80 m. Spring energy is proportional to x², so doubling the compression gives 4× the energy. Height is proportional to the energy (mgh = U_s), so the height is 4 × 0.20 = 0.80 m."
+    }
+   ]
+  },
+  {
+   "q": "A 0.020 kg bullet moving horizontally at 250 m/s embeds itself in a 0.98 kg wooden block at rest on a frictionless surface. The block then slides onto a rough section of floor where μ_k = 0.50.",
+   "parts": [
+    {
+     "p": "(a) Calculate the speed of the block and bullet just after the collision.",
+     "rubric": [
+      [
+       "Uses momentum conservation: m_b v_b = (m_b + M)V",
+       1
+      ],
+      [
+       "Gets V = 5.0 m/s",
+       1
+      ]
+     ],
+     "answer": "(0.020)(250) = (1.00)V → V = 5.0 m/s."
+    },
+    {
+     "p": "(b) Calculate how much kinetic energy is converted to other forms during the collision.",
+     "rubric": [
+      [
+       "Calculates K before = 625 J and K after = 12.5 J",
+       1
+      ],
+      [
+       "Gets about 612 J (≈ 98%) converted",
+       1
+      ]
+     ],
+     "answer": "K_i = ½(0.020)(250²) = 625 J. K_f = ½(1.00)(5.0²) = 12.5 J. About 612.5 J is converted to thermal energy, sound and deformation."
+    },
+    {
+     "p": "(c) Calculate how far the block slides on the rough floor before stopping.",
+     "rubric": [
+      [
+       "Uses friction work = ΔK with f = μmg (or kinematics with a = μg)",
+       1
+      ],
+      [
+       "Gets d = 2.5 m",
+       1
+      ]
+     ],
+     "answer": "f·d = ½MV²: (0.50)(1.00)(10)d = 12.5 → d = 2.5 m. (Or a = μg = 5 m/s², d = V²/(2a) = 25/10 = 2.5 m.)"
+    },
+    {
+     "p": "(d) Explain why momentum conservation, but not mechanical energy conservation, is used for the collision.",
+     "rubric": [
+      [
+       "States the external impulse during the brief collision is negligible, so momentum is conserved",
+       1
+      ],
+      [
+       "States the collision is perfectly inelastic, so kinetic energy is transformed into thermal energy and is not conserved",
+       1
+      ]
+     ],
+     "answer": "During the very short collision there is no significant external horizontal force, so the system's momentum is conserved. But the bullet embeds in the block (a perfectly inelastic collision): large internal friction and deformation transform most of the kinetic energy into thermal energy, so mechanical energy is not conserved."
+    }
+   ]
+  }
+ ]
+}
 </script>
 <script src="../../assets/js/courses.js"></script>
 <script src="../../assets/js/sims.js"></script>
 <script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
 </body>
 </html>
