@@ -36,3 +36,7 @@ The course menu, home page list, chapter buttons, previous/next buttons and quiz
 ## Hosting
 
 Served with GitHub Pages from the `main` branch root.
+
+## License
+
+MIT, see `LICENSE`.
