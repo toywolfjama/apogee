@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 1. Change the title -->
+<title>COURSE NAME Unit X: TOPIC | AP Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&family=Fira+Sans:wght@400;500;600;700&family=Overpass:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<!-- 2. data-course and data-unit must match the ids in assets/js/courses.js -->
+<body data-root="../../" data-course="course-id" data-unit="unit-x">
+
+<div class="hero">
+  <span class="kicker">COURSE NAME · Unit X</span>
+  <h1>Unit <span class="hl">Title</span></h1>
+  <p>One-sentence description of what this page covers.</p>
+</div>
+
+<main class="page">
+
+  <!-- 3. Each chapter becomes a button in the top menu.
+       id = link name, data-title = full heading, data-short = button label -->
+  <div class="chapter" id="chapter-1" data-title="First Chapter" data-short="Chapter 1">
+
+    <section class="topic" id="topic-a">
+      <h2>Topic name</h2>
+      <p class="sub">Short subtitle.</p>
+      <p>Main explanation.</p>
+      <div class="big-eq">key = equation</div>
+
+      <div class="box tip"><b class="lbl">Tip</b>Helpful note.</div>
+      <div class="box trap"><b class="lbl">Common mistake</b>What students get wrong.</div>
+
+      <div class="worked">
+        <div class="q">Worked example: question</div>
+        <div class="a">Solution.</div>
+      </div>
+
+      <!-- Deep explanation dropdown -->
+      <details class="deep">
+        <summary><span class="tag">Deep explanation</span>Title of the deep dive</summary>
+        <div class="deep-body">
+          <h4>Sub-heading</h4>
+          <p>Longer, detailed explanation.</p>
+        </div>
+      </details>
+    </section>
+
+  </div>
+
+  <div class="chapter" id="practice" data-title="Practice" data-short="Practice">
+    <section class="topic">
+      <h2>Practice questions</h2>
+      <!-- data-tags is optional: adds filter buttons by question "t" value -->
+      <div class="quiz" data-src="quiz-data" data-tags='{"a":"Topic A","b":"Topic B"}'></div>
+    </section>
+  </div>
+
+</main>
+
+<footer>AP Study</footer>
+
+<!-- 4. Questions: a = index of the correct option (0 = A) -->
+<script type="application/json" id="quiz-data">
+[
+  {"t":"a","q":"Example question?","o":["Option A","Option B","Option C","Option D"],"a":1,"x":"Why B is correct."}
+]
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

@@ -1,14 +1,30 @@
-# AP Physics 1 Study Guides
+# AP Study
 
-Free review pages for AP Physics 1.
+Free AP review pages: explanations, in-depth breakdowns of each idea, worked examples, and self-checking practice questions.
 
-## Unit 3: Work, Energy & Power (+ Momentum & Impulse)
+## Current content
 
-- Explanations of each topic with worked examples
-- Common mistakes and corrections to frequently miswritten notes
-- Momentum problem set with step-by-step solutions
-- 24 self-checking multiple-choice questions and FRQ-style practice
+- **AP Physics 1 – Unit 3: Work, Energy & Power (+ Momentum)** — `courses/ap-physics-1/unit-3.html`
 
-Open `index.html` in a browser, or visit the GitHub Pages site for this repo.
+## Structure
 
-Uses g = 10 m/s², as on the AP exam.
+```
+index.html                     Home page (course list is built from courses.js)
+assets/css/site.css            Shared styles
+assets/js/courses.js           Course registry: every course and unit
+assets/js/site.js              Header, course menu, chapter menu, quizzes
+courses/<course>/<unit>.html   One page per unit
+templates/unit-template.html   Starting point for new units
+```
+
+## Adding a course or unit
+
+1. Copy `templates/unit-template.html` to `courses/<course-id>/<unit-id>.html`.
+2. Fill in the chapters, topics, deep explanations and quiz questions (the template has comments).
+3. Add the course/unit to `assets/js/courses.js` with its `path` and `ready: true`.
+
+The course menu, home page list, chapter buttons, previous/next buttons and quizzes are generated automatically.
+
+## Hosting
+
+Served with GitHub Pages from the `main` branch root.
