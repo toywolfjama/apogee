@@ -10,6 +10,7 @@
    Animated models are never shown during an exam. */
 (function () {
   const L = j => String.fromCharCode(65 + j);
+  const timed = () => !document.body.classList.contains("no-timer");
   const mmss = s => { s = Math.max(0, Math.round(s)); return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); };
 
   function mountExam(box) {
@@ -25,12 +26,16 @@
     function startTimer(minutes, onEnd) {
       stopTimer();
       st.end = Date.now() + minutes * 60000;
+      st.start = Date.now();
       const tick = () => {
+        if (!timed()) { st.end = Date.now() + st.left * 1000; return; }
         const left = (st.end - Date.now()) / 1000;
+        st.left = left;
         const el = box.querySelector(".ex-timer");
         if (el) { el.textContent = mmss(left); el.classList.toggle("low", left < 300); }
         if (left <= 0) { stopTimer(); onEnd(true); }
       };
+      st.left = minutes * 60;
       tick(); st.timer = setInterval(tick, 500);
     }
     function guard(on) { window.onbeforeunload = on ? () => "Your exam is in progress." : null; }
@@ -43,14 +48,14 @@
           <div class="ex-badge">Practice exam</div>
           <h3>${E.title || "Practice exam"}</h3>
           <div class="ex-sections">
-            <div><b>Section I</b><span>${nM} multiple choice</span><span>${E.mcqMinutes} minutes</span></div>
-            ${nF ? `<div><b>Section II</b><span>${nF} free response</span><span>${E.frqMinutes} minutes</span></div>` : ""}
+            <div><b>Section I</b><span>${nM} multiple choice</span><span>${timed() ? E.mcqMinutes + " minutes" : "Untimed"}</span></div>
+            ${nF ? `<div><b>Section II</b><span>${nF} free response</span><span>${timed() ? E.frqMinutes + " minutes" : "Untimed"}</span></div>` : ""}
           </div>
           <ul>
             <li>Mix of conceptual and calculation questions, like the real exam.</li>
             <li>No feedback until you submit. You can flag questions and come back to them.</li>
             <li>Calculator and the AP equation sheet are allowed. Use g = 10 m/s².</li>
-            <li>Animated models are hidden during the exam. The timer keeps running if you switch chapters.</li>
+            <li>Animated models are hidden during the exam.${timed() ? " The timer keeps running if you switch chapters." : ""}</li>
           </ul>
           <button class="navbtn solid ex-start">Start exam</button>
         </div>`;
@@ -96,7 +101,7 @@
     }
 
     function endMcq(timeUp) {
-      st.mcqUsed = E.mcqMinutes * 60 - (st.end - Date.now()) / 1000;
+      st.mcqUsed = (Date.now() - st.start) / 1000;
       if (nF) { st.phase = "frq"; st.timeUpMcq = timeUp; startTimer(E.frqMinutes, endFrq); frq(); }
       else endFrq(false);
       top();
@@ -131,7 +136,7 @@
           <div class="ex-score"><span class="big">${right}<small>/${nM}</small></span><span>Section I · ${pct}%</span></div>
           ${nF ? `<div class="ex-score"><span class="big frqpts">0<small>/${frqPts}</small></span><span>Section II · check the rubric below</span></div>` : ""}
           <div class="ex-groups">${Object.entries(groups).map(([g, [a, b]]) => `<div><span>${g}</span><div class="bar"><i style="width:${(a / b) * 100}%"></i></div><b>${a}/${b}</b></div>`).join("")}</div>
-          <p class="sub">Time used on Section I: ${mmss(st.mcqUsed)}. ${pct >= 80 ? "Strong result. Try the Challenge chapter next." : pct >= 60 ? "Solid. Review the questions you missed below." : "Review the explanations below, then revisit those chapters."}</p>
+          <p class="sub">${timed() ? `Time used on Section I: ${mmss(st.mcqUsed)}. ` : ""}${pct >= 80 ? "Strong result. Try the Challenge chapter next." : pct >= 60 ? "Solid. Review the questions you missed below." : "Review the explanations below, then revisit those chapters."}</p>
           <button class="btn ex-again">Retake exam</button>
         </div>
         <h3 class="ex-h">Section I review</h3>
@@ -157,6 +162,7 @@
     }
 
     intro();
+    document.addEventListener("chapterchange", () => { if (st.phase === "intro") intro(); });
   }
   document.querySelectorAll(".exam[data-src]").forEach(mountExam);
 })();

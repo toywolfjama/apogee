@@ -303,3 +303,5 @@ div.opt{cursor:default}
 .ex-rubric input{margin-top:4px;accent-color:#eafe07;width:17px;height:17px}
 .ex-rubric em{font-style:normal;color:var(--yellow);font-size:12.5px;margin-left:auto;white-space:nowrap}
 .chip.hard .n{background:var(--red);color:#fff}
+
+body.no-timer .ex-timer{display:none}

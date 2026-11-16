@@ -9,13 +9,14 @@
   const root = body.dataset.root || "";
 
   /* ---------- settings (saved in this browser) ---------- */
-  const DEFAULTS = { models: true, motion: true, big: false };
+  const DEFAULTS = { models: true, motion: true, big: false, timer: true };
   let settings = Object.assign({}, DEFAULTS);
   try { Object.assign(settings, JSON.parse(localStorage.getItem("apogee-settings") || "{}")); } catch (e) {}
   function applySettings() {
     body.classList.toggle("no-models", !settings.models);
     body.classList.toggle("no-motion", !settings.motion);
     body.classList.toggle("big-text", !!settings.big);
+    body.classList.toggle("no-timer", !settings.timer);
     try { localStorage.setItem("apogee-settings", JSON.stringify(settings)); } catch (e) {}
     document.dispatchEvent(new CustomEvent("chapterchange"));
   }
@@ -48,6 +49,7 @@
             <div class="course">Settings</div>
             <label class="set-row"><span><b>Animated models</b><small>Turn off to practice like a real exam</small></span><input type="checkbox" data-set="models"><i class="sw"></i></label>
             <label class="set-row"><span><b>Background &amp; motion effects</b><small>Starfield, fades and transitions</small></span><input type="checkbox" data-set="motion"><i class="sw"></i></label>
+            <label class="set-row"><span><b>Exam timer</b></span><input type="checkbox" data-set="timer"><i class="sw"></i></label>
             <label class="set-row"><span><b>Larger text</b><small>Easier reading on small screens</small></span><input type="checkbox" data-set="big"><i class="sw"></i></label>
           </div>
         </div>
