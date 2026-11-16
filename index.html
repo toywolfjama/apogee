@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP Physics 1 Unit 3: Work, Energy & Power (+ Momentum) Study Guide</title>
+<meta name="description" content="AP Physics 1 review of work, energy, power, momentum and impulse with practice questions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7fb; --card:#ffffff; --ink:#1a1d29; --muted:#5b6275; --line:#e3e6ee;
+  --accent:#3b5bfd; --accent-soft:#eaefff; --good:#13895b; --good-soft:#e3f6ec;
+  --bad:#c2372f; --bad-soft:#fde9e7; --warn:#a86300; --warn-soft:#fff3dc;
+  --energy:#e2711d; --mom:#7a3cf0;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#11131a; --card:#1a1d27; --ink:#eceef5; --muted:#a3a9bb; --line:#2c3040;
+  --accent:#8aa0ff; --accent-soft:#232a48; --good:#4fd39a; --good-soft:#15362a;
+  --bad:#ff8a80; --bad-soft:#3d1c1a; --warn:#ffc266; --warn-soft:#3a2c12;
+  --energy:#ff9d57; --mom:#b48cff;}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.wrap{max-width:1150px;margin:0 auto;padding:0 18px;display:grid;grid-template-columns:230px 1fr;gap:28px}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}nav.side{position:static!important;max-height:none!important}}
+header.hero{background:#1f2a44;color:#fff;padding:42px 18px 34px}
+header.hero .in{max-width:1150px;margin:0 auto}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:99px;font-size:13px;font-weight:600;letter-spacing:.3px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.15;margin:12px 0 10px;font-weight:800}
+.hero p{max-width:720px;margin:0;font-size:17px;opacity:.95}
+nav.side{position:sticky;top:16px;align-self:start;margin-top:28px;max-height:calc(100vh - 32px);overflow:auto}
+nav.side a{display:block;padding:7px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500}
+nav.side a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.side .grp{font-size:11.5px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:14px 12px 4px;font-weight:700}
+main{padding:28px 0 80px;min-width:0}
+section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 26px 22px;margin-bottom:22px;scroll-margin-top:14px}
+section h2{margin:0 0 6px;font-size:25px;line-height:1.25}
+section h3{margin:22px 0 6px;font-size:18px}
+.sub{color:var(--muted);margin:0 0 14px}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;margin-right:6px;vertical-align:middle}
+.pill.e{background:color-mix(in srgb,var(--energy) 15%,transparent);color:var(--energy)}
+.pill.m{background:color-mix(in srgb,var(--mom) 15%,transparent);color:var(--mom)}
+.eq{font-family:"JetBrains Mono",ui-monospace,monospace;background:var(--accent-soft);color:var(--ink);padding:2px 7px;border-radius:6px;font-size:.92em;white-space:nowrap}
+.big-eq{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:19px;background:var(--accent-soft);padding:12px 16px;border-radius:10px;margin:10px 0;text-align:center;overflow-x:auto}
+.box{border-radius:12px;padding:14px 16px;margin:14px 0;border-left:4px solid}
+.box.tip{background:var(--good-soft);border-color:var(--good)}
+.box.trap{background:var(--bad-soft);border-color:var(--bad)}
+.box.fix{background:var(--warn-soft);border-color:var(--warn)}
+.box.plain{background:var(--accent-soft);border-color:var(--accent)}
+.box b.lbl{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
+.box.tip b.lbl{color:var(--good)} .box.trap b.lbl{color:var(--bad)} .box.fix b.lbl{color:var(--warn)} .box.plain b.lbl{color:var(--accent)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:700px){.grid2,.grid3{grid-template-columns:1fr}}
+.mini{border:1px solid var(--line);border-radius:12px;padding:14px}
+.mini h4{margin:0 0 4px;font-size:16px}
+.mini .eq{display:inline-block;margin:4px 0}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:15px}
+th,td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top}
+th{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+.tblwrap{overflow-x:auto}
+ol.steps{padding-left:20px} ol.steps li{margin-bottom:8px}
+.worked{border:1px dashed var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.worked .q{font-weight:600}
+.worked .a{margin-top:6px}
+svg{max-width:100%;height:auto}
+/* quiz */
+.qfilter{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 16px}
+.qfilter button,.btn{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:99px;cursor:pointer}
+.qfilter button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.score{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--accent-soft);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-weight:600}
+.bar{flex:1;min-width:140px;height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--good);width:0;transition:width .3s}
+.qcard{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:14px}
+.qcard .qh{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);font-weight:600;margin-bottom:6px}
+.qcard .qt{font-weight:600;margin-bottom:10px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;font:inherit;background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:10px 13px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt[disabled]{cursor:default}
+.expl{display:none;margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--accent-soft);font-size:15px}
+.expl.show{display:block}
+.reveal{margin-top:10px}
+.reveal summary{cursor:pointer;font-weight:600;color:var(--accent)}
+.reveal div{margin-top:8px;padding:12px 14px;background:var(--accent-soft);border-radius:10px}
+footer{color:var(--muted);font-size:13.5px;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="in">
+    <span class="tag">AP Physics 1 · Study guide</span>
+    <h1>Unit 3: Work, Energy &amp; Power<br>+ Momentum &amp; Impulse</h1>
+    <p>A complete review of work, energy, power, momentum and impulse: explanations, worked examples, common mistakes, a momentum problem set, and 24 practice questions with explanations.</p>
+  </div>
+</header>
+
+<div class="wrap">
+<nav class="side">
+  <div class="grp">Overview</div>
+  <a href="#start">How to use this page</a>
+  <a href="#bigidea">Core ideas</a>
+  <div class="grp">Energy (Unit 3)</div>
+  <a href="#forms">Forms of energy</a>
+  <a href="#work">Work</a>
+  <a href="#wet">Work-energy theorem</a>
+  <a href="#conserve">Conservation of energy</a>
+  <a href="#pendulum">Pendulums &amp; roller coasters</a>
+  <a href="#angles">Pulling at an angle</a>
+  <a href="#power">Power</a>
+  <div class="grp">Momentum (Unit 4)</div>
+  <a href="#momentum">Momentum basics</a>
+  <a href="#impulse">Impulse</a>
+  <a href="#collisions">Collisions &amp; explosions</a>
+  <a href="#steps">Problem-solving steps</a>
+  <a href="#review">Momentum problem set</a>
+  <div class="grp">Review</div>
+  <a href="#which">Energy or momentum?</a>
+  <a href="#traps">Common mistakes</a>
+  <a href="#notefixes">Fixes to common notes</a>
+  <a href="#formulas">Formula sheet</a>
+  <a href="#practice">Practice questions</a>
+  <a href="#frq">FRQ-style practice</a>
+</nav>
+
+<main>
+
+<section id="start">
+  <h2>How to use this page</h2>
+  <p class="sub">Suggested order.</p>
+  <ol class="steps">
+    <li>Read <b>Core ideas</b> first.</li>
+    <li>Work through each topic. Try each worked example before reading the solution.</li>
+    <li>Review <b>Common mistakes</b>.</li>
+    <li>Do the <b>problem set</b> and <b>practice questions</b>. For any you miss, read the explanation and return to that topic.</li>
+  </ol>
+  <div class="box plain"><b class="lbl">Note</b>In the current AP Physics 1 course (since 2024), <b>Unit 3 is Work, Energy &amp; Power</b> and <b>Unit 4 is Linear Momentum</b>. Both are covered here. This page uses <span class="eq">g = 10 m/s²</span>, as the exam does unless told otherwise.</div>
+</section>
+
+<section id="bigidea">
+  <h2>Core ideas</h2>
+  <div class="grid2">
+    <div class="mini">
+      <h4><span class="pill e">ENERGY</span>A scalar quantity</h4>
+      <p>Energy has no direction. Kinetic energy is never negative. Energy changes form (gravitational → kinetic → thermal), but the total for a closed system stays constant.</p>
+      <p><b>Work</b> transfers energy into or out of a system.</p>
+    </div>
+    <div class="mini">
+      <h4><span class="pill m">MOMENTUM</span>A vector quantity</h4>
+      <p>Momentum has direction, so use + and − signs. The total momentum of a system is constant when the net external impulse is negligible.</p>
+      <p><b>Impulse</b>, a force applied over a time interval, changes momentum.</p>
+    </div>
+  </div>
+  <div class="box tip"><b class="lbl">Summary</b><b>Work</b> (force × distance) changes <b>energy</b>. <b>Impulse</b> (force × time) changes <b>momentum</b>.</div>
+</section>
+
+<!-- ============ ENERGY ============ -->
+
+<section id="forms">
+  <h2><span class="pill e">ENERGY</span>Forms of energy</h2>
+  <p class="sub">The four you need for AP Physics 1. Unit for all energy: the joule (J).</p>
+  <div class="grid2">
+    <div class="mini"><h4>Kinetic energy (K)</h4><span class="eq">K = ½mv²</span><p>Energy of motion. Speed is <b>squared</b>, so doubling speed means <b>4×</b> the kinetic energy. Never negative.</p></div>
+    <div class="mini"><h4>Gravitational potential energy (U<sub>g</sub>)</h4><span class="eq">ΔU<sub>g</sub> = mgΔy</span><p>Energy stored by height in an object–Earth system. Higher means more. You choose where y = 0; only <i>changes</i> matter.</p></div>
+    <div class="mini"><h4>Spring (elastic) potential energy (U<sub>s</sub>)</h4><span class="eq">U<sub>s</sub> = ½kx²</span><p>Stored in a stretched or compressed spring. <i>k</i> = spring stiffness (N/m), <i>x</i> = distance from relaxed length. Double the stretch, 4× the energy.</p></div>
+    <div class="mini"><h4>Thermal (internal) energy</h4><span class="eq">ΔE<sub>th</sub> = f<sub>k</sub>d</span><p>Often called heat. Friction and squishy collisions turn useful energy into thermal energy. It doesn't disappear, but you can't get it back as motion.</p></div>
+  </div>
+  <div class="box trap"><b class="lbl">Trap</b>Potential energy belongs to a <b>system</b> (object + Earth, or object + spring), not to one object alone. If an FRQ asks you to "define the system," include Earth if you want to use U<sub>g</sub>.</div>
+</section>
+
+<section id="work">
+  <h2><span class="pill e">ENERGY</span>Work</h2>
+  <p class="sub">Work is how a force adds or removes energy.</p>
+  <div class="big-eq">W = F·d·cos θ &nbsp;&nbsp;(θ = angle between force and displacement)</div>
+  <p><b>Only the part of the force that points along the motion does work.</b></p>
+  <div class="grid3">
+    <div class="mini"><h4>Positive work</h4><p>Force points <b>with</b> the motion (θ &lt; 90°). Object gains energy.<br><i>Ex: pushing a cart forward.</i></p></div>
+    <div class="mini"><h4>Zero work</h4><p>Force is <b>perpendicular</b> to the motion (θ = 90°), or nothing moves.<br><i>Ex: normal force on a sliding box. Holding a heavy bag still.</i></p></div>
+    <div class="mini"><h4>Negative work</h4><p>Force points <b>against</b> the motion (θ &gt; 90°). Object loses energy.<br><i>Ex: friction, brakes, gravity on a ball going up.</i></p></div>
+  </div>
+  <h3>Work from a graph</h3>
+  <p>On a <b>force vs. position</b> graph, the <b>area</b> under the line is the work. Area below the axis counts as negative.</p>
+  <svg viewBox="0 0 420 180" role="img" aria-label="Force versus position graph: 10 newtons from 0 to 2 meters then dropping to 0 at 4 meters">
+    <line x1="40" y1="150" x2="400" y2="150" stroke="currentColor" opacity=".5"/>
+    <line x1="40" y1="20" x2="40" y2="150" stroke="currentColor" opacity=".5"/>
+    <polygon points="40,150 40,60 160,60 280,150" fill="#3b5bfd" opacity=".22"/>
+    <polyline points="40,60 160,60 280,150" fill="none" stroke="#3b5bfd" stroke-width="3"/>
+    <text x="8" y="64" font-size="13" fill="currentColor">10 N</text>
+    <text x="153" y="170" font-size="13" fill="currentColor">2 m</text>
+    <text x="273" y="170" font-size="13" fill="currentColor">4 m</text>
+    <text x="355" y="170" font-size="13" fill="currentColor">x</text>
+    <text x="60" y="110" font-size="13" fill="currentColor">20 J</text>
+    <text x="180" y="120" font-size="13" fill="currentColor">10 J</text>
+    <text x="300" y="80" font-size="14" font-weight="700" fill="currentColor">Total W = 30 J</text>
+  </svg>
+  <div class="worked">
+    <div class="q">Worked example: A sled is pulled 10 m with a rope force of 50 N at 60° above the horizontal. How much work does the rope do?</div>
+    <div class="a">W = F·d·cos θ = (50)(10)(cos 60°) = (50)(10)(0.5) = <b>250 J</b>. Only the horizontal part of the pull (25 N) does work, because the sled moves horizontally.</div>
+  </div>
+</section>
+
+<section id="wet">
+  <h2><span class="pill e">ENERGY</span>The work-energy theorem</h2>
+  <div class="big-eq">W<sub>net</sub> = ΔK = ½mv<sub>f</sub>² − ½mv<sub>i</sub>²</div>
+  <p>The <b>net</b> work (all forces added up) equals the change in kinetic energy. Net work positive means it speeds up. Negative means it slows down. Zero means constant speed.</p>
+  <h3>The braking-distance idea (proportional reasoning)</h3>
+  <p>A car braking with the same friction force <i>f</i>: friction does work <span class="eq">−f·d</span>, which must remove all of <span class="eq">½mv²</span>. So <span class="eq">d ∝ v²</span>.</p>
+  <div class="tblwrap"><table>
+    <tr><th>Starting speed</th><th>Kinetic energy</th><th>Stopping distance</th></tr>
+    <tr><td>v</td><td>K</td><td>20 m</td></tr>
+    <tr><td>2v</td><td>4K</td><td>80 m</td></tr>
+    <tr><td>3v</td><td>9K</td><td>180 m</td></tr>
+    <tr><td>½v</td><td>¼K</td><td>5 m</td></tr>
+  </table></div>
+  <div class="box tip"><b class="lbl">Pattern</b>When a quantity depends on v², square the speed factor: ×2 → ×4, ×3 → ×9, ÷2 → ÷4. Ratio questions like this are common on the exam.</div>
+</section>
+
+<section id="conserve">
+  <h2><span class="pill e">ENERGY</span>Conservation of energy</h2>
+  <p class="sub">Energy can change forms but is never created or destroyed.</p>
+  <div class="big-eq">K<sub>i</sub> + U<sub>i</sub> + W<sub>other</sub> = K<sub>f</sub> + U<sub>f</sub> + ΔE<sub>th</sub></div>
+  <p>Simplest case, no friction and no outside pushes: <span class="eq">K<sub>i</sub> + U<sub>i</sub> = K<sub>f</sub> + U<sub>f</sub></span>. Mechanical energy (K + U) stays constant.</p>
+  <p>With friction: some mechanical energy turns into thermal energy, so K + U goes <b>down</b>. The total energy (including thermal) is still conserved.</p>
+  <h3>Energy bar charts (LOL diagrams)</h3>
+  <p>These appear often on the exam. Draw a bar for each type of energy at the start, a bar for work done by outside forces, then bars at the end. <b>Total before = total after.</b></p>
+  <svg viewBox="0 0 520 190" role="img" aria-label="Energy bar chart: initial gravitational potential energy 4 units becomes final kinetic energy 3 units plus thermal energy 1 unit">
+    <g font-size="13" fill="currentColor">
+      <line x1="20" y1="150" x2="500" y2="150" stroke="currentColor" opacity=".5"/>
+      <text x="40" y="20" font-weight="700">Initial</text>
+      <rect x="40" y="70" width="34" height="80" fill="#e2711d" opacity=".85"/><text x="45" y="170">K</text>
+      <rect x="90" y="70" width="34" height="80" fill="#e2711d" opacity=".25"/>
+      <rect x="90" y="70" width="34" height="80" fill="#3b5bfd" opacity=".85"/><text x="92" y="170">U<tspan font-size="10">g</tspan></text>
+      <text x="200" y="20" font-weight="700">Work in/out</text>
+      <text x="210" y="140">W = 0</text>
+      <text x="340" y="20" font-weight="700">Final</text>
+      <rect x="340" y="90" width="34" height="60" fill="#e2711d" opacity=".85"/><text x="350" y="170">K</text>
+      <text x="395" y="146">0</text><text x="390" y="170">U<tspan font-size="10">g</tspan></text>
+      <rect x="440" y="130" width="34" height="20" fill="#c2372f" opacity=".85"/><text x="440" y="170">E<tspan font-size="10">th</tspan></text>
+    </g>
+  </svg>
+  <p style="font-size:14px;color:var(--muted)">Example: a box slides down a ramp with friction from rest. Start: all U<sub>g</sub> (4 blocks, K = 0). End: 3 blocks of K + 1 block of thermal. 4 = 3 + 1. ✔</p>
+  <div class="worked">
+    <div class="q">Worked example: A 50 kg skater starts from rest at the top of a 20 m frictionless hill. How fast is she going at the bottom?</div>
+    <div class="a">U<sub>i</sub> = K<sub>f</sub> → mgh = ½mv² → <b>mass cancels</b> → v = √(2gh) = √(2·10·20) = √400 = <b>20 m/s</b>. Any mass gives the same speed.</div>
+  </div>
+</section>
+
+<section id="pendulum">
+  <h2><span class="pill e">ENERGY</span>Pendulums &amp; roller coasters</h2>
+  <svg viewBox="0 0 440 210" role="img" aria-label="Pendulum swinging: maximum potential energy at the ends, maximum kinetic energy at the bottom">
+    <g fill="currentColor" font-size="13">
+      <line x1="220" y1="15" x2="220" y2="165" stroke="currentColor" opacity=".25" stroke-dasharray="4 4"/>
+      <line x1="220" y1="15" x2="115" y2="120" stroke="currentColor" opacity=".6"/>
+      <line x1="220" y1="15" x2="325" y2="120" stroke="currentColor" opacity=".6"/>
+      <line x1="220" y1="15" x2="220" y2="165" stroke="currentColor" opacity=".6"/>
+      <circle cx="115" cy="120" r="12" fill="#3b5bfd"/>
+      <circle cx="325" cy="120" r="12" fill="#3b5bfd"/>
+      <circle cx="220" cy="165" r="12" fill="#e2711d"/>
+      <path d="M115 120 Q220 200 325 120" fill="none" stroke="currentColor" opacity=".3"/>
+      <text x="20" y="115">Max U, K = 0</text><text x="20" y="133">(stopped for an instant)</text>
+      <text x="340" y="115">Max U, K = 0</text>
+      <text x="160" y="200">Lowest point: max K, min U</text>
+    </g>
+  </svg>
+  <ul>
+    <li>At the <b>highest points</b>: it stops for an instant. All energy is U<sub>g</sub>.</li>
+    <li>At the <b>bottom</b>: fastest. All energy is K (if you set U = 0 there).</li>
+    <li>In between: a mix. The total stays the same with no air resistance.</li>
+    <li>Speed at bottom: <span class="eq">v = √(2gh)</span>, where <i>h</i> is how far it dropped vertically (not the string length).</li>
+  </ul>
+  <div class="box trap"><b class="lbl">Trap</b>The tension in the string does <b>zero work</b> because it's always perpendicular to the motion. Only gravity changes the pendulum's speed. Same for the normal force on a roller coaster track.</div>
+  <div class="box tip"><b class="lbl">Roller coasters</b>Without friction, speed at any point depends only on how far <b>below the starting height</b> you are, not the shape of the track. Two paths that drop the same height give the same final speed (though one may take longer).</div>
+</section>
+
+<section id="angles">
+  <h2><span class="pill e">ENERGY</span>Pulling or pushing at an angle</h2>
+  <p class="sub">Combines force analysis from Unit 2 with work.</p>
+  <p>When a force is at an angle, split it into parts:</p>
+  <ul>
+    <li><b>Horizontal part</b> <span class="eq">F cos θ</span>: this is what does work as the object slides horizontally.</li>
+    <li><b>Vertical part</b> <span class="eq">F sin θ</span>: this changes the <b>normal force</b>, which changes friction.</li>
+  </ul>
+  <div class="grid2">
+    <div class="mini"><h4>Pulling <b>up</b> at an angle</h4><span class="eq">N = mg − F sin θ</span><p>The rope supports part of the weight. Normal force is <b>less</b> than the weight → less friction.</p></div>
+    <div class="mini"><h4>Pushing <b>down</b> at an angle</h4><span class="eq">N = mg + F sin θ</span><p>The push adds to the downward force. Normal force is <b>more</b> than the weight → more friction.</p></div>
+  </div>
+  <div class="worked">
+    <div class="q">Worked example: A 10 kg box is pulled with 40 N at 30° above horizontal across a floor with μ<sub>k</sub> = 0.2. Find the friction force.</div>
+    <div class="a">N = mg − F sin θ = 100 − 40(0.5) = 80 N. Friction = μN = 0.2 × 80 = <b>16 N</b>. (Using N = mg = 100 N would give an incorrect 20 N.)</div>
+  </div>
+</section>
+
+<section id="power">
+  <h2><span class="pill e">ENERGY</span>Power</h2>
+  <p class="sub">Power is how <i>fast</i> energy is transferred. Unit: watt (W) = J/s.</p>
+  <div class="big-eq">P = W / Δt = ΔE / Δt &nbsp;&nbsp;&nbsp;&nbsp; P = F·v (force along velocity)</div>
+  <p>Two people lift the same box to the same shelf. They do the <b>same work</b>. The one who does it faster uses <b>more power</b>.</p>
+  <div class="worked">
+    <div class="q">Worked example: A 600 N student runs up stairs 5 m tall in 10 s. What's their average power?</div>
+    <div class="a">Work against gravity = mgh = 600 × 5 = 3000 J. P = 3000 J / 10 s = <b>300 W</b>.</div>
+  </div>
+  <div class="box trap"><b class="lbl">Trap</b>Don't mix up <b>W</b> (work, in joules) with <b>W</b> (watts, the unit of power). Read the context.</div>
+</section>
+
+<!-- ============ MOMENTUM ============ -->
+
+<section id="momentum">
+  <h2><span class="pill m">MOMENTUM</span>Momentum basics</h2>
+  <div class="big-eq">p = m·v &nbsp;&nbsp;&nbsp;(units: kg·m/s)</div>
+  <ul>
+    <li>Momentum is a <b>vector</b>. Pick a positive direction (say right = +), then anything moving left gets a <b>negative</b> velocity and negative momentum.</li>
+    <li>A slow, massive object and a fast, light one can have equal momentum.</li>
+    <li>For a system of objects, add up the momenta <b>with their signs</b>.</li>
+  </ul>
+  <div class="worked">
+    <div class="q">Worked example: A 2 kg cart moves right at 5 m/s. A 3 kg cart moves left at 2 m/s. Total momentum?</div>
+    <div class="a">p = (2)(+5) + (3)(−2) = 10 − 6 = <b>+4 kg·m/s</b> (to the right). Omitting the sign gives an incorrect 16.</div>
+  </div>
+</section>
+
+<section id="impulse">
+  <h2><span class="pill m">MOMENTUM</span>Impulse</h2>
+  <div class="big-eq">J = F<sub>avg</sub>·Δt = Δp = m(v<sub>f</sub> − v<sub>i</sub>)</div>
+  <p>Impulse (symbol <b>J</b>) is a force acting over a time. It equals the change in momentum. Units: N·s, which is the same as kg·m/s.</p>
+  <h3>Impulse from a graph</h3>
+  <p>On a <b>force vs. time</b> graph, the <b>area</b> under the curve is the impulse. (Compare: force vs. <i>position</i> area = work.)</p>
+  <h3>The egg drop / airbag idea</h3>
+  <p>To stop an egg, you need a certain Δp no matter what. Since <span class="eq">F·Δt = Δp</span> is fixed:</p>
+  <div class="grid2">
+    <div class="mini"><h4>Egg hits a wall</h4><p>Stops in a <b>short</b> time → <b>big</b> force → breaks.</p></div>
+    <div class="mini"><h4>Egg hits a sheet</h4><p>Stops over a <b>long</b> time → <b>small</b> force → survives.</p></div>
+  </div>
+  <p>Same impulse both times. Airbags, crumple zones, and bending your knees on landing work the same way.</p>
+  <div class="box trap"><b class="lbl">Bouncing</b>An object that rebounds has a larger Δp than one that stops. From +4 m/s to −4 m/s, Δv = −8 m/s, not 0. Rebounding requires more impulse.</div>
+  <div class="worked">
+    <div class="q">Worked example: A 0.15 kg baseball moving left at 30 m/s is hit by a bat with +6000 N for 0.0020 s. Final velocity? (Right = +)</div>
+    <div class="a">J = (6000)(0.0020) = +12 N·s. Then 12 = 0.15(v<sub>f</sub> − (−30)) → v<sub>f</sub> + 30 = 80 → <b>v<sub>f</sub> = +50 m/s</b> (to the right).</div>
+  </div>
+</section>
+
+<section id="collisions">
+  <h2><span class="pill m">MOMENTUM</span>Collisions &amp; explosions</h2>
+  <p class="sub">The rule: if the net outside (external) impulse is zero or tiny, the <b>total momentum stays the same</b>.</p>
+  <div class="big-eq">m₁v₁ᵢ + m₂v₂ᵢ = m₁v₁f + m₂v₂f</div>
+  <div class="tblwrap"><table>
+    <tr><th>Type</th><th>What happens</th><th>Momentum?</th><th>Kinetic energy?</th></tr>
+    <tr><td><b>Elastic</b></td><td>Bounce apart, no energy lost</td><td>✔ Conserved</td><td>✔ Conserved</td></tr>
+    <tr><td><b>Inelastic</b></td><td>Can bounce apart, but some K turns into heat/sound/deformation</td><td>✔ Conserved</td><td>✘ Decreases</td></tr>
+    <tr><td><b>Perfectly inelastic</b></td><td>Stick together, move as one. Most K lost.</td><td>✔ Conserved</td><td>✘ Decreases (most)</td></tr>
+    <tr><td><b>Explosion / push apart</b></td><td>Stored energy released, pieces fly apart</td><td>✔ Conserved</td><td>↑ Increases</td></tr>
+  </table></div>
+  <p><b>Momentum is conserved in all four</b> (when external impulse is negligible). What changes is kinetic energy.</p>
+  <h3>Equations you'll actually use</h3>
+  <ul>
+    <li><b>Stick together:</b> <span class="eq">m₁v₁ᵢ + m₂v₂ᵢ = (m₁+m₂)v<sub>f</sub></span></li>
+    <li><b>Explode from rest:</b> <span class="eq">0 = m₁v₁f + m₂v₂f</span> → pieces go opposite ways</li>
+    <li><b>Elastic, equal masses, one at rest:</b> the objects exchange velocities</li>
+  </ul>
+  <div class="worked">
+    <div class="q">Worked example (stick): 2.0 kg cart at +5.0 m/s hits a 3.0 kg cart at −2.0 m/s. They stick. Final velocity?</div>
+    <div class="a">(2)(5) + (3)(−2) = (5)v<sub>f</sub> → 4 = 5v<sub>f</sub> → <b>v<sub>f</sub> = +0.80 m/s</b>. Check K: before = ½(2)(25) + ½(3)(4) = 31 J. After = ½(5)(0.64) = 1.6 J. K decreases, as expected.</div>
+  </div>
+  <div class="worked">
+    <div class="q">Worked example (explosion): A 4.0 kg rifle fires a 0.020 kg bullet at +400 m/s. Recoil velocity of the rifle?</div>
+    <div class="a">0 = (0.020)(400) + (4.0)v → 0 = 8 + 4v → <b>v = −2.0 m/s</b>. The negative means it kicks backward.</div>
+  </div>
+  <div class="worked">
+    <div class="q">Worked example (push apart): Skater A (60 kg) and Skater B (40 kg) glide together at +1.0 m/s. They push apart and B moves at −1.0 m/s. A's velocity?</div>
+    <div class="a">(100)(1.0) = (60)v<sub>A</sub> + (40)(−1.0) → 100 = 60v<sub>A</sub> − 40 → v<sub>A</sub> = 140/60 ≈ <b>+2.3 m/s</b>. K increases; the skaters' internal energy supplies it.</div>
+  </div>
+</section>
+
+<section id="steps">
+  <h2><span class="pill m">MOMENTUM</span>Problem-solving steps</h2>
+  <ol class="steps">
+    <li><b>Define the system</b> and pick a <b>positive direction</b>. Give every velocity and force the right sign.</li>
+    <li><b>Choose the approach.</b>
+      <ul>
+        <li><i>Impulse approach</i>: a force acts for a known time, or you're given a force-time graph → <span class="eq">FΔt = Δp</span>.</li>
+        <li><i>Conservation approach</i>: things collide or push apart and outside forces are negligible → total p before = total p after.</li>
+      </ul></li>
+    <li><b>Identify the interaction</b>: elastic, inelastic, stick together, explosion, or a single push.</li>
+    <li><b>Write signed equations</b>, plug in numbers <i>with signs</i>, and solve.</li>
+    <li><b>Check</b>: the sign of your answer tells you direction. Units: kg·m/s = N·s. Does K make sense (same for elastic, less for inelastic, more for explosions)?</li>
+  </ol>
+</section>
+
+<section id="review">
+  <h2><span class="pill m">MOMENTUM</span>Momentum problem set</h2>
+  <p class="sub">Covers impulse, collisions, push-offs, explosions, and force-time graphs. Solve each one, then open the solution.</p>
+
+  <div class="qcard">
+    <div class="qh"><span>1 · Impulse</span></div>
+    <div class="qt">(a) Give two ways to calculate the impulse on an object.<br>(b) A 30 N net force acts on a 4.0 kg object, accelerating it from rest to 15 m/s. For how long is the force applied?</div>
+    <details class="reveal"><summary>Solution</summary><div>(a) <span class="eq">J = F·Δt</span> or <span class="eq">J = m·Δv</span> (= Δp).<br>(b) FΔt = mΔv → (30)Δt = (4.0)(15) = 60 → <b>Δt = 2.0 s</b>.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qh"><span>2 · Collision</span></div>
+    <div class="qt">(a) Momentum is conserved in every type of collision (with negligible external impulse). In which type is kinetic energy transformed into thermal energy?<br>(b) A 3.0 kg object moving 2.0 m/s to the left hits a 5.0 kg object at rest. Afterward, the 5.0 kg object moves left at 0.90 m/s. Find the speed and direction of the 3.0 kg object.</div>
+    <details class="reveal"><summary>Solution</summary><div>(a) <b>Inelastic</b> collisions (including perfectly inelastic).<br>(b) Take right as +. Before: (3.0)(−2.0) + 0 = −6.0 kg·m/s.<br>After: (5.0)(−0.90) + (3.0)v = −4.5 + 3.0v.<br>−6.0 = −4.5 + 3.0v → <b>v = −0.50 m/s</b>, i.e. 0.50 m/s to the left.<br>Check: K before = 6.0 J; K after = 2.0 + 0.38 ≈ 2.4 J. K decreased, so the collision is inelastic.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qh"><span>3 · Push-off</span></div>
+    <div class="qt">An 80 kg adult and a 50 kg child stand at rest on frictionless ice. The child pushes the adult, who moves right at 1.5 m/s. The push lasts 0.60 s.<br>(a) Velocity of the child? (b) Impulse on the adult and on the child? (c) Average force on each? (d) Acceleration of the child?</div>
+    <details class="reveal"><summary>Solution</summary><div>(a) Total p = 0: 0 = (80)(1.5) + (50)v → <b>v = −2.4 m/s</b> (left).<br>(b) Adult: J = mΔv = (80)(1.5) = <b>+120 N·s</b>. Child: (50)(−2.4) = <b>−120 N·s</b>. Equal and opposite.<br>(c) F = J/Δt = 120/0.60 = <b>200 N</b>: +200 N on the adult, −200 N on the child (Newton's third law).<br>(d) a = F/m = −200/50 = <b>−4.0 m/s²</b>.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qh"><span>4 · Explosion</span></div>
+    <div class="qt">An air-track glider of mass M is made of two connected pieces with a small charge between them. It moves right at 3.0 m/s on a frictionless track. The charge separates the pieces, and the piece of mass ⅓M moves right at 6.0 m/s. What is the velocity of the other piece?<br>A. 1.5 m/s left &nbsp; B. 0 m/s &nbsp; C. 1.5 m/s right &nbsp; D. 3.0 m/s right</div>
+    <details class="reveal"><summary>Solution</summary><div>M(3.0) = (⅓M)(6.0) + (⅔M)v → 3.0 = 2.0 + ⅔v → <b>v = +1.5 m/s</b>. Answer <b>C</b>, 1.5 m/s to the right. M cancels, so its value is not needed.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qh"><span>5 · Force-time graph</span></div>
+    <svg viewBox="0 0 440 190" role="img" aria-label="Force versus time: rises from 0 to 8 N over 0 to 2 s, stays at 8 N until 5 s, falls to 0 at 6 s">
+      <g fill="currentColor" font-size="13">
+        <line x1="50" y1="150" x2="420" y2="150" stroke="currentColor" opacity=".5"/>
+        <line x1="50" y1="20" x2="50" y2="150" stroke="currentColor" opacity=".5"/>
+        <polyline points="50,150 160,60 325,60 380,150" fill="none" stroke="#7a3cf0" stroke-width="3"/>
+        <text x="20" y="64">8 N</text>
+        <text x="46" y="168">0</text><text x="105" y="168">1</text><text x="156" y="168">2</text><text x="211" y="168">3</text><text x="266" y="168">4</text><text x="321" y="168">5</text><text x="376" y="168">6</text>
+        <text x="395" y="185">t (s)</text>
+        <text x="8" y="30">F (N)</text>
+      </g>
+    </svg>
+    <div class="qt">A 3.0 kg object experiences the force shown. (a) What is the total change in momentum from 0 to 6 s? (b) If the object starts at rest, what is its final velocity? (c) If its initial velocity is −5.0 m/s, what is its final velocity?</div>
+    <details class="reveal"><summary>Solution</summary><div>(a) Area under the F–t graph = impulse:<br>0–2 s triangle: ½(2)(8) = 8 N·s · 2–5 s rectangle: (3)(8) = 24 N·s · 5–6 s triangle: ½(1)(8) = 4 N·s<br>Δp = 8 + 24 + 4 = <b>36 kg·m/s</b>.<br>(b) Δv = Δp/m = 36/3.0 = 12 m/s → <b>v<sub>f</sub> = 12 m/s</b>.<br>(c) v<sub>f</sub> = −5.0 + 12 = <b>+7.0 m/s</b>.</div></details>
+  </div>
+</section>
+
+<!-- ============ REVIEW ============ -->
+
+<section id="which">
+  <h2>Energy or momentum? How to choose</h2>
+  <div class="tblwrap"><table>
+    <tr><th></th><th>Work-energy</th><th>Impulse-momentum</th></tr>
+    <tr><td><b>Main idea</b></td><td>Net work changes kinetic energy</td><td>Net impulse changes momentum</td></tr>
+    <tr><td><b>Equation</b></td><td><span class="eq">W<sub>net</sub> = ΔK</span></td><td><span class="eq">J = FΔt = Δp</span></td></tr>
+    <tr><td><b>Force times…</b></td><td>distance</td><td>time</td></tr>
+    <tr><td><b>Graph area</b></td><td>Force vs. <b>position</b></td><td>Force vs. <b>time</b></td></tr>
+    <tr><td><b>Scalar or vector?</b></td><td>Scalar (no direction)</td><td>Vector (use + / −)</td></tr>
+    <tr><td><b>Units</b></td><td>J = N·m</td><td>N·s = kg·m/s</td></tr>
+    <tr><td><b>Clue words</b></td><td>height, spring compression, stopping <i>distance</i>, speed at a position</td><td>collision, explosion, impact <i>time</i>, force-time graph</td></tr>
+  </table></div>
+  <div class="box tip"><b class="lbl">Some problems need both</b>Example: a bullet embeds in a hanging block, which then swings up (a ballistic pendulum). Use <b>momentum</b> for the instant of the collision (kinetic energy is not conserved there), then <b>energy</b> for the swing up afterward.</div>
+</section>
+
+<section id="traps">
+  <h2>Common mistakes</h2>
+  <ol class="steps">
+    <li><b>Forgetting the v².</b> Double speed = 4× K = 4× stopping distance.</li>
+    <li><b>Forgetting negative signs in momentum.</b> Objects moving opposite ways have opposite-sign momentum.</li>
+    <li><b>Assuming N = mg</b> when a force is at an angle or the surface is tilted.</li>
+    <li><b>Saying energy is "lost."</b> On FRQs, say it was <i>transformed into thermal energy</i>. Energy isn't destroyed.</li>
+    <li><b>Using energy conservation across a sticky collision.</b> Kinetic energy is NOT conserved there. Use momentum.</li>
+    <li><b>Thinking momentum is always conserved.</b> Only when net external impulse is (nearly) zero. A ball falling under gravity gains momentum.</li>
+    <li><b>Using string length instead of height drop</b> for a pendulum.</li>
+    <li><b>Forgetting that perpendicular forces do zero work</b> (normal force on a flat floor, tension in a circle, gravity on something moving horizontally).</li>
+    <li><b>Rebounds:</b> the magnitude of Δv is v<sub>i</sub> + v<sub>f</sub>, not the difference of speeds.</li>
+    <li><b>Mixing up area meanings</b>: F-vs-x area = work. F-vs-t area = impulse.</li>
+  </ol>
+</section>
+
+<section id="notefixes">
+  <h2>Corrections to common notes</h2>
+  <p class="sub">Statements that appear in many class notes, with the precise version.</p>
+  <div class="box fix"><b class="lbl">"An impulse causes a change in momentum: p = Ft"</b>The correct form is <span class="eq">Δp = F·Δt</span>. Impulse equals the <b>change</b> in momentum.</div>
+  <div class="box fix"><b class="lbl">"Inelastic collisions: both objects stick together"</b>Sticking together is a <b>perfectly</b> (or completely) inelastic collision. An inelastic collision just means kinetic energy isn't conserved. The objects may still separate.</div>
+  <div class="box fix"><b class="lbl">"During collisions or explosions, momentum is conserved"</b>True <b>only when the net external impulse is negligible</b> (e.g., carts on a smooth track, or the collision is so quick that friction doesn't matter). Exam questions sometimes test this condition.</div>
+  <div class="box fix"><b class="lbl">"No thermal energy is generated in an elastic collision"</b>Correct: there is no net loss of K. Objects may deform during contact, but all kinetic energy is recovered.</div>
+</section>
+
+<section id="formulas">
+  <h2>Formula sheet</h2>
+  <div class="tblwrap"><table>
+    <tr><th>Quantity</th><th>Formula</th><th>Unit</th><th>Scalar/Vector</th></tr>
+    <tr><td>Kinetic energy</td><td><span class="eq">K = ½mv²</span></td><td>J</td><td>Scalar</td></tr>
+    <tr><td>Gravitational PE</td><td><span class="eq">ΔU<sub>g</sub> = mgΔy</span></td><td>J</td><td>Scalar</td></tr>
+    <tr><td>Spring PE</td><td><span class="eq">U<sub>s</sub> = ½kx²</span></td><td>J</td><td>Scalar</td></tr>
+    <tr><td>Spring force</td><td><span class="eq">F<sub>s</sub> = −kx</span></td><td>N</td><td>Vector</td></tr>
+    <tr><td>Work</td><td><span class="eq">W = Fd cos θ</span></td><td>J</td><td>Scalar</td></tr>
+    <tr><td>Work-energy theorem</td><td><span class="eq">W<sub>net</sub> = ΔK</span></td><td>J</td><td>Scalar</td></tr>
+    <tr><td>Energy conservation</td><td><span class="eq">K<sub>i</sub>+U<sub>i</sub>+W = K<sub>f</sub>+U<sub>f</sub>+ΔE<sub>th</sub></span></td><td>J</td><td>Scalar</td></tr>
+    <tr><td>Power</td><td><span class="eq">P = W/Δt = Fv</span></td><td>W (watt)</td><td>Scalar</td></tr>
+    <tr><td>Momentum</td><td><span class="eq">p = mv</span></td><td>kg·m/s</td><td>Vector</td></tr>
+    <tr><td>Impulse</td><td><span class="eq">J = F<sub>avg</sub>Δt = Δp</span></td><td>N·s</td><td>Vector</td></tr>
+    <tr><td>Conservation of p</td><td><span class="eq">Σp<sub>i</sub> = Σp<sub>f</sub></span></td><td>kg·m/s</td><td>Vector</td></tr>
+    <tr><td>Kinetic friction</td><td><span class="eq">f<sub>k</sub> = μ<sub>k</sub>N</span></td><td>N</td><td>Vector</td></tr>
+  </table></div>
+</section>
+
+<section id="practice">
+  <h2>Practice questions</h2>
+  <p class="sub">Click an answer to check it. Use g = 10 m/s².</p>
+  <div class="qfilter" id="filters">
+    <button data-f="all" class="on">All (24)</button>
+    <button data-f="e">Energy only</button>
+    <button data-f="m">Momentum only</button>
+  </div>
+  <div class="score"><span id="scoretext">0 / 0 answered</span><div class="bar"><i id="scorebar"></i></div><button class="btn" id="resetbtn">Reset</button></div>
+  <div id="quiz"></div>
+</section>
+
+<section id="frq">
+  <h2>FRQ-style practice</h2>
+  <p class="sub">Write a complete answer before opening the sample.</p>
+
+  <div class="qcard">
+    <div class="qt">1. A block is released from rest at the top of a rough ramp. It slides to the bottom. Describe the energy changes of the block–Earth system and explain why the block's speed at the bottom is less than it would be on a frictionless ramp.</div>
+    <details class="reveal"><summary>Show sample answer</summary><div>The system starts with gravitational potential energy and no kinetic energy. As the block slides down, U<sub>g</sub> decreases. On a frictionless ramp, all of that would become kinetic energy. On the rough ramp, kinetic friction does negative work on the block over the whole distance, so some of the energy is transformed into thermal energy of the block and ramp. Because less energy ends up as kinetic energy, ½mv² is smaller, so the speed at the bottom is lower.<br><br><b>Scoring notes:</b> naming the energy types, saying friction transforms energy into thermal energy (not "loses" it), and linking smaller K to smaller v.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qt">2. A student says, "When two carts stick together, kinetic energy is conserved because energy is always conserved." Explain what is right and wrong about this claim.</div>
+    <details class="reveal"><summary>Show sample answer</summary><div>Total energy is always conserved, so that part is right. But kinetic energy alone is not conserved in a sticky (perfectly inelastic) collision. During the collision, some kinetic energy is transformed into thermal energy, sound, and deformation of the carts. So the total kinetic energy after is less than before, while total momentum stays the same (if external impulse is negligible).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qt">3. A 0.050 kg ball is placed against a spring (k = 200 N/m) compressed 0.10 m on a frictionless horizontal surface. (a) How much energy is stored? (b) How fast does the ball leave the spring? (c) If the compression doubled, how would the launch speed change?</div>
+    <details class="reveal"><summary>Show sample answer</summary><div>(a) U<sub>s</sub> = ½kx² = ½(200)(0.10)² = <b>1.0 J</b>.<br>(b) All of it becomes K: 1.0 = ½(0.050)v² → v² = 40 → <b>v ≈ 6.3 m/s</b>.<br>(c) Doubling x makes U<sub>s</sub> 4× larger, so K is 4× larger. Since K ∝ v², v becomes √4 = <b>2× faster</b> (about 12.6 m/s).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qt">4. A 0.020 kg bullet moving at 300 m/s embeds in a 1.98 kg block hanging from a string. How high does the block swing?</div>
+    <details class="reveal"><summary>Show sample answer</summary><div><b>Step 1 – collision (momentum):</b> (0.020)(300) = (2.00)v → v = <b>3.0 m/s</b>. Energy is NOT conserved here because the bullet sticks.<br><b>Step 2 – swing (energy):</b> ½mv² = mgh → h = v²/(2g) = 9/20 = <b>0.45 m</b>.<br>Applying energy conservation to step 1 is the most common error.</div></details>
+  </div>
+</section>
+
+<footer>AP Physics 1 review · g = 10 m/s²</footer>
+</main>
+</div>
+
+<script>
+const Q = [
+ {t:"e",q:"A 2.0 kg ball moves at 3.0 m/s. What is its kinetic energy?",o:["3 J","6 J","9 J","18 J"],a:2,x:"K = ½mv² = ½(2)(3²) = ½(2)(9) = 9 J."},
+ {t:"e",q:"A car's speed doubles. Its kinetic energy becomes…",o:["the same","2× as large","4× as large","½ as large"],a:2,x:"K ∝ v². Doubling v multiplies K by 2² = 4."},
+ {t:"e",q:"A car braking from speed v stops in 20 m. With the same braking force, how far does it take to stop from 3v?",o:["60 m","80 m","120 m","180 m"],a:3,x:"Stopping distance ∝ v². Tripling speed → 3² = 9× the distance → 9 × 20 = 180 m."},
+ {t:"e",q:"A 4.0 kg box is lifted straight up 1.5 m at constant speed. By how much does the gravitational potential energy of the box–Earth system increase?",o:["6 J","15 J","40 J","60 J"],a:3,x:"ΔU = mgΔy = (4)(10)(1.5) = 60 J."},
+ {t:"e",q:"A pendulum bob is released from rest 0.45 m above its lowest point. Ignoring air resistance, how fast is it moving at the bottom?",o:["3.0 m/s","4.5 m/s","9.0 m/s","0.45 m/s"],a:0,x:"mgh = ½mv² → v = √(2gh) = √(2·10·0.45) = √9 = 3.0 m/s. Mass cancels."},
+ {t:"e",q:"A rope pulls a sled 10 m along level snow with a force of 50 N at 60° above horizontal. How much work does the rope do?",o:["500 J","433 J","250 J","0 J"],a:2,x:"W = Fd cos θ = (50)(10)(cos 60°) = (50)(10)(0.5) = 250 J. Only the horizontal part of the force does work."},
+ {t:"e",q:"A box slides across a floor and slows down. The work done on the box by kinetic friction is…",o:["positive","negative","zero","depends on the mass"],a:1,x:"Friction points opposite the motion (θ = 180°, cos = −1), so it does negative work and takes kinetic energy away, turning it into thermal energy."},
+ {t:"e",q:"A 10 kg box is pulled across a floor by a 40 N force at 30° ABOVE horizontal. What is the normal force on the box?",o:["100 N","120 N","80 N","65 N"],a:2,x:"The rope's vertical part (40 sin 30° = 20 N) helps hold the box up. N = mg − F sin θ = 100 − 20 = 80 N."},
+ {t:"e",q:"A person carries a heavy box horizontally across a room at constant velocity. How much work does gravity do on the box?",o:["Positive","Negative","Zero","Equal to mg times the distance"],a:2,x:"Gravity points down; the motion is horizontal. They're perpendicular (θ = 90°), so W = 0."},
+ {t:"e",q:"Starting from rest, a frictionless roller coaster drops 20 m. What is its speed at the bottom?",o:["10 m/s","14 m/s","20 m/s","400 m/s"],a:2,x:"v = √(2gh) = √(2·10·20) = √400 = 20 m/s, no matter the mass or the track's shape."},
+ {t:"e",q:"A spring with k = 200 N/m is compressed 0.10 m. How much energy is stored in it?",o:["1.0 J","2.0 J","10 J","20 J"],a:0,x:"U = ½kx² = ½(200)(0.10)² = ½(200)(0.01) = 1.0 J."},
+ {t:"e",q:"A 600 N student climbs 5.0 m of stairs in 10 s. What is their average power output?",o:["60 W","300 W","3000 W","30,000 W"],a:1,x:"W = mgh = 600 × 5 = 3000 J. P = W/t = 3000/10 = 300 W."},
+ {t:"e",q:"A force on an object is 10 N from x = 0 to x = 2 m, then decreases steadily to 0 at x = 4 m. How much work does it do?",o:["20 J","30 J","40 J","10 J"],a:1,x:"Area under the F–x graph: rectangle (10 × 2 = 20 J) + triangle (½ × 2 × 10 = 10 J) = 30 J."},
+ {t:"e",q:"Two balls of different mass are dropped from the same height (no air resistance). Just before hitting the ground, they have the same…",o:["kinetic energy","momentum","speed","weight"],a:2,x:"mgh = ½mv² → v = √(2gh). Mass cancels, so both have the same speed. The heavier one has more K and more momentum."},
+ {t:"m",q:"What is the momentum of a 1200 kg car moving at 20 m/s?",o:["60 kg·m/s","2400 kg·m/s","24,000 kg·m/s","240,000 kg·m/s"],a:2,x:"p = mv = 1200 × 20 = 24,000 kg·m/s."},
+ {t:"m",q:"A 2.0 kg cart moving at +5.0 m/s collides with a 3.0 kg cart moving at −2.0 m/s. They stick together. What is their final velocity?",o:["+3.2 m/s","+0.80 m/s","+1.6 m/s","−0.80 m/s"],a:1,x:"(2)(5) + (3)(−2) = (5)v → 10 − 6 = 5v → v = +0.80 m/s. The second cart's velocity is negative."},
+ {t:"m",q:"An airbag reduces injury in a crash mainly because it…",o:["reduces the change in momentum","increases the time of the collision, reducing the force","reduces the impulse","increases the impulse"],a:1,x:"The person must go from moving to stopped either way, so Δp (and the impulse) is the same. FΔt = Δp, so a longer Δt means a smaller F."},
+ {t:"m",q:"A 0.50 kg ball hits a wall at +4.0 m/s and bounces straight back at −4.0 m/s. What is its change in momentum?",o:["0 kg·m/s","−2.0 kg·m/s","−4.0 kg·m/s","+4.0 kg·m/s"],a:2,x:"Δp = m(v_f − v_i) = 0.5(−4 − 4) = 0.5(−8) = −4.0 kg·m/s. Bouncing doubles the change compared to just stopping."},
+ {t:"m",q:"Using the ball from the last question, if the contact lasted 0.020 s, what average force did the wall exert on the ball?",o:["−200 N","−100 N","−80 N","−400 N"],a:0,x:"F = Δp/Δt = −4.0 / 0.020 = −200 N (pointing away from the wall)."},
+ {t:"m",q:"A 4.0 kg rifle at rest fires a 0.020 kg bullet at +400 m/s. What is the rifle's recoil velocity?",o:["+2.0 m/s","−2.0 m/s","−0.5 m/s","−8.0 m/s"],a:1,x:"Total momentum starts at 0. 0 = (0.020)(400) + (4.0)v → v = −8/4 = −2.0 m/s (backward)."},
+ {t:"m",q:"In a perfectly inelastic collision (objects stick) with negligible external forces, which is conserved?",o:["Momentum only","Kinetic energy only","Both momentum and kinetic energy","Neither"],a:0,x:"Momentum is conserved. Kinetic energy is not: some becomes thermal energy, sound and deformation."},
+ {t:"m",q:"A moving billiard ball hits an identical ball at rest head-on in a perfectly elastic collision. After the collision…",o:["both move at half the speed","the first ball stops and the second moves at the first ball's original speed","both stop","the first ball bounces back at the same speed"],a:1,x:"Equal masses, elastic, one at rest → they swap velocities."},
+ {t:"m",q:"On a force vs. time graph, the area under the curve represents…",o:["work","power","impulse (change in momentum)","kinetic energy"],a:2,x:"F × t = impulse = Δp. (Area under force vs. POSITION would be work.)"},
+ {t:"m",q:"A ball falls freely toward the ground. Is the ball's momentum conserved?",o:["Yes, momentum is always conserved","No, gravity is an external force giving it impulse","Yes, because no collision is happening","No, because kinetic energy is changing"],a:1,x:"For the ball alone, gravity is an external force acting over time, so its momentum increases. Momentum is only conserved when the net external impulse on the system is zero. (For the ball + Earth system, it would be conserved.)"}
+];
+const quiz=document.getElementById('quiz');
+let answered={};
+function render(f){
+  quiz.innerHTML='';
+  Q.forEach((it,i)=>{
+    if(f!=='all'&&it.t!==f)return;
+    const c=document.createElement('div');c.className='qcard';
+    c.innerHTML=`<div class="qh"><span>Question ${i+1}</span><span class="pill ${it.t}">${it.t==='e'?'ENERGY':'MOMENTUM'}</span></div><div class="qt">${it.q}</div><div class="opts"></div><div class="expl"></div>`;
+    const opts=c.querySelector('.opts'),ex=c.querySelector('.expl');
+    it.o.forEach((o,j)=>{
+      const b=document.createElement('button');b.className='opt';b.textContent=String.fromCharCode(65+j)+'. '+o;
+      b.onclick=()=>choose(i,j,opts,ex);opts.appendChild(b);
+    });
+    quiz.appendChild(c);
+    if(answered[i]!==undefined)paint(i,answered[i],opts,ex);
+  });
+}
+function paint(i,j,opts,ex){
+  const it=Q[i];
+  [...opts.children].forEach((b,k)=>{b.disabled=true;if(k===it.a)b.classList.add('right');else if(k===j)b.classList.add('wrong');});
+  ex.innerHTML=(j===it.a?'<b style="color:var(--good)">Correct.</b> ':'<b style="color:var(--bad)">Incorrect.</b> The answer is '+String.fromCharCode(65+it.a)+'. ')+it.x;
+  ex.classList.add('show');
+}
+function choose(i,j,opts,ex){if(answered[i]!==undefined)return;answered[i]=j;paint(i,j,opts,ex);score();}
+function score(){
+  const n=Object.keys(answered).length;const r=Object.entries(answered).filter(([i,j])=>Q[i].a===j).length;
+  document.getElementById('scoretext').textContent=`${r} correct out of ${n} answered (${Q.length} total)`;
+  document.getElementById('scorebar').style.width=(n?r/Q.length*100:0)+'%';
+}
+let cur='all';
+document.querySelectorAll('#filters button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#filters button').forEach(x=>x.classList.remove('on'));b.classList.add('on');cur=b.dataset.f;render(cur);
+});
+document.getElementById('resetbtn').onclick=()=>{answered={};score();render(cur);};
+render('all');score();
+</script>
+</body>
+</html>
