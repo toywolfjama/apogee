@@ -112,9 +112,9 @@
       inner.querySelectorAll(".chip[data-target]").forEach(c => {
         const on = c.dataset.target === ch.id;
         c.classList.toggle("on", on);
-        if (on) c.scrollIntoView({ block: "nearest", inline: "center", behavior: scroll ? "smooth" : "auto" });
+        if (on) inner.scrollTo({ left: c.offsetLeft - inner.clientWidth / 2 + c.offsetWidth / 2, behavior: scroll ? "smooth" : "auto" });
       });
-      if (location.hash.slice(1) !== id) history.replaceState(null, "", "#" + id);
+      if ((scroll || location.hash) && location.hash.slice(1) !== id) history.replaceState(null, "", "#" + id);
       if (scroll) {
         const y = (target === ch ? document.querySelector(".page") : target).getBoundingClientRect().top + scrollY - header.offsetHeight - 10;
         window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
@@ -130,6 +130,7 @@
     window.addEventListener("hashchange", () => go(location.hash.slice(1), true));
     const start = location.hash.slice(1);
     go(document.getElementById(start) ? start : chapters[0].id, false);
+    if (!start) window.scrollTo(0, 0);
   }
 
   /* ---------- quizzes ---------- */
