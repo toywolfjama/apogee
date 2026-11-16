@@ -12,7 +12,8 @@ Free AP review pages: explanations, in-depth breakdowns of each idea, worked exa
 index.html                     Home page (course list is built from courses.js)
 assets/css/site.css            Shared styles
 assets/js/courses.js           Course registry: every course and unit
-assets/js/site.js              Header, course menu, chapter menu, quizzes
+assets/js/site.js              Header, course menu, chapter menu, quizzes, site animations
+assets/js/sims.js              2D animated physics examples (add new types here)
 courses/<course>/<unit>.html   One page per unit
 templates/unit-template.html   Starting point for new units
 ```
@@ -22,6 +23,8 @@ templates/unit-template.html   Starting point for new units
 1. Copy `templates/unit-template.html` to `courses/<course-id>/<unit-id>.html`.
 2. Fill in the chapters, topics, deep explanations and quiz questions (the template has comments).
 3. Add the course/unit to `assets/js/courses.js` with its `path` and `ready: true`.
+
+Animated examples: add `<div class="sim" data-sim='{"type":"collide",...}'></div>` to a page, or a `"sim"` object to a quiz question. Available types are listed in `assets/js/sims.js`.
 
 The course menu, home page list, chapter buttons, previous/next buttons and quizzes are generated automatically.
 

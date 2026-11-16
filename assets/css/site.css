@@ -172,3 +172,54 @@ body.all-chapters .pager{display:none}
 footer{color:var(--muted);font-size:13.5px;text-align:center;padding:30px 20px;border-top:1px solid var(--line)}
 @media(max-width:600px){.topbar .in{padding:10px 14px}.brand span.word{display:none}.dd-menu{right:-10px;min-width:260px}}
 @media print{.topbar,.pager,.chapterbar{display:none}.chapter{display:block!important}body{background:#fff;color:#000}}
+
+/* ===== motion & animated examples ===== */
+canvas.stars{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none}
+body{background-attachment:fixed}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.hero .kicker,.hero h1,.hero p{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.hero h1{animation-delay:.08s}.hero p{animation-delay:.16s}.hero p+p{animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.hero h1 .hl{background:linear-gradient(90deg,var(--yellow),#fff 45%,var(--yellow) 60%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:-220% 0}}
+.brand .dot{position:relative;animation:spin 14s linear infinite}
+.brand .dot::after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:var(--yellow);top:-4px;left:10px;box-shadow:0 0 8px var(--yellow)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.chip,.navbtn,.opt,.btn,.pager button,.course-card,section.topic{transition:border-color .2s,background-color .2s,color .2s,box-shadow .25s,transform .2s}
+.chip:hover{transform:translateY(-1px)}
+.chip.on{box-shadow:0 0 0 4px rgba(234,254,7,.15),0 0 22px rgba(234,254,7,.35)}
+.navbtn.solid{box-shadow:0 0 24px rgba(234,254,7,.35)}
+.navbtn.solid:hover{transform:translateY(-2px)}
+section.topic:hover{border-color:rgba(46,150,245,.4);box-shadow:0 10px 40px rgba(0,0,0,.25)}
+.course-card:hover{transform:translateY(-3px);border-color:rgba(234,254,7,.4)}
+.pager button:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.opt:hover:not([disabled]){transform:translateX(3px)}
+.qcard.got-it .opt.right{animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
+.qcard.missed .opt.wrong{animation:shake .4s}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.035)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.expl.show{animation:rise .35s ease both}
+.bar i{transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.chapter.show{animation:chap .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes chap{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+details.deep[open]{box-shadow:0 0 0 1px rgba(234,254,7,.25),0 0 30px rgba(234,254,7,.08)}
+.deep-body{overflow:hidden}
+
+.sim{margin:12px 0 14px;border:1px solid rgba(46,150,245,.35);border-radius:14px;background:radial-gradient(600px 220px at 50% 0%,rgba(46,150,245,.14),transparent 70%),rgba(4,14,40,.75);overflow:hidden}
+.sim-stage canvas{display:block;width:100%;height:auto;aspect-ratio:720/270}
+.sim-stage{overflow-x:auto;scrollbar-width:thin}
+@media(max-width:640px){.sim-stage canvas{width:600px;max-width:none}.sim-ctrl::after{content:"Swipe to see the whole diagram";color:var(--muted);font-size:12px;margin-left:auto}.sim-cap{display:none}}
+.sim-ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 12px;border-top:1px solid var(--line);background:rgba(7,23,63,.6)}
+.sim-btn{font:inherit;font-family:var(--display);font-size:12.5px;font-weight:700;color:#fff;background:transparent;border:1.5px solid var(--line);border-radius:99px;padding:5px 12px;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+.sim-btn:hover{border-color:var(--yellow);color:var(--yellow)}
+.sim-btn.on{background:var(--yellow);color:var(--space);border-color:var(--yellow)}
+.sim-btn.play{min-width:40px}
+.sim-cap{color:var(--muted);font-size:13px;margin-left:auto}
+.sim.revealed{border-color:rgba(234,254,7,.45)}
+.qsim .sim,.qsim.sim{margin:4px 0 12px}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+}

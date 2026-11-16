@@ -38,6 +38,9 @@
         <div class="a">Solution.</div>
       </div>
 
+      <!-- Animated example (types are listed in assets/js/sims.js) -->
+      <div class="sim" data-sim='{"type":"collide","m1":2,"v1":5,"m2":3,"v2":-2,"mode":"stick","reveal":true,"caption":"Optional caption"}'></div>
+
       <!-- Deep explanation dropdown -->
       <details class="deep">
         <summary><span class="tag">Deep explanation</span>Title of the deep dive</summary>
@@ -65,10 +68,12 @@
 <!-- 4. Questions: a = index of the correct option (0 = A) -->
 <script type="application/json" id="quiz-data">
 [
-  {"t":"a","q":"Example question?","o":["Option A","Option B","Option C","Option D"],"a":1,"x":"Why B is correct."}
+  {"t":"a","q":"Example question?","o":["Option A","Option B","Option C","Option D"],"a":1,"x":"Why B is correct.",
+   "sim":{"type":"cart","m":2,"v":3}}
 ]
 </script>
 <script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/sims.js"></script>
 <script src="../../assets/js/site.js"></script>
 </body>
 </html>

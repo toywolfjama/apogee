@@ -90,6 +90,7 @@
   <h2><span class="pill e">ENERGY</span>Work</h2>
   <p class="sub">Work is how a force adds or removes energy.</p>
   <div class="big-eq">W = F·d·cos θ &nbsp;&nbsp;(θ = angle between force and displacement)</div>
+  <div class="sim" data-sim='{"type": "pull", "F": 50, "ang": 60, "d": 10, "reveal": true, "caption": "Only F cos θ does work"}'></div>
   <p><b>Only the part of the force that points along the motion does work.</b></p>
   <div class="grid3">
     <div class="mini"><h4>Positive work</h4><p>Force points <b>with</b> the motion (θ &lt; 90°). Object gains energy.<br><i>Ex: pushing a cart forward.</i></p></div>
@@ -138,6 +139,7 @@
 <section class="topic" id="wet">
   <h2><span class="pill e">ENERGY</span>The work-energy theorem</h2>
   <div class="big-eq">W<sub>net</sub> = ΔK = ½mv<sub>f</sub>² − ½mv<sub>i</sub>²</div>
+  <div class="sim" data-sim='{"type": "brake", "v1": 1, "v2": 2, "d1": 20, "reveal": true, "caption": "Double the speed, 4× the stopping distance"}'></div>
   <p>The <b>net</b> work (all forces added up) equals the change in kinetic energy. Net work positive means it speeds up. Negative means it slows down. Zero means constant speed.</p>
   <h3>The braking-distance idea (proportional reasoning)</h3>
   <p>A car braking with the same friction force <i>f</i>: friction does work <span class="eq">−f·d</span>, which must remove all of <span class="eq">½mv²</span>. So <span class="eq">d ∝ v²</span>.</p>
@@ -189,6 +191,7 @@
       <rect x="440" y="130" width="34" height="20" fill="#c2372f" opacity=".85"/><text x="440" y="170">E<tspan font-size="10">th</tspan></text>
     </g>
   </svg>
+  <div class="sim" data-sim='{"type": "coaster", "h": 20, "reveal": true, "caption": "Ug turns into K on the way down"}'></div>
   <p style="font-size:14px;color:var(--muted)">Example: a box slides down a ramp with friction from rest. Start: all U<sub>g</sub> (4 blocks, K = 0). End: 3 blocks of K + 1 block of thermal. 4 = 3 + 1. ✔</p>
   <div class="worked">
     <div class="q">Worked example: A 50 kg skater starts from rest at the top of a 20 m frictionless hill. How fast is she going at the bottom?</div>
@@ -230,6 +233,7 @@
       <text x="160" y="200">Lowest point: max K, min U</text>
     </g>
   </svg>
+  <div class="sim" data-sim='{"type": "pendulum", "h": 0.45, "L": 1.2, "reveal": true, "caption": "Watch the energy bars trade back and forth"}'></div>
   <ul>
     <li>At the <b>highest points</b>: it stops for an instant. All energy is U<sub>g</sub>.</li>
     <li>At the <b>bottom</b>: fastest. All energy is K (if you set U = 0 there).</li>
@@ -263,6 +267,7 @@
     <li><b>Horizontal part</b> <span class="eq">F cos θ</span>: this is what does work as the object slides horizontally.</li>
     <li><b>Vertical part</b> <span class="eq">F sin θ</span>: this changes the <b>normal force</b>, which changes friction.</li>
   </ul>
+  <div class="sim" data-sim='{"type": "pull", "F": 40, "ang": 30, "m": 10, "reveal": true, "caption": "The rope&#39;s vertical part reduces N"}'></div>
   <div class="grid2">
     <div class="mini"><h4>Pulling <b>up</b> at an angle</h4><span class="eq">N = mg − F sin θ</span><p>The rope supports part of the weight. Normal force is <b>less</b> than the weight → less friction.</p></div>
     <div class="mini"><h4>Pushing <b>down</b> at an angle</h4><span class="eq">N = mg + F sin θ</span><p>The push adds to the downward force. Normal force is <b>more</b> than the weight → more friction.</p></div>
@@ -298,6 +303,7 @@
   <h2><span class="pill e">ENERGY</span>Power</h2>
   <p class="sub">Power is how <i>fast</i> energy is transferred. Unit: watt (W) = J/s.</p>
   <div class="big-eq">P = W / Δt = ΔE / Δt &nbsp;&nbsp;&nbsp;&nbsp; P = F·v (force along velocity)</div>
+  <div class="sim" data-sim='{"type": "stairs", "w": 600, "h": 5, "t": 10, "reveal": true}'></div>
   <p>Two people lift the same box to the same shelf. They do the <b>same work</b>. The one who does it faster uses <b>more power</b>.</p>
   <div class="worked">
     <div class="q">Worked example: A 600 N student runs up stairs 5 m tall in 10 s. What's their average power?</div>
@@ -323,6 +329,7 @@
 <section class="topic" id="momentum">
   <h2><span class="pill m">MOMENTUM</span>Momentum basics</h2>
   <div class="big-eq">p = m·v &nbsp;&nbsp;&nbsp;(units: kg·m/s)</div>
+  <div class="sim" data-sim='{"type": "collide", "m1": 2, "v1": 5, "m2": 3, "v2": -2, "mode": "given", "v1f": 0.8, "v2f": 0.8, "reveal": true, "caption": "Opposite directions: opposite signs"}'></div>
   <ul>
     <li>Momentum is a <b>vector</b>. Pick a positive direction (say right = +), then anything moving left gets a <b>negative</b> velocity and negative momentum.</li>
     <li>A slow, massive object and a fast, light one can have equal momentum.</li>
@@ -349,6 +356,7 @@
   <h2><span class="pill m">MOMENTUM</span>Impulse</h2>
   <div class="big-eq">J = F<sub>avg</sub>·Δt = Δp = m(v<sub>f</sub> − v<sub>i</sub>)</div>
   <p>Impulse (symbol <b>J</b>) is a force acting over a time. It equals the change in momentum. Units: N·s, which is the same as kg·m/s.</p>
+  
   <h3>Impulse from a graph</h3>
   <p>On a <b>force vs. time</b> graph, the <b>area</b> under the curve is the impulse. (Compare: force vs. <i>position</i> area = work.)</p>
   <h3>The egg drop / airbag idea</h3>
@@ -357,7 +365,9 @@
     <div class="mini"><h4>Egg hits a wall</h4><p>Stops in a <b>short</b> time → <b>big</b> force → breaks.</p></div>
     <div class="mini"><h4>Egg hits a sheet</h4><p>Stops over a <b>long</b> time → <b>small</b> force → survives.</p></div>
   </div>
+  <div class="sim" data-sim='{"type": "egg", "reveal": true}'></div>
   <p>Same impulse both times. Airbags, crumple zones, and bending your knees on landing work the same way.</p>
+  <div class="sim" data-sim='{"type": "bounce", "m": 0.5, "v": 4, "vf": -4, "dt": 0.02, "reveal": true}'></div>
   <div class="box trap"><b class="lbl">Bouncing</b>An object that rebounds has a larger Δp than one that stops. From +4 m/s to −4 m/s, Δv = −8 m/s, not 0. Rebounding requires more impulse.</div>
   <div class="worked">
     <div class="q">Worked example: A 0.15 kg baseball moving left at 30 m/s is hit by a bat with +6000 N for 0.0020 s. Final velocity? (Right = +)</div>
@@ -397,6 +407,7 @@
     <tr><td><b>Perfectly inelastic</b></td><td>Stick together, move as one. Most K lost.</td><td>✔ Conserved</td><td>✘ Decreases (most)</td></tr>
     <tr><td><b>Explosion / push apart</b></td><td>Stored energy released, pieces fly apart</td><td>✔ Conserved</td><td>↑ Increases</td></tr>
   </table></div>
+  <div class="sim" data-sim='{"type": "collide", "m1": 1, "v1": 3, "m2": 1, "v2": 0, "mode": "elastic", "reveal": true, "caption": "Elastic, equal masses: velocities swap"}'></div>
   <p><b>Momentum is conserved in all four</b> (when external impulse is negligible). What changes is kinetic energy.</p>
   <h3>Equations you'll actually use</h3>
   <ul>
@@ -406,14 +417,17 @@
   </ul>
   <div class="worked">
     <div class="q">Worked example (stick): 2.0 kg cart at +5.0 m/s hits a 3.0 kg cart at −2.0 m/s. They stick. Final velocity?</div>
+  <div class="sim" data-sim='{"type": "collide", "m1": 2, "v1": 5, "m2": 3, "v2": -2, "mode": "stick", "reveal": true}'></div>
     <div class="a">(2)(5) + (3)(−2) = (5)v<sub>f</sub> → 4 = 5v<sub>f</sub> → <b>v<sub>f</sub> = +0.80 m/s</b>. Check K: before = ½(2)(25) + ½(3)(4) = 31 J. After = ½(5)(0.64) = 1.6 J. K decreases, as expected.</div>
   </div>
   <div class="worked">
     <div class="q">Worked example (explosion): A 4.0 kg rifle fires a 0.020 kg bullet at +400 m/s. Recoil velocity of the rifle?</div>
+  <div class="sim" data-sim='{"type": "explode", "m1": 4, "m2": 0.02, "v0": 0, "v2f": 400, "known": ["v2f"], "reveal": true}'></div>
     <div class="a">0 = (0.020)(400) + (4.0)v → 0 = 8 + 4v → <b>v = −2.0 m/s</b>. The negative means it kicks backward.</div>
   </div>
   <div class="worked">
     <div class="q">Worked example (push apart): Skater A (60 kg) and Skater B (40 kg) glide together at +1.0 m/s. They push apart and B moves at −1.0 m/s. A's velocity?</div>
+  <div class="sim" data-sim='{"type": "explode", "m1": 40, "m2": 60, "v0": 1, "v1f": -1, "known": ["v1f"], "reveal": true}'></div>
     <div class="a">(100)(1.0) = (60)v<sub>A</sub> + (40)(−1.0) → 100 = 60v<sub>A</sub> − 40 → v<sub>A</sub> = 140/60 ≈ <b>+2.3 m/s</b>. K increases; the skaters' internal energy supplies it.</div>
   </div>
 
@@ -463,24 +477,28 @@
 
   <div class="qcard">
     <div class="qh"><span>1 · Impulse</span></div>
+  <div class="sim" data-sim='{"type": "graph", "kind": "t", "pts": [[0, 30], [2, 30]], "m": 4}'></div>
     <div class="qt">(a) Give two ways to calculate the impulse on an object.<br>(b) A 30 N net force acts on a 4.0 kg object, accelerating it from rest to 15 m/s. For how long is the force applied?</div>
     <details class="reveal"><summary>Solution</summary><div>(a) <span class="eq">J = F·Δt</span> or <span class="eq">J = m·Δv</span> (= Δp).<br>(b) FΔt = mΔv → (30)Δt = (4.0)(15) = 60 → <b>Δt = 2.0 s</b>.</div></details>
   </div>
 
   <div class="qcard">
     <div class="qh"><span>2 · Collision</span></div>
+  <div class="sim" data-sim='{"type": "collide", "m1": 5, "v1": 0, "m2": 3, "v2": -2, "mode": "given", "v1f": -0.9, "known": ["v1f"]}'></div>
     <div class="qt">(a) Momentum is conserved in every type of collision (with negligible external impulse). In which type is kinetic energy transformed into thermal energy?<br>(b) A 3.0 kg object moving 2.0 m/s to the left hits a 5.0 kg object at rest. Afterward, the 5.0 kg object moves left at 0.90 m/s. Find the speed and direction of the 3.0 kg object.</div>
     <details class="reveal"><summary>Solution</summary><div>(a) <b>Inelastic</b> collisions (including perfectly inelastic).<br>(b) Take right as +. Before: (3.0)(−2.0) + 0 = −6.0 kg·m/s.<br>After: (5.0)(−0.90) + (3.0)v = −4.5 + 3.0v.<br>−6.0 = −4.5 + 3.0v → <b>v = −0.50 m/s</b>, i.e. 0.50 m/s to the left.<br>Check: K before = 6.0 J; K after = 2.0 + 0.38 ≈ 2.4 J. K decreased, so the collision is inelastic.</div></details>
   </div>
 
   <div class="qcard">
     <div class="qh"><span>3 · Push-off</span></div>
+  <div class="sim" data-sim='{"type": "explode", "m1": 50, "m2": 80, "v0": 0, "v2f": 1.5, "known": ["v2f"]}'></div>
     <div class="qt">An 80 kg adult and a 50 kg child stand at rest on frictionless ice. The child pushes the adult, who moves right at 1.5 m/s. The push lasts 0.60 s.<br>(a) Velocity of the child? (b) Impulse on the adult and on the child? (c) Average force on each? (d) Acceleration of the child?</div>
     <details class="reveal"><summary>Solution</summary><div>(a) Total p = 0: 0 = (80)(1.5) + (50)v → <b>v = −2.4 m/s</b> (left).<br>(b) Adult: J = mΔv = (80)(1.5) = <b>+120 N·s</b>. Child: (50)(−2.4) = <b>−120 N·s</b>. Equal and opposite.<br>(c) F = J/Δt = 120/0.60 = <b>200 N</b>: +200 N on the adult, −200 N on the child (Newton's third law).<br>(d) a = F/m = −200/50 = <b>−4.0 m/s²</b>.</div></details>
   </div>
 
   <div class="qcard">
     <div class="qh"><span>4 · Explosion</span></div>
+  <div class="sim" data-sim='{"type": "explode", "m1": 2, "m2": 1, "v0": 3, "v2f": 6, "known": ["v2f"]}'></div>
     <div class="qt">An air-track glider of mass M is made of two connected pieces with a small charge between them. It moves right at 3.0 m/s on a frictionless track. The charge separates the pieces, and the piece of mass ⅓M moves right at 6.0 m/s. What is the velocity of the other piece?<br>A. 1.5 m/s left &nbsp; B. 0 m/s &nbsp; C. 1.5 m/s right &nbsp; D. 3.0 m/s right</div>
     <details class="reveal"><summary>Solution</summary><div>M(3.0) = (⅓M)(6.0) + (⅔M)v → 3.0 = 2.0 + ⅔v → <b>v = +1.5 m/s</b>. Answer <b>C</b>, 1.5 m/s to the right. M cancels, so its value is not needed.</div></details>
   </div>
@@ -625,7 +643,12 @@
    "18 J"
   ],
   "a": 2,
-  "x": "K = ½mv² = ½(2)(3²) = ½(2)(9) = 9 J."
+  "x": "K = ½mv² = ½(2)(3²) = ½(2)(9) = 9 J.",
+  "sim": {
+   "type": "cart",
+   "m": 2,
+   "v": 3
+  }
  },
  {
   "t": "e",
@@ -637,7 +660,12 @@
    "½ as large"
   ],
   "a": 2,
-  "x": "K ∝ v². Doubling v multiplies K by 2² = 4."
+  "x": "K ∝ v². Doubling v multiplies K by 2² = 4.",
+  "sim": {
+   "type": "compare",
+   "v1": 1,
+   "v2": 2
+  }
  },
  {
   "t": "e",
@@ -649,7 +677,13 @@
    "180 m"
   ],
   "a": 3,
-  "x": "Stopping distance ∝ v². Tripling speed → 3² = 9× the distance → 9 × 20 = 180 m."
+  "x": "Stopping distance ∝ v². Tripling speed → 3² = 9× the distance → 9 × 20 = 180 m.",
+  "sim": {
+   "type": "brake",
+   "v1": 1,
+   "v2": 3,
+   "d1": 20
+  }
  },
  {
   "t": "e",
@@ -661,7 +695,12 @@
    "60 J"
   ],
   "a": 3,
-  "x": "ΔU = mgΔy = (4)(10)(1.5) = 60 J."
+  "x": "ΔU = mgΔy = (4)(10)(1.5) = 60 J.",
+  "sim": {
+   "type": "lift",
+   "m": 4,
+   "h": 1.5
+  }
  },
  {
   "t": "e",
@@ -673,7 +712,11 @@
    "0.45 m/s"
   ],
   "a": 0,
-  "x": "mgh = ½mv² → v = √(2gh) = √(2·10·0.45) = √9 = 3.0 m/s. Mass cancels."
+  "x": "mgh = ½mv² → v = √(2gh) = √(2·10·0.45) = √9 = 3.0 m/s. Mass cancels.",
+  "sim": {
+   "type": "pendulum",
+   "h": 0.45
+  }
  },
  {
   "t": "e",
@@ -685,7 +728,13 @@
    "0 J"
   ],
   "a": 2,
-  "x": "W = Fd cos θ = (50)(10)(cos 60°) = (50)(10)(0.5) = 250 J. Only the horizontal part of the force does work."
+  "x": "W = Fd cos θ = (50)(10)(cos 60°) = (50)(10)(0.5) = 250 J. Only the horizontal part of the force does work.",
+  "sim": {
+   "type": "pull",
+   "F": 50,
+   "ang": 60,
+   "d": 10
+  }
  },
  {
   "t": "e",
@@ -697,7 +746,10 @@
    "depends on the mass"
   ],
   "a": 1,
-  "x": "Friction points opposite the motion (θ = 180°, cos = −1), so it does negative work and takes kinetic energy away, turning it into thermal energy."
+  "x": "Friction points opposite the motion (θ = 180°, cos = −1), so it does negative work and takes kinetic energy away, turning it into thermal energy.",
+  "sim": {
+   "type": "slide"
+  }
  },
  {
   "t": "e",
@@ -709,7 +761,13 @@
    "65 N"
   ],
   "a": 2,
-  "x": "The rope's vertical part (40 sin 30° = 20 N) helps hold the box up. N = mg − F sin θ = 100 − 20 = 80 N."
+  "x": "The rope's vertical part (40 sin 30° = 20 N) helps hold the box up. N = mg − F sin θ = 100 − 20 = 80 N.",
+  "sim": {
+   "type": "pull",
+   "F": 40,
+   "ang": 30,
+   "m": 10
+  }
  },
  {
   "t": "e",
@@ -721,7 +779,10 @@
    "Equal to mg times the distance"
   ],
   "a": 2,
-  "x": "Gravity points down; the motion is horizontal. They're perpendicular (θ = 90°), so W = 0."
+  "x": "Gravity points down; the motion is horizontal. They're perpendicular (θ = 90°), so W = 0.",
+  "sim": {
+   "type": "carry"
+  }
  },
  {
   "t": "e",
@@ -733,7 +794,11 @@
    "400 m/s"
   ],
   "a": 2,
-  "x": "v = √(2gh) = √(2·10·20) = √400 = 20 m/s, no matter the mass or the track's shape."
+  "x": "v = √(2gh) = √(2·10·20) = √400 = 20 m/s, no matter the mass or the track's shape.",
+  "sim": {
+   "type": "coaster",
+   "h": 20
+  }
  },
  {
   "t": "e",
@@ -745,7 +810,12 @@
    "20 J"
   ],
   "a": 0,
-  "x": "U = ½kx² = ½(200)(0.10)² = ½(200)(0.01) = 1.0 J."
+  "x": "U = ½kx² = ½(200)(0.10)² = ½(200)(0.01) = 1.0 J.",
+  "sim": {
+   "type": "spring",
+   "k": 200,
+   "x": 0.1
+  }
  },
  {
   "t": "e",
@@ -757,7 +827,13 @@
    "30,000 W"
   ],
   "a": 1,
-  "x": "W = mgh = 600 × 5 = 3000 J. P = W/t = 3000/10 = 300 W."
+  "x": "W = mgh = 600 × 5 = 3000 J. P = W/t = 3000/10 = 300 W.",
+  "sim": {
+   "type": "stairs",
+   "w": 600,
+   "h": 5,
+   "t": 10
+  }
  },
  {
   "t": "e",
@@ -769,7 +845,25 @@
    "10 J"
   ],
   "a": 1,
-  "x": "Area under the F–x graph: rectangle (10 × 2 = 20 J) + triangle (½ × 2 × 10 = 10 J) = 30 J."
+  "x": "Area under the F–x graph: rectangle (10 × 2 = 20 J) + triangle (½ × 2 × 10 = 10 J) = 30 J.",
+  "sim": {
+   "type": "graph",
+   "kind": "x",
+   "pts": [
+    [
+     0,
+     10
+    ],
+    [
+     2,
+     10
+    ],
+    [
+     4,
+     0
+    ]
+   ]
+  }
  },
  {
   "t": "e",
@@ -781,7 +875,13 @@
    "weight"
   ],
   "a": 2,
-  "x": "mgh = ½mv² → v = √(2gh). Mass cancels, so both have the same speed. The heavier one has more K and more momentum."
+  "x": "mgh = ½mv² → v = √(2gh). Mass cancels, so both have the same speed. The heavier one has more K and more momentum.",
+  "sim": {
+   "type": "drop2",
+   "m1": 1,
+   "m2": 5,
+   "h": 20
+  }
  },
  {
   "t": "m",
@@ -793,7 +893,13 @@
    "240,000 kg·m/s"
   ],
   "a": 2,
-  "x": "p = mv = 1200 × 20 = 24,000 kg·m/s."
+  "x": "p = mv = 1200 × 20 = 24,000 kg·m/s.",
+  "sim": {
+   "type": "cart",
+   "m": 1200,
+   "v": 20,
+   "show": "p"
+  }
  },
  {
   "t": "m",
@@ -805,7 +911,15 @@
    "−0.80 m/s"
   ],
   "a": 1,
-  "x": "(2)(5) + (3)(−2) = (5)v → 10 − 6 = 5v → v = +0.80 m/s. The second cart's velocity is negative."
+  "x": "(2)(5) + (3)(−2) = (5)v → 10 − 6 = 5v → v = +0.80 m/s. The second cart's velocity is negative.",
+  "sim": {
+   "type": "collide",
+   "m1": 2,
+   "v1": 5,
+   "m2": 3,
+   "v2": -2,
+   "mode": "stick"
+  }
  },
  {
   "t": "m",
@@ -817,7 +931,10 @@
    "increases the impulse"
   ],
   "a": 1,
-  "x": "The person must go from moving to stopped either way, so Δp (and the impulse) is the same. FΔt = Δp, so a longer Δt means a smaller F."
+  "x": "The person must go from moving to stopped either way, so Δp (and the impulse) is the same. FΔt = Δp, so a longer Δt means a smaller F.",
+  "sim": {
+   "type": "egg"
+  }
  },
  {
   "t": "m",
@@ -829,7 +946,13 @@
    "+4.0 kg·m/s"
   ],
   "a": 2,
-  "x": "Δp = m(v_f − v_i) = 0.5(−4 − 4) = 0.5(−8) = −4.0 kg·m/s. Bouncing doubles the change compared to just stopping."
+  "x": "Δp = m(v_f − v_i) = 0.5(−4 − 4) = 0.5(−8) = −4.0 kg·m/s. Bouncing doubles the change compared to just stopping.",
+  "sim": {
+   "type": "bounce",
+   "m": 0.5,
+   "v": 4,
+   "vf": -4
+  }
  },
  {
   "t": "m",
@@ -841,7 +964,14 @@
    "−400 N"
   ],
   "a": 0,
-  "x": "F = Δp/Δt = −4.0 / 0.020 = −200 N (pointing away from the wall)."
+  "x": "F = Δp/Δt = −4.0 / 0.020 = −200 N (pointing away from the wall).",
+  "sim": {
+   "type": "bounce",
+   "m": 0.5,
+   "v": 4,
+   "vf": -4,
+   "dt": 0.02
+  }
  },
  {
   "t": "m",
@@ -853,7 +983,17 @@
    "−8.0 m/s"
   ],
   "a": 1,
-  "x": "Total momentum starts at 0. 0 = (0.020)(400) + (4.0)v → v = −8/4 = −2.0 m/s (backward)."
+  "x": "Total momentum starts at 0. 0 = (0.020)(400) + (4.0)v → v = −8/4 = −2.0 m/s (backward).",
+  "sim": {
+   "type": "explode",
+   "m1": 4,
+   "m2": 0.02,
+   "v0": 0,
+   "v2f": 400,
+   "known": [
+    "v2f"
+   ]
+  }
  },
  {
   "t": "m",
@@ -865,7 +1005,15 @@
    "Neither"
   ],
   "a": 0,
-  "x": "Momentum is conserved. Kinetic energy is not: some becomes thermal energy, sound and deformation."
+  "x": "Momentum is conserved. Kinetic energy is not: some becomes thermal energy, sound and deformation.",
+  "sim": {
+   "type": "collide",
+   "m1": 1,
+   "v1": 3,
+   "m2": 1,
+   "v2": 0,
+   "mode": "stick"
+  }
  },
  {
   "t": "m",
@@ -877,7 +1025,15 @@
    "the first ball bounces back at the same speed"
   ],
   "a": 1,
-  "x": "Equal masses, elastic, one at rest → they swap velocities."
+  "x": "Equal masses, elastic, one at rest → they swap velocities.",
+  "sim": {
+   "type": "collide",
+   "m1": 1,
+   "v1": 3,
+   "m2": 1,
+   "v2": 0,
+   "mode": "elastic"
+  }
  },
  {
   "t": "m",
@@ -889,7 +1045,30 @@
    "kinetic energy"
   ],
   "a": 2,
-  "x": "F × t = impulse = Δp. (Area under force vs. POSITION would be work.)"
+  "x": "F × t = impulse = Δp. (Area under force vs. POSITION would be work.)",
+  "sim": {
+   "type": "graph",
+   "kind": "t",
+   "pts": [
+    [
+     0,
+     0
+    ],
+    [
+     2,
+     10
+    ],
+    [
+     4,
+     10
+    ],
+    [
+     5,
+     0
+    ]
+   ],
+   "m": 2
+  }
  },
  {
   "t": "m",
@@ -901,11 +1080,15 @@
    "No, because kinetic energy is changing"
   ],
   "a": 1,
-  "x": "For the ball alone, gravity is an external force acting over time, so its momentum increases. Momentum is only conserved when the net external impulse on the system is zero. (For the ball + Earth system, it would be conserved.)"
+  "x": "For the ball alone, gravity is an external force acting over time, so its momentum increases. Momentum is only conserved when the net external impulse on the system is zero. (For the ball + Earth system, it would be conserved.)",
+  "sim": {
+   "type": "fall"
+  }
  }
 ]
 </script>
 <script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/sims.js"></script>
 <script src="../../assets/js/site.js"></script>
 </body>
 </html>

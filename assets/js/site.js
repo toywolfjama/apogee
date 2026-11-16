@@ -109,6 +109,8 @@
       const ch = target.classList.contains("chapter") ? target : target.closest(".chapter");
       if (!ch) return;
       chapters.forEach(c => c.classList.toggle("show", c === ch));
+      document.dispatchEvent(new CustomEvent("chapterchange", { detail: ch.id }));
+      requestAnimationFrame(() => revealIn(ch));
       inner.querySelectorAll(".chip[data-target]").forEach(c => {
         const on = c.dataset.target === ch.id;
         c.classList.toggle("on", on);
@@ -162,6 +164,7 @@
         const ex = card.querySelector(".expl");
         ex.innerHTML = (j === it.a ? '<b style="color:var(--good)">Correct.</b> ' : `<b style="color:var(--bad)">Incorrect.</b> The answer is ${letter(it.a)}. `) + it.x;
         ex.classList.add("show");
+        if (card._sim) card._sim.reveal();
       }
       function render() {
         qs.innerHTML = "";
@@ -170,12 +173,17 @@
           const card = document.createElement("div");
           card.className = "qcard";
           const tagName = tags && tags[it.t] ? `<span class="pill ${it.t}">${tags[it.t].toUpperCase()}</span>` : "";
-          card.innerHTML = `<div class="qh"><span>Question ${i + 1}</span>${tagName}</div><div class="qt">${it.q}</div><div class="opts"></div><div class="expl"></div>`;
+          card.innerHTML = `<div class="qh"><span>Question ${i + 1}</span>${tagName}</div><div class="qt">${it.q}</div>${it.sim ? '<div class="qsim"></div>' : ""}<div class="opts"></div><div class="expl"></div>`;
+          if (it.sim && window.Sims) card._sim = window.Sims.mount(card.querySelector(".qsim"), it.sim);
           it.o.forEach((o, j) => {
             const b = document.createElement("button");
             b.className = "opt";
             b.textContent = `${letter(j)}. ${o}`;
-            b.addEventListener("click", () => { if (answered[i] !== undefined) return; answered[i] = j; paint(i, card); score(); });
+            b.addEventListener("click", () => {
+              if (answered[i] !== undefined) return;
+              answered[i] = j; paint(i, card); score();
+              card.classList.add(j === it.a ? "got-it" : "missed");
+            });
             card.querySelector(".opts").appendChild(b);
           });
           qs.appendChild(card);
@@ -204,6 +212,78 @@
       </div>`).join("");
   }
 
+  /* ---------- motion ---------- */
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let io = null;
+  if (!reduce && "IntersectionObserver" in window) {
+    io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0, rootMargin: "0px 0px -30px 0px" });
+  }
+  function revealIn(scope) {
+    if (!io) return;
+    scope.querySelectorAll(".topic, .course-card, .qcard").forEach((el, k) => {
+      if (el.classList.contains("in")) return;
+      el.classList.add("rv");
+      el.style.transitionDelay = Math.min(k, 4) * 60 + "ms";
+      io.observe(el);
+    });
+  }
+  // smooth open/close for deep explanations
+  document.querySelectorAll("details.deep").forEach(d => {
+    const sum = d.querySelector("summary"), body = d.querySelector(".deep-body");
+    if (reduce || !body) return;
+    sum.addEventListener("click", e => {
+      e.preventDefault();
+      if (d.dataset.anim) return;
+      d.dataset.anim = 1;
+      if (!d.open) {
+        d.open = true;
+        const h = body.scrollHeight;
+        body.animate([{ height: "0px", opacity: 0 }, { height: h + "px", opacity: 1 }], { duration: 320, easing: "cubic-bezier(.2,.7,.2,1)" }).onfinish = () => delete d.dataset.anim;
+      } else {
+        const h = body.scrollHeight;
+        body.animate([{ height: h + "px", opacity: 1 }, { height: "0px", opacity: 0 }], { duration: 240, easing: "ease-in" }).onfinish = () => { d.open = false; delete d.dataset.anim; };
+      }
+    });
+  });
+  // starfield background
+  function starfield() {
+    const cv = document.createElement("canvas");
+    cv.className = "stars"; cv.setAttribute("aria-hidden", "true");
+    body.prepend(cv);
+    const c = cv.getContext("2d");
+    let stars = [], w, h, dpr;
+    function init() {
+      dpr = Math.min(2, devicePixelRatio || 1); w = innerWidth; h = innerHeight;
+      cv.width = w * dpr; cv.height = h * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round((w * h) / 5200);
+      stars = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.3 + 0.2, s: Math.random() * 0.25 + 0.03, p: Math.random() * 6.28, z: Math.random() }));
+    }
+    let shoot = null, lastShoot = 0;
+    function frame(now) {
+      c.clearRect(0, 0, w, h);
+      const par = scrollY * 0.04;
+      for (const st of stars) {
+        if (!reduce) { st.x -= st.s * 0.25; if (st.x < -2) st.x = w + 2; }
+        const a = 0.35 + 0.55 * (0.5 + 0.5 * Math.sin(now / 900 * (0.5 + st.z) + st.p));
+        c.globalAlpha = a; c.fillStyle = st.z > 0.85 ? "#eafe07" : st.z > 0.7 ? "#9fd0ff" : "#ffffff";
+        c.beginPath(); c.arc(st.x, (st.y - par * st.z + h) % h, st.r, 0, 7); c.fill();
+      }
+      if (!reduce) {
+        if (!shoot && now - lastShoot > 7000 && Math.random() < 0.01) { shoot = { x: Math.random() * w * 0.7 + w * 0.3, y: Math.random() * h * 0.4, t: 0 }; lastShoot = now; }
+        if (shoot) {
+          shoot.t += 0.025; const k = shoot.t, x = shoot.x - k * 260, y = shoot.y + k * 120;
+          const g = c.createLinearGradient(x, y, x + 90, y - 42); g.addColorStop(0, "rgba(255,255,255,.9)"); g.addColorStop(1, "rgba(255,255,255,0)");
+          c.globalAlpha = 1 - k; c.strokeStyle = g; c.lineWidth = 1.6; c.beginPath(); c.moveTo(x, y); c.lineTo(x + 90, y - 42); c.stroke();
+          if (k >= 1) shoot = null;
+        }
+      }
+      c.globalAlpha = 1;
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    init(); addEventListener("resize", init); requestAnimationFrame(frame);
+  }
+  starfield();
+
   // add chevron to every deep-dive summary
   document.querySelectorAll("details.deep > summary").forEach(s => {
     if (!s.querySelector(".chev")) s.insertAdjacentHTML("beforeend", '<span class="chev" aria-hidden="true">▾</span>');
@@ -213,4 +293,13 @@
   buildChapters(header);
   buildQuizzes();
   buildCourseList();
+  if (window.Sims) window.Sims.mountAll();
+  // reveal problem-set animations when their solution is opened
+  document.querySelectorAll(".qcard details.reveal").forEach(d => d.addEventListener("toggle", () => {
+    if (!d.open) return;
+    d.closest(".qcard").querySelectorAll(".sim").forEach(el => el._ctl && el._ctl.reveal());
+  }));
+  revealIn(document);
+  // quiz cards are re-rendered on filter changes
+  document.querySelectorAll(".quiz").forEach(q => new MutationObserver(() => revealIn(q)).observe(q, { childList: true, subtree: true }));
 })();
