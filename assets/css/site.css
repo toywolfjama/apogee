@@ -223,3 +223,9 @@ details.deep[open]{box-shadow:0 0 0 1px rgba(234,254,7,.25),0 0 30px rgba(234,25
   *,*::before,*::after{animation:none!important;transition:none!important}
   .rv{opacity:1;transform:none}
 }
+
+/* keep the Courses menu above the chapter buttons */
+.topbar > .in{position:relative;z-index:3}
+.chapterbar{position:relative;z-index:1}
+.dd{z-index:4}
+.dd-menu{z-index:100;max-height:calc(100vh - 90px);overflow-y:auto}
