@@ -324,6 +324,18 @@
   buildQuizzes();
   buildCourseList();
   if (window.Sims) window.Sims.mountAll();
+  // checkboxes that remember their state (test review checklist)
+  const remember = [...document.querySelectorAll("input[data-remember]")];
+  function trUpdate() {
+    const n = remember.filter(c => c.checked).length, el = document.getElementById("tr-count"), bar = document.getElementById("tr-bar");
+    if (el) el.textContent = n + " of " + remember.length + " ready" + (n === remember.length && n ? ". You're ready!" : "");
+    if (bar) bar.style.width = (remember.length ? (n / remember.length) * 100 : 0) + "%";
+  }
+  remember.forEach(c => {
+    try { c.checked = localStorage.getItem(c.dataset.remember) === "1"; } catch (e) {}
+    c.addEventListener("change", () => { try { localStorage.setItem(c.dataset.remember, c.checked ? "1" : "0"); } catch (e) {} trUpdate(); });
+  });
+  trUpdate();
   // reveal problem-set animations when their solution is opened
   document.querySelectorAll(".qcard details.reveal").forEach(d => d.addEventListener("toggle", () => {
     if (!d.open) return;

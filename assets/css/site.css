@@ -305,3 +305,21 @@ div.opt{cursor:default}
 .chip.hard .n{background:var(--red);color:#fff}
 
 body.no-timer .ex-timer{display:none}
+
+/* ===== test review checklist ===== */
+.tr-progress{display:flex;align-items:center;gap:14px;background:rgba(0,66,166,.4);border-radius:12px;padding:12px 16px;margin:6px 0 16px;font-weight:700}
+.tr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.tr-card{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);background:rgba(7,23,63,.45);border-radius:14px;padding:14px;cursor:pointer;transition:border-color .2s,background .2s}
+.tr-card:hover{border-color:rgba(46,150,245,.5)}
+.tr-card input{position:absolute;opacity:0;pointer-events:none}
+.tr-check{flex:none;width:24px;height:24px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;margin-top:2px;transition:all .2s}
+.tr-card input:checked ~ .tr-check{background:var(--good);border-color:var(--good)}
+.tr-card input:checked ~ .tr-check::after{content:"✓";color:var(--space);font-weight:900;font-size:15px}
+.tr-card input:checked ~ .tr-body b{text-decoration:line-through;text-decoration-color:rgba(255,255,255,.4)}
+.tr-card:has(input:checked){border-color:rgba(62,227,154,.5);background:rgba(62,227,154,.06)}
+.tr-card input:focus-visible ~ .tr-check{outline:2px solid var(--sky);outline-offset:2px}
+.tr-body{display:flex;flex-direction:column;gap:5px;font-size:15px}
+.tr-top{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.tr-text{color:#dfe6f7}
+.tr-link{font-size:13.5px;font-weight:700;text-decoration:none;color:var(--sky);align-self:flex-start}
+.tr-link:hover{color:var(--yellow)}
