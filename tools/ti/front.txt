@@ -1,0 +1,94 @@
+Lbl M
+Menu("PHYSNOTE","FIND WHAT?",FW,"HIDDEN VALUES",H0,"NOTES",NM,"ALL SOLVERS",Z0,"CUSTOM",U0,"SET G (10/9.8)",ZZ,"QUIT",Q
+Lbl FW
+Menu("FIND WHAT?","SPEED/VELOCITY",F1,"HEIGHT/DISTANCE",F2,"FORCE",F3,"ENERGY/WORK/HEAT",F4,"POWER",F5,"IMPULSE/MOMENTUM",F6,"BACK",M
+Lbl F1
+Menu("WHAT HAPPENS?","DROP OR HILL",Y1,"COASTER POINTS",C8,"RAMP W FRICTION",C4,"AFTER CRASH",F7,"AFTER PUSH/FORCE",F8,"MORE",F9,"BACK",FW
+Lbl F9
+Menu("SPEED MORE","SPRING LAUNCH",Y6,"PENDULUM",YP,"LOOP TOP",C6,"RAMP THEN CRASH",Q1,"BULLET+BLOCK",Q2,"PUSH/PULL BOX",B1,"BACK",F1
+Lbl F7
+Menu("AFTER CRASH","STUCK TOGETHER",Y8,"BOUNCE 1 KNOWN",Y9,"BOUNCE ELASTIC",E1,"PUSH APART",W1,"3+ OBJECTS",U3,"BACK",F1
+Lbl F8
+Menu("AFTER A FORCE","FORCE FOR TIME",W2,"F-T GRAPH",E2,"PUSH/PULL BOX",B1,"BACK",F1
+Lbl F2
+Menu("HEIGHT/DISTANCE","MAX HEIGHT",Y2,"BRAKING DISTANCE",X2,"2X SPEED DIST",X1,"SLIDE TO STOP",X4,"SPRING SQUISH",S1,"MORE",G1,"BACK",FW
+Lbl G1
+Menu("HEIGHT/DIST MORE","SPRING+FRICTION",S2,"MIN LOOP HEIGHT",C5,"BULLET SWING H",Q2,"CRASH THEN SLIDE",Q3,"PENDULUM HEIGHT",YP,"BACK",F2
+Lbl F3
+Menu("FORCE","PUSH/PULL BOX",B1,"FRICTION FLAT",B3,"BRAKING FORCE",X3,"IMPULSE FORCE",W3,"COASTER TRACK",G2,"RAMP FORCES",C4,"BACK",FW
+Lbl G2
+Menu("TRACK FORCE","HILL OR VALLEY",C2,"TOP OF LOOP",C6,"BOTTOM OF LOOP",C7,"PENDULUM TENSION",YP,"BACK",F3
+Lbl F4
+Menu("ENERGY/WORK/HEAT","WORK BY A FORCE",Y4,"HEAT/FRICTION",Y7,"SPRING ENERGY",Y6,"KE OR PE ONLY",U1,"ANY ENERGY E=E'",U2,"KE LOST CRASH",Y8,"BACK",FW
+Lbl F5
+Menu("POWER","LIFT/CLIMB",B2,"CHAIN LIFT",C3,"FORCE+DIST+TIME",Y4,"BACK",FW
+Lbl F6
+Menu("IMPULSE/MOMENTUM","MOMENTUM P=MV",V6,"IMPULSE FROM F*T",W2,"F-T GRAPH",E2,"FORCE FROM DV",W3,"VELOCITY AFTER",F7,"BACK",FW
+Lbl H0
+Menu("HIDDEN VALUES","WEIGHT TO MASS",H1,"RAMP HEIGHT",H2,"SPEED FROM KE",H3,"SPEED FROM P",H4,"HEIGHT FROM PE",H5,"MASS FROM P/KE",H6,"BACK",M
+Lbl H1
+ClrHome
+Disp "WEIGHT TO MASS","WEIGHT IS IN NEWTONS"
+Input "WEIGHT (N) ",W
+"GIVEN"+"!"+"WEIGHT="+toString(round(W,3))+" N"+"!"+"W=MG"+"!"+"M=W/G"+"!"+"M="+toString(round(W,3))+"/"+toString(round(G,3))+"!"+"MASS="+toString(round(W/G,3))+" KG"→Str0
+"H0"→Str7
+Goto WK
+Lbl H2
+ClrHome
+Disp "RAMP HEIGHT","1=HAVE LENGTH, FIND H","2=HAVE H, FIND LENGTH"
+Input "1 OR 2? ",Z
+Input "ANGLE (DEG) ",θ
+If Z=2
+Goto H7
+Input "LENGTH (M) ",L
+"GIVEN!LENGTH="+toString(L)+" M!ANGLE="+toString(θ)+"!H=L*SIN θ!H="+toString(L)+"*"+toString(round(sin(θ),3))+"!HEIGHT="+toString(round(Lsin(θ),3))+" M"→Str0
+"H0"→Str7
+Goto WK
+Lbl H7
+Input "HEIGHT (M) ",H
+"GIVEN!HEIGHT="+toString(H)+" M!ANGLE="+toString(θ)+"!L=H/SIN θ!L="+toString(H)+"/"+toString(round(sin(θ),3))+"!LENGTH="+toString(round(H/sin(θ),3))+" M"→Str0
+"H0"→Str7
+Goto WK
+Lbl H3
+ClrHome
+Disp "SPEED FROM KE","KE=1/2MV²"
+Input "KE (J) ",K
+Input "MASS (KG) ",M
+"GIVEN"+"!"+"KE="+toString(round(K,3))+" J"+"!"+"MASS="+toString(round(M,3))+" KG"+"!"+"KE=1/2MV²"+"!"+"V=SQRT(2KE/M)"+"!"+"V=SQRT(2*"+toString(round(K,3))+"/"+toString(round(M,3))+")"→Str0
+Str0+"!"+"V=SQRT("+toString(round(2K/M,3))+")"+"!"+"SPEED="+toString(round(√(2K/M),3))+" M/S"→Str0
+"H0"→Str7
+Goto WK
+Lbl H4
+ClrHome
+Disp "SPEED FROM P","P=MV"
+Input "P (KGM/S) ",P
+Input "MASS (KG) ",M
+"GIVEN"+"!"+"P="+toString(round(P,3))+" KGM/S"+"!"+"MASS="+toString(round(M,3))+" KG"+"!"+"P=MV"+"!"+"V=P/M"+"!"+"V="+toString(round(P,3))+"/"+toString(round(M,3))→Str0
+Str0+"!"+"SPEED="+toString(round(P/M,3))+" M/S"→Str0
+"H0"→Str7
+Goto WK
+Lbl H5
+ClrHome
+Disp "HEIGHT FROM PE","UG=MGH"
+Input "PE (J) ",U
+Input "MASS (KG) ",M
+"GIVEN"+"!"+"PE="+toString(round(U,3))+" J"+"!"+"MASS="+toString(round(M,3))+" KG"+"!"+"UG=MGH"+"!"+"H=UG/(MG)"+"!"+"H="+toString(round(U,3))+"/("+toString(round(M,3))+"*"+toString(round(G,3))+")"→Str0
+Str0+"!"+"HEIGHT="+toString(round(U/(MG),3))+" M"→Str0
+"H0"→Str7
+Goto WK
+Lbl H6
+ClrHome
+Disp "MASS","1=KNOW MOMENTUM P","2=KNOW KE"
+Input "1 OR 2? ",Z
+Input "SPEED (M/S) ",V
+If Z=2
+Goto H8
+Input "P (KGM/S) ",P
+"GIVEN!P="+toString(P)+"!V="+toString(V)+" M/S!P=MV!M=P/V="+toString(P)+"/"+toString(V)+"!MASS="+toString(round(P/V,3))+" KG"→Str0
+"H0"→Str7
+Goto WK
+Lbl H8
+Input "KE (J) ",K
+"GIVEN!KE="+toString(K)+" J!V="+toString(V)+" M/S!KE=1/2MV²!M=2KE/V²!M=2*"+toString(K)+"/"+toString(V)+"²!MASS="+toString(round(2K/V²,3))+" KG"→Str0
+"H0"→Str7
+Goto WK

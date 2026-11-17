@@ -1,0 +1,846 @@
+Lbl ZZ
+Degree
+ClrHome
+Disp "SOLVER","TYPE 10 OR 9.8"
+Input "G=",G
+If G≤0
+10→G
+Goto M
+Lbl Z0
+Menu("SOLVER","ENERGY",Z1,"COASTER+RAMP",Z3,"BOXES+FORCES",Z4,"MOMENTUM",Z2,"MULTI STEP",Z5,"CUSTOM",U0,"BACK",M
+Lbl Z1
+Menu("ENERGY","HEIGHT AND SPEED",YH,"BRAKING",Y3,"WORK+POWER",Y4,"SPRING",YS,"PENDULUM",YP,"BACK",Z0
+Lbl YH
+Menu("HEIGHT AND SPEED","FIND SPEED",Y1,"FIND MAX HEIGHT",Y2,"FIND HEAT LOST",Y7,"BACK",Z1
+Lbl Y1
+ClrHome
+Disp "FIND SPEED","DROP,HILL,BALL","ROLLING,COASTER","0 IF AT REST","0 IF AT BOTTOM"
+Input "START HEIGHT ",H
+Input "START SPEED ",U
+Input "END HEIGHT ",J
+U²+2G(H-J)→R
+ClrHome
+Disp "E=E'","1/2MV1²+MGH1=","1/2MV2²+MGH2","V2=SQRT(V1²","  +2G(H1-H2))"
+If R<0
+Then
+Disp "CANT REACH","THAT HEIGHT"
+Else
+Disp "SPEED (M/S)=",round(√(R),3)
+End
+Pause
+Goto YH
+Lbl Y2
+ClrHome
+Disp "MAX HEIGHT"
+Input "START HEIGHT ",H
+Input "SPEED THERE ",U
+H+U²/(2G)→R
+ClrHome
+Disp "E=E'","1/2MV²+MGH1","  =MGH2","H2=H1+V²/(2G)","MAX HEIGHT (M)=",round(R,3)
+Pause
+Goto YH
+Lbl Y7
+ClrHome
+Disp "HEAT LOST"
+Input "MASS (KG) ",M
+Input "START HEIGHT ",H
+Input "START SPEED ",U
+Input "END HEIGHT ",J
+Input "END SPEED ",V
+MGH+.5MU²-(MGJ+.5MV²)→R
+ClrHome
+Disp "E=E'+HEAT","HEAT=E START","  -E END","E=MGH+1/2MV²","HEAT (J)=",round(R,3)
+Pause
+Goto YH
+Lbl Y3
+Menu("BRAKING","SPEED CHANGES",X1,"FIND DISTANCE",X2,"FIND FORCE",X3,"FROM MU",X4,"BACK",Z1
+Lbl X1
+ClrHome
+Disp "SPEED CHANGES","DOUBLE=2 HALF=.5"
+Input "OLD DISTANCE ",D
+Input "SPEED TIMES ",S
+ClrHome
+Disp "W=CHANGE IN KE","D GOES WITH V²","D2=D1*(V2/V1)²","NEW DISTANCE=",round(DS²,3)
+Pause
+Goto Y3
+Lbl X2
+ClrHome
+Disp "FIND DISTANCE"
+Input "MASS (KG) ",M
+Input "SPEED (M/S) ",V
+Input "BRAKE FORCE ",F
+ClrHome
+Disp "F*D=1/2MV²","D=MV²/(2F)","DISTANCE (M)=",round(MV²/(2F),3)
+Pause
+Goto Y3
+Lbl X3
+ClrHome
+Disp "FIND FORCE"
+Input "MASS (KG) ",M
+Input "SPEED (M/S) ",V
+Input "DISTANCE (M) ",D
+ClrHome
+Disp "F*D=1/2MV²","F=MV²/(2D)","FORCE (N)=",round(MV²/(2D),3)
+Pause
+Goto Y3
+Lbl X4
+ClrHome
+Disp "STOP WITH MU","FLAT GROUND"
+Input "SPEED (M/S) ",V
+Input "MU (FRICTION) ",Q
+ClrHome
+Disp "MU*MG*D=1/2MV²","D=V²/(2*MU*G)","DISTANCE (M)=",round(V²/(2QG),3),"T=V/(MU*G)","TIME (S)=",round(V/(QG),3)
+Pause
+Goto Y3
+Lbl Y4
+ClrHome
+Disp "WORK+POWER","LIFTING? FORCE","  =MASS*G","ANGLE 0=SAME DIR","180=AGAINST"
+Input "FORCE (N) ",F
+Input "DISTANCE (M) ",D
+Input "ANGLE (DEG) ",θ
+Input "TIME (0=SKIP) ",T
+FDcos(θ)→W
+ClrHome
+Disp "W=F*D*COS θ","WORK (J)=",round(W,3)
+If T>0
+Then
+Disp "P=W/T","POWER (W)=",round(W/T,3),"AVG SPEED=D/T","P=F*V"
+End
+Pause
+Goto Z1
+Lbl YS
+Menu("SPRING","ENERGY+LAUNCH",Y6,"FIND COMPRESSION",S1,"SPRING+FRICTION",S2,"BACK",Z1
+Lbl Y6
+ClrHome
+Disp "SPRING"
+Input "K (N/M) ",K
+Input "X (M) ",X
+Input "MASS (0=SKIP) ",M
+.5KX²→R
+ClrHome
+Disp "US=1/2KX²","ENERGY (J)=",round(R,3)
+If M>0
+Then
+Disp "1/2KX²=1/2MV²","V=X*SQRT(K/M)",round(X√(K/M),3),"1/2KX²=MGH","H=KX²/(2MG)",round(R/(MG),3)
+End
+Pause
+Goto YS
+Lbl S1
+ClrHome
+Disp "BLOCK HITS","SPRING, FIND X"
+Input "MASS (KG) ",M
+Input "SPEED (M/S) ",V
+Input "K (N/M) ",K
+ClrHome
+Disp "1/2MV²=1/2KX²","X=V*SQRT(M/K)","COMPRESSION (M)=",round(V√(M/K),3)
+Pause
+Goto YS
+Lbl S2
+ClrHome
+Disp "SPRING PUSHES","BLOCK ON ROUGH","FLOOR,FIND DIST"
+Input "K (N/M) ",K
+Input "X (M) ",X
+Input "MASS (KG) ",M
+Input "MU (FRICTION) ",Q
+.5KX²→R
+ClrHome
+Disp "1/2KX²=MU*MG*D","D=KX²/(2*MU*MG)","SPRING E (J)=",round(R,3),"DISTANCE (M)=",round(R/(QMG),3),"(FROM RELEASE)"
+Pause
+Goto YS
+Lbl YP
+ClrHome
+Disp "PENDULUM","ANGLE FROM","STRAIGHT DOWN"
+Input "LENGTH (M) ",L
+Input "ANGLE (DEG) ",θ
+Input "MASS (0=SKIP) ",M
+L(1-cos(θ))→H
+√(2GH)→V
+ClrHome
+Disp "H=L(1-COS θ)","HEIGHT (M)=",round(H,3),"MGH=1/2MV²","V BOTTOM=",round(V,3)
+If M>0
+Then
+Disp "T=MG+MV²/L","TENSION (N)=",round(MG+MV²/L,3)
+End
+Pause
+Goto Z1
+Lbl Z3
+Menu("COASTER+RAMP","COASTER POINTS",C8,"LOOP",C1,"HILL OR VALLEY",C2,"FRICTION HEAT",Y7,"CHAIN LIFT",C3,"RAMP OR BALL",C4,"BACK",Z0
+Lbl C1
+Menu("LOOP","MIN START HEIGHT",C5,"TOP OF LOOP",C6,"BOTTOM OF LOOP",C7,"BACK",Z3
+Lbl C5
+ClrHome
+Disp "MIN HEIGHT","FOR A LOOP"
+Input "RADIUS (M) ",R
+ClrHome
+Disp "TOP V²=GR","MGH=MG(2R)","  +1/2M(GR)","H=2.5R","MIN HEIGHT (M)=",round(2.5R,3),"MIN V TOP=",round(√(GR),3)
+Pause
+Goto C1
+Lbl C6
+ClrHome
+Disp "TOP OF LOOP","LOOP TOP=2R HIGH"
+Input "MASS (KG) ",M
+Input "START HEIGHT ",H
+Input "START SPEED ",U
+Input "RADIUS (M) ",R
+U²+2G(H-2R)→S
+ClrHome
+If S<0
+Then
+Disp "NEVER REACHES","THE TOP"
+Else
+√(S)→V
+MV²/R-MG→N
+Disp "E=E'","V TOP (M/S)=",round(V,3),"N+MG=MV²/R","N (N)=",round(N,3)
+If N<0
+Disp "N<0 FALLS OFF"
+End
+Pause
+Goto C1
+Lbl C7
+ClrHome
+Disp "BOTTOM OF LOOP"
+Input "MASS (KG) ",M
+Input "SPEED AT BOTTOM ",V
+Input "RADIUS (M) ",R
+ClrHome
+Disp "N-MG=MV²/R","N=MG+MV²/R","N (N)=",round(MG+MV²/R,3),"FEELS X WEIGHT",round((MG+MV²/R)/(MG),3)
+Pause
+Goto C1
+Lbl C2
+ClrHome
+Disp "HILL OR VALLEY","SPEED 0=FIND IT"
+Input "MASS (KG) ",M
+Input "SPEED THERE ",V
+If V=0
+Then
+Input "START HEIGHT ",H
+Input "START SPEED ",U
+Input "POINT HEIGHT ",J
+√(max(0,U²+2G(H-J)))→V
+End
+Input "RADIUS (M) ",R
+Input "TOP=1 BOTTOM=2 ",Z
+ClrHome
+Disp "SPEED (M/S)=",round(V,3)
+If Z=2
+Then
+MG+MV²/R→N
+Disp "VALLEY","N=MG+MV²/R","N (N)=",round(N,3),"FEELS HEAVIER"
+Else
+MG-MV²/R→N
+Disp "HILL TOP","N=MG-MV²/R","N (N)=",round(N,3)
+If N≤0
+Disp "N=0 WEIGHTLESS","OR LEAVES TRACK"
+End
+Pause
+Goto Z3
+Lbl C3
+ClrHome
+Disp "CHAIN LIFT","CONSTANT SPEED"
+Input "MASS (KG) ",M
+Input "HEIGHT (M) ",H
+Input "TIME (S) ",T
+ClrHome
+Disp "W=MGH","WORK (J)=",round(MGH,3),"P=W/T","POWER (W)=",round(MGH/T,3)
+Pause
+Goto Z3
+Lbl C4
+ClrHome
+Disp "RAMP OR BALL","BALL ROLLING ON","THIS TEST USE","MU=0"
+Input "MASS (KG) ",M
+Input "RAMP ANGLE ",θ
+Input "LENGTH 0=HEIGHT ",L
+If L=0
+Then
+Input "HEIGHT (M) ",H
+H/sin(θ)→L
+End
+Input "MU (0=NONE) ",Q
+Input "START SPEED ",U
+Lsin(θ)→H
+MGcos(θ)→N
+QN→F
+Gsin(θ)-QGcos(θ)→A
+U²+2AL→S
+ClrHome
+Disp "FN=MG*COS θ","NORMAL (N)=",round(N,3),"FKF=MU*FN","FRICTION (N)=",round(F,3),"A=G*SIN θ","  -MU*G*COS θ","ACCEL=",round(A,3)
+Pause
+ClrHome
+Disp "MGH=1/2MV²","  +FKF*L","HEIGHT (M)=",round(H,3)
+If S<0
+Then
+Disp "STOPS ON RAMP"
+Else
+Disp "V BOTTOM (M/S)=",round(√(S),3)
+End
+Disp "HEAT (J)=",round(FL,3)
+If A≤0 and U=0
+Disp "TAN θ≤MU","STAYS PUT"
+Pause
+Goto Z3
+Lbl Z4
+Menu("BOXES+FORCES","PUSH OR PULL",B1,"BOX ON RAMP",C4,"SLIDE TO STOP",X4,"LIFT BOX",B2,"FRICTION ONLY",B3,"BACK",Z0
+Lbl B1
+ClrHome
+Disp "PUSH OR PULL","ANGLE 0 IF FLAT"
+Input "MASS (KG) ",M
+Input "FORCE (N) ",F
+Input "ANGLE (DEG) ",θ
+Input "PULL UP=1 DOWN=2",Z
+Input "MU (0=NONE) ",Q
+Input "DISTANCE 0=SKIP",D
+Input "START SPEED ",U
+If Z=2
+Then
+MG+Fsin(θ)→N
+Else
+MG-Fsin(θ)→N
+End
+QN→K
+Fcos(θ)-K→C
+C/M→A
+ClrHome
+If Z=2
+Then
+Disp "FN=MG+F*SIN θ"
+Else
+Disp "FN=MG-F*SIN θ"
+End
+Disp "NORMAL (N)=",round(N,3),"FRICTION=MU*FN",round(K,3),"NET=F*COS θ-FKF",round(C,3),"A=FNET/M",round(A,3)
+Pause
+If D>0
+Then
+ClrHome
+Disp "W PUSH=FDCOS θ",round(FDcos(θ),3),"W FRIC=-FKF*D",round(-KD,3),"WNET=1/2MV2²","  -1/2MV1²"
+U²+2CD/M→S
+If S<0
+Then
+Disp "STOPS FIRST"
+Else
+Disp "V END (M/S)=",round(√(S),3)
+End
+Pause
+End
+Goto Z4
+Lbl B2
+ClrHome
+Disp "LIFT BOX","CONSTANT SPEED"
+Input "MASS (KG) ",M
+Input "HEIGHT (M) ",H
+Input "TIME (0=SKIP) ",T
+ClrHome
+Disp "F=MG",round(MG,3),"W=MGH","WORK (J)=",round(MGH,3)
+If T>0
+Disp "P=W/T","POWER (W)=",round(MGH/T,3)
+Pause
+Goto Z4
+Lbl B3
+ClrHome
+Disp "FRICTION ONLY","FLAT GROUND"
+Input "MASS (KG) ",M
+Input "MU (FRICTION) ",Q
+Input "DISTANCE 0=SKIP",D
+ClrHome
+Disp "FN=MG",round(MG,3),"FKF=MU*FN",round(QMG,3)
+If D>0
+Disp "W=-FKF*D","WORK (J)=",round(-QMGD,3)
+Pause
+Goto Z4
+Lbl Z2
+Menu("MOMENTUM","STICK",Y8,"BOUNCE ONE KNOWN",Y9,"ELASTIC BOTH",E1,"PUSH APART",W1,"IMPULSE",ZI,"BACK",Z0
+Lbl ZI
+Menu("IMPULSE","FIND V'",W2,"FIND FORCE",W3,"FROM F-T GRAPH",E2,"BACK",Z2
+Lbl Y8
+ClrHome
+Disp "STICK","RIGHT=+ LEFT=-"
+Input "MASS 1 (KG) ",A
+Input "SPEED 1 ",B
+Input "MASS 2 (KG) ",C
+Input "SPEED 2 ",D
+(AB+CD)/(A+C)→V
+.5AB²+.5CD²-.5(A+C)V²→R
+ClrHome
+Disp "P=P'","M1V1+M2V2=","  (M1+M2)V'","V' (M/S)=",round(V,3),"KE LOST (J)=",round(R,3)
+Pause
+Goto Z2
+Lbl Y9
+ClrHome
+Disp "BOUNCE","RIGHT=+ LEFT=-"
+Input "MASS 1 (KG) ",A
+Input "SPEED 1 ",B
+Input "MASS 2 (KG) ",C
+Input "SPEED 2 ",D
+Input "SPEED 1 AFTER ",E
+(AB+CD-AE)/C→V
+.5AB²+.5CD²-(.5AE²+.5CV²)→R
+ClrHome
+Disp "P=P'","M1V1+M2V2=","  M1V1'+M2V2'","V2' (M/S)=",round(V,3)
+If abs(R)<.01
+Then
+Disp "ELASTIC KE KEPT"
+Else
+Disp "KE LOST (J)=",round(R,3)
+End
+Pause
+Goto Z2
+Lbl E1
+ClrHome
+Disp "ELASTIC","BOTH V' UNKNOWN","RIGHT=+ LEFT=-"
+Input "MASS 1 (KG) ",A
+Input "SPEED 1 ",B
+Input "MASS 2 (KG) ",C
+Input "SPEED 2 ",D
+((A-C)B+2CD)/(A+C)→E
+((C-A)D+2AB)/(A+C)→V
+ClrHome
+Disp "P=P' AND KE=KE'","V1'=((M1-M2)V1","  +2M2V2)/(M1+M2)","V1' (M/S)=",round(E,3),"V2' (M/S)=",round(V,3),"EQUAL MASS=SWAP"
+Pause
+Goto Z2
+Lbl W1
+ClrHome
+Disp "PUSH APART","RIGHT=+ LEFT=-","0 IF AT REST"
+Input "MASS 1 (KG) ",A
+Input "MASS 2 (KG) ",C
+Input "START SPEED ",U
+Input "SPEED 1 AFTER ",E
+((A+C)U-AE)/C→V
+ClrHome
+Disp "P=P'","(M1+M2)V0=","  M1V1'+M2V2'","V2' (M/S)=",round(V,3)
+Pause
+Goto Z2
+Lbl W2
+ClrHome
+Disp "IMPULSE FIND V'","RIGHT=+ LEFT=-"
+Input "MASS (KG) ",M
+Input "START SPEED ",U
+Input "FORCE (N) ",F
+Input "TIME (S) ",T
+ClrHome
+Disp "FT=MDV","V'=V+FT/M","IMPULSE (N*S)=",round(FT,3),"V' (M/S)=",round(U+FT/M,3)
+Pause
+Goto ZI
+Lbl W3
+ClrHome
+Disp "IMPULSE FIND F","RIGHT=+ LEFT=-"
+Input "MASS (KG) ",M
+Input "START SPEED ",U
+Input "END SPEED ",V
+Input "TIME (S) ",T
+ClrHome
+Disp "FT=MDV","F=M(V'-V)/T","CHANGE IN P=",round(M(V-U),3),"FORCE (N)=",round(M(V-U)/T,3)
+Pause
+Goto ZI
+Lbl E2
+ClrHome
+Disp "F-T GRAPH AREA","RECT=1 TRI=2","ADD PIECES IF","GRAPH HAS MORE"
+Input "SHAPE ",Z
+Input "PEAK FORCE ",F
+Input "TIME WIDTH ",T
+Input "MASS (KG) ",M
+Input "START SPEED ",U
+FT→J
+If Z=2
+.5FT→J
+ClrHome
+Disp "IMPULSE=AREA","RECT=F*T","TRI=1/2F*T","IMPULSE=",round(J,3),"DV=IMPULSE/M",round(J/M,3),"V' (M/S)=",round(U+J/M,3)
+Pause
+Goto ZI
+Lbl Z5
+Menu("MULTI STEP","RAMP THEN CRASH",Q1,"BULLET+BLOCK",Q2,"CRASH THEN SLIDE",Q3,"BACK",Z0
+Lbl Q1
+ClrHome
+Disp "RAMP THEN CRASH","1 SLIDES DOWN","HITS 2 AT REST"
+Input "MASS 1 (KG) ",A
+Input "RAMP HEIGHT ",H
+Input "MASS 2 (KG) ",C
+Input "STICK=1 BOUNCE=2",Z
+√(2GH)→B
+ClrHome
+Disp "STEP 1 E=E'","V1=SQRT(2GH)",round(B,3)
+If Z=1
+Then
+AB/(A+C)→V
+Disp "STEP 2 P=P'","V'=M1V1/(M1+M2)",round(V,3),"RISE AFTER=",round(V²/(2G),3)
+Else
+Disp "STEP 2 ELASTIC","V1'=",round((A-C)B/(A+C),3),"V2'=",round(2AB/(A+C),3)
+End
+Pause
+Goto Z5
+Lbl Q2
+ClrHome
+Disp "BULLET+BLOCK","SWINGS UP","SPEED 0=FIND IT"
+Input "BULLET KG ",A
+Input "BLOCK KG ",C
+Input "BULLET SPEED ",B
+If B=0
+Then
+Input "SWING HEIGHT ",H
+√(2GH)→V
+V(A+C)/A→B
+ClrHome
+Disp "STEP 1 E=E'","V=SQRT(2GH)",round(V,3),"STEP 2 P=P'","VB=(M+MB)V/M","BULLET (M/S)=",round(B,3)
+Else
+AB/(A+C)→V
+ClrHome
+Disp "STEP 1 P=P'","V=MB*VB/(MB+M)",round(V,3),"STEP 2 E=E'","H=V²/(2G)","HEIGHT (M)=",round(V²/(2G),3)
+End
+Pause
+Goto Z5
+Lbl Q3
+ClrHome
+Disp "CRASH THEN","SLIDE TO STOP","RIGHT=+ LEFT=-"
+Input "MASS 1 (KG) ",A
+Input "SPEED 1 ",B
+Input "MASS 2 (KG) ",C
+Input "SPEED 2 ",D
+Input "MU (FRICTION) ",Q
+(AB+CD)/(A+C)→V
+ClrHome
+Disp "STEP 1 P=P'","V' (M/S)=",round(V,3),"STEP 2","MU*MG*D=1/2MV²","D=V²/(2*MU*G)","DISTANCE (M)=",round(V²/(2QG),3)
+Pause
+Goto Z5
+Lbl C8
+ClrHome
+Disp "COASTER POINTS","NO FRICTION","A = WHERE IT","    STARTS","THEN TYPE EACH","POINT'S HEIGHT","-1 = DONE"
+Pause
+ClrHome
+Disp "MASS? (KG)","TYPE 0 IF NOT","GIVEN"
+Input "MASS (KG) ",M
+ClrHome
+Disp "POINT A (START)","HOW HIGH? (M)"
+Input "HEIGHT (M) ",H
+Disp "HOW FAST? (M/S)","0 IF AT REST"
+Input "SPEED (M/S) ",U
+U²+2GH→S
+"BCDEFGHIJKLMNOPQRSTUVWXYZ"→Str8
+1→P
+Lbl C9
+ClrHome
+Disp "POINT "+sub(Str8,P,1),"HOW HIGH? (M)","0 = GROUND","-1 = DONE"
+Input "HEIGHT (M) ",J
+If J<0
+Goto Z3
+S-2GJ→R
+ClrHome
+Disp "POINT "+sub(Str8,P,1),"E=E'","V=SQRT(VA²","  +2G(HA-H))"
+If R<0
+Then
+Disp "CANT REACH IT","IT ROLLS BACK"
+Pause
+Goto Z3
+End
+√(R)→V
+Disp "SPEED (M/S)=",round(V,3)
+If M>0
+Disp "KE (J)=",round(.5MV²,3),"PE (J)=",round(MGJ,3)
+Pause
+ClrHome
+Disp "POINT "+sub(Str8,P,1),"IS THE TRACK","CURVED HERE?","1=HILL TOP","2=VALLEY BOTTOM","3=TOP OF LOOP","0=NO, SKIP"
+Input "TYPE ",Z
+If Z>0
+Then
+ClrHome
+If M=0
+Input "MASS (KG) ",M
+Disp "CURVE RADIUS (M)"
+Input "RADIUS (M) ",Q
+MV²/Q→K
+ClrHome
+Disp "POINT "+sub(Str8,P,1)
+If Z=1
+Then
+MG-K→N
+Disp "HILL TOP","N=MG-MV²/R"
+End
+If Z=2
+Then
+MG+K→N
+Disp "VALLEY BOTTOM","N=MG+MV²/R"
+End
+If Z=3
+Then
+K-MG→N
+Disp "TOP OF LOOP","N+MG=MV²/R"
+End
+Disp "TRACK FORCE N=",round(N,3)
+If N<0
+Disp "N<0 LEAVES TRACK"
+If Z=1 and abs(N)<.01
+Disp "WEIGHTLESS"
+Pause
+End
+P+1→P
+Goto C9
+Lbl U0
+Menu("CUSTOM","ONE EQUATION",U1,"ENERGY E=E'",U2,"MOMENTUM P=P'",U3,"ANY EQUATION TIP",U4,"CHANGE G",ZZ,"BACK",Z0
+Lbl U1
+Menu("PICK EQUATION","K=1/2MV²",V1,"UG=MGH",V2,"US=1/2KX²",V3,"W=FDCOS θ",V4,"P=W/T",V5,"MORE",U5,"BACK",U0
+Lbl U5
+Menu("PICK EQUATION","P=MV",V6,"FT=MDV",V7,"FKF=MU*FN",V8,"FNET=MA",V9,"F=MV²/R",VA,"BACK",U1
+Lbl V1
+"K-.5MV²"→Str1
+"KMV"→Str3
+ClrHome
+Disp "K=1/2MV²","K=KINETIC E (J)","M=MASS (KG)","V=SPEED (M/S)"
+Goto VZ
+Lbl V2
+"U-MGH"→Str1
+"UMH"→Str3
+ClrHome
+Disp "UG=MGH","U=HEIGHT E (J)","M=MASS (KG)","H=HEIGHT (M)"
+Goto VZ
+Lbl V3
+"U-.5KX²"→Str1
+"UKX"→Str3
+ClrHome
+Disp "US=1/2KX²","U=SPRING E (J)","K=SPRING K N/M","X=STRETCH (M)"
+Goto VZ
+Lbl V4
+"W-FDcos(θ)"→Str1
+"WFDθ"→Str3
+ClrHome
+Disp "W=FDCOS θ","W=WORK (J)","F=FORCE (N)","D=DISTANCE (M)","θ=ANGLE (DEG)"
+Goto VZ
+Lbl V5
+"P-W/T"→Str1
+"PWT"→Str3
+ClrHome
+Disp "P=W/T","P=POWER (W)","W=WORK (J)","T=TIME (S)"
+Goto VZ
+Lbl V6
+"P-MV"→Str1
+"PMV"→Str3
+ClrHome
+Disp "P=MV","P=MOMENTUM","M=MASS (KG)","V=VELOCITY"
+Goto VZ
+Lbl V7
+"FT-MV"→Str1
+"FTMV"→Str3
+ClrHome
+Disp "FT=MDV","F=FORCE (N)","T=TIME (S)","M=MASS (KG)","V=CHANGE IN V"
+Goto VZ
+Lbl V8
+"F-QN"→Str1
+"FQN"→Str3
+ClrHome
+Disp "FKF=MU*FN","F=FRICTION (N)","Q=MU","N=NORMAL F (N)"
+Goto VZ
+Lbl V9
+"F-MA"→Str1
+"FMA"→Str3
+ClrHome
+Disp "FNET=MA","F=NET FORCE (N)","M=MASS (KG)","A=ACCEL"
+Goto VZ
+Lbl VA
+"F-MV²/R"→Str1
+"FMVR"→Str3
+ClrHome
+Disp "F=MV²/R","F=CENTER F (N)","M=MASS (KG)","V=SPEED (M/S)","R=RADIUS (M)"
+Goto VZ
+Lbl VZ
+Disp "FIND WHICH?","TYPE THE LETTER","USE ALPHA KEY"
+Input "LETTER ",Str4
+If inStr(Str3,Str4)=0
+Then
+Disp "NOT A LETTER IN","THIS EQUATION"
+Pause
+Goto U1
+End
+String►Equ(Str1,Y₁
+ClrHome
+Disp "TYPE EACH VALUE"
+For(I,1,length(Str3
+sub(Str3,I,1)→Str5
+If Str5≠Str4
+Then
+Disp Str5+" = ?"
+Input Z
+If Str5="K"
+Z→K
+If Str5="M"
+Z→M
+If Str5="V"
+Z→V
+If Str5="U"
+Z→U
+If Str5="H"
+Z→H
+If Str5="X"
+Z→X
+If Str5="W"
+Z→W
+If Str5="F"
+Z→F
+If Str5="D"
+Z→D
+If Str5="θ"
+Z→θ
+If Str5="P"
+Z→P
+If Str5="T"
+Z→T
+If Str5="Q"
+Z→Q
+If Str5="N"
+Z→N
+If Str5="A"
+Z→A
+If Str5="R"
+Z→R
+End
+End
+If Str4="K"
+solve(Y₁,K,1)→Z
+If Str4="M"
+solve(Y₁,M,1)→Z
+If Str4="V"
+solve(Y₁,V,1)→Z
+If Str4="U"
+solve(Y₁,U,1)→Z
+If Str4="H"
+solve(Y₁,H,1)→Z
+If Str4="X"
+solve(Y₁,X,1)→Z
+If Str4="W"
+solve(Y₁,W,1)→Z
+If Str4="F"
+solve(Y₁,F,1)→Z
+If Str4="D"
+solve(Y₁,D,1)→Z
+If Str4="θ"
+solve(Y₁,θ,45)→Z
+If Str4="P"
+solve(Y₁,P,1)→Z
+If Str4="T"
+solve(Y₁,T,1)→Z
+If Str4="Q"
+solve(Y₁,Q,1)→Z
+If Str4="N"
+solve(Y₁,N,1)→Z
+If Str4="A"
+solve(Y₁,A,1)→Z
+If Str4="R"
+solve(Y₁,R,1)→Z
+ClrHome
+Disp "ANSWER",Str4+" =",round(Z,4)
+Pause
+Goto U1
+Lbl U2
+Menu("E=E' FIND WHAT?","SPEED AFTER",R1,"HEIGHT AFTER",R2,"HEAT/FRICTION",R3,"WORK ADDED",R4,"SPEED BEFORE",R5,"BACK",U0
+Lbl R1
+1→O
+Goto R0
+Lbl R2
+2→O
+Goto R0
+Lbl R3
+3→O
+Goto R0
+Lbl R4
+4→O
+Goto R0
+Lbl R5
+5→O
+Goto R0
+Lbl R0
+ClrHome
+Disp "E=E'","TYPE 0 IF NOT IN","THE PROBLEM","NO MASS GIVEN?","TYPE 0, IT USES 1"
+Input "MASS (KG) ",M
+If M=0
+1→M
+ClrHome
+Disp "BEFORE"
+Input "HEIGHT (M) ",H
+If O≠5
+Input "SPEED (M/S) ",U
+Input "SPRING K ",K
+Input "SPRING X ",X
+If O≠4
+Input "WORK ADDED ",W
+ClrHome
+Disp "AFTER"
+If O≠2
+Input "HEIGHT (M) ",J
+If O≠1
+Input "SPEED (M/S) ",V
+Input "SPRING X ",Y
+If O≠3
+Input "HEAT/FRICTION ",Q
+MGH+.5KX²→B
+MGJ+.5KY²→C
+ClrHome
+Disp "E=E'","K+UG+US+W=","K'+UG'+US'+HEAT"
+If O=1
+Then
+B+.5MU²+W-C-Q→R
+If R<0
+Then
+Disp "NOT ENOUGH","ENERGY TO GET","THERE"
+Else
+Disp "SPEED AFTER=",round(√(2R/M),4)
+End
+End
+If O=2
+Disp "HEIGHT AFTER=",round((B+.5MU²+W-.5MV²-.5KY²-Q)/(MG),4)
+If O=3
+Disp "HEAT (J)=",round(B+.5MU²+W-C-.5MV²,4)
+If O=4
+Disp "WORK ADDED (J)=",round(C+.5MV²+Q-B-.5MU²,4)
+If O=5
+Then
+C+.5MV²+Q-B-W→R
+If R<0
+Then
+Disp "CHECK NUMBERS"
+Else
+Disp "SPEED BEFORE=",round(√(2R/M),4)
+End
+End
+Pause
+Goto U2
+Lbl U3
+ClrHome
+Disp "P=P'","RIGHT=+ LEFT=-","0 IF AT REST"
+Input "HOW MANY OBJ ",N
+N→dim(L₁
+N→dim(L₂
+N→dim(L₃
+For(I,1,N
+Disp "OBJECT "+sub("123456789",I,1)
+Input "MASS (KG) ",Z
+Z→L₁(I
+Input "V BEFORE ",Z
+Z→L₂(I
+End
+sum(L₁*L₂)→P
+ClrHome
+Disp "AFTER, STUCK","TOGETHER?","1=YES 0=NO"
+Input "STUCK ",S
+If S=1
+Then
+P/sum(L₁)→V
+ClrHome
+Disp "P=P'","TOTAL P=",round(P,4),"V' ALL=",round(V,4),"KE LOST (J)=",round(.5sum(L₁*L₂²)-.5sum(L₁)V²,4)
+Else
+Input "UNKNOWN OBJ # ",J
+For(I,1,N
+0→L₃(I
+If I≠J
+Then
+Disp "OBJ "+sub("123456789",I,1)+" V AFTER"
+Input Z
+Z→L₃(I
+End
+End
+(P-sum(L₁*L₃))/L₁(J)→V
+V→L₃(J
+ClrHome
+Disp "P=P'","TOTAL P=",round(P,4),"OBJ "+sub("123456789",J,1)+" V'=",round(V,4),"KE BEFORE=",round(.5sum(L₁*L₂²),4),"KE AFTER=",round(.5sum(L₁*L₃²),4)
+End
+Pause
+Goto U0
+Lbl U4
+ClrHome
+Disp "ANY EQUATION","PRESS MATH","SCROLL UP TO","SOLVER","TYPE IT AS","0=LEFT-RIGHT","PICK UNKNOWN,","ALPHA ENTER"
+Pause
+Goto U0

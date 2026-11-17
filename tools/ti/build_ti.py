@@ -1,0 +1,513 @@
+"""Build PHYSNOTE.8xp: a slide-based notes program for TI-84 Plus / Plus CE.
+Each slide = 7 lines x 16 characters (fits every TI-84 home screen). Line 8 shows navigation."""
+from tivars import TIProgram
+
+ALLOWED = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 +-*/=().,'²θ<>?")
+
+# (menu, section title, slides); each slide = up to 7 lines of <= 16 chars
+SECTIONS = [
+ ("PICK", "HOW TO PICK", [
+  ["WHICH EQUATION?",
+   "HIT/STICK/BOUNCE",
+   " OR PUSH APART",
+   "  P=P'",
+   "FORCE AND TIME",
+   "  FT=MDV",
+   "(MORE  >)"],
+  ["HEIGHT + SPEED",
+   " DROP,HILL,RAMP",
+   "  E=E'",
+   "FORCE + DISTANCE",
+   "  W=F*D",
+   "WORK AND TIME",
+   "  P=W/T"],
+  ["NO MATH?",
+   "STICK=P KEPT,",
+   "  KE LOST(HEAT)",
+   "BOUNCE=BOTH KEPT",
+   "LONGER TIME=",
+   "  SMALLER FORCE",
+   "2X SPEED=4X DIST"],
+  ["EVERY PROBLEM",
+   "1 CIRCLE ASKED",
+   "2 FIND CLUE WORD",
+   "3 WRITE EQUATION",
+   "4 LEFT=NEGATIVE",
+   "5 SOLVE STEPS",
+   "6 UNITS+CHECK"],
+  ["MULTI STEP",
+   "SPLIT AT 'THEN'",
+   "RAMP=E=E'",
+   "CRASH=P=P'",
+   "ANSWER OF STEP 1",
+   "IS START OF 2",
+   "NO E=E' IN STICK"],
+ ]),
+ ("PICK", "CLUE WORDS", [
+  ["HIDDEN ZEROS",
+   "AT REST  V=0",
+   "DROPPED  V0=0",
+   "STARTS FROM",
+   "  REST  V0=0",
+   "STOPS  V'=0",
+   "GROUND  H=0"],
+  ["MORE ZEROS",
+   "TOP OF SWING",
+   "  V=0",
+   "MAX HEIGHT",
+   " (THROWN UP) V=0",
+   "BOTTOM  H=0",
+   "NO FRICTION MU=0"],
+  ["HIDDEN NUMBERS",
+   "WEIGHT 50N",
+   "  M=50/10=5KG",
+   "CONST SPEED",
+   "  FNET=0  A=0",
+   "STICK=SAME V'",
+   "PUSH FROM REST"],
+  ["HIDDEN NUMBERS 2",
+   "  TOTAL P=0",
+   "ELASTIC=KE KEPT",
+   "LEVEL/FLAT",
+   "  NO HEIGHT CHG",
+   "RAMP H=L*SIN θ",
+   "LEFT/WEST/DOWN -"],
+  ["IF STUCK",
+   "1 LIST GIVENS",
+   "2 ADD HIDDEN 0S",
+   "3 PICK EQUATION",
+   "4 MISSING ONE?",
+   " FIND IT FIRST",
+   " W HIDDEN VALUES"],
+ ]),
+ ("ENERGY", "HEIGHT+SPEED", [
+  ["E=E'",
+   "BEFORE=AFTER",
+   "HIGH UP? ADD MGH",
+   "MOVING? ADD",
+   "  1/2MV²",
+   "SPRING? ADD",
+   "  1/2KX²"],
+  ["DROP FROM REST",
+   "MGH=1/2MV²",
+   "M CANCELS",
+   "V=SQRT(2GH)",
+   "EX H=20",
+   "2*10*20=400",
+   "SQRT(400)=20M/S"],
+  ["THROWN UP",
+   "1/2MV²=MGH",
+   "H=V²/(2G)",
+   "EX V=10",
+   "100/20=5M",
+   "",
+   "G=10 (OR 9.8)"],
+  ["START MOVING",
+   "AT HEIGHT H1",
+   "1/2V1²+GH1=",
+   "  1/2V2²+GH2",
+   "MAX HEIGHT",
+   "H=H1+V1²/(2G)",
+   ""],
+  ["WITH FRICTION",
+   "MGH=1/2MV²+HEAT",
+   "HEAT=MGH-1/2MV²",
+   "EX M=2,H=5,V=8",
+   "100-64=36J HEAT",
+   "",
+   ""],
+  ["PENDULUM",
+   "TOP V=0 ALL U",
+   "BOTTOM FASTEST",
+   "V=SQRT(2GH)",
+   "H=DROP HEIGHT",
+   "NOT STRING LEN",
+   "TENSION W=0"],
+  ["ROLLER COASTER",
+   "V AT POINT=",
+   "SQRT(2G*DROP)",
+   "DROP=START H",
+   "  -POINT H",
+   "CANT GO HIGHER",
+   "THAN START"],
+ ]),
+ ("ENERGY", "SPRINGS", [
+  ["SPRING ENERGY",
+   "US=1/2KX²",
+   "NOT ON SHEET",
+   "K=STIFFNESS N/M",
+   "X=STRETCH OR",
+   "  SQUISH (M)",
+   "2X X=4X ENERGY"],
+  ["SPRING LAUNCH",
+   "1/2KX²=1/2MV²",
+   "V=X*SQRT(K/M)",
+   "2X X=2X SPEED",
+   "STRAIGHT UP",
+   "1/2KX²=MGH",
+   "H=KX²/(2MG)"],
+ ]),
+ ("ENERGY", "WORK+POWER", [
+  ["W=F*D",
+   "W=F PARALLEL*DX",
+   "SAME DIR=+",
+   "OPPOSITE=-",
+   "SIDEWAYS=0",
+   "UNITS J",
+   "W=CHANGE IN E"],
+  ["ANGLE",
+   "W=F*D*COS θ",
+   "COS 60=.5",
+   "COS 30=.866",
+   "EX 50N AT 60",
+   "10M",
+   "50*.5*10=250J"],
+  ["EXAMPLES",
+   "LIFT M UP H",
+   "  W=MGH",
+   "CARRY SIDEWAYS",
+   "  W=0",
+   "FRICTION",
+   "  W=-F*D"],
+  ["BRAKING",
+   "F*D=1/2MV²",
+   "D=MV²/(2F)",
+   "D2=D1*(V2/V1)²",
+   "2X SPEED=4X D",
+   "3X SPEED=9X D",
+   "1/2 SPEED=1/4 D"],
+  ["NET WORK",
+   "WNET=1/2MV2²",
+   "  -1/2MV1²",
+   "CONST SPEED",
+   "  WNET=0",
+   "FNET*D=CHANGE",
+   "  IN KE"],
+  ["POWER",
+   "P=W/T=E/T",
+   "UNITS W (J/S)",
+   "CLIMB/LIFT",
+   "  P=MGH/T",
+   "CONST SPEED",
+   "  P=F*V"],
+  ["EX STAIRS",
+   "600N UP 5M",
+   "IN 10S",
+   "W=600*5=3000J",
+   "P=3000/10=300W",
+   "SAME W FASTER",
+   "=MORE POWER"],
+ ]),
+ ("ENERGY", "FRICTION+ANGLE", [
+  ["FRICTION",
+   "FKF=MU*FN",
+   "MU=ROUGHNESS",
+   "FN=NORMAL FORCE",
+   "FLAT FN=MG",
+   "STATIC",
+   "FSF<MU*FN"],
+  ["PULL AT ANGLE",
+   "PULL UP AT θ",
+   "FN=MG-F*SIN θ",
+   "PUSH DOWN AT θ",
+   "FN=MG+F*SIN θ",
+   "FN NOT = WEIGHT",
+   ""],
+  ["EX 10KG BOX",
+   "40N AT 30 UP",
+   "MG=100",
+   "40*.5=20",
+   "FN=100-20=80N",
+   "MU=.2",
+   "F=.2*80=16N"],
+  ["TRIG VALUES",
+   "SIN 30=.5",
+   "COS 30=.866",
+   "SIN 60=.866",
+   "COS 60=.5",
+   "SIN 45=.707",
+   "COS 45=.707"],
+  ["NET FORCE",
+   "FNET=SUM OF F",
+   "SAME DIR ADD",
+   "OPPOSITE SUB",
+   "FNET=MA",
+   "A=FNET/M",
+   "FNET=0 CONST V"],
+ ]),
+ ("ENERGY", "COASTERS+RAMPS", [
+  ["LOOP",
+   "TOP MIN V²=GR",
+   "MIN START H",
+   "  =2.5R",
+   "TOP N+MG=MV²/R",
+   "BOTTOM",
+   " N=MG+MV²/R"],
+  ["HILL / VALLEY",
+   "HILL TOP",
+   " N=MG-MV²/R",
+   " N=0 WEIGHTLESS",
+   "VALLEY BOTTOM",
+   " N=MG+MV²/R",
+   " FEEL HEAVIER"],
+  ["COASTER STEPS",
+   "1 SPEED FROM",
+   "  E=E'",
+   "2 FORCE FROM",
+   "  CIRCLE EQN",
+   "TOWARD CENTER",
+   "  IS +"],
+  ["RAMP",
+   "FN=MG*COS θ",
+   "DOWN RAMP",
+   "  MG*SIN θ",
+   "FKF=MU*MG*COS θ",
+   "H=L*SIN θ",
+   "SLIDES IF"],
+  ["RAMP 2",
+   "TAN θ>MU",
+   "FRICTIONLESS",
+   " V=SQRT(2GH)",
+   "WITH FRICTION",
+   " MGH=1/2MV²",
+   "  +FKF*L"],
+  ["BALL ROLLING",
+   "THIS TEST",
+   " TREAT LIKE",
+   " SLIDING",
+   " V=SQRT(2GH)",
+   "SAME SPEED ANY",
+   " RAMP SHAPE"],
+ ]),
+ ("ENERGY", "BOXES", [
+  ["PUSH OR PULL",
+   "1 FN (ANGLE?)",
+   "2 FKF=MU*FN",
+   "3 FNET=",
+   " F*COS θ-FKF",
+   "4 A=FNET/M",
+   "5 WNET=FNET*D"],
+  ["BOX SPEED",
+   "WNET=1/2MV2²",
+   "  -1/2MV1²",
+   "V2=SQRT(V1²",
+   "  +2*FNET*D/M)",
+   "CONST SPEED",
+   "  FNET=0"],
+  ["SLIDE TO STOP",
+   "MU*MG*D=1/2MV²",
+   "D=V²/(2*MU*G)",
+   "HEAT=1/2MV²",
+   "LIFT BOX",
+   "W=MGH",
+   "P=MGH/T"],
+ ]),
+ ("MOMENTUM", "COLLISIONS", [
+  ["MOMENTUM",
+   "P=MV",
+   "UNITS KG*M/S",
+   "VECTOR",
+   "RIGHT=+",
+   "LEFT=-",
+   "P=P' IN CRASH"],
+  ["STICK",
+   "M1V1+M2V2=",
+   "  (M1+M2)V'",
+   "V'=(M1V1+M2V2)",
+   "  /(M1+M2)",
+   "EX 3KG AT 4 HIT",
+   "1KG AT 0 V'=3"],
+  ["HEAD ON",
+   "LEFT MOVER V<0",
+   "EX 2KG AT +3",
+   "1KG AT -4 STICK",
+   "6-4=2",
+   "V'=2/3=.67 M/S",
+   "RIGHT"],
+  ["BOUNCE",
+   "M1V1+M2V2=",
+   "  M1V1'+M2V2'",
+   "ONE V' GIVEN?",
+   "V2'=(M1V1+M2V2",
+   "  -M1V1')/M2",
+   ""],
+  ["ELASTIC",
+   "BOUNCE",
+   "P AND KE KEPT",
+   "EQUAL MASS",
+   "1 AT REST",
+   "  SPEEDS SWAP",
+   ""],
+  ["INELASTIC",
+   "STICK",
+   "P KEPT KE LOST",
+   "KE LOST=",
+   "  KE BEFORE",
+   "  -KE AFTER",
+   "LOST=HEAT/SOUND"],
+ ]),
+ ("MOMENTUM", "EXPLOSIONS", [
+  ["PUSH APART",
+   "START AT REST",
+   "0=M1V1'+M2V2'",
+   "V2'=-M1V1'/M2",
+   "LIGHT ONE",
+   "  GOES FASTER",
+   "OPPOSITE DIRS"],
+  ["EX SKATERS",
+   "50KG AND 25KG",
+   "50KG LEFT 1M/S",
+   "0=50(-1)+25V",
+   "V=50/25=2M/S",
+   "RIGHT",
+   ""],
+  ["MOVING TOGETHER",
+   "(M1+M2)V0=",
+   "  M1V1'+M2V2'",
+   "RIFLE+BULLET",
+   "0=MRVR+MBVB",
+   "RIFLE RECOILS",
+   "BACKWARD"],
+ ]),
+ ("MOMENTUM", "IMPULSE", [
+  ["IMPULSE",
+   "IMPULSE=F*T",
+   "FT=MDV=DP",
+   "DV=V'-V",
+   "UNITS N*S",
+   "=KG*M/S",
+   "AREA F-T GRAPH"],
+  ["SOLVE FOR",
+   "F=MDV/T",
+   "T=MDV/F",
+   "V'=V+FT/M",
+   "EX 2KG AT REST",
+   "8N FOR .5S",
+   "V'=0+4/2=2M/S"],
+  ["BOUNCE",
+   "DV=V'-V",
+   "EX +4 TO -4",
+   "DV=-4-4=-8",
+   "NOT 0",
+   "BOUNCE=MORE",
+   "  IMPULSE"],
+  ["EGG/AIRBAG",
+   "SAME DP EITHER",
+   "  WAY",
+   "LONGER TIME",
+   "=SMALLER FORCE",
+   "SHEET/PILLOW/",
+   "MAT/BENT KNEES"],
+ ]),
+ ("CONCEPTS", "CONCEPTS", [
+  ["ENERGY FORMS",
+   "K MOVING",
+   "UG HIGH UP",
+   "US SPRING",
+   "THERMAL HEAT",
+   "ENERGY NEVER",
+   "  LOST, CHANGES"],
+  ["KEY FACTS",
+   "' MEANS AFTER",
+   "D MEANS CHANGE",
+   "KE NEVER < 0",
+   "P CAN BE < 0",
+   "W MASS CANCELS",
+   "  IN E=E'"],
+  ["COLLISION TYPES",
+   "STICK INELASTIC",
+   " P YES KE NO",
+   "BOUNCE ELASTIC",
+   " P YES KE YES",
+   "EXPLODE",
+   " P YES KE UP"],
+  ["SYSTEMS",
+   "P KEPT IF NO",
+   " OUTSIDE FORCE",
+   "FALLING BALL",
+   " ALONE P NOT",
+   " KEPT (GRAVITY)",
+   "3RD LAW PAIRS"],
+ ]),
+]
+
+# ---- validate and flatten ----
+slides, ranges = [], {}
+for menu, title, ss in SECTIONS:
+    start = len(slides) + 1
+    for sl in ss:
+        assert len(sl) <= 7, (title, sl)
+        for ln in sl:
+            bad = set(ln) - ALLOWED
+            assert not bad, (ln, bad)
+            assert len(ln) <= 16, (ln, len(ln))
+            assert "->" not in ln
+        slides.append((title, [ln.ljust(16) for ln in sl] + [" " * 16] * (7 - len(sl))))
+    ranges[title] = (start, len(slides))
+
+# ---- program text ----
+P = []
+add = P.append
+add("ClrHome")
+# store all slides in Str9 (7 lines x 16 chars each = 112 per slide)
+for i, (_, lines) in enumerate(slides):
+    body = "".join(lines)
+    add(('"' if i == 0 else 'Str9+"') + body + '"→Str9')
+labels = {}
+def lbl(title):
+    labels.setdefault(title, "L" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[len(labels)])
+    return labels[title]
+add("10→G")
+add("Degree")
+# entry point when started from the Units 1-3 launcher (PHYS13)
+for _l in ["If Z<77300 or Z>77399", "Goto M", "Z-77300→E", "0→Z"]:
+    add(_l)
+ENTRY = {1: "FW", 2: "Y1", 3: "C8", 4: "F7", 5: "F8", 6: "Y4", 7: "F5", 8: "Y7", 9: "Y6", 10: "B1", 11: "Y2",
+         12: "F6", 13: "H0", 14: "NM", 15: "F2", 16: "F3", 17: "G2", 18: "F4", 19: "F1"}
+for _k, _v in ENTRY.items():
+    add(f"If E={_k}"); add(f"Goto {_v}")
+for _l in open("front.txt").read().strip("\n").split("\n"):
+    add(_l)
+add("Lbl NM")
+add('Menu("NOTES","HOW TO PICK",' + lbl("HOW TO PICK") + ',"CLUE WORDS",' + lbl("CLUE WORDS") + ',"ENERGY",E,"MOMENTUM",P,"CONCEPTS",' + lbl("CONCEPTS") + ',"BACK",M')
+add("Lbl E")
+en = ["HEIGHT+SPEED", "COASTERS+RAMPS", "BOXES", "FRICTION+ANGLE", "SPRINGS", "WORK+POWER"]
+add('Menu("ENERGY",' + ",".join(f'"{t}",{lbl(t)}' for t in en) + ',"BACK",NM')
+add("Lbl P")
+mo = ["COLLISIONS", "EXPLOSIONS", "IMPULSE"]
+add('Menu("MOMENTUM",' + ",".join(f'"{t}",{lbl(t)}' for t in mo) + ',"BACK",NM')
+for title, (a, b) in ranges.items():
+    add(f"Lbl {lbl(title)}")
+    add(f"{a}→A")
+    add(f"{b}→B")
+    add("Goto S")
+add("Lbl S")
+add("A→N")
+add("Lbl D")
+add("ClrHome")
+add("For(I,1,7")
+add("Output(I,1,sub(Str9,112(N-1)+16(I-1)+1,16")
+add("End")
+add('Output(8,1,"< >MOVE CLR=MENU"')
+add("0→K")
+add("Repeat max(K={24,26,45")
+add("getKey→K")
+add("End")
+add("If K=45")
+add("Goto NM")
+add("If K=26 and N<B")
+add("N+1→N")
+add("If K=24 and N>A")
+add("N-1→N")
+add("Goto D")
+for _l in open("solver_work.txt").read().strip("\n").split("\n"):
+    add(_l)
+add("Lbl Q")
+add("ClrHome")
+add('Disp "GOOD LUCK"')
+from tilib import build
+prog = build("PHYSNOTE", P)
+src = None
+print("slides", len(slides), "sections", len(ranges), "bytes", len(prog.data))
+print(ranges)
+EOF_UNUSED = None

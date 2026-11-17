@@ -1,0 +1,61 @@
+import sys, math, re
+from tisim import *
+L=load("P1MOTION.8xp")
+def go(path, ins, expect=None, show=False, keys=(34,34,45)):
+    sc=[("menu",m) for m in path]+[("in",v) for v in ins]+[("key",k) for k in keys]+[("menu","CONTINUE")]
+    c=Calc(L,sc); c.run()
+    w=c.works[-1] if c.works else ""
+    ok=True
+    if expect:
+        for e in expect:
+            if e not in w: ok=False; print("  MISSING",e)
+    print(("OK  " if ok else "FAIL")," / ".join(path[-1:]), "| leak",c.leak)
+    if show or not ok: print("   "+w.replace("!","\n   "))
+    return c
+FW=["FIND WHAT?"]
+go(FW+["FINAL SPEED V","V0, A, T"],[3,2,5],["V=13 M/S"])
+go(FW+["FINAL SPEED V","V0, A, DX"],[0,4,50],["V=+/-20 M/S"])
+go(FW+["FINAL SPEED V","V0, A, DX"],[10,-5,20],["NEVER"])
+go(FW+["FINAL SPEED V","V0, DX, T"],[10,100,5],["V=30 M/S"])
+go(FW+["FINAL SPEED V","DROPPED FROM H"],[45],["T=3 S","V=30 M/S"])
+go(FW+["FINAL SPEED V","THROWN UP,LANDS"],[10,15],["T=3 S","V=⁻20 M/S","RISES 5 M"],show=True)
+go(FW+["DISTANCE DX","V0, A, T"],[20,2,5],["DX=125 M"])
+go(FW+["DISTANCE DX","V0, V, T"],[10,30,5],["DX=100 M"])
+go(FW+["DISTANCE DX","V0, V, A"],[20,0,-5],["DX=40 M"])
+go(FW+["DISTANCE DX","MAX HEIGHT UP"],[20],["H=20 M","T TOP=2 S","UP AND BACK=4 S"])
+go(FW+["ACCELERATION A","V0, V, T"],[20,5,3],["A=⁻5 M/S²","SLOWING"])
+go(FW+["ACCELERATION A","V0, V, DX"],[0,20,50],["A=4 M/S²"])
+go(FW+["ACCELERATION A","V0, DX, T"],[0,36,6],["A=2 M/S²"])
+go(FW+["TIME T","V0, V, A"],[20,0,-5],["T=4 S"])
+go(FW+["TIME T","V0, V, DX"],[0,20,40],["T=4 S"])
+go(FW+["TIME T","V0, A, DX"],[10,-10,-15],["T1=","T=3 S"],show=True)
+go(FW+["TIME T","V0, A, DX"],[5,0,20],["T=4 S"])
+go(FW+["TIME T","V0, A, DX"],[0,2,100],["T=10 S"])
+go(FW+["START SPEED V0","V, A, T"],[0,-5,4],["V0=20 M/S"])
+go(FW+["START SPEED V0","V, A, DX"],[0,-5,40],["V0=20 M/S"])
+go(FW+["START SPEED V0","DX, A, T"],[125,2,5],["V0=20 M/S"])
+go(FW+["START SPEED V0","HOW HIGH IT WENT"],[20],["V0=20 M/S"])
+go(["PROJECTILES","LEVEL GROUND"],[20,30],["T=2 S","RANGE=34.641 M","H=5 M"],show=True)
+go(["PROJECTILES","FLAT OFF A CLIFF"],[12,20],["T=2 S","RANGE=24 M","V=23.324 M/S"])
+go(["PROJECTILES","ANGLE + HEIGHT"],[20,30,15],["T=3 S","RANGE=51.962 M","MAX HEIGHT=20 M"])
+go(["PROJECTILES","LAUNCH SPEED"],[45,60],["V0=20 M/S"])
+go(["PROJECTILES","V AT A TIME"],[20,30,1],["Y=5 M"])
+go(["VECTORS+RIVER","COMPONENTS"],[10,37],["AX=7.986","AY=6.018"])
+go(["VECTORS+RIVER","FROM X AND Y"],[-3,4],["A=5","θ=126.87 DEG"])
+go(["VECTORS+RIVER","ADD 2 VECTORS"],[8,0,6,90],["SIZE=10","ANGLE=36.87"])
+go(["VECTORS+RIVER","RIVER BOAT"],[1,4,3,80],["T=20 S","DRIFT=60 M","5 M/S"])
+go(["VECTORS+RIVER","RIVER BOAT"],[2,5,3,80],["AIM=36.87","T=20 S"])
+go(["VECTORS+RIVER","RIVER BOAT"],[2,3,5,80],["FASTER"])
+go(["VECTORS+RIVER","RELATIVE V"],[25,-20],["V=45 M/S"])
+go(["GRAPHS","SLOPE 2 POINTS"],[0,0,4,10],["SLOPE=2.5"])
+go(["GRAPHS","AREA TRIANGLE"],[4,10],["DX=20 M"])
+go(["GRAPHS","AREA TRAPEZOID"],[5,10,30],["DX=100 M"])
+go(["GRAPHS","AREA RECTANGLE"],[2,10],["DX=20 M"])
+go(["GRAPHS","AVG SPEED+VEL"],[400,0,80],["=5 M/S","=0 M/S"])
+go(["HIDDEN VALUES","KM/H TO M/S"],[72],["V=20 M/S"])
+go(["HIDDEN VALUES","MPH TO M/S"],[60],["V=26.822 M/S"])
+c=go(["MORE","CUSTOM EQUATION","DX=V0T+1/2AT²"],["T",30,0,10],["T=2.4495"],show=True)
+c=go(["MORE","CUSTOM EQUATION","V=V0+AT"],["A",20,0,4],["A=5"])
+# notes viewer and entry dispatch
+c=Calc(L,[("menu","NOTES"),("menu","PROJECTILES"),("key",26),("key",26),("key",24),("key",45),("menu","BACK"),("menu","MORE"),("menu","QUIT")]); print("notes:",c.run(), c.menus)
+c=Calc(L,[("menu","LEVEL GROUND")]); c.V["Z"]=77113; print("entry:",c.run(), c.menus)

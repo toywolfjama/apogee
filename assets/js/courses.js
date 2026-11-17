@@ -9,8 +9,8 @@ window.SITE_COURSES = [
     name: "AP Physics 1",
     blurb: "Algebra-based mechanics: motion, forces, energy, momentum, rotation and fluids.",
     units: [
-      { id: "unit-1", name: "Unit 1: Kinematics" },
-      { id: "unit-2", name: "Unit 2: Force and Translational Dynamics" },
+      { id: "unit-1", name: "Unit 1: Kinematics", path: "courses/ap-physics-1/unit-1.html", ready: true },
+      { id: "unit-2", name: "Unit 2: Force and Translational Dynamics", path: "courses/ap-physics-1/unit-2.html", ready: true },
       { id: "unit-3", name: "Unit 3: Work, Energy & Power (+ Momentum)", path: "courses/ap-physics-1/unit-3.html", ready: true },
       { id: "unit-4", name: "Unit 4: Linear Momentum", note: "Covered in Unit 3 page for now" },
       { id: "unit-5", name: "Unit 5: Torque and Rotational Dynamics" },

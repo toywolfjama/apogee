@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP Physics 1 Unit 2: Forces and Translational Dynamics | Apogee</title>
+<meta name="description" content="AP Physics 1 Unit 2 forces review with animations, practice questions and a practice exam.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&family=Fira+Sans:wght@400;500;600;700&family=Overpass:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../" data-course="ap-physics-1" data-unit="unit-2">
+
+<div class="hero">
+  <span class="kicker">AP Physics 1 · Unit 2</span>
+  <h1>Forces and<br><span class="hl">Translational Dynamics</span></h1>
+  <p>Systems, free-body diagrams, Newton's three laws, friction, inclines, connected objects, springs, gravitation and circular motion: explanations, worked examples, detailed explanations, animated models, 41 practice questions and a timed practice exam.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="overview-u2" data-title="Overview" data-short="Overview">
+<section class="topic" id="start-u2">
+  <h2>How to use this page</h2>
+  <p class="sub">Suggested order.</p>
+  <ol class="steps">
+ <li>Start with <b>Forces & Free-Body Diagrams</b>. Almost every problem in this unit begins with a free-body diagram.</li>
+ <li>Then Newton's laws, friction, inclines, connected objects, springs, gravity and circular motion, in order.</li>
+ <li>Do the <b>Practice</b> questions, then <b>Challenge</b>, then the timed <b>Practice Exam</b>.</li>
+ <li>The class equation sheet lines for this unit are explained in <a href="#review-u2">Review</a>.</li>
+</ol>
+  
+</section>
+<section class="topic" id="core-u2">
+  <h2>Core ideas</h2>
+  
+  <p>Unit 1 described motion. Unit 2 explains it: a <b>force</b> is a push or pull from an interaction between two objects, and the <b>net force</b> on an object decides its acceleration.</p><div class="big-eq">ΣF = ma</div><div class="sim" data-sim='{"type": "fbd", "m": 10, "forces": [{"l": "F app", "F": 50, "dir": 0}, {"l": "F KF", "F": 20, "dir": 180}, {"l": "F N", "F": 100, "dir": 90}, {"l": "F G", "F": 100, "dir": 270}], "obj": "box", "ask": ["a"], "reveal": true, "caption": "Forces add as vectors; the leftover (net) force accelerates the box"}'></div><div class="grid2"><div class="mini"><h4>Every problem, same start</h4><p>Draw the object, draw every force on it, pick axes, write ΣF = ma for each direction.</p></div><div class="mini"><h4>Net force, not "the force of motion"</h4><p>Objects don't need a force to keep moving. A net force changes velocity; zero net force means constant velocity (including rest).</p></div></div>
+  
+</section>
+</div>
+<div class="chapter" id="systems-ch-u2" data-title="Systems" data-short="Systems">
+<section class="topic" id="systems-u2">
+  <h2><span class="pill e">UNIT 2.1</span>Systems and center of mass</h2>
+  <p class="sub">What you include changes which forces count.</p>
+  
+<p>A <b>system</b> is whatever objects you choose to analyze together. Forces between objects inside the system are <b>internal</b> and cancel in pairs; only <b>external</b> forces (from outside the system) can change the motion of the system as a whole.</p>
+<p>The <b>center of mass</b> is the average position of the system's mass. For objects in a line:</p>
+<div class="big-eq">x<sub>cm</sub> = (m₁x₁ + m₂x₂ + …)/(m₁ + m₂ + …)</div>
+<div class="worked"><div class="q">Worked example: A 2 kg ball sits at x = 0 and a 3 kg ball at x = 4 m. Where is the center of mass?</div><div class="a">x<sub>cm</sub> = (2·0 + 3·4)/(2 + 3) = 12/5 = <b>2.4 m</b>, closer to the heavier ball.</div></div>
+<p>The center of mass of the system moves as if all the mass were there and all the external forces acted on it. That's why you can treat a car, a person or a whole train as a single dot.</p>
+<div class="box tip"><b class="lbl">Choosing the system</b>Choose a system that makes the unknown force external if you want to find it, or internal if you want it to cancel. For two blocks pushed together, the whole pair is the easiest system for finding acceleration; one block alone is needed to find the contact force between them.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Internal and external forces</summary><div class="deep-body"><h4>Why internal forces cancel</h4><p>By Newton's third law, every internal force has an equal and opposite partner that also acts inside the system. Adding all forces on the system, each pair sums to zero, leaving only external forces.</p>
+<h4>Example</h4><p>Two blocks pushed by a hand: the hand's force is external to the two-block system, but the contact force between the blocks is internal. ΣF<sub>ext</sub> = (m₁ + m₂)a gives the acceleration directly.</p>
+<h4>Center of mass and symmetry</h4><p>For a uniform, symmetric object (a meter stick, a ball, a box), the center of mass is at the geometric center. It doesn't have to be inside the object: a ring's center of mass is in the empty middle.</p></div></details>
+</section>
+</div>
+<div class="chapter" id="forces-u2" data-title="Forces & FBDs" data-short="Forces & FBDs">
+<section class="topic" id="fbd-u2">
+  <h2><span class="pill e">UNIT 2.2</span>Forces and free-body diagrams</h2>
+  <p class="sub">The first step of every force problem.</p>
+  
+<p>A <b>free-body diagram</b> shows one object as a dot and every force acting <i>on</i> it as an arrow pointing away from the dot. Each force has a cause you can name.</p>
+<svg viewBox="0 0 300 220" role="img" aria-label="Free-body diagram: dot with arrows for normal force up, weight down, applied force right, friction left">
+<g font-size="13" fill="currentColor"><circle cx="150" cy="110" r="6"/>
+<line x1="150" y1="110" x2="150" y2="30" stroke="#2e96f5" stroke-width="3"/><polygon points="150,22 144,34 156,34" fill="#2e96f5"/><text x="158" y="36">F<tspan baseline-shift="sub" font-size="9">N</tspan></text>
+<line x1="150" y1="110" x2="150" y2="190" stroke="#eafe07" stroke-width="3"/><polygon points="150,198 144,186 156,186" fill="#eafe07"/><text x="158" y="196">F<tspan baseline-shift="sub" font-size="9">G</tspan> = mg</text>
+<line x1="150" y1="110" x2="250" y2="110" stroke="#7ee787" stroke-width="3"/><polygon points="258,110 246,104 246,116" fill="#7ee787"/><text x="226" y="100">F<tspan baseline-shift="sub" font-size="9">app</tspan></text>
+<line x1="150" y1="110" x2="80" y2="110" stroke="#ff7b72" stroke-width="3"/><polygon points="72,110 84,104 84,116" fill="#ff7b72"/><text x="50" y="100">F<tspan baseline-shift="sub" font-size="9">KF</tspan></text></g></svg>
+<div class="tblwrap"><table><tr><th>Force</th><th>Symbol (sheet)</th><th>Direction</th><th>Size</th></tr>
+<tr><td>Weight (gravity)</td><td>F<sub>G</sub></td><td>straight down</td><td>F<sub>G</sub> = mg</td></tr>
+<tr><td>Normal force</td><td>F<sub>N</sub></td><td>perpendicular to the surface, pushing out</td><td>whatever balances the perpendicular forces</td></tr>
+<tr><td>Kinetic friction</td><td>F<sub>KF</sub></td><td>along the surface, opposite sliding</td><td>F<sub>KF</sub> = μF<sub>N</sub></td></tr>
+<tr><td>Static friction</td><td>F<sub>SF</sub></td><td>along the surface, opposite the tendency to slide</td><td>F<sub>SF</sub> ≤ μF<sub>N</sub></td></tr>
+<tr><td>Tension</td><td>F<sub>T</sub></td><td>along the rope, pulling away</td><td>found from ΣF = ma</td></tr>
+<tr><td>Spring force</td><td>F<sub>S</sub></td><td>opposite the stretch or squish</td><td>F<sub>S</sub> = kx</td></tr>
+<tr><td>Applied</td><td>F<sub>app</sub></td><td>given</td><td>given</td></tr></table></div>
+<div class="box trap"><b class="lbl">Common mistake</b>Drawing "force of motion" or "ma" as an arrow. ma is the result of the forces, not one of them. If you can't say what object pushes or pulls, it isn't a force.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Drawing diagrams the exam accepts</summary><div class="deep-body"><h4>Rules graders check</h4><p>Draw arrows starting on the dot and pointing away from it. Label each with a clear symbol. Draw only forces on this object; no velocity or acceleration arrows. Make relative lengths reasonable (if the object is in equilibrium, opposite arrows should match).</p>
+<h4>Normal force isn't always mg</h4><p>F<sub>N</sub> equals mg only on a flat surface with no other vertical forces and no vertical acceleration. Pulling up on a rope at an angle reduces it; pushing down increases it; on an incline it's mg cos θ; in an accelerating elevator it's m(g + a).</p>
+<h4>Tension in an ideal rope</h4><p>A massless rope pulls with the same tension along its whole length, and an ideal (massless, frictionless) pulley only changes the direction of the tension.</p>
+<h4>Components</h4><p>For a force at an angle, replace it with its components on your axes, and then sum the forces separately in each direction.</p></div></details>
+</section>
+</div>
+<div class="chapter" id="newton-u2" data-title="Newton's Laws" data-short="Newton's Laws">
+<section class="topic" id="newton1">
+  <h2><span class="pill e">UNIT 2.4</span>Newton's first law and equilibrium</h2>
+  <p class="sub">Zero net force means constant velocity.</p>
+  
+<p>An object's velocity stays constant (including staying at rest) unless a net external force acts on it. Tendency to keep moving the same way is called <b>inertia</b>, and mass measures it.</p>
+<p><b>Equilibrium</b> means ΣF = 0, which means a = 0: the object is at rest <i>or moving at constant velocity</i>.</p>
+<div class="worked"><div class="q">Worked example: A 50 kg crate slides across the floor at a constant 2 m/s while a worker pushes with 150 N. What is the friction force?</div><div class="a">Constant velocity → a = 0 → ΣF = 0. Friction must equal the push: <b>150 N</b> backward. (The 2 m/s doesn't matter.)</div></div>
+<div class="box trap"><b class="lbl">Common mistake</b>Thinking a moving object must have a net force in its direction of motion. A hockey puck sliding on ice keeps moving with no forward force at all.</div>
+
+  
+</section>
+<section class="topic" id="newton2">
+  <h2><span class="pill e">UNIT 2.5</span>Newton's second law</h2>
+  <p class="sub">The main equation of the unit.</p>
+  
+<div class="big-eq">ΣF = ma</div>
+<p>The net force (vector sum of all forces) equals mass times acceleration, and the acceleration points the same way as the net force.</p>
+<h3>Method</h3><ol class="steps"><li>Draw the free-body diagram.</li><li>Pick axes, one along the acceleration if you know its direction.</li><li>Write ΣF = ma for each axis: forces in the + direction minus forces in the − direction.</li><li>Solve.</li></ol>
+<div class="worked"><div class="q">Worked example: A 20 kg box on a floor (μ = 0.30) is pulled horizontally with 100 N. Find its acceleration.</div><div class="a">F<sub>G</sub> = mg = 200 N, so F<sub>N</sub> = 200 N. F<sub>KF</sub> = μF<sub>N</sub> = 0.30 × 200 = 60 N. ΣF = 100 − 60 = 40 N. a = 40/20 = <b>2.0 m/s²</b>.</div></div>
+<div class="sim" data-sim='{"type": "fbd", "m": 20, "forces": [{"l": "F app", "F": 100, "dir": 0}, {"l": "F KF", "F": 60, "dir": 180}, {"l": "F N", "F": 200, "dir": 90}, {"l": "F G", "F": 200, "dir": 270}], "obj": "box", "ask": ["F", "a"], "reveal": true, "caption": "20 kg box: 100 N pull, 60 N friction"}'></div>
+<h3>Elevators</h3>
+<p>The scale reading is the normal force. Taking up as positive: F<sub>N</sub> − mg = ma, so <span class="eq">F<sub>N</sub> = m(g + a)</span>.</p>
+<div class="sim" data-sim='{"type": "elevator", "m": 60, "a": 2, "ask": ["N"], "reveal": true, "caption": "60 kg person, elevator accelerating upward at 2 m/s²"}'></div>
+<div class="worked"><div class="q">Worked example: A 60 kg person stands on a scale in an elevator accelerating upward at 2.0 m/s². What does the scale read? What if it accelerates downward at 2.0 m/s²?</div><div class="a">Up: F<sub>N</sub> = 60(10 + 2) = <b>720 N</b>. Down: F<sub>N</sub> = 60(10 − 2) = <b>480 N</b>. Moving at constant speed either way: 600 N.</div></div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Getting ΣF = ma right every time</summary><div class="deep-body"><h4>Signs</h4><p>Choose positive in the direction of acceleration (if known). Forces that way are +, forces against it are −. If you get a negative acceleration, the object accelerates the other way.</p>
+<h4>Two axes, two equations</h4><p>Perpendicular to the surface, the object usually doesn't accelerate, so ΣF = 0 there; that's how you find F<sub>N</sub>. Along the surface, ΣF = ma gives the acceleration.</p>
+<h4>Elevator logic</h4><p>The scale reads more than mg whenever the acceleration is upward: speeding up going up, or slowing down going down. It reads less when the acceleration is downward. Velocity direction doesn't matter, only acceleration. In free fall (a = −g), the scale reads zero.</p>
+<h4>Mass vs. weight</h4><p>Mass (kg) is how much stuff and is the same everywhere. Weight (N) is the gravitational force, mg, and depends on g.</p></div></details>
+</section>
+<section class="topic" id="newton3">
+  <h2><span class="pill e">UNIT 2.3</span>Newton's third law</h2>
+  <p class="sub">Forces come in pairs that act on different objects.</p>
+  
+<p>When object A pushes on object B, B pushes back on A with a force of the <b>same size</b> in the <b>opposite direction</b>. The two forces act on <b>different objects</b>, so they never cancel each other.</p>
+<div class="worked"><div class="q">Worked example: A truck collides with a small car. Which feels the larger force? Which has the larger acceleration?</div><div class="a">The forces are <b>equal</b> in size (third-law pair). The car has much less mass, so by a = F/m its acceleration is <b>much larger</b>.</div></div>
+<div class="tblwrap"><table><tr><th>Force</th><th>Its third-law partner</th></tr>
+<tr><td>Earth pulls the book down (weight)</td><td>Book pulls Earth up</td></tr>
+<tr><td>Table pushes the book up (normal)</td><td>Book pushes the table down</td></tr></table></div>
+<div class="box trap"><b class="lbl">Common mistake</b>Calling weight and normal force a third-law pair. They act on the same object (the book) and are different types of force; they're only equal when nothing else acts vertically and there's no vertical acceleration.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="friction-ch-u2" data-title="Friction & Inclines" data-short="Friction & Inclines">
+<section class="topic" id="friction-u2">
+  <h2><span class="pill e">UNIT 2.7</span>Static and kinetic friction</h2>
+  <p class="sub">The equation sheet lines F<sub>KF</sub> = μF<sub>N</sub> and F<sub>SF</sub> ≤ μF<sub>N</sub>.</p>
+  
+<div class="grid2"><div class="mini"><h4>Kinetic (sliding)</h4><p><span class="eq">F<sub>KF</sub> = μF<sub>N</sub></span> (μ is the kinetic coefficient). Constant size while sliding, opposite the motion.</p></div>
+<div class="mini"><h4>Static (not sliding)</h4><p><span class="eq">F<sub>SF</sub> ≤ μF<sub>N</sub></span>. It matches whatever push is applied, up to a maximum. Push harder than the max and the object starts to slide.</p></div></div>
+<div class="worked"><div class="q">Worked example: A 20 kg crate sits on a floor. μ<sub>s</sub> = 0.40 and μ<sub>k</sub> = 0.30. A worker pushes with 50 N, then 100 N. What happens each time?</div><div class="a">F<sub>N</sub> = 200 N. Maximum static friction = 0.40 × 200 = 80 N. At 50 N, static friction matches the push: friction = <b>50 N</b>, the crate stays put. At 100 N (> 80 N) it slides; kinetic friction = 0.30 × 200 = 60 N, so a = (100 − 60)/20 = <b>2.0 m/s²</b>.</div></div>
+<div class="box trap"><b class="lbl">Common mistake</b>Using F<sub>SF</sub> = μF<sub>N</sub> for an object that isn't about to slip. Static friction is only equal to μF<sub>N</sub> at the point of slipping; otherwise it's just as big as needed.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Friction in more depth</summary><div class="deep-body"><h4>Why static is usually bigger</h4><p>Surfaces at rest settle into tighter contact, so it takes more force to start sliding than to keep sliding: μ<sub>s</sub> > μ<sub>k</sub> for most pairs of surfaces.</p>
+<h4>Friction can point forward</h4><p>When you walk, your foot pushes back on the ground and static friction pushes you forward. A car's tires work the same way. Friction opposes slipping between the surfaces, not motion in general.</p>
+<h4>Area doesn't matter</h4><p>In the AP model, friction depends only on μ and F<sub>N</sub>, not on contact area or speed.</p>
+<h4>Changing the normal force</h4><p>Pulling a sled with a rope angled upward reduces F<sub>N</sub> (F<sub>N</sub> = mg − F sin θ), which reduces friction. Pushing down at an angle increases it.</p></div></details>
+</section>
+<section class="topic" id="incline-u2">
+  <h2><span class="pill e">UNIT 2.7</span>Inclines</h2>
+  <p class="sub">Tilt the axes, split the weight.</p>
+  
+<p>On a ramp at angle θ, tilt your axes so x points along the ramp. Then split weight into two parts:</p>
+<div class="big-eq">along the ramp: mg sin θ &nbsp;&nbsp;&nbsp; into the ramp: mg cos θ</div>
+<div class="sim" data-sim='{"type": "incline", "m": 10, "ang": 30, "mus": 0, "muk": 0, "ask": ["a", "N"], "reveal": true, "caption": "Frictionless 30° ramp"}'></div>
+<p>Perpendicular to the ramp nothing accelerates, so <span class="eq">F<sub>N</sub> = mg cos θ</span>. With no friction, <span class="eq">a = g sin θ</span>.</p>
+<div class="worked"><div class="q">Worked example: A 10 kg box slides down a frictionless 30° ramp. Find the normal force and acceleration.</div><div class="a">F<sub>N</sub> = mg cos 30° = 100 × 0.866 = <b>86.6 N</b>. a = g sin 30° = 10 × 0.5 = <b>5.0 m/s²</b>.</div></div>
+<div class="worked"><div class="q">Worked example: Same box, but now μ<sub>k</sub> = 0.20. Find the acceleration down the ramp.</div><div class="a">Along the ramp: mg sin θ − μmg cos θ = ma → a = g(sin θ − μ cos θ) = 10(0.5 − 0.2 × 0.866) ≈ <b>3.3 m/s²</b>.</div></div>
+<div class="sim" data-sim='{"type": "incline", "m": 10, "ang": 30, "mus": 0.3, "muk": 0.2, "ask": ["a", "f"], "reveal": true, "caption": "Same ramp with μk = 0.20"}'></div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Incline cases</summary><div class="deep-body"><h4>Will it slide?</h4><p>It stays at rest if mg sin θ ≤ μ<sub>s</sub>mg cos θ, i.e. tan θ ≤ μ<sub>s</sub>. The angle where it just starts to slide satisfies tan θ = μ<sub>s</sub>, a common way to measure μ<sub>s</sub>.</p>
+<h4>Sliding at constant speed</h4><p>If it slides down at constant velocity, friction exactly balances mg sin θ, so μ<sub>k</sub> = tan θ.</p>
+<h4>Pushing up the ramp</h4><p>Friction now points down the ramp, adding to mg sin θ: F − mg sin θ − μmg cos θ = ma.</p>
+<h4>Checking limits</h4><p>θ = 0 (flat): sin θ = 0, F<sub>N</sub> = mg. θ = 90° (vertical): sin θ = 1, a = g (free fall), F<sub>N</sub> = 0. If your expression doesn't give these, sin and cos are swapped.</p></div></details>
+</section>
+</div>
+<div class="chapter" id="connected-ch-u2" data-title="Connected Objects" data-short="Pulleys">
+<section class="topic" id="connected-u2">
+  <h2><span class="pill e">UNIT 2.5</span>Connected objects</h2>
+  <p class="sub">System first, then one object.</p>
+  
+<p>When objects are tied or pushed together, they share one acceleration. Two steps work every time:</p>
+<ol class="steps"><li><b>Whole system</b> (internal forces cancel): ΣF<sub>external</sub> = (total mass) × a. This gives a.</li><li><b>One object</b> alone: ΣF = ma for that object. This gives the tension or contact force.</li></ol>
+<h3>Atwood machine</h3>
+<div class="sim" data-sim='{"type": "pulley", "mode": "atwood", "m1": 3, "m2": 5, "ask": ["a", "T"], "reveal": true, "caption": "3 kg and 5 kg over a pulley"}'></div>
+<div class="worked"><div class="q">Worked example: Masses of 3 kg and 5 kg hang over a frictionless pulley. Find the acceleration and the tension.</div><div class="a">System: the driving force is the weight difference, (5 − 3)(10) = 20 N, moving 8 kg in total: a = 20/8 = <b>2.5 m/s²</b>. Light mass (accelerates up): T − 30 = 3(2.5) → <b>T = 37.5 N</b>.</div></div>
+<h3>Block on a table pulled by a hanging mass</h3>
+<div class="sim" data-sim='{"type": "pulley", "mode": "table", "m1": 3, "m2": 2, "mu": 0, "ask": ["a", "T"], "reveal": true, "caption": "3 kg on a frictionless table, 2 kg hanging"}'></div>
+<div class="worked"><div class="q">Worked example: A 3 kg block on a frictionless table is tied over a pulley to a 2 kg hanging mass. Find a and T.</div><div class="a">Only the hanging weight drives the system: a = (2)(10)/(3 + 2) = <b>4.0 m/s²</b>. Table block: T = 3 × 4 = <b>12 N</b> (less than the 20 N weight, because the hanging mass is accelerating).</div></div>
+<h3>Blocks pushed together</h3>
+<div class="sim" data-sim='{"type": "pulley", "mode": "push2", "m1": 4, "m2": 2, "F": 30, "ask": ["a"], "reveal": true, "caption": "30 N pushes 4 kg and 2 kg blocks"}'></div>
+<div class="worked"><div class="q">Worked example: A 30 N push moves a 4 kg block that pushes a 2 kg block on a frictionless floor. Find a and the contact force between them.</div><div class="a">a = 30/6 = <b>5.0 m/s²</b>. The 2 kg block is pushed only by the contact force: F = 2 × 5 = <b>10 N</b>.</div></div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Why the tension isn't the hanging weight</summary><div class="deep-body"><h4>Tension vs. weight</h4><p>If the hanging mass is accelerating down, the tension must be less than its weight (otherwise the net force would not point down). Only when everything is at rest or moving at constant velocity does T = mg.</p>
+<h4>Adding friction</h4><p>For the table setup with friction: a = (m<sub>hang</sub>g − μm<sub>table</sub>g)/(m<sub>table</sub> + m<sub>hang</sub>). If the friction is larger than the hanging weight, nothing moves.</p>
+<h4>Which block gets the push?</h4><p>When pushing two blocks, the contact force equals the mass of the <i>pushed</i> (front) block times a. Pushing from the other side changes which block that is, so the contact force changes even though a doesn't.</p></div></details>
+</section>
+</div>
+<div class="chapter" id="springs-ch-u2" data-title="Springs" data-short="Springs">
+<section class="topic" id="springs-u2">
+  <h2><span class="pill e">UNIT 2.8</span>Spring forces</h2>
+  <p class="sub">Stretch is proportional to force.</p>
+  
+<div class="big-eq">F<sub>S</sub> = kx</div>
+<p><b>Hooke's law:</b> the force from a spring is proportional to how far it's stretched or compressed (x, measured from its natural length). <b>k</b> is the spring constant in N/m: how stiff the spring is. The spring always pulls or pushes back toward its natural length.</p>
+<div class="sim" data-sim='{"type": "hooke", "k": 200, "masses": [0.5, 1, 1.5, 2], "ask": ["k"], "reveal": true, "caption": "Hanging more mass stretches the spring proportionally"}'></div>
+<div class="worked"><div class="q">Worked example: A 2.0 kg mass hangs at rest from a spring, stretching it 0.10 m. Find k.</div><div class="a">At rest: kx = mg → k(0.10) = 20 → <b>k = 200 N/m</b>.</div></div>
+<div class="box tip"><b class="lbl">Graph</b>On a graph of force vs. stretch, the slope is k. This is the standard lab for measuring a spring constant.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Springs in combination and in labs</summary><div class="deep-body"><h4>Measuring k</h4><p>Hang several known masses, measure each stretch, and graph F (= mg) on the y-axis against x. The slope is k. Using several masses and a best-fit line reduces random error.</p>
+<h4>Where x is measured from</h4><p>x is the change from the spring's natural (unstretched) length, not the total length.</p>
+<h4>Springs in Unit 3</h4><p>The stored energy is U<sub>s</sub> = ½kx². In Unit 2 you only need the force.</p></div></details>
+</section>
+</div>
+<div class="chapter" id="gravity-ch-u2" data-title="Gravitation" data-short="Gravity">
+<section class="topic" id="gravity-u2">
+  <h2><span class="pill e">UNIT 2.6</span>Gravitational force</h2>
+  <p class="sub">Universal gravitation and ratios.</p>
+  
+<div class="big-eq">F<sub>g</sub> = Gm₁m₂/r²</div>
+<p>Every two masses attract each other. G = 6.67 × 10⁻¹¹ N·m²/kg², and r is the distance between their <b>centers</b>. Near Earth's surface this becomes F<sub>G</sub> = mg, with g = GM<sub>Earth</sub>/R² ≈ 10 m/s².</p>
+<h3>Ratio reasoning</h3>
+<div class="tblwrap"><table><tr><th>Change</th><th>Effect on F<sub>g</sub></th></tr>
+<tr><td>Double one mass</td><td>× 2</td></tr><tr><td>Double both masses</td><td>× 4</td></tr><tr><td>Double the distance</td><td>× ¼</td></tr><tr><td>Triple the distance</td><td>× 1/9</td></tr><tr><td>Halve the distance</td><td>× 4</td></tr></table></div>
+<div class="worked"><div class="q">Worked example: A satellite feels a 900 N gravitational force at the surface. What force would it feel at 3 times the distance from Earth's center?</div><div class="a">Force ∝ 1/r²: 900/3² = <b>100 N</b>.</div></div>
+<div class="worked"><div class="q">Worked example: On a planet with twice Earth's mass and twice its radius, what is g?</div><div class="a">g = GM/R² → (2)/(2²) = ½ of Earth's: <b>5 m/s²</b>.</div></div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Gravity in more depth</summary><div class="deep-body"><h4>Inverse-square law</h4><p>The force spreads out over a sphere whose area grows as r², so the force drops as 1/r². Only distance from center to center counts; "height above the surface" must be added to the radius.</p>
+<h4>Weightlessness</h4><p>Astronauts in orbit still feel gravity (about 90% as strong as on the surface). They feel weightless because they and their spacecraft are falling together, so nothing pushes on them.</p>
+<h4>Gravitational vs. inertial mass</h4><p>The mass in F = mg is the same as the mass in F = ma, which is why all objects fall with the same acceleration.</p>
+<h4>Gravitational field</h4><p>g is also the gravitational field strength: the force per kilogram, in N/kg (same as m/s²).</p></div></details>
+</section>
+</div>
+<div class="chapter" id="circular-ch-u2" data-title="Circular Motion" data-short="Circular">
+<section class="topic" id="circular-u2">
+  <h2><span class="pill e">UNIT 2.9</span>Circular motion</h2>
+  <p class="sub">Speed can be constant while velocity changes.</p>
+  
+<p>An object moving in a circle at constant speed is still accelerating, because its direction keeps changing. The acceleration points toward the center:</p>
+<div class="big-eq">a<sub>c</sub> = v²/r &nbsp;&nbsp;&nbsp;&nbsp; v = 2πr/T</div>
+<div class="sim" data-sim='{"type": "circle", "r": 1, "v": 4, "m": 0.5, "mode": "string", "ask": ["a", "F"], "reveal": true, "caption": "Ball on a string: velocity is tangent, acceleration and net force point to the center"}'></div>
+<p>The net force toward the center is ΣF = mv²/r. It's not a new kind of force; it's provided by tension, friction, gravity or the normal force.</p>
+<div class="tblwrap"><table><tr><th>Situation</th><th>What provides the centripetal force</th><th>Equation</th></tr>
+<tr><td>Ball on a string (horizontal)</td><td>tension</td><td>T = mv²/r</td></tr>
+<tr><td>Car on a flat curve</td><td>static friction</td><td>μmg = mv²/r → v<sub>max</sub> = √(μgr)</td></tr>
+<tr><td>Satellite in orbit</td><td>gravity</td><td>GMm/r² = mv²/r</td></tr>
+<tr><td>Top of a vertical loop</td><td>gravity + normal/tension (both down)</td><td>F<sub>N</sub> + mg = mv²/r</td></tr>
+<tr><td>Bottom of a vertical loop</td><td>normal/tension up minus gravity</td><td>F<sub>N</sub> − mg = mv²/r</td></tr></table></div>
+<div class="worked"><div class="q">Worked example: A 1000 kg car rounds a flat curve of radius 50 m at 10 m/s. Find the centripetal acceleration and the friction force needed.</div><div class="a">a<sub>c</sub> = 10²/50 = <b>2.0 m/s²</b>. F = ma = 1000 × 2 = <b>2000 N</b> of static friction toward the center.</div></div>
+<div class="worked"><div class="q">Worked example: What is the slowest speed a car can have at the top of a vertical loop of radius 2.5 m without losing contact?</div><div class="a">At the minimum speed F<sub>N</sub> = 0, so gravity alone provides the center-directed force: mg = mv²/r → v = √(gr) = √(10 × 2.5) = <b>5.0 m/s</b>.</div></div>
+<div class="sim" data-sim='{"type": "circle", "r": 1, "v": 4, "m": 0.5, "mode": "string", "release": true, "reveal": true, "caption": "If the string breaks, the ball flies off along a tangent, not outward"}'></div>
+<div class="box trap"><b class="lbl">Common mistake</b>Drawing a "centrifugal force" pointing outward on a free-body diagram. There's no such force in the AP model; the net force points inward.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Circular motion in more depth</summary><div class="deep-body"><h4>Why inward?</h4><p>Without a net force, the object would go straight (first law). To bend its path into a circle, something has to keep pulling it toward the center. Cut the string and it leaves along the tangent.</p>
+<h4>Period and frequency</h4><p>T is the time for one revolution; f = 1/T is revolutions per second. Speed v = 2πr/T because one lap is a circumference.</p>
+<h4>Feeling heavier or lighter</h4><p>At the bottom of a dip, F<sub>N</sub> = mg + mv²/r, so you feel heavier. At the top of a hill, F<sub>N</sub> = mg − mv²/r, so you feel lighter, and at v = √(gr) you lose contact.</p>
+<h4>Orbits</h4><p>Setting GMm/r² = mv²/r gives v = √(GM/r): orbital speed doesn't depend on the satellite's mass, and higher orbits are slower.</p></div></details>
+</section>
+</div>
+<div class="chapter" id="labs-frq-u2" data-title="Labs & FRQs" data-short="Labs & FRQs">
+<section class="topic" id="labs-u2">
+  <h2>Experiments with forces</h2>
+  <p class="sub">Linearizing force data.</p>
+  
+<div class="tblwrap"><table><tr><th>Experiment</th><th>Equation</th><th>Graph</th><th>Slope</th></tr>
+<tr><td>Spring stretch vs. hanging weight</td><td>F = kx</td><td>F vs. x</td><td>k</td></tr>
+<tr><td>Cart pulled by different forces</td><td>a = F/m</td><td>a vs. F</td><td>1/m</td></tr>
+<tr><td>Same force, different masses</td><td>a = F/m</td><td>a vs. 1/m</td><td>F</td></tr>
+<tr><td>Friction vs. normal force (add weights)</td><td>F<sub>KF</sub> = μF<sub>N</sub></td><td>F<sub>KF</sub> vs. F<sub>N</sub></td><td>μ</td></tr>
+<tr><td>Atwood machine, vary mass difference</td><td>a = (Δm)g/(m<sub>total</sub>)</td><td>a vs. Δm (constant total)</td><td>g/m<sub>total</sub></td></tr>
+<tr><td>Ball on string, vary speed</td><td>F = mv²/r</td><td>F vs. v²</td><td>m/r</td></tr></table></div>
+<div class="worked"><div class="q">Worked example: A student pulls a block at constant speed with a spring scale, adding weights on top. F<sub>N</sub> (N) = 5, 10, 15, 20; friction (N) = 1.5, 3.1, 4.4, 6.0. Find μ<sub>k</sub>.</div><div class="a">Constant speed means pull = friction. Slope of friction vs. F<sub>N</sub> ≈ (6.0 − 1.5)/(20 − 5) = <b>0.30</b>.</div></div>
+<div class="box tip"><b class="lbl">Constant speed matters</b>When measuring kinetic friction with a spring scale, the block must move at constant velocity so that the scale reading equals friction (ΣF = 0).</div>
+
+  
+</section>
+<section class="topic" id="labs-quiz-u2">
+  <h2>Practice: experiments</h2>
+  <p class="sub">3 questions.</p>
+  <div class="quiz" data-src="quiz-labs-u2" data-tags='{"m": "Forces"}'></div>
+</section>
+</div>
+<div class="chapter" id="review-ch-u2" data-title="Review & Equation Sheet" data-short="Review">
+<section class="topic" id="review-u2">
+  <h2>Your equation sheet (Unit 2 lines)</h2>
+  <p class="sub">The lines you'll use for forces.</p>
+  
+<div class="tblwrap"><table><tr><th>On the sheet</th><th>In words</th><th>Use it when</th></tr>
+<tr><td><span class="eq">ΣF = ma</span></td><td>net force = mass × acceleration</td><td>every force problem, one direction at a time</td></tr>
+<tr><td><span class="eq">F<sub>G</sub> = mg</span></td><td>weight</td><td>always draw it, straight down</td></tr>
+<tr><td><span class="eq">F<sub>KF</sub> = μF<sub>N</sub></span></td><td>kinetic friction</td><td>something is sliding</td></tr>
+<tr><td><span class="eq">F<sub>SF</sub> ≤ μF<sub>N</sub></span></td><td>static friction, up to a maximum</td><td>nothing is sliding (yet)</td></tr></table></div>
+<h3>Also used in this unit</h3>
+<div class="tblwrap"><table><tr><th>Equation</th><th>Meaning</th></tr>
+<tr><td><span class="eq">F<sub>S</sub> = kx</span></td><td>spring force (Hooke's law)</td></tr>
+<tr><td><span class="eq">F<sub>g</sub> = Gm₁m₂/r²</span></td><td>universal gravitation</td></tr>
+<tr><td><span class="eq">a<sub>c</sub> = v²/r</span>, <span class="eq">v = 2πr/T</span></td><td>circular motion</td></tr>
+<tr><td><span class="eq">mg sin θ</span>, <span class="eq">F<sub>N</sub> = mg cos θ</span></td><td>incline components</td></tr>
+<tr><td><span class="eq">x<sub>cm</sub> = Σmx/Σm</span></td><td>center of mass</td></tr></table></div>
+  
+</section>
+<section class="topic" id="mistakes-u2">
+  <h2>Common mistakes</h2>
+  <p class="sub">Points students lose most often.</p>
+  <ol class="steps">
+<li>Assuming F<sub>N</sub> = mg on inclines, in elevators or with angled pulls.</li>
+<li>Using F<sub>SF</sub> = μF<sub>N</sub> when the object isn't about to slip.</li>
+<li>Adding "ma" or "centrifugal force" to a free-body diagram.</li>
+<li>Thinking moving objects need a net force (constant velocity means ΣF = 0).</li>
+<li>Calling weight and normal force a third-law pair.</li>
+<li>Setting tension equal to the hanging weight when things are accelerating.</li>
+<li>Using height above the surface instead of center-to-center distance in F<sub>g</sub> = Gm₁m₂/r².</li></ol>
+  
+</section>
+</div>
+<div class="chapter" id="practice-u2" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-u2">
+  <h2>Practice questions</h2>
+  <p class="sub">30 questions with animated models. Click an answer to check it. Use g = 10 m/s².</p>
+  <div class="quiz" data-src="quiz-u2" data-tags='{"m": "Forces"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-u2" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-u2">
+  <h2>Challenge questions</h2>
+  <p class="sub">Multi-step problems and traps at the hardest level of the exam. Turn off animated models in ⚙ Settings for a real exam feel.</p>
+  <div class="quiz" data-src="quiz-challenge-u2" data-tags='{"m": "Forces"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-u2" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-u2"><h2>Practice exam</h2><p class="sub">15 multiple-choice questions (30 minutes) and 2 free-response questions (25 minutes). No feedback until you submit.</p><div class="exam" data-src="exam-u2"></div></section>
+</div>
+<div class="chapter" id="calc-u2" data-title="Calculator Program" data-short="Calculator">
+<section class="topic" id="calculator">
+  <h2>TI-84 calculator program</h2>
+  <p class="sub">A notes and solver program for the TI-84 Plus CE covering Unit 2.</p>
+  <p><a class="navbtn solid" href="../../downloads/P2FORCE.8xp" download>Download P2FORCE.8xp</a> &nbsp; <a class="navbtn" href="../../calculator.html">Install steps and all programs</a></p>
+  <ul><li><b>Find what?</b> menus: acceleration, net force, a force (friction, tension, normal), mass, speed, k, g</li><li>Boxes pushed or pulled, with or without friction, including angled pulls</li><li>Inclines: will it slide, acceleration up or down, force to push or hold</li><li>Elevators, Atwood machines, table-and-hanging-mass, blocks pushed together</li><li>Springs, universal gravitation and ratios, circular motion (strings, curves, loops, orbits), center of mass</li><li>Show work for every answer, plus notes slides for the whole unit</li></ul>
+  <p>Pick <b>FIND WHAT?</b>, choose what the question asks for, choose the situation, then type the numbers it asks for. After each answer it shows the full work and answer, which you can scroll with the arrow keys.</p>
+  <div class="box plain"><b class="lbl">Check first</b>Ask your teacher before using calculator programs on a test.</div>
+</section>
+</div>
+</main>
+
+<footer>Apogee · AP Physics 1 · g = 10 m/s²</footer>
+
+<script type="application/json" id="quiz-u2">
+[
+ {
+  "t": "m",
+  "q": "A 6 kg object experiences a net force of 30 N. What is its acceleration?",
+  "o": [
+   "180 m/s²",
+   "5 m/s²",
+   "24 m/s²",
+   "0.2 m/s²"
+  ],
+  "a": 1,
+  "x": "a = ΣF/m = 30/6 = 5 m/s²."
+ },
+ {
+  "t": "m",
+  "q": "What is the weight of a 50 kg student?",
+  "o": [
+   "500 N",
+   "50 N",
+   "5 N",
+   "5000 N"
+  ],
+  "a": 0,
+  "x": "F<sub>G<\/sub> = mg = 50 × 10 = 500 N."
+ },
+ {
+  "t": "m",
+  "q": "A car moves in a straight line at a constant 25 m/s. What is the net force on it?",
+  "o": [
+   "Forward, equal to the engine force",
+   "Zero",
+   "Equal to its weight",
+   "Backward"
+  ],
+  "a": 1,
+  "x": "Constant velocity means a = 0, so ΣF = 0 (first law)."
+ },
+ {
+  "t": "m",
+  "q": "A 40 kg crate on a floor (μ<sub>k<\/sub> = 0.25) is pushed with 120 N. What is its acceleration?",
+  "o": [
+   "0.5 m/s²",
+   "0.25 m/s²",
+   "2.5 m/s²",
+   "3 m/s²"
+  ],
+  "a": 0,
+  "x": "F<sub>N<\/sub> = 400 N; F<sub>KF<\/sub> = 0.25 × 400 = 100 N. a = (120 − 100)/40 = 0.5 m/s².",
+  "sim": {
+   "type": "fbd",
+   "m": 40,
+   "forces": [
+    {
+     "l": "F app",
+     "F": 120,
+     "dir": 0
+    },
+    {
+     "l": "F KF",
+     "F": 100,
+     "dir": 180
+    },
+    {
+     "l": "F N",
+     "F": 400,
+     "dir": 90
+    },
+    {
+     "l": "F G",
+     "F": 400,
+     "dir": 270
+    }
+   ],
+   "obj": "crate",
+   "ask": [
+    "a"
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "A 30 kg box rests on a floor with μ<sub>s<\/sub> = 0.60. A worker pushes horizontally with 100 N. What is the friction force?",
+  "o": [
+   "180 N",
+   "100 N",
+   "0 N",
+   "300 N"
+  ],
+  "a": 1,
+  "x": "Max static friction = 0.60 × 300 = 180 N. The push (100 N) is less, so the box doesn't move and static friction matches the push: 100 N."
+ },
+ {
+  "t": "m",
+  "q": "A book rests on a table. What is the third-law partner of the book's weight?",
+  "o": [
+   "The book's gravitational pull on Earth",
+   "Friction",
+   "The table's weight",
+   "The normal force on the book"
+  ],
+  "a": 0,
+  "x": "Earth pulls the book down; the book pulls Earth up. The normal force is a different interaction."
+ },
+ {
+  "t": "m",
+  "q": "A bug hits a car's windshield. Compared with the force on the bug, the force on the windshield is…",
+  "o": [
+   "zero",
+   "much larger",
+   "the same size",
+   "much smaller"
+  ],
+  "a": 2,
+  "x": "Newton's third law: equal and opposite. The bug's acceleration is far larger because its mass is tiny."
+ },
+ {
+  "t": "m",
+  "q": "An 80 kg person stands on a scale in an elevator accelerating downward at 2 m/s². What does the scale read?",
+  "o": [
+   "960 N",
+   "160 N",
+   "800 N",
+   "640 N"
+  ],
+  "a": 3,
+  "x": "F<sub>N<\/sub> = m(g − a) = 80(10 − 2) = 640 N.",
+  "sim": {
+   "type": "elevator",
+   "m": 80,
+   "a": -2,
+   "ask": [
+    "N"
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "In which case does an elevator scale read more than your weight?",
+  "o": [
+   "Moving up at constant speed",
+   "At rest",
+   "Moving down and slowing down",
+   "Moving down and speeding up"
+  ],
+  "a": 2,
+  "x": "Moving down and slowing down means acceleration is upward, so F<sub>N<\/sub> = m(g + a) > mg."
+ },
+ {
+  "t": "m",
+  "q": "A block slides down a frictionless 30° incline. What is its acceleration?",
+  "o": [
+   "3 m/s²",
+   "10 m/s²",
+   "8.7 m/s²",
+   "5 m/s²"
+  ],
+  "a": 3,
+  "x": "a = g sin θ = 10 × 0.5 = 5 m/s².",
+  "sim": {
+   "type": "incline",
+   "m": 5,
+   "ang": 30,
+   "mus": 0,
+   "muk": 0,
+   "ask": [
+    "a"
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "For a block resting on an incline of angle θ, the normal force is…",
+  "o": [
+   "mg sin θ",
+   "mg tan θ",
+   "mg cos θ",
+   "mg"
+  ],
+  "a": 2,
+  "x": "Perpendicular to the ramp: F<sub>N<\/sub> = mg cos θ."
+ },
+ {
+  "t": "m",
+  "q": "An 8 kg box sits on a 37° ramp. What is the component of its weight along the ramp? (sin 37° ≈ 0.60)",
+  "o": [
+   "48 N",
+   "64 N",
+   "80 N",
+   "4.8 N"
+  ],
+  "a": 0,
+  "x": "mg sin θ = 80 × 0.60 = 48 N."
+ },
+ {
+  "t": "m",
+  "q": "Masses of 4 kg and 6 kg hang over a frictionless pulley. What is their acceleration?",
+  "o": [
+   "4 m/s²",
+   "2 m/s²",
+   "1 m/s²",
+   "10 m/s²"
+  ],
+  "a": 1,
+  "x": "a = (6 − 4)(10)/(4 + 6) = 20/10 = 2 m/s².",
+  "sim": {
+   "type": "pulley",
+   "mode": "atwood",
+   "m1": 4,
+   "m2": 6,
+   "ask": [
+    "a"
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "In the 4 kg / 6 kg Atwood machine, what is the tension in the rope?",
+  "o": [
+   "40 N",
+   "48 N",
+   "50 N",
+   "60 N"
+  ],
+  "a": 1,
+  "x": "Light mass accelerates up: T − 40 = 4(2) → T = 48 N."
+ },
+ {
+  "t": "m",
+  "q": "A 5 kg block on a frictionless table is tied over a pulley to a 5 kg hanging mass. What is the acceleration?",
+  "o": [
+   "10 m/s²",
+   "0",
+   "2.5 m/s²",
+   "5 m/s²"
+  ],
+  "a": 3,
+  "x": "a = m<sub>hang<\/sub>g/(m<sub>table<\/sub> + m<sub>hang<\/sub>) = 50/10 = 5 m/s².",
+  "sim": {
+   "type": "pulley",
+   "mode": "table",
+   "m1": 5,
+   "m2": 5,
+   "mu": 0,
+   "ask": [
+    "a",
+    "T"
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "A hanging mass is accelerating downward on a rope. How does the tension compare to its weight?",
+  "o": [
+   "Equal",
+   "Greater",
+   "Less",
+   "Zero"
+  ],
+  "a": 2,
+  "x": "For a net downward force, the weight must be larger than the tension."
+ },
+ {
+  "t": "m",
+  "q": "A spring with k = 200 N/m hangs at rest with a 5 kg mass attached. How far is it stretched?",
+  "o": [
+   "2.5 m",
+   "0.025 m",
+   "0.25 m",
+   "40 m"
+  ],
+  "a": 2,
+  "x": "kx = mg → x = 50/200 = 0.25 m."
+ },
+ {
+  "t": "m",
+  "q": "A spring stretches 0.04 m under a 2 N force. How much would 6 N stretch it?",
+  "o": [
+   "0.24 m",
+   "0.08 m",
+   "0.02 m",
+   "0.12 m"
+  ],
+  "a": 3,
+  "x": "Force triples, so stretch triples: 0.12 m."
+ },
+ {
+  "t": "m",
+  "q": "The distance between two masses is doubled. The gravitational force becomes…",
+  "o": [
+   "four times as large",
+   "twice as large",
+   "one-fourth as large",
+   "half as large"
+  ],
+  "a": 2,
+  "x": "F ∝ 1/r²: (½)² = ¼."
+ },
+ {
+  "t": "m",
+  "q": "Both masses are doubled and the distance between them is doubled. The gravitational force…",
+  "o": [
+   "is unchanged",
+   "doubles",
+   "halves",
+   "quadruples"
+  ],
+  "a": 0,
+  "x": "Masses: × 4. Distance: × ¼. Net: × 1."
+ },
+ {
+  "t": "m",
+  "q": "A planet has the same radius as Earth but 3 times the mass. What is g there?",
+  "o": [
+   "90 m/s²",
+   "10 m/s²",
+   "30 m/s²",
+   "3.3 m/s²"
+  ],
+  "a": 2,
+  "x": "g = GM/R², so g is 3 times Earth's: 30 m/s²."
+ },
+ {
+  "t": "m",
+  "q": "A ball on a string moves in a horizontal circle at constant speed. Which way does its acceleration point?",
+  "o": [
+   "It has no acceleration",
+   "Toward the center",
+   "Along its velocity",
+   "Away from the center"
+  ],
+  "a": 1,
+  "x": "Changing direction requires a center-directed (centripetal) acceleration.",
+  "sim": {
+   "type": "circle",
+   "r": 1,
+   "v": 3,
+   "m": 0.5,
+   "mode": "string"
+  }
+ },
+ {
+  "t": "m",
+  "q": "A 1500 kg car rounds a flat curve of radius 100 m at 20 m/s. What friction force is needed?",
+  "o": [
+   "6000 N",
+   "3000 N",
+   "15 000 N",
+   "300 N"
+  ],
+  "a": 0,
+  "x": "F = mv²/r = 1500 × 400/100 = 6000 N.",
+  "sim": {
+   "type": "circle",
+   "r": 1,
+   "v": 3,
+   "m": 1500,
+   "mode": "car"
+  }
+ },
+ {
+  "t": "m",
+  "q": "A car's speed around the same curve doubles. The required friction force…",
+  "o": [
+   "doubles",
+   "quadruples",
+   "halves",
+   "stays the same"
+  ],
+  "a": 1,
+  "x": "F ∝ v²: 2² = 4 times as large."
+ },
+ {
+  "t": "m",
+  "q": "A ball on a string whirls in a circle and the string breaks. The ball moves…",
+  "o": [
+   "in a spiral",
+   "along a straight line tangent to the circle",
+   "toward the center",
+   "straight outward"
+  ],
+  "a": 1,
+  "x": "With no net force it continues in a straight line in the direction it was moving at that instant, which is tangent.",
+  "sim": {
+   "type": "circle",
+   "r": 1,
+   "v": 3,
+   "m": 0.5,
+   "mode": "string",
+   "release": true
+  }
+ },
+ {
+  "t": "m",
+  "q": "An object moves in a 2.0 m radius circle, completing one revolution every 2.0 s. What is its speed?",
+  "o": [
+   "12.6 m/s",
+   "6.3 m/s",
+   "1.0 m/s",
+   "3.1 m/s"
+  ],
+  "a": 1,
+  "x": "v = 2πr/T = 2π(2)/2 ≈ 6.3 m/s."
+ },
+ {
+  "t": "m",
+  "q": "A 4 kg and a 1 kg block sit side by side on a frictionless floor. A 20 N push acts on the 4 kg block. What is the contact force between them?",
+  "o": [
+   "20 N",
+   "5 N",
+   "16 N",
+   "4 N"
+  ],
+  "a": 3,
+  "x": "a = 20/5 = 4 m/s². The 1 kg block is pushed only by the contact force: 1 × 4 = 4 N.",
+  "sim": {
+   "type": "pulley",
+   "mode": "push2",
+   "m1": 4,
+   "m2": 1,
+   "F": 20,
+   "ask": [
+    "a"
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "A 2 kg mass is at x = 0 and an 8 kg mass is at x = 5 m. Where is the center of mass?",
+  "o": [
+   "4 m",
+   "1 m",
+   "2.5 m",
+   "5 m"
+  ],
+  "a": 0,
+  "x": "(2·0 + 8·5)/10 = 4 m."
+ },
+ {
+  "t": "m",
+  "q": "A rope pulls a sled with force F at an angle θ above horizontal. Compared with a horizontal pull, the normal force is…",
+  "o": [
+   "the same",
+   "smaller",
+   "zero",
+   "larger"
+  ],
+  "a": 1,
+  "x": "The upward component F sin θ supports part of the weight: F<sub>N<\/sub> = mg − F sin θ."
+ },
+ {
+  "t": "m",
+  "q": "A hockey puck slides on frictionless ice at constant velocity. Which forces act on it?",
+  "o": [
+   "Weight, normal and a forward force",
+   "Weight and normal only",
+   "Only a forward force",
+   "No forces"
+  ],
+  "a": 1,
+  "x": "Weight and normal balance; no horizontal force is needed to keep it moving."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-u2">
+[
+ {
+  "t": "m",
+  "q": "A 2 kg block on a table (μ<sub>k<\/sub> = 0.25) is tied over a pulley to a 3 kg hanging mass. What is the acceleration?",
+  "o": [
+   "4 m/s²",
+   "5 m/s²",
+   "6 m/s²",
+   "2 m/s²"
+  ],
+  "a": 1,
+  "x": "Driving force: 30 N. Friction: 0.25 × 20 = 5 N. a = (30 − 5)/(2 + 3) = 5 m/s².",
+  "sim": {
+   "type": "pulley",
+   "mode": "table",
+   "m1": 2,
+   "m2": 3,
+   "mu": 0.25,
+   "ask": [
+    "a",
+    "T"
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "A block slides down a 37° incline at constant speed. What is μ<sub>k<\/sub>? (sin 37° ≈ 0.60, cos 37° ≈ 0.80)",
+  "o": [
+   "0.75",
+   "0.80",
+   "0.60",
+   "1.33"
+  ],
+  "a": 0,
+  "x": "Constant speed: mg sin θ = μmg cos θ → μ = tan θ = 0.60/0.80 = 0.75."
+ },
+ {
+  "t": "m",
+  "q": "A car goes over the top of a hill shaped like a circle of radius 10 m. At what speed does it just lose contact with the road?",
+  "o": [
+   "14 m/s",
+   "10 m/s",
+   "5 m/s",
+   "100 m/s"
+  ],
+  "a": 1,
+  "x": "At the threshold F<sub>N<\/sub> = 0: mg = mv²/r → v = √(gr) = √100 = 10 m/s."
+ },
+ {
+  "t": "m",
+  "q": "A 50 kg box is pulled across a floor by a rope at 37° above horizontal with 200 N. μ<sub>k<\/sub> = 0.20. What is the acceleration?",
+  "o": [
+   "2.0 m/s²",
+   "1.3 m/s²",
+   "1.68 m/s²",
+   "3.2 m/s²"
+  ],
+  "a": 2,
+  "x": "Horizontal pull: 200 × 0.80 = 160 N. F<sub>N<\/sub> = 500 − 200 × 0.60 = 380 N. Friction: 0.20 × 380 = 76 N. a = (160 − 76)/50 = 1.68 m/s². (Using F<sub>N<\/sub> = mg gives 1.2 m/s², a trap.)"
+ },
+ {
+  "t": "m",
+  "q": "A 70 kg passenger rides a Ferris wheel of radius 10 m at 5 m/s. What normal force does the seat exert at the bottom?",
+  "o": [
+   "700 N",
+   "1400 N",
+   "525 N",
+   "875 N"
+  ],
+  "a": 3,
+  "x": "At the bottom: F<sub>N<\/sub> − mg = mv²/r → F<sub>N<\/sub> = 700 + 70 × 25/10 = 875 N."
+ },
+ {
+  "t": "m",
+  "q": "Satellite A orbits at twice the radius of satellite B (same mass). Compared with B, A's orbital speed is…",
+  "o": [
+   "1/√2 as large",
+   "twice as large",
+   "half as large",
+   "the same"
+  ],
+  "a": 0,
+  "x": "GMm/r² = mv²/r → v = √(GM/r). Doubling r divides v by √2."
+ },
+ {
+  "t": "m",
+  "q": "A 10 kg box rests on a 30° incline. μ<sub>s<\/sub> = 0.70. What is the static friction force on it?",
+  "o": [
+   "50 N",
+   "70 N",
+   "60.6 N",
+   "86.6 N"
+  ],
+  "a": 0,
+  "x": "Static friction is only as large as needed: it balances mg sin θ = 100 × 0.5 = 50 N. (The max, 0.70 × 86.6 ≈ 61 N, is larger, so it holds.)"
+ },
+ {
+  "t": "m",
+  "q": "A person stands on a scale in an elevator. The reading is 20% below their weight. Which motion fits?",
+  "o": [
+   "Moving up and speeding up",
+   "Moving up and slowing down",
+   "At rest",
+   "Moving down at constant speed"
+  ],
+  "a": 1,
+  "x": "F<sub>N<\/sub> < mg means acceleration is downward (a = 2 m/s² down). Moving up and slowing down has a downward acceleration."
+ }
+]
+</script>
+<script type="application/json" id="quiz-labs-u2">
+[
+ {
+  "t": "m",
+  "q": "A student hangs masses on a spring and graphs force (y) vs. stretch (x). What is the slope?",
+  "o": [
+   "The spring constant k",
+   "g",
+   "The mass",
+   "1/k"
+  ],
+  "a": 0,
+  "x": "F = kx, so the slope of F vs. x is k."
+ },
+ {
+  "t": "m",
+  "q": "To verify a = F/m with a constant mass, which graph should be a straight line through the origin?",
+  "o": [
+   "a vs. F",
+   "F vs. 1/a",
+   "a vs. F²",
+   "a vs. m"
+  ],
+  "a": 0,
+  "x": "a = (1/m)F: a vs. F is linear with slope 1/m."
+ },
+ {
+  "t": "m",
+  "q": "To find μ<sub>k<\/sub> with a spring scale, why must the block be pulled at constant speed?",
+  "o": [
+   "So the scale reading equals the friction force",
+   "So static friction is measured",
+   "So friction becomes zero",
+   "So the normal force equals zero"
+  ],
+  "a": 0,
+  "x": "Constant velocity means ΣF = 0, so the pull shown by the scale equals the kinetic friction."
+ }
+]
+</script>
+<script type="application/json" id="exam-u2">
+{
+ "title": "Unit 2 Practice Exam: Forces and Translational Dynamics",
+ "mcqMinutes": 30,
+ "frqMinutes": 25,
+ "tags": {
+  "m": "Forces"
+ },
+ "mcq": [
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 3 kg object has forces of 12 N east and 3 N west acting on it. What is its acceleration?",
+   "o": [
+    "4 m/s² east",
+    "5 m/s² east",
+    "1 m/s² west",
+    "3 m/s² east"
+   ],
+   "a": 3,
+   "x": "ΣF = 9 N east; a = 9/3 = 3 m/s² east."
+  },
+  {
+   "t": "m",
+   "k": "concept",
+   "q": "An object is moving to the right and slowing down. Which way is the net force?",
+   "o": [
+    "Zero",
+    "Up",
+    "Right",
+    "Left"
+   ],
+   "a": 3,
+   "x": "Slowing down while moving right means acceleration (and net force) points left."
+  },
+  {
+   "t": "m",
+   "k": "concept",
+   "q": "A heavy truck and a small car collide head-on. During the collision, the force on the car is…",
+   "o": [
+    "zero",
+    "greater than the force on the truck",
+    "less than the force on the truck",
+    "equal in size to the force on the truck"
+   ],
+   "a": 3,
+   "x": "Third law."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 10 kg box on a floor with μ<sub>k<\/sub> = 0.5 slides to a stop. What is its deceleration?",
+   "o": [
+    "5 m/s²",
+    "0.5 m/s²",
+    "10 m/s²",
+    "2 m/s²"
+   ],
+   "a": 0,
+   "x": "Only friction acts horizontally: a = μg = 5 m/s²."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 50 kg person in an elevator accelerating upward at 3 m/s² stands on a scale. The scale reads…",
+   "o": [
+    "150 N",
+    "650 N",
+    "350 N",
+    "500 N"
+   ],
+   "a": 1,
+   "x": "50(10 + 3) = 650 N."
+  },
+  {
+   "t": "m",
+   "k": "concept",
+   "q": "A box is at rest on a ramp. The friction force on it points…",
+   "o": [
+    "down the ramp",
+    "up the ramp",
+    "there is no friction",
+    "into the ramp"
+   ],
+   "a": 1,
+   "x": "Gravity pulls it down the ramp; static friction holds it by pointing up the ramp."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 4 kg block slides down a frictionless 30° ramp. What net force acts on it?",
+   "o": [
+    "40 N",
+    "20 N",
+    "34.6 N",
+    "10 N"
+   ],
+   "a": 1,
+   "x": "mg sin 30° = 40 × 0.5 = 20 N."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "Masses of 2 kg and 8 kg hang from a frictionless pulley. Their acceleration is…",
+   "o": [
+    "4 m/s²",
+    "2 m/s²",
+    "6 m/s²",
+    "8 m/s²"
+   ],
+   "a": 2,
+   "x": "(8 − 2)(10)/10 = 6 m/s²."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A spring stretches 0.10 m when a 1 kg mass hangs from it. What is k?",
+   "o": [
+    "0.1 N/m",
+    "100 N/m",
+    "10 N/m",
+    "1 N/m"
+   ],
+   "a": 1,
+   "x": "k = mg/x = 10/0.1 = 100 N/m."
+  },
+  {
+   "t": "m",
+   "k": "concept",
+   "q": "If the distance between two objects triples, the gravitational force between them…",
+   "o": [
+    "is 1/9 as large",
+    "triples",
+    "is 1/3 as large",
+    "is 9 times as large"
+   ],
+   "a": 0,
+   "x": "1/r²: 1/9."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 0.5 kg ball on a 1.0 m string moves in a horizontal circle at 4 m/s. What is the tension (ignore gravity's effect on the string)?",
+   "o": [
+    "8 N",
+    "4 N",
+    "16 N",
+    "2 N"
+   ],
+   "a": 0,
+   "x": "T = mv²/r = 0.5 × 16/1 = 8 N."
+  },
+  {
+   "t": "m",
+   "k": "concept",
+   "q": "A car rounds a flat curve at constant speed. What force keeps it on the curve?",
+   "o": [
+    "Its engine's force",
+    "Static friction from the road",
+    "The normal force",
+    "Centrifugal force"
+   ],
+   "a": 1,
+   "x": "Static friction points toward the center of the curve."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 6 kg block is pushed across a frictionless floor by 18 N, and it pushes a 3 kg block ahead of it. What force does the 6 kg block exert on the 3 kg block?",
+   "o": [
+    "18 N",
+    "6 N",
+    "12 N",
+    "3 N"
+   ],
+   "a": 1,
+   "x": "a = 18/9 = 2 m/s²; front block: 3 × 2 = 6 N."
+  },
+  {
+   "t": "m",
+   "k": "concept",
+   "q": "A crate on a level floor is pushed with a force less than the maximum static friction. The crate…",
+   "o": [
+    "accelerates slowly",
+    "stays at rest, and static friction equals the push",
+    "moves at constant velocity",
+    "stays at rest, and static friction equals μF<sub>N<\/sub>"
+   ],
+   "a": 1,
+   "x": "Static friction is only as large as needed."
+  },
+  {
+   "t": "m",
+   "k": "calc",
+   "q": "A 2 kg mass is at x = 1 m and a 3 kg mass at x = 6 m. The center of mass is at…",
+   "o": [
+    "3.5 m",
+    "4 m",
+    "5 m",
+    "3 m"
+   ],
+   "a": 1,
+   "x": "(2 + 18)/5 = 4 m."
+  }
+ ],
+ "frq": [
+  {
+   "q": "Block A (2.0 kg) rests on a horizontal table with μ<sub>k<\/sub> = 0.20. A light string attached to A passes over a frictionless pulley to block B (3.0 kg), which hangs freely. The blocks are released from rest.",
+   "parts": [
+    {
+     "p": "(a) Draw and label free-body diagrams for block A and for block B.",
+     "rubric": [
+      [
+       "A: weight down, normal up, tension toward the pulley, friction away from the pulley",
+       1
+      ],
+      [
+       "B: weight down, tension up, with weight longer than tension",
+       1
+      ]
+     ],
+     "answer": "A: F<sub>G<\/sub> (20 N) down, F<sub>N<\/sub> up, F<sub>T<\/sub> toward the pulley, F<sub>KF<\/sub> opposite. B: F<sub>G<\/sub> (30 N) down, F<sub>T<\/sub> up, with F<sub>G<\/sub> > F<sub>T<\/sub> since B accelerates down."
+    },
+    {
+     "p": "(b) Calculate the acceleration of the blocks.",
+     "rubric": [
+      [
+       "Friction = 0.20 × 20 = 4 N",
+       1
+      ],
+      [
+       "Uses system: (30 − 4)/5",
+       1
+      ],
+      [
+       "a = 5.2 m/s²",
+       1
+      ]
+     ],
+     "answer": "Treat A and B as one system. Driving force 30 N, friction 4 N, total mass 5 kg: a = 26/5 = 5.2 m/s²."
+    },
+    {
+     "p": "(c) Calculate the tension in the string.",
+     "rubric": [
+      [
+       "Applies ΣF = ma to one block",
+       1
+      ],
+      [
+       "T = 14.4 N",
+       1
+      ]
+     ],
+     "answer": "Block B: 30 − T = 3(5.2) → T = 14.4 N. (Check with A: 14.4 − 4 = 2(5.2) ✓.)"
+    }
+   ]
+  },
+  {
+   "q": "A student swings a 0.20 kg ball on a string in a horizontal circle of radius 0.50 m, timing 10 revolutions in 5.0 s.",
+   "parts": [
+    {
+     "p": "(a) Calculate the ball's speed.",
+     "rubric": [
+      [
+       "T = 0.50 s",
+       1
+      ],
+      [
+       "v = 2πr/T ≈ 6.3 m/s",
+       1
+      ]
+     ],
+     "answer": "Period = 5.0/10 = 0.50 s. v = 2π(0.50)/0.50 ≈ 6.3 m/s."
+    },
+    {
+     "p": "(b) Calculate the horizontal force the string exerts on the ball.",
+     "rubric": [
+      [
+       "F = mv²/r",
+       1
+      ],
+      [
+       "≈ 16 N (accept 15.8)",
+       1
+      ]
+     ],
+     "answer": "F = 0.20 × 6.28²/0.50 ≈ 15.8 N."
+    },
+    {
+     "p": "(c) The string breaks. Describe the ball's path as seen from above and explain using Newton's first law.",
+     "rubric": [
+      [
+       "Straight line, tangent to the circle at the point of release",
+       1
+      ],
+      [
+       "No horizontal net force, so velocity stays constant (first law)",
+       1
+      ]
+     ],
+     "answer": "It travels in a straight line tangent to the circle. With the string gone there's no horizontal force, so its horizontal velocity stays constant."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/sims.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

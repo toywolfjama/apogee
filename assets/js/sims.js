@@ -774,6 +774,315 @@
     }
   });
 
+  /* ===== Unit 1 and Unit 2 animation types ===== */
+  const D2R = Math.PI / 180;
+  function axes(c, x, y, w, h, xl, yl) {
+    c.strokeStyle = C.line; c.lineWidth = 1.5;
+    c.beginPath(); c.moveTo(x, y - h); c.lineTo(x, y); c.lineTo(x + w, y); c.stroke();
+    txt(c, yl, x - 4, y - h - 6, { c: C.m, s: 11, b: 1 });
+    txt(c, xl, x + w + 4, y + 4, { c: C.m, s: 11, b: 1 });
+  }
+  function grid(c, x0, y0, x1, y1, step) {
+    c.strokeStyle = "rgba(255,255,255,.05)"; c.lineWidth = 1;
+    for (let x = x0; x <= x1; x += step) { c.beginPath(); c.moveTo(x, y0); c.lineTo(x, y1); c.stroke(); }
+    for (let y = y0; y <= y1; y += step) { c.beginPath(); c.moveTo(x0, y); c.lineTo(x1, y); c.stroke(); }
+  }
+  const hideOr = (rev, ask, key, s) => (!rev && ask && ask.includes(key) ? s.split("=")[0] + "= ?" : s);
+
+  // 1-D motion with constant acceleration, plus live x-t and v-t graphs
+  SIMS.motion = p => {
+    const x0 = p.x0 || 0, v0 = p.v0 || 0, a = p.a || 0, T = p.T || 4;
+    const X = t => x0 + v0 * t + 0.5 * a * t * t, V = t => v0 + a * t;
+    let xs = [X(0), X(T)]; if (a !== 0) { const tt = -v0 / a; if (tt > 0 && tt < T) xs.push(X(tt)); }
+    const xmin = Math.min(...xs, 0), xmax = Math.max(...xs, 1);
+    const vs = [V(0), V(T), 0], vmin = Math.min(...vs), vmax = Math.max(...vs, 0.1);
+    const sx = x => 40 + ((x - xmin) / (xmax - xmin || 1)) * 600;
+    return {
+      D: 4, hold: 1.2,
+      draw(c, t, rev) {
+        const tr = (t / 4) * T, ask = p.ask || [];
+        // track
+        c.strokeStyle = C.line; c.lineWidth = 2; c.beginPath(); c.moveTo(20, 92); c.lineTo(700, 92); c.stroke();
+        for (let k = Math.ceil(xmin); k <= xmax; k += Math.max(1, Math.round((xmax - xmin) / 8))) {
+          c.beginPath(); c.moveTo(sx(k), 88); c.lineTo(sx(k), 96); c.stroke();
+          txt(c, String(k), sx(k), 110, { c: C.m, s: 10, a: "center" });
+        }
+        const px = sx(X(tr));
+        thing(c, p.obj || "car", px - 32, 92, 64, 34, C.y, "", V(tr) >= 0 ? 1 : -1);
+        if (Math.abs(V(tr)) > 0.05) arrow(c, px, 40, px + Math.sign(V(tr)) * (14 + 40 * Math.abs(V(tr)) / Math.max(Math.abs(vmax), Math.abs(vmin), 0.1)), 40, C.b, "v", { w: 2.5 });
+        if (a !== 0) arrow(c, px, 26, px + Math.sign(a) * 30, 26, C.o, "a", { w: 2 });
+        // graphs
+        const gy = 248, gh = 90, gw = 270;
+        [[46, "x (m)", X, xmin, xmax, C.y], [400, "v (m/s)", V, vmin, vmax, C.b]].forEach(([gx, yl, F, lo, hi, col]) => {
+          axes(c, gx, gy, gw, gh, "t", yl);
+          const Y = y => gy - ((y - lo) / (hi - lo || 1)) * gh;
+          if (lo < 0) { c.strokeStyle = C.faint; c.beginPath(); c.moveTo(gx, Y(0)); c.lineTo(gx + gw, Y(0)); c.stroke(); }
+          c.strokeStyle = col; c.lineWidth = 2.5; c.beginPath();
+          for (let s = 0; s <= tr + 1e-9; s += T / 120) { const xx = gx + (s / T) * gw, yy = Y(F(s)); s ? c.lineTo(xx, yy) : c.moveTo(xx, yy); }
+          c.stroke();
+        });
+        txt(c, "t = " + f(tr, 2) + " s", 20, 22, { c: C.w, s: 13, b: 1 });
+        txt(c, hideOr(rev, ask, "x", "x = " + f(X(tr), 2) + " m"), 140, 22, { c: C.y, s: 13, b: 1 });
+        txt(c, hideOr(rev, ask, "v", "v = " + f(V(tr), 2) + " m/s"), 270, 22, { c: C.b, s: 13, b: 1 });
+        txt(c, "v₀ = " + f(v0) + " m/s   a = " + f(a) + " m/s²", 700, 22, { c: C.m, s: 12, a: "right" });
+      }
+    };
+  };
+
+  // projectile: launch speed v0 at angle ang (deg) from height h
+  SIMS.projectile = p => {
+    const v0 = p.v0, ang = (p.ang || 0) * D2R, h = p.h || 0, g = G;
+    const vx = v0 * Math.cos(ang), vy = v0 * Math.sin(ang);
+    const T = (vy + Math.sqrt(vy * vy + 2 * g * h)) / g, R = vx * T, Hm = h + (vy > 0 ? vy * vy / (2 * g) : 0);
+    const sc = Math.min(R > 0.01 ? 560 / R : 1e9, 170 / Math.max(Hm, 0.5));
+    const ox = R > 0.01 ? 70 : 360, oy = 236;
+    const P = t => [ox + vx * t * sc, oy - (h + vy * t - 0.5 * g * t * t) * sc];
+    return {
+      D: Math.min(4.5, Math.max(2.5, T)), hold: 1.4,
+      draw(c, t, rev) {
+        const D = Math.min(4.5, Math.max(2.5, T)), tr = (t / D) * T, ask = p.ask || [];
+        c.strokeStyle = C.line; c.lineWidth = 2; c.beginPath(); c.moveTo(16, oy); c.lineTo(704, oy); c.stroke();
+        if (h > 0) { c.fillStyle = "rgba(183,195,224,.18)"; c.fillRect(ox - 60, oy - h * sc, 60, h * sc); c.strokeStyle = C.m; c.strokeRect(ox - 60, oy - h * sc, 60, h * sc); txt(c, "h = " + f(h) + " m", ox - 30, oy - h * sc / 2, { c: C.m, s: 12, a: "center" }); }
+        c.setLineDash([3, 6]); c.strokeStyle = C.faint; c.lineWidth = 2; c.beginPath();
+        for (let s = 0; s <= T; s += T / 80) { const [x, y] = P(s); s ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke(); c.setLineDash([]);
+        c.strokeStyle = C.y; c.lineWidth = 2.5; c.beginPath();
+        for (let s = 0; s <= tr; s += T / 80) { const [x, y] = P(s); s ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke();
+        const [bx, by] = P(tr), vyt = vy - g * tr, k = 34 / v0;
+        ball(c, bx, by - 8, 9, C.y);
+        if (tr < T) {
+          if (Math.abs(vx) > 0.01) arrow(c, bx, by - 8, bx + vx * k, by - 8, C.g, "vx", { w: 2, ly: 14 });
+          if (Math.abs(vyt) > 0.05) arrow(c, bx, by - 8, bx, by - 8 - vyt * k, C.b, "vy", { w: 2, lx: 6 });
+        }
+        const lines = ["v₀ = " + f(v0) + " m/s at " + f(p.ang || 0) + "°"];
+        if (h) lines.push("launch height " + f(h) + " m");
+        lines.push(["time in air = " + f(T, 2) + " s", ask.includes("t")]);
+        if (R > 0.01) lines.push(["range = " + f(R, 2) + " m", ask.includes("R")]);
+        if (vy > 0) lines.push(["max height = " + f(Hm, 2) + " m", ask.includes("H")]);
+        if (ask.includes("v")) lines.push(["impact speed = " + f(Math.hypot(vx, vy - g * T), 2) + " m/s", true]);
+        panel(c, lines, 704, 26, rev, { a: "right" });
+        txt(c, "vx stays " + f(vx, 2) + " m/s; vy changes by g each second", 20, 262, { c: C.m, s: 12 });
+      }
+    };
+  };
+
+  // boat crossing a river
+  SIMS.river = p => {
+    const vb = p.vb, vr = p.vr, w = p.w, T = w / vb, d = vr * T;
+    const top = 72, bot = 236, scy = (bot - top) / w, scx = Math.min(scy, 420 / Math.max(d, 1));
+    return {
+      D: 4, hold: 1.2,
+      draw(c, t, rev) {
+        const s = clamp(t / 4, 0, 1), ask = p.ask || [];
+        c.fillStyle = "rgba(46,150,245,.18)"; c.fillRect(16, top, 688, bot - top);
+        c.strokeStyle = C.g; c.lineWidth = 3; [top, bot].forEach(y => { c.beginPath(); c.moveTo(16, y); c.lineTo(704, y); c.stroke(); });
+        c.strokeStyle = "rgba(255,255,255,.18)"; c.lineWidth = 1.5;
+        for (let i = 0; i < 14; i++) { const x = ((i * 60 + t * 50) % 700) + 10, y = top + 18 + (i % 4) * 40; c.beginPath(); c.moveTo(x, y); c.lineTo(x + 26, y); c.stroke(); }
+        const x0 = 90, bx = x0 + d * s * scx, by = bot - (bot - top) * s;
+        c.setLineDash([4, 5]); c.strokeStyle = C.faint; c.beginPath(); c.moveTo(x0, bot); c.lineTo(x0 + d * scx, top); c.stroke(); c.setLineDash([]);
+        c.save(); c.translate(bx, by); c.fillStyle = C.y; c.beginPath(); c.moveTo(0, -16); c.lineTo(9, 8); c.lineTo(-9, 8); c.closePath(); c.fill(); c.restore();
+        arrow(c, bx, by, bx, by - 40, C.y, "", { w: 2.5 });
+        txt(c, "boat " + f(vb) + " m/s ↑", 20, 58, { c: C.y, s: 12, b: 1 });
+        arrow(c, bx, by, bx + 40 * vr / vb, by, C.b, "", { w: 2.5 });
+        arrow(c, bx, by, bx + 40 * vr / vb, by - 40, C.w, "", { w: 2, dash: 1 });
+        txt(c, "river " + f(vr) + " m/s →", 150, 58, { c: C.b, s: 12, b: 1 });
+        panel(c, ["width = " + f(w) + " m", ["crossing time = " + f(T, 2) + " s", ask.includes("t")], ["drift downstream = " + f(d, 2) + " m", ask.includes("d")], ["speed vs shore = " + f(Math.hypot(vb, vr), 2) + " m/s", ask.includes("v")]], 704, 22, rev, { a: "right" });
+        
+      }
+    };
+  };
+
+  // vector components, or adding two vectors tip to tail
+  SIMS.vector = p => {
+    const sc = p.scale || 12;
+    return {
+      D: 3, hold: 1.5,
+      draw(c, t, rev) {
+        grid(c, 30, 20, 700, 250, 24);
+        const ox = 120, oy = 220, s = ease(clamp(t / 1.4, 0, 1)), s2 = ease(clamp((t - 1.4) / 1.2, 0, 1));
+        const comp = (m, a) => [m * Math.cos(a * D2R), m * Math.sin(a * D2R)];
+        if (!p.B) {
+          const [x, y] = comp(p.mag, p.ang);
+          arrow(c, ox, oy, ox + x * sc * s, oy - y * sc * s, C.y, "", { w: 3 });
+          if (s > 0.9) txt(c, f(p.mag) + " at " + f(p.ang) + "°", ox + x * sc / 2 - 10, oy - y * sc / 2 - 10, { c: C.y, s: 13, b: 1, a: "right" });
+          if (s2 > 0) {
+            arrow(c, ox, oy, ox + x * sc * s2, oy, C.g, "", { w: 2.5, dash: 1 });
+            arrow(c, ox + x * sc, oy, ox + x * sc, oy - y * sc * s2, C.b, "", { w: 2.5, dash: 1 });
+            if (s2 > 0.9) { txt(c, rev || !(p.ask || []).includes("x") ? "x = " + f(x, 2) : "x = ?", ox + x * sc / 2, oy + 18, { c: C.g, s: 13, b: 1, a: "center" }); txt(c, rev || !(p.ask || []).includes("y") ? "y = " + f(y, 2) : "y = ?", ox + x * sc + 8, oy - y * sc / 2, { c: C.b, s: 13, b: 1 }); }
+          }
+          panel(c, ["x = A cos θ", "y = A sin θ"], 700, 40, rev, { a: "right" });
+        } else {
+          const [ax, ay] = comp(...p.A), [bx, by] = comp(...p.B), rx = ax + bx, ry = ay + by;
+          arrow(c, ox, oy, ox + ax * sc * s, oy - ay * sc * s, C.y, "A", { w: 3 });
+          if (s > 0.95) arrow(c, ox + ax * sc, oy - ay * sc, ox + (ax + bx * s2) * sc, oy - (ay + by * s2) * sc, C.b, "B", { w: 3 });
+          if (s2 > 0.95) arrow(c, ox, oy, ox + rx * sc, oy - ry * sc, C.w, "R", { w: 3, dash: 1 });
+          const m = Math.hypot(rx, ry), a = Math.atan2(ry, rx) / D2R;
+          panel(c, ["add x parts and y parts", "Rx = " + f(rx, 2) + "   Ry = " + f(ry, 2), ["|R| = " + f(m, 2), true], ["angle = " + f(a, 1) + "°", true]], 700, 40, rev, { a: "right" });
+        }
+      }
+    };
+  };
+
+  // block on an incline (from rest)
+  SIMS.incline = p => {
+    const m = p.m || 1, th = p.ang * D2R, mus = p.mus ?? 0, muk = p.muk ?? 0;
+    const N = m * G * Math.cos(th), down = m * G * Math.sin(th);
+    const slides = down > mus * N + 1e-9, fr = slides ? muk * N : down, acc = slides ? (down - fr) / m : 0;
+    const L = 470, x0 = 90, y0 = 236, topx = x0, topy = y0 - L * Math.sin(th);
+    return {
+      D: 3.5, hold: 1.2,
+      draw(c, t, rev) {
+        const ask = p.ask || [];
+        c.fillStyle = "rgba(183,195,224,.15)"; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x0 + L * Math.cos(th), y0); c.lineTo(topx, topy); c.closePath(); c.fill();
+        c.strokeStyle = C.m; c.lineWidth = 2.5; c.beginPath(); c.moveTo(topx, topy); c.lineTo(x0 + L * Math.cos(th), y0); c.lineTo(x0, y0); c.stroke();
+        txt(c, f(p.ang) + "°", x0 + L * Math.cos(th) - 46, y0 - 8, { c: C.y, s: 13, b: 1 });
+        const s = slides ? clamp(0.12 + 0.8 * (t / 3.5) ** 2, 0, 0.92) : 0.25;
+        const cx = topx + L * s * Math.cos(th), cy = topy + L * s * Math.sin(th);
+        c.save(); c.translate(cx, cy); c.rotate(th); box(c, -26, -44, 52, 40, C.y, f(m) + " kg");
+        const k = 70 / (m * G);
+        arrow(c, 0, -24, 0, -24 - N * k, C.b, rev || !ask.includes("N") ? "N = " + f(N, 1) : "N = ?", { w: 2.5, lx: 6 });
+        if (fr > 0.01) arrow(c, -26, -10, -26 - fr * k, -10, C.r, rev || !ask.includes("f") ? "f = " + f(fr, 1) : "f = ?", { w: 2.5, la: "right", lx: -4 });
+        arrow(c, 0, -24, down * k, -24, C.o, "mg sin θ", { w: 2, dash: 1, ly: 16 });
+        c.restore();
+        arrow(c, cx, cy - 20, cx, cy - 20 + m * G * k, C.w, "mg", { w: 2.5, lx: 6, ly: 10 });
+        panel(c, ["μs = " + f(mus) + "   μk = " + f(muk), slides ? "tan θ > μs: it slides" : "tan θ ≤ μs: it stays put", ["a = " + f(acc, 2) + " m/s²", ask.includes("a")]], 704, 30, rev, { a: "right" });
+      }
+    };
+  };
+
+  // pulleys: "atwood" (two hanging masses), "table" (block on table + hanging mass), "push2" (two blocks pushed)
+  SIMS.pulley = p => {
+    const m1 = p.m1, m2 = p.m2, mu = p.mu || 0, F = p.F || 0;
+    let a, T;
+    if (p.mode === "table") { a = Math.max(0, (m2 * G - mu * m1 * G) / (m1 + m2)); T = m2 * (G - a); }
+    else if (p.mode === "push2") { a = Math.max(0, (F - mu * (m1 + m2) * G) / (m1 + m2)); T = m2 * a + mu * m2 * G; }
+    else { a = (m2 - m1) * G / (m1 + m2); T = 2 * m1 * m2 * G / (m1 + m2); }
+    return {
+      D: 3, hold: 1.2,
+      draw(c, t, rev) {
+        const ask = p.ask || [], s = Math.min(1, (t / 3) ** 2) * Math.min(1, Math.abs(a) / 4 + 0.15), dirn = Math.sign(a);
+        const Tl = rev || !ask.includes("T") ? (p.mode === "push2" ? "contact " : "T = ") + f(T, 1) + " N" : (p.mode === "push2" ? "contact = ?" : "T = ?");
+        if (p.mode === "push2") {
+          ground(c, 200, 16, 704);
+          const x = 120 + 300 * s;
+          box(c, x, 140, 90, 60, C.y, f(m1) + " kg"); box(c, x + 90, 150, 80, 50, C.b, f(m2) + " kg");
+          arrow(c, x - 70, 170, x - 2, 170, C.w, "F = " + f(F) + " N", { la: "right", lx: -74, ly: -10 });
+          arrow(c, x + 90, 128, x + 130, 128, C.g, Tl, { w: 2.5 });
+        } else if (p.mode === "table") {
+          c.fillStyle = "rgba(183,195,224,.18)"; c.fillRect(40, 120, 420, 14); c.fillRect(60, 134, 10, 110); c.fillRect(430, 134, 10, 110);
+          const px = 470, py = 128; c.strokeStyle = C.m; c.lineWidth = 3; c.beginPath(); c.arc(px, py, 12, 0, 7); c.stroke();
+          const d = 150 * s, bx = 140 + d, hy = 160 + d;
+          box(c, bx, 76, 80, 44, C.y, f(m1) + " kg");
+          c.strokeStyle = C.m; c.lineWidth = 2; c.beginPath(); c.moveTo(bx + 80, 98); c.lineTo(px, py - 12); c.moveTo(px + 12, py); c.lineTo(px + 12, hy); c.stroke();
+          box(c, px - 14, hy, 52, 44, C.b, f(m2) + " kg");
+          arrow(c, bx + 80, 70, bx + 120, 70, C.g, Tl, { w: 2 });
+          arrow(c, px + 12, hy + 44, px + 12, hy + 90, C.r, "m₂g", { w: 2, lx: 6 });
+        } else {
+          const px = 360, py = 40; c.strokeStyle = C.m; c.lineWidth = 3; c.beginPath(); c.arc(px, py, 26, 0, 7); c.stroke();
+          c.fillStyle = C.m; c.fillRect(px - 4, 6, 8, 10);
+          const d = 60 * s * dirn, y1 = 150 - d, y2 = 150 + d;
+          c.lineWidth = 2; c.beginPath(); c.moveTo(px - 26, py); c.lineTo(px - 26, y1); c.moveTo(px + 26, py); c.lineTo(px + 26, y2); c.stroke();
+          box(c, px - 56, y1, 60, 46, C.y, f(m1) + " kg"); box(c, px - 4, y2, 60, 46, C.b, f(m2) + " kg");
+          arrow(c, px - 26, y1, px - 26, y1 - 34, C.g, Tl, { w: 2, la: "right", lx: -8 });
+        }
+        panel(c, [p.mode === "push2" ? "F = " + f(F) + " N, μ = " + f(mu) : p.mode === "table" ? "μ on table = " + f(mu) : "m₁ = " + f(m1) + ", m₂ = " + f(m2), ["a = " + f(a, 2) + " m/s²", ask.includes("a")]], 704, 28, rev, { a: "right" });
+      }
+    };
+  };
+
+  // elevator: person standing on a scale, elevator accelerating (a up = +)
+  SIMS.elevator = p => {
+    const m = p.m, a = p.a, N = m * (G + a);
+    return {
+      D: 3, hold: 1.2,
+      draw(c, t, rev) {
+        const s = clamp(t / 3, 0, 1), y = 60 - Math.sign(a) * 40 * s * s + (a === 0 ? 0 : 0);
+        c.strokeStyle = C.m; c.lineWidth = 2; c.beginPath(); c.moveTo(300, 0); c.lineTo(300, y); c.stroke();
+        c.strokeStyle = C.y; c.lineWidth = 3; c.strokeRect(220, y, 160, 170);
+        c.fillStyle = C.faint; c.fillRect(270, y + 156, 60, 10);
+        figure(c, 300, y + 156, 90, C.y, false);
+        arrow(c, 410, y + 85, 410, y + 85 - Math.sign(a) * 40, C.o, a === 0 ? "" : "a = " + f(Math.abs(a)) + (a > 0 ? " up" : " down"), { w: 2.5, lx: 8 });
+        arrow(c, 340, y + 150, 340, y + 150 - N * 0.12, C.b, rev || !(p.ask || []).includes("N") ? "N = " + f(N, 1) + " N" : "N = ?", { w: 2.5, lx: 6 });
+        arrow(c, 260, y + 100, 260, y + 100 + m * G * 0.12, C.r, "mg = " + f(m * G) + " N", { w: 2.5, la: "right", lx: -6 });
+        panel(c, ["mass = " + f(m) + " kg", "N − mg = ma", ["scale reads " + f(N, 1) + " N", (p.ask || []).includes("N")], N > m * G ? "feels heavier" : N < m * G ? "feels lighter" : "feels normal"], 704, 40, rev, { a: "right" });
+      }
+    };
+  };
+
+  // uniform circular motion (top view); mode "orbit" draws a planet
+  SIMS.circle = p => {
+    const r = p.r, v = p.v, m = p.m || 1, Tp = 2 * Math.PI * r / v, ac = v * v / r;
+    const R = 92, cx = 250, cy = 135;
+    return {
+      D: p.release ? 4.5 : 4, hold: 0.6,
+      draw(c, t, rev) {
+        const ask = p.ask || [], lap = p.release ? 3 : 4, ang = (t / lap) * Math.PI * 2;
+        c.setLineDash([4, 6]); c.strokeStyle = C.faint; c.lineWidth = 2; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.stroke(); c.setLineDash([]);
+        if (p.mode === "orbit") { const g2 = c.createRadialGradient(cx - 14, cy - 14, 4, cx, cy, 44); g2.addColorStop(0, "#7cc4ff"); g2.addColorStop(1, "#0042a6"); c.fillStyle = g2; c.beginPath(); c.arc(cx, cy, 40, 0, 7); c.fill(); }
+        else { c.fillStyle = C.m; c.beginPath(); c.arc(cx, cy, 4, 0, 7); c.fill(); }
+        let x, y, vxu, vyu, free = false;
+        if (p.release && t > 3) { const a0 = Math.PI * 2; x = cx + R * Math.cos(a0) - Math.sin(a0) * 0; y = cy - R * Math.sin(a0); free = true; const d = (t - 3) * 120; x += 0; y -= d; vxu = 0; vyu = -1; }
+        else { x = cx + R * Math.cos(ang); y = cy - R * Math.sin(ang); vxu = -Math.sin(ang); vyu = -Math.cos(ang); }
+        if (p.mode === "string" && !free) { c.strokeStyle = C.m; c.lineWidth = 1.5; c.beginPath(); c.moveTo(cx, cy); c.lineTo(x, y); c.stroke(); }
+        if (p.mode === "orbit") { c.save(); c.translate(x, y); c.rotate(-ang); c.fillStyle = C.y; c.fillRect(-8, -5, 16, 10); c.fillStyle = C.b; c.fillRect(-20, -3, 10, 6); c.fillRect(10, -3, 10, 6); c.restore(); }
+        else if (p.mode === "car") { c.save(); c.translate(x, y); c.rotate(Math.atan2(vyu, vxu)); c.fillStyle = C.y; rr(c, -14, -8, 28, 16, 4); c.fill(); c.restore(); }
+        else ball(c, x, y, 10, C.y);
+        arrow(c, x, y, x + vxu * 48, y + vyu * 48, C.b, "v", { w: 2.5 });
+        if (!free) arrow(c, x, y, x + (cx - x) / R * 40, y + (cy - y) / R * 40, C.r, p.mode === "orbit" ? "Fg" : p.mode === "car" ? "friction" : p.mode === "string" ? "T" : "Fnet", { w: 2.5 });
+        else txt(c, "released: moves in a straight line", x + 14, y + 20, { c: C.m, s: 12 });
+        panel(c, ["r = " + f(r) + " m   v = " + f(v) + " m/s", ["ac = v²/r = " + f(ac, 2) + " m/s²", ask.includes("a")], ["Fc = mv²/r = " + f(m * ac, 2) + " N", ask.includes("F")], ["period T = 2πr/v = " + f(Tp, 2) + " s", ask.includes("T")]], 704, 40, rev, { a: "right" });
+        txt(c, "velocity is tangent; acceleration points to the center", 470, 250, { c: C.m, s: 12, a: "center" });
+      }
+    };
+  };
+
+  // spring scale: hang masses one at a time, F = kx
+  SIMS.hooke = p => {
+    const k = p.k, ms = p.masses || [1, 2, 3];
+    return {
+      D: ms.length * 1.4 + 0.4, hold: 1,
+      draw(c, t, rev) {
+        const i = Math.min(ms.length - 1, Math.floor(t / 1.4)), u = clamp((t - i * 1.4) / 0.7, 0, 1);
+        const prev = i ? ms[i - 1] * G / k : 0, x = prev + (ms[i] * G / k - prev) * ease(u);
+        const xmax = ms[ms.length - 1] * G / k, sc = 120 / xmax, top = 24, L0 = 60, y = top + L0 + x * sc;
+        c.fillStyle = C.m; c.fillRect(180, 10, 140, 10);
+        c.strokeStyle = C.o; c.lineWidth = 2.5; c.beginPath(); c.moveTo(250, top);
+        for (let j = 1; j <= 14; j++) c.lineTo(250 + (j % 2 ? -12 : 12), top + ((y - top) * j) / 15); c.lineTo(250, y); c.stroke();
+        box(c, 222, y, 56, 40, C.y, f(ms[i]) + " kg");
+        c.strokeStyle = C.line; c.lineWidth = 1.5; c.beginPath(); c.moveTo(330, top + L0); c.lineTo(330, top + L0 + xmax * sc + 10); c.stroke();
+        c.setLineDash([3, 4]); c.beginPath(); c.moveTo(280, y); c.lineTo(340, y); c.moveTo(240, top + L0); c.lineTo(340, top + L0); c.stroke(); c.setLineDash([]);
+        txt(c, "x = " + f(x, 3) + " m", 346, (top + L0 + y) / 2, { c: C.y, s: 13, b: 1 });
+        // F vs x graph
+        axes(c, 470, 240, 210, 180, "x", "F");
+        ms.slice(0, i + 1).forEach(mm => { const xx = mm * G / k; c.fillStyle = C.b; c.beginPath(); c.arc(470 + xx * 200 / xmax, 240 - mm * G * 170 / (ms[ms.length - 1] * G), 4, 0, 7); c.fill(); });
+        c.strokeStyle = C.b; c.setLineDash([4, 4]); c.beginPath(); c.moveTo(470, 240); c.lineTo(670, 70); c.stroke(); c.setLineDash([]);
+        panel(c, ["F = kx", ["k = slope = " + f(k) + " N/m", (p.ask || []).includes("k")]], 704, 28, rev, { a: "right" });
+      }
+    };
+  };
+
+  // free-body diagram: forces [{l, F, dir}] (dir in degrees, 0 = right, 90 = up)
+  SIMS.fbd = p => {
+    const fs_ = p.forces, m = p.m || 1;
+    let nx = 0, ny = 0; fs_.forEach(q => { nx += q.F * Math.cos(q.dir * D2R); ny += q.F * Math.sin(q.dir * D2R); });
+    const net = Math.hypot(nx, ny), big = Math.max(...fs_.map(q => q.F), net, 1), sc = 90 / big;
+    const cols = [C.y, C.b, C.g, C.o, C.p, C.r];
+    return {
+      D: 2.6, hold: 1.6,
+      draw(c, t, rev) {
+        const cx = 230, cy = 140, s = ease(clamp(t / 1.6, 0, 1));
+        thing(c, p.obj || "box", cx - 34, cy + 28, 68, 56, "rgba(234,254,7,.85)", f(m) + " kg");
+        fs_.forEach((q, i) => {
+          const L = q.F * sc * s, ex = cx + Math.cos(q.dir * D2R) * L, ey = cy - Math.sin(q.dir * D2R) * L;
+          arrow(c, cx, cy, ex, ey, q.c || cols[i % cols.length], s > 0.9 ? q.l + " = " + f(q.F) + " N" : "", { w: 3, lx: Math.cos(q.dir * D2R) >= 0 ? 6 : -6, la: Math.cos(q.dir * D2R) >= 0 ? "left" : "right" });
+        });
+        if (t > 1.8 && net > 0.01) arrow(c, cx, cy, cx + nx * sc, cy - ny * sc, C.w, rev ? "Fnet" : "", { w: 2.5, dash: 1 });
+        const lines = ["ΣFx = " + f(nx, 2) + " N", "ΣFy = " + f(ny, 2) + " N", ["Fnet = " + f(net, 2) + " N", (p.ask || []).includes("F")], ["a = Fnet/m = " + f(net / m, 2) + " m/s²", (p.ask || []).includes("a")]];
+        if (net < 0.01) lines.push("balanced: constant velocity");
+        panel(c, lines, 704, 40, rev, { a: "right" });
+      }
+    };
+  };
+
   /* ---------- runtime ---------- */
   const live = new Set();
   function mount(el, params) {
