@@ -106,6 +106,107 @@
   const ease = s => s * s * (3 - 2 * s);
   const cartW = (m, mmax) => 54 + 46 * Math.sqrt(m / mmax);
 
+  /* ---------- objects that match the word problems ----------
+     thing(c, kind, x, gy, w, h, col, label, dir): x = left edge, gy = ground line, dir = facing (+1 right, -1 left)
+     kinds: cart, ball, car, truck, box, crate, sled, person, skater, bullet, rifle, glider, coaster */
+  function pill(c, s, x, y) {
+    c.font = '700 12px "Fira Sans", system-ui, sans-serif';
+    const w = c.measureText(s).width + 10;
+    c.fillStyle = "rgba(7,23,63,.85)"; rr(c, x - w / 2, y - 9, w, 18, 9); c.fill();
+    txt(c, s, x, y + 1, { c: "#fff", s: 12, b: 1, a: "center", bl: "middle" });
+  }
+  function wheel(c, x, y, r) { c.fillStyle = "#0b1f52"; c.strokeStyle = C.m; c.lineWidth = 2; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); c.stroke(); c.fillStyle = C.m; c.beginPath(); c.arc(x, y, r * 0.3, 0, 7); c.fill(); }
+  function figure(c, cx, gy, H, col, skate, pose) {
+    // simple person: H = total height
+    const head = H * 0.13, hip = gy - H * 0.47 - (skate ? 6 : 0), sh = gy - H * 0.8 - (skate ? 6 : 0), foot = gy - (skate ? 6 : 0);
+    c.save(); c.strokeStyle = col; c.lineWidth = Math.max(3, H * 0.07); c.lineCap = "round"; c.lineJoin = "round";
+    const sw = pose || 0;
+    c.beginPath();
+    c.moveTo(cx, hip); c.lineTo(cx - H * 0.12 - sw, foot); c.moveTo(cx, hip); c.lineTo(cx + H * 0.12 + sw, foot);
+    c.moveTo(cx, hip); c.lineTo(cx, sh);
+    c.moveTo(cx, sh + H * 0.04); c.lineTo(cx - H * 0.2, sh + H * 0.22); c.moveTo(cx, sh + H * 0.04); c.lineTo(cx + H * 0.2, sh + H * 0.22);
+    c.stroke();
+    c.fillStyle = col; c.beginPath(); c.arc(cx, sh - head, head, 0, 7); c.fill();
+    if (skate) { c.strokeStyle = C.m; c.lineWidth = 2; [[-H * 0.12 - sw], [H * 0.12 + sw]].forEach(([dx]) => { c.beginPath(); c.moveTo(cx + dx - 9, gy - 1); c.lineTo(cx + dx + 9, gy - 1); c.stroke(); }); }
+    c.restore();
+  }
+  function thing(c, kind, x, gy, w, h, col, lab, dir = 1) {
+    kind = kind || "cart";
+    c.save();
+    if (kind === "cart") { c.restore(); return cart(c, x, gy, w, h, col, lab); }
+    if (kind === "box" || kind === "crate" || kind === "block") {
+      box(c, x, gy - h, w, h, col, "");
+      if (kind === "crate") { c.strokeStyle = "rgba(7,23,63,.45)"; c.lineWidth = 3; c.strokeRect(x + 5, gy - h + 5, w - 10, h - 10); c.beginPath(); c.moveTo(x + 5, gy - h + 5); c.lineTo(x + w - 5, gy - 5); c.stroke(); }
+      if (lab) txt(c, lab, x + w / 2, gy - h / 2, { c: C.dark, s: 13, b: 1, a: "center", bl: "middle" });
+    } else if (kind === "ball") {
+      const r = Math.min(w, h + 10) / 2, cx = x + w / 2, cy = gy - r;
+      ball(c, cx, cy, r, col);
+      c.strokeStyle = "rgba(7,23,63,.35)"; c.lineWidth = 2; const a = x / r;
+      c.beginPath(); c.arc(cx, cy, r * 0.75, a, a + 1.2); c.stroke();
+      if (lab) txt(c, lab, cx, cy, { c: C.dark, s: 12, b: 1, a: "center", bl: "middle" });
+    } else if (kind === "car" || kind === "truck") {
+      const bh = h * 0.55, by = gy - 9 - bh;
+      c.shadowColor = col; c.shadowBlur = 12; c.fillStyle = col;
+      rr(c, x, by, w, bh, 7); c.fill();
+      c.beginPath();
+      if (kind === "car") {
+        const l = dir > 0 ? x + w * 0.18 : x + w * 0.3, r = dir > 0 ? x + w * 0.7 : x + w * 0.82;
+        c.moveTo(l, by + 2); c.lineTo(l + w * 0.1, by - h * 0.4); c.lineTo(r - w * 0.12, by - h * 0.4); c.lineTo(r, by + 2); c.closePath(); c.fill();
+        c.shadowBlur = 0; c.fillStyle = "rgba(7,23,63,.65)";
+        c.beginPath(); c.moveTo(l + w * 0.06, by); c.lineTo(l + w * 0.13, by - h * 0.32); c.lineTo(r - w * 0.15, by - h * 0.32); c.lineTo(r - w * 0.06, by); c.closePath(); c.fill();
+      } else {
+        const cab = dir > 0 ? x + w * 0.68 : x, cw = w * 0.32;
+        rr(c, cab, by - h * 0.5, cw, h * 0.55, 5); c.fill(); c.shadowBlur = 0;
+        c.fillStyle = "rgba(7,23,63,.65)"; c.fillRect(cab + cw * 0.2, by - h * 0.42, cw * 0.6, h * 0.22);
+      }
+      c.shadowBlur = 0; c.fillStyle = "#fff8c4";
+      c.beginPath(); c.arc(dir > 0 ? x + w - 4 : x + 4, by + bh * 0.35, 3, 0, 7); c.fill();
+      wheel(c, x + w * 0.22, gy - 8, 8); wheel(c, x + w * 0.78, gy - 8, 8);
+      if (lab) txt(c, lab, x + w / 2, by + bh / 2 + 1, { c: C.dark, s: 12, b: 1, a: "center", bl: "middle" });
+    } else if (kind === "sled") {
+      const bh = h * 0.7;
+      box(c, x + 6, gy - 10 - bh, w - 12, bh, col, "");
+      c.strokeStyle = C.m; c.lineWidth = 3; c.lineCap = "round";
+      c.beginPath(); c.moveTo(x, gy - 2); c.lineTo(x + w - 4, gy - 2); c.quadraticCurveTo(x + w + 8, gy - 2, x + w + 6, gy - 14); c.stroke();
+      c.lineWidth = 2; c.beginPath(); c.moveTo(x + 14, gy - 2); c.lineTo(x + 14, gy - 10); c.moveTo(x + w - 18, gy - 2); c.lineTo(x + w - 18, gy - 10); c.stroke();
+      if (lab) txt(c, lab, x + w / 2, gy - 10 - bh / 2, { c: C.dark, s: 12, b: 1, a: "center", bl: "middle" });
+    } else if (kind === "person" || kind === "skater") {
+      const H = clamp(h * 1.9, 60, 92), cx = x + w / 2;
+      figure(c, cx, gy, H, col, kind === "skater");
+      if (lab) pill(c, lab, cx, gy - H * 0.62);
+    } else if (kind === "bullet") {
+      const bw = Math.min(w, 34), bh = 11, by = gy - 34;
+      c.fillStyle = col; c.shadowColor = col; c.shadowBlur = 10;
+      c.beginPath();
+      if (dir > 0) { c.moveTo(x, by); c.lineTo(x + bw - 10, by); c.quadraticCurveTo(x + bw + 2, by + bh / 2, x + bw - 10, by + bh); c.lineTo(x, by + bh); }
+      else { c.moveTo(x + bw, by); c.lineTo(x + 10, by); c.quadraticCurveTo(x - 2, by + bh / 2, x + 10, by + bh); c.lineTo(x + bw, by + bh); }
+      c.closePath(); c.fill();
+      if (lab) txt(c, lab, x + bw / 2, by - 8, { c: col, s: 12, b: 1, a: "center" });
+    } else if (kind === "rifle") {
+      const by = gy - 40; c.fillStyle = col; c.shadowColor = col; c.shadowBlur = 10;
+      const f = dir > 0 ? 1 : -1, x0 = dir > 0 ? x : x + w;
+      c.beginPath();
+      c.moveTo(x0, by + 4); c.lineTo(x0 + f * w * 0.35, by); c.lineTo(x0 + f * w, by); c.lineTo(x0 + f * w, by + 7);
+      c.lineTo(x0 + f * w * 0.45, by + 9); c.lineTo(x0 + f * w * 0.4, by + 20); c.lineTo(x0 + f * w * 0.32, by + 20); c.lineTo(x0 + f * w * 0.3, by + 12); c.lineTo(x0, by + 26); c.closePath(); c.fill();
+      if (lab) txt(c, lab, x + w / 2, by - 10, { c: col, s: 12, b: 1, a: "center" });
+    } else if (kind === "glider") {
+      c.fillStyle = C.m; c.fillRect(x - 6, gy - 6, w + 12, 3);
+      c.shadowColor = col; c.shadowBlur = 12; c.fillStyle = col;
+      c.beginPath(); c.moveTo(x, gy - 8); c.lineTo(x + w * 0.5, gy - 8 - h * 0.8); c.lineTo(x + w, gy - 8); c.lineTo(x + w - 8, gy - 8); c.lineTo(x + w * 0.5, gy - 8 - h * 0.8 + 12); c.lineTo(x + 8, gy - 8); c.closePath(); c.fill();
+      c.fillRect(x, gy - 10, w, 5);
+      if (lab) pill(c, lab, x + w / 2, gy - h * 0.8 - 18);
+    } else if (kind === "coaster") {
+      const bh = h * 0.6, by = gy - 9 - bh;
+      c.shadowColor = col; c.shadowBlur = 12; c.fillStyle = col;
+      c.beginPath(); c.moveTo(x, by); c.lineTo(x + w, by); c.lineTo(x + w - 6, by + bh); c.lineTo(x + 6, by + bh); c.closePath(); c.fill();
+      c.shadowBlur = 0; c.fillStyle = C.m;
+      [0.3, 0.7].forEach(k => { c.beginPath(); c.arc(x + w * k, by - 7, 6, 0, 7); c.fill(); });
+      wheel(c, x + w * 0.25, gy - 6, 6); wheel(c, x + w * 0.75, gy - 6, 6);
+      if (lab) txt(c, lab, x + w / 2, by + bh / 2, { c: C.dark, s: 12, b: 1, a: "center", bl: "middle" });
+    }
+    c.restore();
+  }
+
   /* ---------- animation types ---------- */
   const SIMS = {};
 
@@ -115,7 +216,7 @@
     draw(c, t, rev) {
       ground(c, 200);
       const x = 40 + (520 / 3) * t;
-      cart(c, x, 200, 90, 46, C.y, f(p.m) + " kg");
+      thing(c, p.obj, x, 200, 90, 46, C.y, f(p.m) + " kg");
       arrow(c, x + 45, 120, x + 45 + 70, 120, C.b, "v = " + f(p.v) + " m/s");
       const res = p.show === "p" ? ["p = mv = " + f(p.m * p.v) + " kg·m/s", true] : ["K = ½mv² = " + f(0.5 * p.m * p.v * p.v) + " J", true];
       panel(c, ["m = " + f(p.m) + " kg", "v = " + f(p.v) + " m/s", res], 24, 36, rev);
@@ -131,7 +232,7 @@
         [[v1, 110, "v"], [v2, 220, f(v2 / v1) + "v"]].forEach(([v, y, lab], i) => {
           ground(c, y, 16, 540);
           const x = 30 + (400 / 3) * t * (v / vmax);
-          cart(c, x, y, 76, 38, i ? C.b : C.y, "m");
+          thing(c, p.obj, x, y, 76, 38, i ? C.b : C.y, "m");
           arrow(c, x + 38, y - 64, x + 38 + 34 * (v / vmax) + 18, y - 64, C.w, lab, { w: 2.5 });
         });
         const K1 = v1 * v1, K2 = v2 * v2;
@@ -157,9 +258,9 @@
           c.beginPath(); c.moveTo(stopX + 64, y - 70); c.lineTo(stopX + 64, y + 6); c.stroke(); c.setLineDash([]);
           const known = i === 0 || rev;
           txt(c, known ? f(d) + " m" : "? m", stopX + 64, y - 76, { c: col, s: 14, b: 1, a: "center" });
-          cart(c, x, y, 64, 32, col, "");
-          if (s < 1) arrow(c, x + 32, y - 52, x + 32 + 46 * (1 - s) + 6, y - 52, C.w, lab, { w: 2.5 });
-          else txt(c, "stopped", x + 32, y - 48, { c: C.m, s: 12, a: "center" });
+          thing(c, p.obj || "car", x, y, 74, 34, col, "");
+          if (s < 1) arrow(c, x + 37, y - 56, x + 37 + 46 * (1 - s) + 6, y - 56, C.w, lab, { w: 2.5 });
+          else txt(c, "stopped", x + 37, y - 50, { c: C.m, s: 12, a: "center" });
           if (s < 1) arrow(c, x - 2, y - 22, x - 34, y - 22, C.r, "f", { w: 2.5, la: "right", lx: -4 });
         });
         txt(c, "Same braking force, so d ∝ v²", 24, 262, { c: C.m, s: 13, b: 1 });
@@ -177,7 +278,7 @@
         const s = ease(clamp(t / 3, 0, 1)), y = 230 - 44 - s * hpx;
         c.strokeStyle = C.line; c.lineWidth = 1.5; c.beginPath(); c.moveTo(150, 230); c.lineTo(150, 230 - hpx - 44); c.stroke();
         for (let i = 0; i <= 3; i++) { const yy = 186 - (i * hpx) / 3; c.beginPath(); c.moveTo(144, yy); c.lineTo(156, yy); c.stroke(); txt(c, f((p.h * i) / 3) + " m", 138, yy + 4, { c: C.m, s: 11, a: "right" }); }
-        box(c, 230, y, 60, 44, C.y, f(p.m) + " kg");
+        thing(c, p.obj || "box", 230, y + 44, 60, 44, C.y, f(p.m) + " kg");
         arrow(c, 260, y, 260, y - 44, C.g, "F = mg", { w: 2.5 });
         arrow(c, 260, y + 44, 260, y + 84, C.r, "mg", { w: 2.5 });
         const U = p.m * G * p.h * s;
@@ -229,7 +330,7 @@
         const x = 30 + 110 * ease(clamp(t / 3.5, 0, 1)), bw = 70, bh = 48;
         c.strokeStyle = C.m; c.lineWidth = 2; c.beginPath(); c.moveTo(x + bw, gy - bh / 2); c.lineTo(x + bw + 110 * Math.cos(a), gy - bh / 2 - 110 * Math.sin(a)); c.stroke();
         c.fillStyle = C.m; c.beginPath(); c.arc(x + bw + 110 * Math.cos(a), gy - bh / 2 - 110 * Math.sin(a), 5, 0, 7); c.fill();
-        box(c, x, gy - bh, bw, bh, C.y, p.m ? f(p.m) + " kg" : "");
+        thing(c, p.obj || "box", x, gy, bw, bh, C.y, p.m ? f(p.m) + " kg" : "");
         arrow(c, x + 6, gy + 26, x + 56, gy + 26, C.w, "motion", { w: 2, ly: 4 });
         // free-body diagram
         const cx = 410, cy = 140;
@@ -290,38 +391,117 @@
     }
   });
 
-  // frictionless track drop
-  SIMS.coaster = p => {
-    const h = p.h, top = 54, bot = 214, x0 = 70, xa = 130, xb = 420, x1 = 680;
-    const yOf = x => x < xa ? top : x > xb ? bot : top + (bot - top) * (1 - Math.cos(Math.PI * (x - xa) / (xb - xa))) / 2;
-    const mpp = h / (bot - top);
-    // precompute motion with v = sqrt(2 g drop)
-    const path = []; let x = xa + 1, tt = 0;
-    while (x < x1 - 50 && path.length < 5000) {
-      const drop = (yOf(x) - top) * mpp, v = Math.sqrt(2 * G * drop) + 0.4;
-      const dydx = (yOf(x + 0.5) - yOf(x - 0.5)), dsdx = Math.sqrt(1 + dydx * dydx) * mpp;
-      path.push([x, tt, v - 0.4]); x += (v * 0.01) / dsdx; tt += 0.01;
+  /* roller coaster on a custom track
+     pts: [[x, y, "label"?], ...] in meters (ground at y = 0); smooth hills/valleys between points
+     loop: {at: index, R: radius, l: "T"}  (vertical loop starting at that valley point)
+     v0: start speed · lift: index the chain lift pulls to at constant speed (p.vl m/s)
+     vAt: ["B", speed] to set friction so the car has that speed at B · ask: label whose speed is unknown
+     lines: extra readout lines [[text, isAnswer], ...] · obj: "coaster" (default), "ball", "skater", "cart" */
+  SIMS.rollercoaster = p => {
+    const P = [], marks = [];
+    const add = (x, y) => P.push([x, y]);
+    const pts = p.pts;
+    for (let i = 0; i < pts.length; i++) {
+      const [x0, y0, l0] = pts[i];
+      if (i === 0) add(x0, y0);
+      if (l0) marks.push({ l: l0, i: P.length - 1 });
+      if (p.loop && p.loop.at === i) {
+        const R = p.loop.R, cx = x0, cy = y0 + R;
+        for (let k = 1; k <= 120; k++) { const a = -Math.PI / 2 + (k / 120) * Math.PI * 2; add(cx + R * Math.cos(a), cy + R * Math.sin(a)); if (k === 60) marks.push({ l: p.loop.l || "T", i: P.length - 1, top: 1 }); }
+      }
+      if (i < pts.length - 1) {
+        const [x1, y1] = pts[i + 1], n = Math.max(12, Math.round(Math.abs(x1 - x0) * 1.5));
+        for (let k = 1; k <= n; k++) { const u = k / n; add(x0 + (x1 - x0) * u, y0 + (y1 - y0) * (1 - Math.cos(Math.PI * u)) / 2); }
+      }
     }
-    const T = tt;
+    const S = [0]; for (let i = 1; i < P.length; i++) S.push(S[i - 1] + Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]));
+    const sT = S[S.length - 1];
+    const idxAt = s => { let lo = 0, hi = S.length - 1; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (S[m] <= s) lo = m; else hi = m; } return lo; };
+    const yAt = s => { const i = idxAt(s), j = Math.min(i + 1, P.length - 1), u = S[j] > S[i] ? (s - S[i]) / (S[j] - S[i]) : 0; return P[i][1] + (P[j][1] - P[i][1]) * u; };
+    const xyAt = s => { const i = idxAt(s), j = Math.min(i + 1, P.length - 1), u = S[j] > S[i] ? (s - S[i]) / (S[j] - S[i]) : 0; return [P[i][0] + (P[j][0] - P[i][0]) * u, P[i][1] + (P[j][1] - P[i][1]) * u, i]; };
+    const mk = l => marks.find(m => m.l === l);
+    // energy per unit mass
+    const sLift = p.lift !== undefined ? S[marks.find(m => m.l === p.lift).i] : 0;
+    const vl = p.vl || 2;
+    const yS = p.lift !== undefined ? yAt(sLift) : P[0][1];
+    const v0 = p.lift !== undefined ? vl : p.v0 || 0;
+    let af = 0;
+    if (p.vAt) { const m = mk(p.vAt[0]), sB = S[m.i]; af = (0.5 * v0 * v0 + G * (yS - P[m.i][1]) - 0.5 * p.vAt[1] ** 2) / (sB - sLift); }
+    const eAt = s => s < sLift ? 0.5 * vl * vl : 0.5 * v0 * v0 + G * (yS - yAt(s)) - af * (s - sLift);
+    const vAt = s => Math.sqrt(Math.max(0, 2 * eAt(s)));
+    // motion
+    let s0 = 0;
+    if (p.lift === undefined && !(p.v0 > 0) && marks.length && Math.abs(P[marks[0].i][1] - P[0][1]) < 1e-6) s0 = S[marks[0].i];
+    const frames = []; let s = s0, dir = 1, tt = 0, stopped = false;
+    while (tt < 60 && frames.length < 6000) {
+      frames.push([s, tt]);
+      if (s < sLift) { s += vl * 0.02; tt += 0.02; continue; }
+      const v = vAt(s), ve = Math.max(v, 1.6);
+      const ns = s + dir * ve * 0.02;
+      if (eAt(ns) <= 0) { if (af > 0 || p.stopAtRest) { stopped = true; break; } dir = -dir; }
+      else s = ns;
+      tt += 0.02;
+      if (s >= sT || s <= 0) break;
+    }
+    const T = tt, D = clamp(T, 4, 7), spedUp = T / D > 1.3;
+    // layout
+    const xs = P.map(q => q[0]), ys = P.map(q => q[1]);
+    const xmin = Math.min(...xs), xmax = Math.max(...xs), ymax = Math.max(...ys, 1);
+    const sc = Math.min(540 / (xmax - xmin), 150 / ymax), ox = 24 + (540 - (xmax - xmin) * sc) / 2, gyc = 236;
+    const X = x => ox + (x - xmin) * sc, Y = y => gyc - y * sc;
+    const E0 = 0.5 * v0 * v0 + G * yS;
+    const Emax = Math.max(E0, G * ymax + 0.5 * vl * vl);
     return {
-      D: 4, hold: 1,
+      D, hold: 1.2,
       draw(c, t, rev) {
-        c.strokeStyle = C.m; c.lineWidth = 3; c.beginPath(); c.moveTo(x0, top);
-        for (let xx = x0; xx <= x1; xx += 4) c.lineTo(xx, yOf(xx)); c.stroke();
-        c.strokeStyle = C.faint; c.lineWidth = 1;
-        for (let xx = x0 + 10; xx <= x1; xx += 30) { c.beginPath(); c.moveTo(xx, yOf(xx)); c.lineTo(xx, 250); c.stroke(); }
-        c.setLineDash([4, 6]); c.strokeStyle = C.o; c.beginPath(); c.moveTo(450, top); c.lineTo(450, bot); c.stroke(); c.setLineDash([]);
-        arrow(c, 450, top, 450, bot, C.o, "", { w: 1.5 }); txt(c, "h = " + f(h) + " m", 458, (top + bot) / 2, { c: C.o, s: 14, b: 1 });
-        const tr = (t / 4) * T; let i = path.findIndex(q => q[1] >= tr); if (i < 0) i = path.length - 1;
-        const [bx, , v] = path[i], by = yOf(bx);
-        ball(c, bx, by - 13, 13, C.y);
-        const drop = (by - top) * mpp;
-        bars(c, 560, 120, [{ l: "Ug", v: h - drop, c: C.b }, { l: "K", v: drop, c: C.y }], h, 80);
-        txt(c, rev ? "v = " + f(v, 1) + " m/s" : "v at bottom = ?", 560, 172, { c: C.y, s: 15, b: 1 });
-        txt(c, "Frictionless: Ug → K", 24, 30, { c: C.m, s: 13, b: 1 });
+        // ground and supports
+        c.strokeStyle = C.line; c.lineWidth = 2; c.beginPath(); c.moveTo(16, gyc); c.lineTo(574, gyc); c.stroke();
+        c.strokeStyle = C.faint; c.lineWidth = 1.5;
+        const loopStart = p.loop ? marks.find(m => m.top).i - 60 : -1;
+        for (let i = 0; i < P.length; i += 6) { if (p.loop && i > loopStart && i < loopStart + 120) continue; c.beginPath(); c.moveTo(X(P[i][0]), Y(P[i][1])); c.lineTo(X(P[i][0]), gyc); c.stroke(); }
+        // track
+        c.strokeStyle = C.m; c.lineWidth = 4; c.lineJoin = "round"; c.beginPath();
+        P.forEach(([x, y], i) => (i ? c.lineTo(X(x), Y(y)) : c.moveTo(X(x), Y(y)))); c.stroke();
+        c.strokeStyle = "rgba(7,23,63,.8)"; c.lineWidth = 1.5; c.setLineDash([2, 7]); c.stroke(); c.setLineDash([]);
+        if (p.lift !== undefined) { c.strokeStyle = C.o; c.lineWidth = 2; c.setLineDash([3, 4]); c.beginPath(); for (let i = 0; i <= mk(p.lift).i; i++) (i ? c.lineTo : c.moveTo).call(c, X(P[i][0]) - 3, Y(P[i][1]) + 4); c.stroke(); c.setLineDash([]); }
+        // marks
+        marks.forEach(m => {
+          const [x, y] = P[m.i]; c.fillStyle = C.y; c.beginPath(); c.arc(X(x), Y(y), 4, 0, 7); c.fill();
+          const ly = m.top ? Y(y) - 12 : Y(y) + (y > ymax * 0.5 || m.i === 0 ? -14 : 20);
+          txt(c, m.l + " · " + f(y) + " m", X(x), ly, { c: C.y, s: 12, b: 1, a: "center" });
+        });
+        // car
+        const tr = (t / D) * T; let k = frames.findIndex(q => q[1] >= tr); if (k < 0) k = frames.length - 1;
+        const sc_ = frames[k][0], [cx, cy] = xyAt(sc_), [ax, ay] = xyAt(Math.min(sT, sc_ + 0.5)), [bx, by] = xyAt(Math.max(0, sc_ - 0.5));
+        let tx = ax - bx, ty = ay - by; const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
+        const nx = -ty, ny = tx; // left normal (math coords): the side the car rides on
+        const ang = Math.atan2(-ty, tx);
+        c.save(); c.translate(X(cx) + nx * 2, Y(cy) - ny * 2); c.rotate(ang);
+        const kind = p.obj || "coaster";
+        if (kind === "ball") ball(c, 0, -11, 11, C.y);
+        else if (kind === "skater") figure(c, 0, 0, 40, C.y, true);
+        else thing(c, kind, -19, 0, 38, 26, C.y, "");
+        c.restore();
+        // speed readout
+        const v = sc_ < sLift ? vl : vAt(sc_);
+        if (rev || !p.ask) txt(c, "v = " + f(v, 1) + " m/s", X(cx), Y(cy) - (ny >= 0 ? 34 : -40), { c: C.w, s: 13, b: 1, a: "center" });
+        // bars
+        const U = G * cy, K = 0.5 * v * v, Eth = Math.max(0, af * (sc_ - sLift));
+        const items = [{ l: "Ug", v: U, c: C.b }, { l: "K", v: K, c: C.y }];
+        if (af > 0) items.push({ l: "Eth", v: Eth, c: C.r });
+        bars(c, 596, 236, items, Emax, 110, p.lift !== undefined ? "Energy (per kg)" : "Energy");
+        const lines = [];
+        if (p.ask) { const m = mk(p.ask); lines.push(["v at " + p.ask + " = " + f(vAt(S[m.i]), 1) + " m/s", true]); }
+        (p.lines || []).forEach(l => lines.push(l));
+        panel(c, lines, 586, 30, rev);
+        const title = p.title || (p.lift !== undefined ? "Chain lift, then frictionless" : af > 0 ? (p.vAt && p.vAt[1] === 0 ? "Brakes / friction" : "With friction") : "Frictionless track");
+        txt(c, title + (spedUp ? " · sped up" : ""), 20, 258, { c: C.m, s: 12, b: 1 });
+        if (stopped && t >= D) txt(c, "stopped", X(cx), Y(cy) - 34, { c: C.m, s: 12, a: "center" });
       }
     };
   };
+  // simple drop (kept for older pages)
+  SIMS.coaster = p => SIMS.rollercoaster(Object.assign({ pts: [[0, p.h], [6, p.h, "A"], [30, 0, "B"], [46, 0]], ask: p.reveal ? undefined : "B" }, p));
 
   // spring launcher
   SIMS.spring = p => {
@@ -362,7 +542,8 @@
       const s = clamp(t / 4, 0, 1), pos = s * n, i = Math.min(n - 1, Math.floor(pos)), fr = pos - Math.floor(pos);
       const hop = s >= 1 ? 0 : Math.sin(fr * Math.PI) * 14;
       const bx = x0 - 20 + pos * sw, by = y0 - (s >= 1 ? n : Math.floor(pos) + (fr > 0.5 ? 1 : 0)) * sh - 18 - hop;
-      ball(c, bx + 20, by, 14, C.y);
+      if (p.obj === "ball") ball(c, bx + 20, by, 14, C.y);
+      else figure(c, bx + 20, by + 18 + hop * 0, 58, C.y, false, s >= 1 ? 0 : Math.sin(fr * Math.PI * 2) * 4);
       txt(c, "clock: " + f(s * p.t, 1) + " s", 470, 50, { c: C.w, s: 15, b: 1 });
       txt(c, "(animation sped up)", 470, 70, { c: C.m, s: 12 });
       panel(c, ["weight = " + f(p.w) + " N", "height = " + f(p.h) + " m", "time = " + f(p.t) + " s", ["W = mgh = " + f(p.w * p.h) + " J", true], ["P = W/t = " + f((p.w * p.h) / p.t) + " W", true]], 470, 110, rev);
@@ -465,9 +646,9 @@
         const dt = t - tc, after = dt > 0;
         const r1 = X + (after ? v1f : v1) * k * dt, l2 = X + (after ? v2f : v2) * k * dt;
         const x1 = r1 - w1, x2 = l2;
-        cart(c, x1, gy, w1, 40, C.y, f(m1) + " kg");
-        cart(c, x2, gy, w2, 40, C.b, f(m2) + " kg");
-        if (after && p.mode === "stick") { c.fillStyle = C.w; c.fillRect(r1 - 3, gy - 38, 6, 18); }
+        thing(c, p.o1, x1, gy, w1, 40, C.y, f(m1) + " kg", (after ? v1f : v1) >= 0 ? 1 : -1);
+        thing(c, p.o2, x2, gy, w2, 40, C.b, f(m2) + " kg", (after ? v2f : v2) > 0 ? 1 : -1);
+        if (after && p.mode === "stick" && (!p.o1 || p.o1 === "cart")) { c.fillStyle = C.w; c.fillRect(r1 - 3, gy - 38, 6, 18); }
         flash(c, X, gy - 30, dt / 0.5);
         const va = after ? v1f : v1, vb = after ? v2f : v2;
         const ya = 112, yb = 112;
@@ -504,15 +685,15 @@
         const X0 = 360 - disp(v0) * ts;
         if (t < ts) {
           const X = X0 + disp(v0) * t;
-          cart(c, X - w1, gy, w1, 40, C.y, f(m1) + " kg");
-          cart(c, X, gy, w2, 40, C.b, f(m2) + " kg");
+          thing(c, p.o1, X - w1, gy, w1, 40, C.y, f(m1) + " kg", p.o1 === "rifle" ? 1 : v0 >= 0 ? 1 : -1);
+          thing(c, p.o2, X, gy, w2, 40, C.b, f(m2) + " kg", 1);
           if (Math.abs(v0) > 0.001) { arrow(c, X, 112, X + Math.sign(v0) * 50, 112, C.w, "", { w: 2.5 }); txt(c, "v₀ = " + fs(v0) + " m/s", X, 98, { c: C.w, s: 13, b: 1, a: "center" }); }
           else txt(c, "at rest", X, 112, { c: C.m, s: 13, b: 1, a: "center" });
         } else {
           const dt = t - ts, X = 360;
           const a1 = X + disp(v1f) * dt, a2 = X + disp(v2f) * dt;
-          cart(c, a1 - w1, gy, w1, 40, C.y, f(m1) + " kg");
-          cart(c, a2, gy, w2, 40, C.b, f(m2) + " kg");
+          thing(c, p.o1, a1 - w1, gy, w1, 40, C.y, f(m1) + " kg", p.o1 === "rifle" ? 1 : v1f >= 0 ? 1 : -1);
+          thing(c, p.o2, a2, gy, w2, 40, C.b, f(m2) + " kg", v2f >= 0 ? 1 : -1);
           flash(c, X, gy - 30, dt / 0.5);
           const s1 = known.includes("v1f") || rev, s2 = known.includes("v2f") || rev;
           arrow(c, a1 - w1 / 2, 112, a1 - w1 / 2 + Math.sign(v1f) * 46, 112, C.y, "", { w: 2.5 });

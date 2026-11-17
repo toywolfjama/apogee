@@ -91,7 +91,7 @@
   <h2><span class="pill e">ENERGY</span>Work</h2>
   <p class="sub">Work is how a force adds or removes energy.</p>
   <div class="big-eq">W = F·d·cos θ &nbsp;&nbsp;(θ = angle between force and displacement)</div>
-  <div class="sim" data-sim='{"type": "pull", "F": 50, "ang": 60, "d": 10, "reveal": true, "caption": "Only F cos θ does work"}'></div>
+  <div class="sim" data-sim='{"type": "pull", "F": 50, "ang": 60, "d": 10, "obj": "sled", "reveal": true, "caption": "Only F cos θ does work"}'></div>
   <p><b>Only the part of the force that points along the motion does work.</b></p>
   <div class="grid3">
     <div class="mini"><h4>Positive work</h4><p>Force points <b>with</b> the motion (θ &lt; 90°). Object gains energy.<br><i>Ex: pushing a cart forward.</i></p></div>
@@ -259,6 +259,52 @@
 </div></details>
 </section>
 </div>
+<div class="chapter" id="coasters" data-title="Roller Coasters" data-short="Roller Coasters">
+<section class="topic" id="coaster-physics">
+  <h2><span class="pill e">ENERGY</span>Roller coaster physics</h2>
+  <p class="sub">Roller coasters combine everything in this unit: energy conservation, friction, power and circular motion.</p>
+  <div class="sim" data-sim='{"type": "rollercoaster", "pts": [[0, 40], [8, 40, "A"], [40, 15, "B"], [70, 25, "C"], [100, 5, "D"], [112, 5]], "reveal": true, "caption": "Watch K and Ug trade back and forth"}'></div>
+  <h3>1. Speed depends only on height</h3>
+  <p>On a frictionless track, the car's speed at any point depends only on how far it is below where it started:</p>
+  <div class="big-eq">½v² = ½v₀² + g(h<sub>start</sub> − h)</div>
+  <p>The shape of the track in between doesn't matter, and neither does the mass. Hills only trade kinetic energy for gravitational potential energy and back again.</p>
+  <h3>2. It can never go higher than it started</h3>
+  <p>A car released from rest can't climb above its starting height, because it would need more energy than it has. If it starts with some speed v₀, it can rise an extra <span class="eq">v₀²/(2g)</span> above its start.</p>
+  <h3>3. Loops</h3>
+  <p>At the top of a loop of radius R, the car is upside down and needs a net force toward the center of <span class="eq">mv²/R</span>. Gravity and the track's normal force both point down there:</p>
+  <div class="big-eq">N + mg = mv²/R &nbsp;&nbsp;→&nbsp;&nbsp; minimum speed: v<sub>top</sub> = √(gR)</div>
+  <p>Combining that with energy gives the minimum release height from rest: <span class="eq">h = 2.5R</span>.</p>
+  <div class="sim" data-sim='{"type": "rollercoaster", "pts": [[0, 25], [8, 25, "A"], [40, 0], [55, 0], [80, 0]], "loop": {"at": 3, "R": 10, "l": "T"}, "reveal": true, "caption": "Released from exactly 2.5R: just fast enough at the top"}'></div>
+  <h3>4. Feeling heavy and light</h3>
+  <div class="grid2">
+    <div class="mini"><h4>Bottom of a valley</h4><span class="eq">N = mg + mv²/r</span><p>The seat pushes harder than your weight, so you feel heavier.</p></div>
+    <div class="mini"><h4>Top of a hill</h4><span class="eq">N = mg − mv²/r</span><p>The seat pushes less, so you feel lighter. If v² = gr, N = 0 and you feel weightless ("airtime").</p></div>
+  </div>
+  <h3>5. Friction, brakes and lifts</h3>
+  <p>Friction and brakes transform mechanical energy into thermal energy: <span class="eq">ΔE<sub>th</sub> = (U + K)<sub>start</sub> − (U + K)<sub>end</sub></span>. A chain lift does positive work to raise the car; its power is <span class="eq">P = mgh/t</span> at constant speed.</p>
+  <div class="worked">
+    <div class="q">Worked example: A car starts from rest 30 m high and goes over a hill whose top is 18 m high with a radius of curvature of 24 m. Do the riders feel weightless at the top?</div>
+    <div class="a">Speed at the top: v² = 2g(30 − 18) = 240 m²/s². At the top, N = mg − mv²/r. Here v²/r = 240/24 = 10 m/s² = g, so N = mg − mg = <b>0</b>. Yes: the riders feel weightless for an instant. Any faster and the car would need restraints (or wheels under the track) to keep it from leaving the rails.</div>
+  </div>
+  <details class="deep"><summary><span class="tag">Deep explanation</span>Why loops are shaped like teardrops, and other coaster details</summary><div class="deep-body">
+    <h4>Why h = 2.5R</h4>
+    <p>At the top of a circular loop, the slowest the car can go is when the track pushes with zero force and gravity alone bends its path: mg = mv²/R, so v² = gR. Energy from release height h to the top (height 2R): gh = g(2R) + ½(gR). Divide by g: h = 2R + 0.5R = 2.5R. Starting exactly at 2R wouldn't work. The car would need zero speed at the top, but it would actually leave the track partway up the loop.</p>
+    <h4>Why real loops aren't circles</h4>
+    <p>For a circular loop with h = 2.5R, the car reaches the bottom with v² = 5gR, and the normal force there is N = mg + m(5gR)/R = 6mg. Riders would feel 6 g's, which is dangerous. Real coasters use a teardrop shape (a clothoid): a tight radius at the top, where the car is slow, and a wide radius at the bottom, where it's fast. That keeps the forces on riders reasonable.</p>
+    <h4>Normal force does no work</h4>
+    <p>The track always pushes perpendicular to the car's motion, so the normal force never changes the car's speed, even though it can be huge. That's why only gravity (and friction) appear in the energy equation, and only heights matter.</p>
+    <h4>Real coasters lose energy</h4>
+    <p>Friction in the wheels and air resistance mean each hill must be a bit lower than the one before. That's why the first hill (after the chain lift) is the tallest, and why a coaster train gradually slows over the ride. The "missing" mechanical energy shows up as thermal energy in the wheels, rails and air.</p>
+    <h4>Using energy and forces together</h4>
+    <p>Most hard coaster problems are two steps: (1) use energy to find the speed at a point, then (2) use Newton's second law in the center-seeking direction to find the normal force. Energy can't give you forces directly, and forces alone can't easily give you speeds along a curved track.</p>
+  </div></details>
+</section>
+<section class="topic" id="coaster-problems">
+  <h2>Roller coaster problems</h2>
+  <p class="sub">12 problems from basic to hard, each with an animated track. Click an answer to check it. Use g = 10 m/s².</p>
+  <div class="quiz" data-src="quiz-coaster"></div>
+</section>
+</div>
 <div class="chapter" id="angles-power" data-title="Angled Forces &amp; Power" data-short="Angles &amp; Power">
 <section class="topic" id="angles">
   <h2><span class="pill e">ENERGY</span>Pulling or pushing at an angle</h2>
@@ -408,7 +454,7 @@
     <tr><td><b>Perfectly inelastic</b></td><td>Stick together, move as one. Most K lost.</td><td>✔ Conserved</td><td>✘ Decreases (most)</td></tr>
     <tr><td><b>Explosion / push apart</b></td><td>Stored energy released, pieces fly apart</td><td>✔ Conserved</td><td>↑ Increases</td></tr>
   </table></div>
-  <div class="sim" data-sim='{"type": "collide", "m1": 1, "v1": 3, "m2": 1, "v2": 0, "mode": "elastic", "reveal": true, "caption": "Elastic, equal masses: velocities swap"}'></div>
+  <div class="sim" data-sim='{"type": "collide", "m1": 1, "v1": 3, "m2": 1, "v2": 0, "mode": "elastic", "o1": "ball", "o2": "ball", "reveal": true, "caption": "Elastic, equal masses: velocities swap"}'></div>
   <p><b>Momentum is conserved in all four</b> (when external impulse is negligible). What changes is kinetic energy.</p>
   <h3>Equations you'll actually use</h3>
   <ul>
@@ -423,12 +469,12 @@
   </div>
   <div class="worked">
     <div class="q">Worked example (explosion): A 4.0 kg rifle fires a 0.020 kg bullet at +400 m/s. Recoil velocity of the rifle?</div>
-  <div class="sim" data-sim='{"type": "explode", "m1": 4, "m2": 0.02, "v0": 0, "v2f": 400, "known": ["v2f"], "reveal": true}'></div>
+  <div class="sim" data-sim='{"type": "explode", "m1": 4, "m2": 0.02, "v0": 0, "v2f": 400, "known": ["v2f"], "o1": "rifle", "o2": "bullet", "reveal": true}'></div>
     <div class="a">0 = (0.020)(400) + (4.0)v → 0 = 8 + 4v → <b>v = −2.0 m/s</b>. The negative means it kicks backward.</div>
   </div>
   <div class="worked">
     <div class="q">Worked example (push apart): Skater A (60 kg) and Skater B (40 kg) glide together at +1.0 m/s. They push apart and B moves at −1.0 m/s. A's velocity?</div>
-  <div class="sim" data-sim='{"type": "explode", "m1": 40, "m2": 60, "v0": 1, "v1f": -1, "known": ["v1f"], "reveal": true}'></div>
+  <div class="sim" data-sim='{"type": "explode", "m1": 40, "m2": 60, "v0": 1, "v1f": -1, "known": ["v1f"], "o1": "skater", "o2": "skater", "reveal": true}'></div>
     <div class="a">(100)(1.0) = (60)v<sub>A</sub> + (40)(−1.0) → 100 = 60v<sub>A</sub> − 40 → v<sub>A</sub> = 140/60 ≈ <b>+2.3 m/s</b>. K increases; the skaters' internal energy supplies it.</div>
   </div>
 
@@ -492,14 +538,14 @@
 
   <div class="qcard">
     <div class="qh"><span>3 · Push-off</span></div>
-  <div class="sim" data-sim='{"type": "explode", "m1": 50, "m2": 80, "v0": 0, "v2f": 1.5, "known": ["v2f"]}'></div>
+  <div class="sim" data-sim='{"type": "explode", "m1": 50, "m2": 80, "v0": 0, "v2f": 1.5, "known": ["v2f"], "o1": "skater", "o2": "skater"}'></div>
     <div class="qt">An 80 kg adult and a 50 kg child stand at rest on frictionless ice. The child pushes the adult, who moves right at 1.5 m/s. The push lasts 0.60 s.<br>(a) Velocity of the child? (b) Impulse on the adult and on the child? (c) Average force on each? (d) Acceleration of the child?</div>
     <details class="reveal"><summary>Solution</summary><div>(a) Total p = 0: 0 = (80)(1.5) + (50)v → <b>v = −2.4 m/s</b> (left).<br>(b) Adult: J = mΔv = (80)(1.5) = <b>+120 N·s</b>. Child: (50)(−2.4) = <b>−120 N·s</b>. Equal and opposite.<br>(c) F = J/Δt = 120/0.60 = <b>200 N</b>: +200 N on the adult, −200 N on the child (Newton's third law).<br>(d) a = F/m = −200/50 = <b>−4.0 m/s²</b>.</div></details>
   </div>
 
   <div class="qcard">
     <div class="qh"><span>4 · Explosion</span></div>
-  <div class="sim" data-sim='{"type": "explode", "m1": 2, "m2": 1, "v0": 3, "v2f": 6, "known": ["v2f"]}'></div>
+  <div class="sim" data-sim='{"type": "explode", "m1": 2, "m2": 1, "v0": 3, "v2f": 6, "known": ["v2f"], "o1": "glider", "o2": "glider"}'></div>
     <div class="qt">An air-track glider of mass M is made of two connected pieces with a small charge between them. It moves right at 3.0 m/s on a frictionless track. The charge separates the pieces, and the piece of mass ⅓M moves right at 6.0 m/s. What is the velocity of the other piece?<br>A. 1.5 m/s left &nbsp; B. 0 m/s &nbsp; C. 1.5 m/s right &nbsp; D. 3.0 m/s right</div>
     <details class="reveal"><summary>Solution</summary><div>M(3.0) = (⅓M)(6.0) + (⅔M)v → 3.0 = 2.0 + ⅔v → <b>v = +1.5 m/s</b>. Answer <b>C</b>, 1.5 m/s to the right. M cancels, so its value is not needed.</div></details>
   </div>
@@ -663,7 +709,8 @@
   "sim": {
    "type": "cart",
    "m": 2,
-   "v": 3
+   "v": 3,
+   "obj": "ball"
   }
  },
  {
@@ -680,7 +727,8 @@
   "sim": {
    "type": "compare",
    "v1": 1,
-   "v2": 2
+   "v2": 2,
+   "obj": "car"
   }
  },
  {
@@ -749,7 +797,8 @@
    "type": "pull",
    "F": 50,
    "ang": 60,
-   "d": 10
+   "d": 10,
+   "obj": "sled"
   }
  },
  {
@@ -914,7 +963,8 @@
    "type": "cart",
    "m": 1200,
    "v": 20,
-   "show": "p"
+   "show": "p",
+   "obj": "car"
   }
  },
  {
@@ -1008,7 +1058,9 @@
    "v2f": 400,
    "known": [
     "v2f"
-   ]
+   ],
+   "o1": "rifle",
+   "o2": "bullet"
   }
  },
  {
@@ -1048,7 +1100,9 @@
    "v1": 3,
    "m2": 1,
    "v2": 0,
-   "mode": "elastic"
+   "mode": "elastic",
+   "o1": "ball",
+   "o2": "ball"
   }
  },
  {
@@ -1156,7 +1210,8 @@
   "sim": {
    "type": "lift",
    "m": 50,
-   "h": 10
+   "h": 10,
+   "obj": "crate"
   }
  },
  {
@@ -1317,7 +1372,9 @@
    "v2f": 3,
    "known": [
     "v2f"
-   ]
+   ],
+   "o1": "skater",
+   "o2": "skater"
   }
  },
  {
@@ -1343,6 +1400,561 @@
   ],
   "a": 1,
   "x": "At the top the ball is momentarily at rest, so K = 0 and all the energy is gravitational potential. Gravity still acts, so the net force and acceleration are not zero."
+ }
+]
+</script>
+<script type="application/json" id="quiz-coaster">
+[
+ {
+  "t": "e",
+  "q": "A roller coaster car starts from rest at point A, 40 m above the ground. Ignoring friction, how fast is it moving at point B, 15 m above the ground?",
+  "o": [
+   "17.3 m/s",
+   "22.4 m/s",
+   "28.3 m/s",
+   "500 m/s"
+  ],
+  "a": 1,
+  "x": "Use the drop from A to B: 25 m. ½v² = g(25) → v = √(2·10·25) = √500 ≈ 22.4 m/s. 28.3 m/s uses the full 40 m height instead of the drop.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     40
+    ],
+    [
+     8,
+     40,
+     "A"
+    ],
+    [
+     40,
+     15,
+     "B"
+    ],
+    [
+     70,
+     25,
+     "C"
+    ],
+    [
+     100,
+     5,
+     "D"
+    ],
+    [
+     112,
+     5
+    ]
+   ],
+   "ask": "B"
+  }
+ },
+ {
+  "t": "e",
+  "q": "On the same track, how fast is the car moving at the top of hill C, 25 m above the ground?",
+  "o": [
+   "17.3 m/s",
+   "10 m/s",
+   "22.4 m/s",
+   "300 m/s"
+  ],
+  "a": 0,
+  "x": "Only the starting height and current height matter: drop = 40 − 25 = 15 m. v = √(2·10·15) = √300 ≈ 17.3 m/s. The dip to B in between doesn't change the answer.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     40
+    ],
+    [
+     8,
+     40,
+     "A"
+    ],
+    [
+     40,
+     15,
+     "B"
+    ],
+    [
+     70,
+     25,
+     "C"
+    ],
+    [
+     100,
+     5,
+     "D"
+    ],
+    [
+     112,
+     5
+    ]
+   ],
+   "ask": "C"
+  }
+ },
+ {
+  "t": "e",
+  "q": "A car starts from rest at A, 30 m high, on a frictionless track. Hill B ahead is 32 m high. What happens?",
+  "o": [
+   "It just barely reaches the top of B",
+   "It depends on the car's mass",
+   "It stops before the top of B and rolls back",
+   "It goes over B slowly"
+  ],
+  "a": 2,
+  "x": "Starting from rest, the car's total energy equals mg(30 m). Getting to 32 m would need more gravitational energy than it has, so it stops below the top and rolls back. On a frictionless track it can never go higher than where it started at rest.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     30
+    ],
+    [
+     8,
+     30,
+     "A"
+    ],
+    [
+     40,
+     6
+    ],
+    [
+     75,
+     32,
+     "B"
+    ],
+    [
+     100,
+     10
+    ],
+    [
+     110,
+     10
+    ]
+   ],
+   "lines": [
+    [
+     "Reaches B? = no, it rolls back",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "A coaster passes point A, 20 m high, at 10 m/s, then climbs toward a 30 m hill. Ignoring friction, what is the highest point it reaches?",
+  "o": [
+   "30 m",
+   "35 m",
+   "20 m",
+   "25 m"
+  ],
+  "a": 3,
+  "x": "Its extra kinetic energy lets it rise above A by h = v²/(2g) = 100/20 = 5 m. Max height = 20 + 5 = 25 m, so it doesn't make it over the 30 m hill.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     20,
+     "A"
+    ],
+    [
+     30,
+     3
+    ],
+    [
+     70,
+     30,
+     "B"
+    ],
+    [
+     85,
+     30
+    ]
+   ],
+   "v0": 10,
+   "lines": [
+    [
+     "max height = 25 m",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "A frictionless track has a vertical loop of radius 10 m. Starting from rest, what is the minimum starting height for the car to stay on the track at the top of the loop?",
+  "o": [
+   "20 m",
+   "30 m",
+   "10 m",
+   "25 m"
+  ],
+  "a": 3,
+  "x": "At the top of the loop the car needs v² ≥ gR so gravity can supply the centripetal force. Energy: g·h = g(2R) + ½gR → h = 2.5R = 25 m. 20 m (the loop's height) would leave the car with zero speed at the top, so it would fall off well before that.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     25
+    ],
+    [
+     8,
+     25,
+     "A"
+    ],
+    [
+     40,
+     0
+    ],
+    [
+     55,
+     0
+    ],
+    [
+     80,
+     0
+    ]
+   ],
+   "loop": {
+    "at": 3,
+    "R": 10,
+    "l": "T"
+   },
+   "ask": "T",
+   "lines": [
+    [
+     "h min = 2.5R = 25 m",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "A 500 kg car starts from rest 35 m high and goes through a loop of radius 10 m (top of loop 20 m high). What normal force does the track exert on the car at the top of the loop?",
+  "o": [
+   "20,000 N",
+   "10,000 N",
+   "15,000 N",
+   "5,000 N"
+  ],
+  "a": 1,
+  "x": "Speed at top: v² = 2g(35 − 20) = 300. At the top both N and mg point down, toward the center: N + mg = mv²/R → N = (500)(300)/10 − 5000 = 15,000 − 5000 = 10,000 N. 15,000 N forgets that gravity helps.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     35
+    ],
+    [
+     8,
+     35,
+     "A"
+    ],
+    [
+     40,
+     0
+    ],
+    [
+     55,
+     0
+    ],
+    [
+     80,
+     0
+    ]
+   ],
+   "loop": {
+    "at": 3,
+    "R": 10,
+    "l": "T"
+   },
+   "ask": "T",
+   "lines": [
+    [
+     "N at top = 10,000 N",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "A 600 kg coaster starts from rest 45 m up and reaches the bottom (B) at 28 m/s. How much energy was transformed into thermal energy by friction?",
+  "o": [
+   "235,200 J",
+   "34,800 J",
+   "270,000 J",
+   "0 J"
+  ],
+  "a": 1,
+  "x": "U at start = mgh = (600)(10)(45) = 270,000 J. K at bottom = ½(600)(28²) = 235,200 J. The difference, 34,800 J, became thermal energy.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     45
+    ],
+    [
+     8,
+     45,
+     "A"
+    ],
+    [
+     50,
+     0,
+     "B"
+    ],
+    [
+     68,
+     0
+    ]
+   ],
+   "vAt": [
+    "B",
+    28
+   ],
+   "lines": [
+    [
+     "Eth = 34,800 J",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "At the bottom of a valley with a radius of curvature of 20 m, a coaster moves at 20 m/s. What normal force does the seat exert on a 60 kg rider?",
+  "o": [
+   "1,200 N",
+   "2,400 N",
+   "1,800 N",
+   "600 N"
+  ],
+  "a": 2,
+  "x": "At the bottom the net force points up, toward the center: N − mg = mv²/r → N = 600 + (60)(400)/20 = 600 + 1200 = 1800 N. That's 3 times the rider's weight, which is why you feel pushed into your seat.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     30
+    ],
+    [
+     8,
+     30,
+     "A"
+    ],
+    [
+     45,
+     10,
+     "B"
+    ],
+    [
+     80,
+     25
+    ],
+    [
+     95,
+     25
+    ]
+   ],
+   "lines": [
+    "v at B = 20 m/s",
+    [
+     "N = 1,800 N",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "Where on a frictionless roller coaster track is the car moving fastest?",
+  "o": [
+   "At the lowest point on the track",
+   "At the bottom of the first drop, no matter what",
+   "It moves at a constant speed",
+   "At the top of the tallest hill"
+  ],
+  "a": 0,
+  "x": "Speed depends only on how far below the start the car is: ½v² = g(drop). The lowest point has the biggest drop, so the highest speed. On this track the lowest point is D, not the bottom of the first drop.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     40
+    ],
+    [
+     8,
+     40,
+     "A"
+    ],
+    [
+     40,
+     15,
+     "B"
+    ],
+    [
+     70,
+     25,
+     "C"
+    ],
+    [
+     100,
+     5,
+     "D"
+    ],
+    [
+     112,
+     5
+    ]
+   ],
+   "lines": [
+    [
+     "fastest at = lowest point (D)",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "Two coaster trains start from rest at the same height on the same frictionless track. Train 2 has twice the mass of train 1. At the bottom of the first drop, train 2 is moving…",
+  "o": [
+   "√2 times as fast",
+   "at the same speed as train 1",
+   "half as fast",
+   "twice as fast"
+  ],
+  "a": 1,
+  "x": "mgh = ½mv² → v = √(2gh). Mass cancels, so both trains have the same speed. Train 2 has twice the kinetic energy and twice the momentum, though.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     30
+    ],
+    [
+     8,
+     30,
+     "A"
+    ],
+    [
+     40,
+     0,
+     "B"
+    ],
+    [
+     55,
+     0
+    ]
+   ],
+   "lines": [
+    [
+     "speed difference = none",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "A chain lift pulls an 800 kg coaster car at constant speed up to a peak 50 m high in 25 s. What average power does the lift motor deliver?",
+  "o": [
+   "1,600 W",
+   "32,000 W",
+   "16,000 W",
+   "400,000 W"
+  ],
+  "a": 2,
+  "x": "At constant speed, the work done equals the gain in U_g: mgh = (800)(10)(50) = 400,000 J. P = W/t = 400,000/25 = 16,000 W. 400,000 is the energy in joules, not the power.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     0
+    ],
+    [
+     50,
+     50,
+     "Top"
+    ],
+    [
+     85,
+     5
+    ],
+    [
+     100,
+     5
+    ]
+   ],
+   "lift": "Top",
+   "vl": 2,
+   "lines": [
+    [
+     "P = 16,000 W",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "A 500 kg coaster car moving at 20 m/s on a flat section is stopped by brakes over a distance of 40 m. What is the average braking force?",
+  "o": [
+   "10,000 N",
+   "250 N",
+   "5,000 N",
+   "2,500 N"
+  ],
+  "a": 3,
+  "x": "The brakes must remove all the kinetic energy: F·d = ½mv² → F = ½(500)(400)/40 = 2,500 N. 5,000 N forgets the ½.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     0,
+     "A"
+    ],
+    [
+     40,
+     0,
+     "B"
+    ],
+    [
+     48,
+     0
+    ]
+   ],
+   "v0": 20,
+   "vAt": [
+    "B",
+    0
+   ],
+   "title": "Brakes on a flat section",
+   "lines": [
+    [
+     "F = 2,500 N",
+     true
+    ]
+   ]
+  }
  }
 ]
 </script>
