@@ -2,7 +2,7 @@
 
 *Reach your highest point.*
 
-Free AP review pages: explanations, in-depth breakdowns of each idea, worked examples, and self-checking practice questions.
+Free AP review pages: explanations, detailed explanations of each idea, worked examples, and self-checking practice questions.
 
 ## Current content
 
@@ -24,7 +24,7 @@ templates/unit-template.html   Starting point for new units
 ## Adding a course or unit
 
 1. Copy `templates/unit-template.html` to `courses/<course-id>/<unit-id>.html`.
-2. Fill in the chapters, topics, deep explanations and quiz questions (the template has comments).
+2. Fill in the chapters, topics, detailed explanations and quiz questions (the template has comments).
 3. Add the course/unit to `assets/js/courses.js` with its `path` and `ready: true`.
 
 Animated examples: add `<div class="sim" data-sim='{"type":"collide",...}'></div>` to a page, or a `"sim"` object to a quiz question. Available types are listed in `assets/js/sims.js`.

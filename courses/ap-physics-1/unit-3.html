@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AP Physics 1 Unit 3: Work, Energy & Power (+ Momentum) | Apogee</title>
-<meta name="description" content="AP Physics 1 review of work, energy, power, momentum and impulse with deep explanations and practice questions.">
+<meta name="description" content="AP Physics 1 review of work, energy, power, momentum and impulse with detailed explanations and practice questions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&family=Fira+Sans:wght@400;500;600;700&family=Overpass:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -14,7 +14,7 @@
 <div class="hero">
   <span class="kicker">AP Physics 1 · Unit 3</span>
   <h1>Work, Energy <span class="hl">&amp;</span> Power<br><span class="hl">+</span> Momentum</h1>
-  <p>Explanations, worked examples, in-depth breakdowns of each idea, a momentum problem set, 40 practice questions, 14 challenge questions and a timed practice exam.</p>
+  <p>Everything in AP Physics 1 Unit 3 (work, energy and power) and Unit 4 (momentum): explanations, worked examples, detailed explanations, animated models, lab and FRQ skills, more than 100 practice questions, and a timed practice exam.</p>
 </div>
 
 <main class="page">
@@ -26,9 +26,10 @@
     <li>Use the chapter buttons at the top to move between chapters, or <b>Show all</b> to scroll through everything.</li>
     <li>Read <b>Core ideas</b> first.</li>
     <li>Have a test coming up? Start with the <a href="#test-review">Test Review Checklist</a>.</li>
-    <li>Work through each topic. Try each worked example before reading the solution. Open a <b>deep explanation</b> when you want the full reasoning behind an idea.</li>
+    <li>Work through each topic. Try each worked example before reading the solution. Open a <b>detailed explanation</b> when you want the full reasoning behind an idea.</li>
     <li>Review <b>Common mistakes</b>.</li>
     <li>Do the <b>problem set</b> and <b>practice questions</b>. For any you miss, read the explanation and return to that topic.</li>
+    <li>Before the AP exam, work through <a href="#labs-frq">Labs, Graphs &amp; FRQs</a>: half the exam score is free response.</li>
     <li>When you feel ready, try the <b>Challenge</b> questions, then take the timed <b>Practice Exam</b>. Turn off animated models in <b>⚙ Settings</b> for a real exam feel.</li>
   </ol>
   <div class="box plain"><b class="lbl">Note</b>In the current AP Physics 1 course (since 2024), <b>Unit 3 is Work, Energy &amp; Power</b> and <b>Unit 4 is Linear Momentum</b>. Both are covered here. This page uses <span class="eq">g = 10 m/s²</span>, as the exam does unless told otherwise.</div>
@@ -49,7 +50,7 @@
   </div>
   <div class="box tip"><b class="lbl">Summary</b><b>Work</b> (force × distance) changes <b>energy</b>. <b>Impulse</b> (force × time) changes <b>momentum</b>.</div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Why physics needs both energy and momentum</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Why physics needs both energy and momentum</summary><div class="deep-body">
 <h4>Two ways to add up the same force</h4>
 <p>Every force acts over some <b>distance</b> and over some <b>time</b>. Add up the force over distance and you get <b>work</b>, which changes kinetic energy. Add up the same force over time and you get <b>impulse</b>, which changes momentum. They're the same push, counted two ways.</p>
 <p>Take a 10 N force acting on a 2 kg cart at rest for 3 s. Its acceleration is 5 m/s², so after 3 s it moves at 15 m/s and has covered ½(5)(3²) = 22.5 m. Impulse = 10 × 3 = 30 N·s = Δp = 2 × 15. Work = 10 × 22.5 = 225 J = ΔK = ½(2)(15²). Both bookkeeping methods agree.</p>
@@ -117,7 +118,7 @@
   </div>
   <div class="box trap"><b class="lbl">Trap</b>Potential energy belongs to a <b>system</b> (object + Earth, or object + spring), not to one object alone. If an FRQ asks you to "define the system," include Earth if you want to use U<sub>g</sub>.</div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Where the energy formulas come from</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Where the energy formulas come from</summary><div class="deep-body">
 <h4>Kinetic energy: why ½mv²?</h4>
 <p>Push a mass m from rest with a constant net force F over a distance d. From kinematics, v² = 2ad, so d = v²/(2a). The work done is W = Fd = (ma)(v²/2a) = ½mv². Kinetic energy is just "the work it took to get this object up to speed," and that's also how much work it can do while it stops.</p>
 <p>The v² is why speed matters so much. A car at 60 mph carries 4× the energy of one at 30 mph, which is why crash damage rises so steeply with speed.</p>
@@ -129,6 +130,42 @@
 <p>A spring's force grows with stretch: F = kx. Graph F against x and you get a straight line through the origin. The work to stretch it is the area under that line, a triangle: ½ × base × height = ½(x)(kx) = ½kx². The ½ appears because the force starts at zero and builds up, so on average you only push with half the final force.</p>
 <h4>Thermal energy</h4>
 <p>Thermal energy is the random jiggling of the atoms in an object. When friction acts, organized motion (the whole block moving one way) becomes disorganized motion (atoms vibrating in every direction). The energy still exists, but you can't turn it fully back into motion, so physicists say it was <b>dissipated</b>, not lost.</p>
+</div></details>
+</section>
+<section class="topic" id="systems">
+  <h2><span class="pill e">ENERGY</span>Systems: choosing what's inside</h2>
+  <p class="sub">The AP exam asks you to define a system before almost every energy or momentum argument.</p>
+  <p>A <b>system</b> is whatever objects you decide to analyze together. Everything else is the <b>environment</b>. Forces between objects inside the system are <b>internal</b>; forces from the environment are <b>external</b>.</p>
+  <div class="grid2">
+    <div class="mini"><h4>Closed (isolated) system</h4><p>No external work is done on it, so its total energy stays constant. Energy only changes form inside it.</p></div>
+    <div class="mini"><h4>Open system</h4><p>External forces do work on it, so energy flows in or out. The change in the system's energy equals the work done on it by external forces.</p></div>
+  </div>
+  <div class="big-eq">ΔE<sub>system</sub> = W<sub>external</sub></div>
+  <h3>Which kinds of energy can a system have?</h3>
+  <ul>
+    <li><b>Kinetic energy:</b> any system with moving objects, even a single object.</li>
+    <li><b>Potential energy:</b> only a system containing <b>both</b> interacting objects. U<sub>g</sub> needs the object <i>and</i> Earth in the system; U<sub>s</sub> needs the spring in the system.</li>
+    <li><b>Internal (thermal) energy:</b> any system where friction or deformation happens between objects inside it.</li>
+  </ul>
+  <h3>Kinetic energy depends on the reference frame</h3>
+  <p>Speed is measured relative to something, so K is too. A suitcase on a moving train has kinetic energy relative to the ground but none relative to the train. Within one problem, measure every speed from the same reference frame (almost always the ground).</p>
+  <div class="worked">
+    <div class="q">Worked example: A 2.0 kg book falls 3.0 m. Describe its energy using two different systems.</div>
+    <div class="a"><b>System = book only.</b> Earth is outside, so gravity is an external force doing work W = mgh = (2)(10)(3) = +60 J on the book. The book's energy (all kinetic) increases by 60 J.<br><b>System = book + Earth.</b> Gravity is internal, so no external work is done. The system's U<sub>g</sub> decreases by 60 J and its K increases by 60 J. Total energy is constant.<br>Both give a speed of √(2·10·3) ≈ 7.7 m/s. The two descriptions are equally correct; you just can't mix them.</div>
+  </div>
+  <div class="box trap"><b class="lbl">Common mistake</b>Counting gravity twice: including both "work done by gravity" and "change in U<sub>g</sub>" in the same equation. Gravity appears as one or the other, depending on whether Earth is in your system.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>How the AP exam tests systems</summary><div class="deep-body">
+    <h4>What "define the system" means in an answer</h4>
+    <p>Name the objects ("the block–spring–Earth system"), then say whether any external force does work on it. That single sentence tells the grader which equation you're about to write and is often worth a point.</p>
+    <h4>Choosing the most useful system</h4>
+    <p>Choose a system that makes the unknown work disappear. If you don't know the normal force or tension, but it does no work (it's perpendicular to the motion), it doesn't matter whether it's internal or external. If friction acts between two objects you want to track, put both in the system so friction converts kinetic energy into internal energy instead of appearing as unknown external work.</p>
+    <h4>Work done on a system of several objects</h4>
+    <p>For a system of two blocks connected by a string, the tension forces are internal. The string pulls forward on one block and backward on the other, and since both move the same distance, their works cancel. That's why you can often treat connected objects as one system and ignore tension entirely when using energy.</p>
+    <h4>Energy and momentum use the same idea</h4>
+    <p>Momentum works the same way: the change in a system's momentum equals the impulse from external forces. A system can be closed for momentum but open for energy, or the other way around. Example: two carts colliding on a track with friction. During the very short collision, friction's impulse is tiny (momentum is essentially conserved), but over the long slide afterward friction removes a lot of energy.</p>
+    <h4>Typical exam phrasing</h4>
+    <p>"Consider the system consisting of the cart and Earth." "Is the mechanical energy of the system conserved? Justify." A full answer names every external force, states whether each does work, and concludes accordingly.</p>
 </div></details>
 </section>
 <section class="topic" id="work">
@@ -162,7 +199,7 @@
     <div class="a">W = F·d·cos θ = (50)(10)(cos 60°) = (50)(10)(0.5) = <b>250 J</b>. Only the horizontal part of the pull (25 N) does work, because the sled moves horizontally.</div>
   </div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Understanding work fully</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Understanding work fully</summary><div class="deep-body">
 <h4>Why only the parallel part counts</h4>
 <p>Break any force into a part along the motion and a part perpendicular to it. The parallel part speeds the object up or slows it down. The perpendicular part only changes direction or presses on something; it can't change speed. Since kinetic energy depends only on speed, only the parallel part transfers energy. That's what F·d·cos θ picks out: F cos θ is the parallel part.</p>
 <table>
@@ -197,7 +234,7 @@
   </table></div>
   <div class="box tip"><b class="lbl">Pattern</b>When a quantity depends on v², square the speed factor: ×2 → ×4, ×3 → ×9, ÷2 → ÷4. Ratio questions like this are common on the exam.</div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Using the work-energy theorem well</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Using the work-energy theorem well</summary><div class="deep-body">
 <h4>Where it comes from</h4>
 <p>Newton's second law says F<sub>net</sub> = ma. Multiply both sides by distance d and use v<sub>f</sub>² = v<sub>i</sub>² + 2ad: F<sub>net</sub>·d = m·a·d = ½m(v<sub>f</sub>² − v<sub>i</sub>²). So the work-energy theorem is Newton's second law, rewritten in a form that skips time.</p>
 <h4>"Net work" means every force</h4>
@@ -243,7 +280,7 @@
     <div class="a">U<sub>i</sub> = K<sub>f</sub> → mgh = ½mv² → <b>mass cancels</b> → v = √(2gh) = √(2·10·20) = √400 = <b>20 m/s</b>. Any mass gives the same speed.</div>
   </div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Systems, conservative forces and energy accounting</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Systems, conservative forces and energy accounting</summary><div class="deep-body">
 <h4>Choosing a system changes the bookkeeping, not the answer</h4>
 <p>Take a ball falling from height h. There are two valid ways to describe it:</p>
 <p><b>System = ball only.</b> Earth is outside the system, so gravity is an external force that does work mgh on the ball. There's no potential energy, because the ball alone can't store U<sub>g</sub>. W = ΔK → mgh = ½mv².</p>
@@ -288,7 +325,7 @@
   <div class="box trap"><b class="lbl">Trap</b>The tension in the string does <b>zero work</b> because it's always perpendicular to the motion. Only gravity changes the pendulum's speed. Same for the normal force on a roller coaster track.</div>
   <div class="box tip"><b class="lbl">Roller coasters</b>Without friction, speed at any point depends only on how far <b>below the starting height</b> you are, not the shape of the track. Two paths that drop the same height give the same final speed (though one may take longer).</div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Pendulums, loops and finding the height</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Pendulums, loops and finding the height</summary><div class="deep-body">
 <h4>Finding h from the swing angle</h4>
 <p>A pendulum of length L pulled back to angle θ from vertical rises above its lowest point by h = L − L cos θ = L(1 − cos θ). The bob is still L from the pivot, but its vertical drop below the pivot is now only L cos θ.</p>
 <p>Example: L = 2.0 m, θ = 60°: h = 2.0(1 − 0.5) = 1.0 m. Speed at the bottom = √(2gh) = √20 ≈ 4.5 m/s.</p>
@@ -300,6 +337,53 @@
 <p>For a cart to just make it over the top of a loop of radius r, gravity alone must supply the centripetal force there: mg = mv²/r, so v<sub>top</sub> = √(gr). Then use energy to find the starting height: mgh = mg(2r) + ½m(gr) → h = 2.5r. Start any lower and the cart leaves the track before the top.</p>
 <h4>Why the path shape doesn't matter for speed</h4>
 <p>Without friction, every bump and dip is just converting between U and K. At any point, ½mv² = mg(drop from start). So speed depends only on how far below the start you are. The shape still affects <b>time</b>: a steeper first drop gets you going sooner, so it can arrive first even at the same final speed.</p>
+</div></details>
+</section>
+<section class="topic" id="energy-graphs">
+  <h2><span class="pill e">ENERGY</span>Energy graphs</h2>
+  <p class="sub">Translating between graphs, bar charts and equations is the most heavily weighted skill on the free-response section.</p>
+  <h3>K and U against height or position</h3>
+  <p>For a ball falling freely, U<sub>g</sub> = mgh is a straight line against height, and K = mg(h<sub>0</sub> − h) is a straight line going the other way. Their sum is a flat line: total energy is constant.</p>
+  <h3>K against time is not a straight line</h3>
+  <p>A dropped ball's speed grows steadily with time (v = gt), so K = ½m(gt)² grows with t². Against <b>time</b>, K curves upward like a parabola, even though against <b>height</b> it's a straight line. Always check the horizontal axis.</p>
+  <h3>Reading a potential energy curve</h3>
+  <svg viewBox="0 0 460 220" role="img" aria-label="Potential energy versus position curve with points A to E and a total energy line">
+  <g fill="currentColor" font-size="13">
+    <line x1="40" y1="190" x2="440" y2="190" stroke="currentColor" opacity=".5"/>
+    <line x1="40" y1="20" x2="40" y2="190" stroke="currentColor" opacity=".5"/>
+    <text x="10" y="28">U</text><text x="432" y="208">x</text>
+    <path d="M50 40 C 90 40, 100 160, 140 160 S 200 70, 230 70 S 290 175, 320 175 S 400 50, 430 40" fill="none" stroke="#2e96f5" stroke-width="3"/>
+    <line x1="40" y1="95" x2="440" y2="95" stroke="#eafe07" stroke-dasharray="6 5" stroke-width="2"/>
+    <text x="400" y="88" fill="#eafe07">E total</text>
+    <circle cx="140" cy="160" r="4"/><text x="134" y="180">A</text>
+    <circle cx="230" cy="70" r="4"/><text x="224" y="60">B</text>
+    <circle cx="320" cy="175" r="4"/><text x="314" y="208">C</text>
+    <circle cx="96" cy="95" r="4"/><text x="80" y="88">D</text>
+    <circle cx="189" cy="115" r="4"/><text x="196" y="132">E</text>
+  </g>
+</svg>
+  <p>The dashed line is the system's total energy E. At any position, the gap between E and the U curve is the kinetic energy: <span class="eq">K = E − U</span>.</p>
+  <ul>
+    <li>The object moves fastest where U is lowest (point C here, then A).</li>
+    <li>It can only be where U ≤ E. Points where U = E (like D) are <b>turning points</b>: K = 0, and the object stops and reverses.</li>
+    <li>Point B is above the E line, so an object starting between D and B can never get past B.</li>
+  </ul>
+  <div class="worked">
+    <div class="q">Worked example: A 0.50 kg mass on a spring (k = 200 N/m) oscillates on a frictionless surface with amplitude 0.10 m. Find its speed when it is 0.06 m from equilibrium.</div>
+    <div class="a">Total energy = U at the turning point = ½(200)(0.10)² = 1.0 J. At x = 0.06 m: U = ½(200)(0.06)² = 0.36 J, so K = 1.0 − 0.36 = 0.64 J. ½(0.50)v² = 0.64 → v² = 2.56 → <b>v = 1.6 m/s</b>.</div>
+  </div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Getting every energy-graph question right</summary><div class="deep-body">
+    <h4>Step 1: read the axes before anything else</h4>
+    <p>The same motion gives a straight line against position and a curve against time. Most graph-matching mistakes come from assuming the axis is the one you expected.</p>
+    <h4>Step 2: find what stays constant</h4>
+    <p>In a closed system with no friction, total energy is a horizontal line on any energy graph. With friction, the total mechanical energy line slopes down, and the missing amount appears as thermal energy.</p>
+    <h4>Step 3: use K = E − U</h4>
+    <p>On a U(x) graph, kinetic energy is the vertical distance from the curve up to the total-energy line. Where that gap is biggest, the object is fastest. Where it's zero, the object is momentarily at rest.</p>
+    <h4>Step 4: connect to forces (enrichment)</h4>
+    <p>The steeper the U(x) curve, the stronger the force, and the force always pushes toward lower U, like a ball rolling downhill on the graph. At the bottom of a valley in U (like point A or C), the force is zero and the object is in stable equilibrium.</p>
+    <h4>Bar charts and graphs together</h4>
+    <p>A common FRQ part gives you a bar chart at one position and asks for the graph, or the reverse. Translate one position at a time: read U and K at that point, then check that K + U matches the total.</p>
 </div></details>
 </section>
 </div>
@@ -331,7 +415,7 @@
     <div class="q">Worked example: A car starts from rest 30 m high and goes over a hill whose top is 18 m high with a radius of curvature of 24 m. Do the riders feel weightless at the top?</div>
     <div class="a">Speed at the top: v² = 2g(30 − 18) = 240 m²/s². At the top, N = mg − mv²/r. Here v²/r = 240/24 = 10 m/s² = g, so N = mg − mg = <b>0</b>. Yes: the riders feel weightless for an instant. Any faster and the car would need restraints (or wheels under the track) to keep it from leaving the rails.</div>
   </div>
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Why loops are shaped like teardrops, and other coaster details</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Why loops are shaped like teardrops, and other coaster details</summary><div class="deep-body">
     <h4>Why h = 2.5R</h4>
     <p>At the top of a circular loop, the slowest the car can go is when the track pushes with zero force and gravity alone bends its path: mg = mv²/R, so v² = gR. Energy from release height h to the top (height 2R): gh = g(2R) + ½(gR). Divide by g: h = 2R + 0.5R = 2.5R. Starting exactly at 2R wouldn't work. The car would need zero speed at the top, but it would actually leave the track partway up the loop.</p>
     <h4>Why real loops aren't circles</h4>
@@ -369,7 +453,7 @@
     <div class="a">N = mg − F sin θ = 100 − 40(0.5) = 80 N. Friction = μN = 0.2 × 80 = <b>16 N</b>. (Using N = mg = 100 N would give an incorrect 20 N.)</div>
   </div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Angled forces and ramps in detail</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Angled forces and ramps in detail</summary><div class="deep-body">
 <h4>The full method</h4>
 <ol class="steps">
 <li>Draw a free-body diagram with every force.</li>
@@ -403,7 +487,7 @@
   </div>
   <div class="box trap"><b class="lbl">Trap</b>Don't mix up <b>W</b> (work, in joules) with <b>W</b> (watts, the unit of power). Read the context.</div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Power in more depth</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Power in more depth</summary><div class="deep-body">
 <h4>Where P = Fv comes from</h4>
 <p>Power is work per time: P = W/Δt = (F·d)/Δt. And d/Δt is velocity, so P = F·v (using the part of the force along the velocity). This is especially useful when something moves at constant speed against a resisting force.</p>
 <h4>Constant speed still needs power</h4>
@@ -432,7 +516,7 @@
     <div class="a">p = (2)(+5) + (3)(−2) = 10 − 6 = <b>+4 kg·m/s</b> (to the right). Omitting the sign gives an incorrect 16.</div>
   </div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Momentum, Newton's laws and the center of mass</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Momentum, Newton's laws and the center of mass</summary><div class="deep-body">
 <h4>Newton's second law, the original version</h4>
 <p>Newton actually wrote his second law in terms of momentum: F<sub>net</sub> = Δp/Δt. Net force is the rate at which momentum changes. When mass is constant, Δp/Δt = m·Δv/Δt = ma, giving the familiar form. The momentum form is more general and leads straight to impulse.</p>
 <h4>Momentum and kinetic energy are related</h4>
@@ -466,7 +550,7 @@
     <div class="a">J = (6000)(0.0020) = +12 N·s. Then 12 = 0.15(v<sub>f</sub> − (−30)) → v<sub>f</sub> + 30 = 80 → <b>v<sub>f</sub> = +50 m/s</b> (to the right).</div>
   </div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Impulse, force graphs and why momentum is conserved</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Impulse, force graphs and why momentum is conserved</summary><div class="deep-body">
 <h4>Impulse comes straight from Newton's second law</h4>
 <p>Start with F<sub>net</sub> = Δp/Δt and multiply both sides by Δt: F<sub>net</sub>Δt = Δp. The left side is the impulse. So impulse isn't a new law; it's Newton's second law applied over a stretch of time.</p>
 <h4>What "average force" means</h4>
@@ -485,6 +569,41 @@
 <h4>Safety design, quantitatively</h4>
 <p>A 70 kg passenger going 15 m/s must lose 1050 kg·m/s of momentum. Stopped by a dashboard in 0.01 s: F = 105,000 N. Stopped by an airbag in 0.15 s: F = 7,000 N. Same impulse, 15× less force.</p>
 </div></details>
+</section>
+<section class="topic" id="center-of-mass">
+  <h2><span class="pill m">MOMENTUM</span>Systems and the center of mass</h2>
+  <p class="sub">Why momentum is conserved, and how to choose a system so that it is.</p>
+  <p>A system's total momentum changes only because of <b>external</b> forces: <span class="eq">Δp<sub>system</sub> = F<sub>ext</sub>Δt</span>. Internal forces come in Newton's third-law pairs. During a collision, the push of A on B and the push of B on A are equal, opposite and last the same time, so their impulses cancel inside the system.</p>
+  <h3>The center of mass</h3>
+  <div class="big-eq">v<sub>cm</sub> = (m₁v₁ + m₂v₂) / (m₁ + m₂) = p<sub>total</sub> / m<sub>total</sub></div>
+  <p>The center-of-mass velocity is the total momentum divided by the total mass. If no external impulse acts, the total momentum is constant, so <b>the center of mass moves at a constant velocity</b> no matter what happens inside the system: collisions, explosions, push-offs.</p>
+  <div class="worked">
+    <div class="q">Worked example: A 2.0 kg cart moves at +3.0 m/s toward a 1.0 kg cart moving at −3.0 m/s. What is the velocity of their center of mass, before and after they collide?</div>
+    <div class="a">v<sub>cm</sub> = [(2)(3) + (1)(−3)] / 3 = <b>+1.0 m/s</b>. Momentum is conserved in the collision, so v<sub>cm</sub> is still +1.0 m/s afterward, whether they stick or bounce. If they stick, they both move at exactly v<sub>cm</sub>.</div>
+  </div>
+  <h3>Choosing the system</h3>
+  <div class="grid2">
+    <div class="mini"><h4>Ball falling (ball only)</h4><p>Gravity from Earth is external. The ball's momentum increases. <b>Not conserved.</b></p></div>
+    <div class="mini"><h4>Ball + Earth</h4><p>Gravity is internal. The ball gains downward momentum and Earth gains an equal (tiny) upward momentum. <b>Conserved.</b></p></div>
+  </div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Momentum systems on the exam</summary><div class="deep-body">
+    <h4>When can you treat momentum as conserved?</h4>
+    <p>Strictly, only when the net external force is zero. In practice the exam also accepts "the external force is small compared to the collision forces and acts for a very short time," so its impulse is negligible. Friction on colliding carts and gravity during a brief horizontal collision both fit that description.</p>
+    <h4>Momentum can be conserved in one direction only</h4>
+    <p>A ball rolling off a table: no horizontal forces act, so horizontal momentum is conserved, while gravity changes the vertical momentum. A person jumping off a boat: horizontal momentum of person + boat is conserved even though gravity and the water's buoyant force act vertically.</p>
+    <h4>Center of mass in explosions</h4>
+    <p>When a firework shell explodes in midair, the fragments fly in all directions, but the center of mass continues on the same parabola, because the explosion forces are internal and gravity still acts on the total mass the same way.</p>
+    <h4>Kinetic energy of the center of mass</h4>
+    <p>When objects stick together, they move at v<sub>cm</sub> afterward. That is the smallest kinetic energy the system can have while keeping its momentum, which is why perfectly inelastic collisions lose the most kinetic energy. In the center-of-mass frame, the total momentum is zero, so a perfectly inelastic collision brings everything to rest in that frame.</p>
+    <h4>Graphs of momentum</h4>
+    <p>On a graph of each object's momentum against time during a collision, the two curves are mirror images: whatever one gains, the other loses. Their sum is a flat line. On a force–time graph, the two forces are equal and opposite at every instant, so the areas (impulses) are equal and opposite.</p>
+</div></details>
+</section>
+<section class="topic" id="systems-quiz">
+  <h2>Practice: systems, energy graphs and center of mass</h2>
+  <p class="sub">7 questions on the ideas in this chapter.</p>
+  <div class="quiz" data-src="quiz-systems" data-tags='{"e":"Energy","m":"Momentum"}'></div>
 </section>
 </div>
 <div class="chapter" id="collisions-ch" data-title="Collisions &amp; Explosions" data-short="Collisions">
@@ -523,7 +642,7 @@
     <div class="a">(100)(1.0) = (60)v<sub>A</sub> + (40)(−1.0) → 100 = 60v<sub>A</sub> − 40 → v<sub>A</sub> = 140/60 ≈ <b>+2.3 m/s</b>. K increases; the skaters' internal energy supplies it.</div>
   </div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>Collisions in depth</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Collisions in depth</summary><div class="deep-body">
 <h4>Why kinetic energy is lost in inelastic collisions</h4>
 <p>During contact, objects compress. In a perfectly elastic collision they spring back fully, returning all the stored energy as kinetic energy. In a real collision, some compression is permanent (dents), some energy vibrates the atoms (heat), and some leaves as sound. That energy doesn't return as motion, so K<sub>f</sub> &lt; K<sub>i</sub>.</p>
 <h4>Perfectly inelastic loses the most</h4>
@@ -628,7 +747,7 @@
   </table></div>
   <div class="box tip"><b class="lbl">Some problems need both</b>Example: a bullet embeds in a hanging block, which then swings up (a ballistic pendulum). Use <b>momentum</b> for the instant of the collision (kinetic energy is not conserved there), then <b>energy</b> for the swing up afterward.</div>
 
-  <details class="deep"><summary><span class="tag">Deep explanation</span>A decision process for choosing a method</summary><div class="deep-body">
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>A decision process for choosing a method</summary><div class="deep-body">
 <h4>Ask these questions in order</h4>
 <ol class="steps">
 <li><b>Is there a collision, explosion or push-off?</b> Use momentum conservation for the moment of interaction.</li>
@@ -688,6 +807,125 @@
   </table></div>
 </section>
 </div>
+<div class="chapter" id="labs-frq" data-title="Labs, Graphs & FRQs" data-short="Labs & FRQs">
+<section class="topic" id="frq-types">
+  <h2>The free-response section</h2>
+  <p class="sub">Half your exam score comes from four free-response questions, always in the same order.</p>
+  <div class="tblwrap"><table>
+    <tr><th>#</th><th>Type</th><th>Points</th><th>What it asks you to do</th></tr>
+    <tr><td>1</td><td><b>Mathematical Routines</b></td><td>10</td><td>Draw a diagram, derive a symbolic expression, calculate a value, and justify a claim.</td></tr>
+    <tr><td>2</td><td><b>Translation Between Representations</b></td><td>12</td><td>Connect diagrams, graphs, bar charts and equations for the same situation. Draw graphs and check that your equation agrees with them.</td></tr>
+    <tr><td>3</td><td><b>Experimental Design and Analysis</b></td><td>10</td><td>Describe a procedure to measure something, choose what to graph to get a straight line, and use the slope to find a quantity.</td></tr>
+    <tr><td>4</td><td><b>Qualitative/Quantitative Translation</b></td><td>8</td><td>Explain a result in words using physics principles, then show it agrees with an equation.</td></tr>
+  </table></div>
+  <h3>How points are earned</h3>
+  <ul>
+    <li><b>Derivations</b> start from a fundamental equation on the equation sheet (like K₁ + U₁ = K₂ + U₂) and end with the requested variable in terms of the given symbols. Plugging in numbers without the starting equation usually loses the first point.</li>
+    <li><b>Justifications</b> need a physics principle by name, applied to this situation, ending in a clear conclusion. "Because of energy" earns nothing; "the system's mechanical energy is conserved because no external force does work on it, so the greater height means greater speed" earns the point.</li>
+    <li><b>Diagrams and graphs</b> are graded on specific features: arrows starting on the object, correct relative lengths, correct curvature, intercepts and labels.</li>
+    <li>Answers are graded part by part. A wrong number in part (b) can still earn full credit in part (c) if you use it correctly ("consistency" credit). Never leave a part blank.</li>
+  </ul>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Writing a paragraph argument that earns full credit</summary><div class="deep-body">
+    <h4>The structure</h4>
+    <p>1. <b>Claim:</b> answer the question directly in the first sentence. 2. <b>Principle:</b> name the law you're using (conservation of energy, impulse–momentum theorem, Newton's second law). 3. <b>Application:</b> connect the principle to the specific objects and quantities in the problem. 4. <b>Conclusion:</b> restate the claim as following from that reasoning.</p>
+    <h4>Example question</h4>
+    <p>"Cart A and cart B (twice the mass) are pushed from rest by the same constant force over the same distance. Which has more kinetic energy at the end? Which has more momentum?"</p>
+    <h4>Weak answer (1/4)</h4>
+    <p>"They have the same energy because the force is the same, but B has more momentum because it's heavier."</p>
+    <h4>Strong answer (4/4)</h4>
+    <p>"The carts have equal kinetic energy, but cart B has more momentum. By the work–energy theorem, each cart's change in kinetic energy equals the net work done on it, W = Fd. The force and distance are the same for both, so both gain the same kinetic energy. Since K = p²/2m, equal kinetic energy means p = √(2mK) is larger for the cart with greater mass, so cart B ends with more momentum. This also agrees with impulse: B accelerates less, takes longer to cover the distance, and so receives a larger impulse FΔt."</p>
+    <h4>Phrases that lose points</h4>
+    <p>"Energy is lost" (say transformed into thermal energy). "It has more force" (objects don't have force; forces are exerted on them). "Momentum is conserved" without naming the system or saying why external impulse is negligible.</p>
+</div></details>
+</section>
+<section class="topic" id="experiments">
+  <h2>Designing experiments</h2>
+  <p class="sub">Experimental design questions follow a predictable pattern. Learn the pattern and these become some of the most reliable points on the exam.</p>
+  <h3>A complete procedure includes</h3>
+  <ol class="steps">
+    <li><b>What you change</b> (independent variable) and the range of values, e.g. "release the cart from 5 different heights between 0.2 m and 1.0 m."</li>
+    <li><b>What you measure</b> (dependent variable) and the <b>instrument</b>: meter stick, stopwatch, motion sensor, photogate, force sensor, electronic balance.</li>
+    <li><b>What you keep the same</b> (controlled variables): same cart, same track, same release method.</li>
+    <li><b>Repeated trials</b> at each setting, averaged, to reduce random error.</li>
+    <li><b>How you'll analyze it:</b> what you'll graph and what the slope means.</li>
+  </ol>
+  <h3>Common equipment and what it measures</h3>
+  <div class="tblwrap"><table>
+    <tr><th>Instrument</th><th>Measures</th><th>Typical use in this unit</th></tr>
+    <tr><td>Motion sensor</td><td>position, velocity vs. time</td><td>speeds before and after collisions</td></tr>
+    <tr><td>Photogate</td><td>time for an object of known length to pass → speed</td><td>speed at the bottom of a ramp</td></tr>
+    <tr><td>Force sensor</td><td>force vs. time</td><td>impulse (area under the F–t graph)</td></tr>
+    <tr><td>Meter stick</td><td>heights, distances, spring compression</td><td>U<sub>g</sub>, stopping distance, x</td></tr>
+    <tr><td>Balance</td><td>mass</td><td>K, p, U<sub>g</sub></td></tr>
+  </table></div>
+  <div class="worked">
+    <div class="q">Worked example: Design an experiment to determine the spring constant k of a spring launcher using only a meter stick and a ball of known mass m.</div>
+    <div class="a">Point the launcher straight up. Compress the spring by a measured distance x, release the ball and measure the maximum height h it reaches above its release point. Repeat 3 times for each of 5 different compressions and average h. Energy: ½kx² = mgh, so <b>h = (k/2mg)·x²</b>. Graph h against x². The data should form a straight line through the origin with slope k/(2mg), so <b>k = 2mg × slope</b>.</div>
+  </div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Sources of error and how the exam asks about them</summary><div class="deep-body">
+    <h4>Random vs. systematic error</h4>
+    <p><b>Random error</b> scatters data above and below the true value (reaction time on a stopwatch, reading a meter stick). Repeated trials and averaging reduce it. <b>Systematic error</b> shifts every measurement the same way (friction you ignored, a sensor that isn't zeroed). Repeating doesn't fix it; changing the method does.</p>
+    <h4>Predicting the direction of an error</h4>
+    <p>The exam often asks whether a hidden effect makes the calculated value too large or too small. Work it through the equation. Example: in the spring experiment above, air resistance makes every measured h a little lower. A lower h gives a smaller slope, and k = 2mg × slope, so the calculated k comes out <b>smaller</b> than the true value.</p>
+    <h4>Why the graph should pass through the origin</h4>
+    <p>If theory says h = (k/2mg)x², zero compression should give zero height. A best-fit line with a nonzero intercept points to a systematic error, like measuring h from the floor instead of from the release point. The slope is still useful even if the intercept is off.</p>
+    <h4>Choosing a good range</h4>
+    <p>Spread the independent variable over a wide range with at least five values. A narrow range makes the slope very sensitive to small measurement errors.</p>
+</div></details>
+</section>
+<section class="topic" id="linearization">
+  <h2>Linearizing data</h2>
+  <p class="sub">"What should you graph to get a straight line?" appears on nearly every experimental design question.</p>
+  <p>Rearrange the equation into the form <span class="eq">y = (slope)·x</span>, where y and x are things you measured. Whatever multiplies your x-variable is the slope.</p>
+  <div class="tblwrap"><table>
+    <tr><th>Situation</th><th>Equation</th><th>Graph</th><th>Slope equals</th></tr>
+    <tr><td>Stopping distance with friction</td><td>d = v²/(2μg)</td><td>d vs. v²</td><td>1/(2μg)</td></tr>
+    <tr><td>Speed from a drop height</td><td>v² = 2gh</td><td>v² vs. h</td><td>2g</td></tr>
+    <tr><td>Spring launched straight up</td><td>h = kx²/(2mg)</td><td>h vs. x²</td><td>k/(2mg)</td></tr>
+    <tr><td>Spring launched horizontally</td><td>v = x·√(k/m)</td><td>v vs. x</td><td>√(k/m)</td></tr>
+    <tr><td>Impulse on a cart</td><td>Δv = (1/m)·FΔt</td><td>Δv vs. FΔt</td><td>1/m</td></tr>
+    <tr><td>Cart hits and sticks to cart at rest</td><td>v<sub>f</sub> = [m₁/(m₁+m₂)]·v<sub>i</sub></td><td>v<sub>f</sub> vs. v<sub>i</sub></td><td>m₁/(m₁+m₂)</td></tr>
+  </table></div>
+  <div class="worked">
+    <div class="q">Worked example: A student slides a block across a floor at different speeds and measures how far it slides before stopping.</div>
+    <div class="a">
+      <div class="tblwrap"><table><tr><th>v (m/s)</th><td>1</td><td>2</td><td>3</td><td>4</td></tr><tr><th>v² (m²/s²)</th><td>1</td><td>4</td><td>9</td><td>16</td></tr><tr><th>d (m)</th><td>0.21</td><td>0.78</td><td>1.83</td><td>3.18</td></tr></table></div>
+      <svg viewBox="0 0 420 232" role="img" aria-label="Graph of stopping distance versus speed squared with a best-fit line">
+  <g fill="currentColor" font-size="12">
+    <line x1="50" y1="185" x2="400" y2="185" stroke="currentColor" opacity=".5"/>
+    <line x1="50" y1="20" x2="50" y2="185" stroke="currentColor" opacity=".5"/>
+    <text x="8" y="26">d (m)</text><text x="300" y="226">v² (m²/s²)</text>
+    <line x1="50" y1="185" x2="380" y2="34" stroke="#eafe07" stroke-width="2"/>
+    <circle cx="70" cy="174" r="5" fill="#2e96f5"/><circle cx="131" cy="147" r="5" fill="#2e96f5"/>
+    <circle cx="233" cy="99" r="5" fill="#2e96f5"/><circle cx="375" cy="37" r="5" fill="#2e96f5"/>
+    <text x="61" y="200">1</text><text x="126" y="200">4</text><text x="228" y="200">9</text><text x="366" y="200">16</text>
+    <text x="150" y="70" fill="#eafe07">slope ≈ 0.198 s²/m</text>
+  </g>
+</svg>
+      Plot d against v². The best-fit line has slope ≈ (3.18 − 0.21)/(16 − 1) ≈ 0.198 s²/m. Since slope = 1/(2μg): μ = 1/(2 × 10 × 0.198) ≈ <b>0.25</b>. Use the best-fit line for the slope, not two individual data points, when the points scatter.</div>
+  </div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Linearization step by step</summary><div class="deep-body">
+    <h4>1. Start from the physics</h4>
+    <p>Write the equation that connects what you change to what you measure, using energy, momentum or Newton's laws.</p>
+    <h4>2. Solve for the measured quantity</h4>
+    <p>Get the dependent variable alone on one side. Everything that doesn't change between trials (masses, g, k, μ) is a constant.</p>
+    <h4>3. Group the constants</h4>
+    <p>Write it as y = (constants) × (something you control). If the variable appears as x², graph against x²; if it appears as √x, graph against √x; if it appears as 1/x, graph against 1/x.</p>
+    <h4>4. Interpret the slope</h4>
+    <p>Set the group of constants equal to the slope and solve for the unknown. Include units: the slope's units are (y units)/(x units), which is a good check that you set it up correctly.</p>
+    <h4>Swapping axes</h4>
+    <p>Either variable can go on either axis; the slope just becomes the reciprocal. If you graph v² against d instead of d against v², the slope is 2μg. Say clearly which way you graphed it.</p>
+</div></details>
+</section>
+<section class="topic" id="labs-quiz">
+  <h2>Practice: experiments, graphs and justifications</h2>
+  <p class="sub">8 questions on the skills the free-response section tests.</p>
+  <div class="quiz" data-src="quiz-labs" data-tags='{"e":"Energy","m":"Momentum"}'></div>
+</section>
+</div>
 <div class="chapter" id="practice-ch" data-title="Practice Quiz &amp; FRQs" data-short="Practice">
 <section class="topic" id="practice">
   <h2>Practice questions</h2>
@@ -722,7 +960,7 @@
 <div class="chapter" id="challenge" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
 <section class="topic" id="challenge-set">
   <h2>Challenge questions</h2>
-  <p class="sub">The hardest kind of question the exam can throw at you: multi-step problems, traps and subtle concepts. Getting half right is a good result. Every explanation names the trap answer, so read them even when you get one right.</p>
+  <p class="sub">The hardest kind of question the exam can throw at you: multi-step problems, traps and subtle concepts. Getting half right is a reasonable result. Every explanation names the trap answer, so read them even when you get one right.</p>
   <div class="box plain"><b class="lbl">Tip</b>Want it to feel like the real test? Open <b>⚙ Settings</b> and turn off <b>Animated models</b>.</div>
   <div class="quiz" data-src="quiz-challenge" data-tags='{"e":"Energy","m":"Momentum"}'></div>
 </section>
@@ -1826,6 +2064,194 @@
   "sim": {
    "type": "egg"
   }
+ }
+]
+</script>
+<script type="application/json" id="quiz-systems">
+[
+ {
+  "t": "e",
+  "q": "A ball falls toward the ground. The system is the ball alone. Which statement is correct?",
+  "o": [
+   "Gravity does positive external work on the system, increasing its kinetic energy",
+   "No work is done on the system",
+   "The system's gravitational potential energy decreases",
+   "The system's total energy is constant"
+  ],
+  "a": 0,
+  "x": "With Earth outside the system, there's no U_g in the system. Gravity is an external force doing positive work, so the ball's (system's) energy increases."
+ },
+ {
+  "t": "e",
+  "q": "For which system can gravitational potential energy be defined?",
+  "o": [
+   "A rock and the air around it",
+   "Earth alone",
+   "A rock alone",
+   "A rock and Earth together"
+  ],
+  "a": 3,
+  "x": "Gravitational potential energy belongs to a pair of interacting objects. The system must include both the rock and Earth."
+ },
+ {
+  "t": "e",
+  "q": "A passenger sits on a train moving at 20 m/s. Relative to the train, the passenger's kinetic energy is…",
+  "o": [
+   "zero",
+   "It can't be determined",
+   "mg(20)",
+   "½m(20)²"
+  ],
+  "a": 0,
+  "x": "Relative to the train, the passenger isn't moving, so K = 0. Relative to the ground, K = ½m(20)². Kinetic energy depends on the reference frame."
+ },
+ {
+  "t": "e",
+  "q": "The graph shows the potential energy of a system; the dashed line is its total energy. Where is the object moving fastest?<br><svg viewBox=\"0 0 460 220\" role=\"img\" aria-label=\"Potential energy versus position curve with points A to E and a total energy line\">\n  <g fill=\"currentColor\" font-size=\"13\">\n    <line x1=\"40\" y1=\"190\" x2=\"440\" y2=\"190\" stroke=\"currentColor\" opacity=\".5\"/>\n    <line x1=\"40\" y1=\"20\" x2=\"40\" y2=\"190\" stroke=\"currentColor\" opacity=\".5\"/>\n    <text x=\"10\" y=\"28\">U<\/text><text x=\"432\" y=\"208\">x<\/text>\n    <path d=\"M50 40 C 90 40, 100 160, 140 160 S 200 70, 230 70 S 290 175, 320 175 S 400 50, 430 40\" fill=\"none\" stroke=\"#2e96f5\" stroke-width=\"3\"/>\n    <line x1=\"40\" y1=\"95\" x2=\"440\" y2=\"95\" stroke=\"#eafe07\" stroke-dasharray=\"6 5\" stroke-width=\"2\"/>\n    <text x=\"400\" y=\"88\" fill=\"#eafe07\">E total<\/text>\n    <circle cx=\"140\" cy=\"160\" r=\"4\"/><text x=\"134\" y=\"180\">A<\/text>\n    <circle cx=\"230\" cy=\"70\" r=\"4\"/><text x=\"224\" y=\"60\">B<\/text>\n    <circle cx=\"320\" cy=\"175\" r=\"4\"/><text x=\"314\" y=\"208\">C<\/text>\n    <circle cx=\"96\" cy=\"95\" r=\"4\"/><text x=\"80\" y=\"88\">D<\/text>\n    <circle cx=\"189\" cy=\"115\" r=\"4\"/><text x=\"196\" y=\"132\">E<\/text>\n  <\/g>\n<\/svg>",
+  "o": [
+   "Point D",
+   "Point B",
+   "Point A",
+   "Point C"
+  ],
+  "a": 3,
+  "x": "K = E − U. The gap between the total-energy line and the U curve is largest where U is lowest, at point C."
+ },
+ {
+  "t": "e",
+  "q": "A 0.50 kg mass on a spring (k = 200 N/m) oscillates with amplitude 0.10 m on a frictionless surface. What is its maximum speed?",
+  "o": [
+   "1.0 m/s",
+   "2.0 m/s",
+   "20 m/s",
+   "4.0 m/s"
+  ],
+  "a": 1,
+  "x": "Total energy = ½kA² = ½(200)(0.01) = 1.0 J. At equilibrium all of it is kinetic: ½(0.5)v² = 1.0 → v² = 4 → v = 2.0 m/s."
+ },
+ {
+  "t": "m",
+  "q": "A 4.0 kg cart moving at 5.0 m/s approaches a 1.0 kg cart at rest. What is the velocity of the two-cart system's center of mass?",
+  "o": [
+   "2.5 m/s",
+   "4.0 m/s",
+   "1.0 m/s",
+   "5.0 m/s"
+  ],
+  "a": 1,
+  "x": "v_cm = total momentum / total mass = (4)(5) / 5 = 4.0 m/s. It stays 4.0 m/s during and after the collision if no external impulse acts."
+ },
+ {
+  "t": "m",
+  "q": "A person standing on frictionless ice throws a ball forward. For which system is momentum conserved?",
+  "o": [
+   "The person and the ball together",
+   "No system",
+   "The ball alone",
+   "The person alone"
+  ],
+  "a": 0,
+  "x": "The throwing forces are internal to the person + ball system, and the net external force (gravity and normal force, vertical) has no horizontal component. So the horizontal momentum of person + ball is conserved."
+ }
+]
+</script>
+<script type="application/json" id="quiz-labs">
+[
+ {
+  "t": "e",
+  "q": "A student releases a cart from rest at different heights h on a frictionless ramp and measures its speed v at the bottom. Which graph should be a straight line through the origin?",
+  "o": [
+   "v² vs. h²",
+   "v vs. h",
+   "v vs. h²",
+   "v² vs. h"
+  ],
+  "a": 3,
+  "x": "Energy: v² = 2gh. That's y = (slope)x with y = v², x = h and slope 2g. Graphing v vs. h gives a curve (v ∝ √h)."
+ },
+ {
+  "t": "e",
+  "q": "A student graphs stopping distance d (vertical axis) against v² (horizontal axis) for a block sliding to rest. The slope is 0.40 s²/m. What is the coefficient of kinetic friction? (g = 10 m/s²)",
+  "o": [
+   "0.80",
+   "0.040",
+   "0.125",
+   "0.25"
+  ],
+  "a": 2,
+  "x": "d = v²/(2μg), so slope = 1/(2μg). μ = 1/(2 × 10 × 0.40) = 1/8 = 0.125."
+ },
+ {
+  "t": "e",
+  "q": "In the spring-launcher experiment, the student forgets about air resistance, which slightly lowers every measured height. How does this affect the calculated spring constant (k = 2mg × slope of h vs. x²)?",
+  "o": [
+   "k comes out too large",
+   "k comes out too small",
+   "It's impossible to tell",
+   "k is unaffected"
+  ],
+  "a": 1,
+  "x": "Lower heights mean a smaller slope, and k is proportional to the slope, so the calculated k is smaller than the true value."
+ },
+ {
+  "t": "m",
+  "q": "To find the mass of a cart, a student applies measured impulses J to it (from rest) and records its final speed v. What should be graphed, and what does the slope give?",
+  "o": [
+   "J vs. v²; slope = m/2",
+   "v vs. J; slope = m",
+   "v vs. J; slope = 1/m",
+   "v² vs. J; slope = 1/m"
+  ],
+  "a": 2,
+  "x": "J = mv → v = (1/m)·J. Graphing v against J gives a straight line with slope 1/m, so m = 1/slope."
+ },
+ {
+  "t": "e",
+  "q": "Which change to an experimental procedure reduces random error?",
+  "o": [
+   "Using a heavier cart",
+   "Using a single, very careful trial",
+   "Repeating each trial several times and averaging",
+   "Measuring height from the floor instead of the release point"
+  ],
+  "a": 2,
+  "x": "Repeated trials average out random scatter. Changing what you measure from (floor vs. release point) introduces a systematic offset instead."
+ },
+ {
+  "t": "e",
+  "q": "A ball is dropped from rest. Which graph of the ball's kinetic energy is a straight line?",
+  "o": [
+   "K vs. speed",
+   "K vs. distance fallen",
+   "K vs. time",
+   "None of these"
+  ],
+  "a": 1,
+  "x": "K = mg·(distance fallen), which is linear in distance. Against time, K = ½m(gt)² curves upward; against speed, K = ½mv² is also a curve."
+ },
+ {
+  "t": "m",
+  "q": "Two carts collide on a track. Which measurements are needed to check that momentum is conserved?",
+  "o": [
+   "The heights of both carts",
+   "Only the speeds before the collision",
+   "The masses of both carts and their velocities before and after",
+   "The force of the collision and its duration only"
+  ],
+  "a": 2,
+  "x": "Momentum = mass × velocity, so you need both masses (balance) and all four velocities with direction (motion sensors or photogates), then compare the totals before and after."
+ },
+ {
+  "t": "e",
+  "q": "A student claims, \"The cart lost energy going down the rough ramp.\" Which revision would earn full credit on an AP justification?",
+  "o": [
+   "\"Kinetic friction did negative work on the cart, transforming some of the cart–Earth system's mechanical energy into thermal energy, so the cart's kinetic energy at the bottom is less than the decrease in gravitational potential energy.\"",
+   "\"Friction destroyed some of the cart's energy.\"",
+   "\"Energy is not conserved on rough ramps.\"",
+   "\"The cart had less energy at the bottom.\""
+  ],
+  "a": 0,
+  "x": "Full credit names the force and the principle, says where the energy went (thermal energy), and connects it to the observed result. Energy is never destroyed or lost."
  }
 ]
 </script>

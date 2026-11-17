@@ -93,14 +93,14 @@
       const head = document.createElement("div");
       head.className = "chapter-head";
       head.innerHTML = `<span class="num">${String(i + 1).padStart(2, "0")}</span><h2>${title}</h2>` +
-        (ch.querySelector("details.deep") ? `<span class="tools"><button class="linkbtn" data-expand>Expand all deep explanations</button></span>` : "");
+        (ch.querySelector("details.deep") ? `<span class="tools"><button class="linkbtn" data-expand>Expand all detailed explanations</button></span>` : "");
       ch.prepend(head);
       const exp = head.querySelector("[data-expand]");
       if (exp) exp.addEventListener("click", () => {
         const ds = ch.querySelectorAll("details.deep");
         const anyClosed = [...ds].some(d => !d.open);
         ds.forEach(d => (d.open = anyClosed));
-        exp.textContent = anyClosed ? "Collapse all deep explanations" : "Expand all deep explanations";
+        exp.textContent = anyClosed ? "Collapse all detailed explanations" : "Expand all detailed explanations";
       });
       // chip
       const chip = document.createElement("button");
@@ -254,7 +254,7 @@
       io.observe(el);
     });
   }
-  // smooth open/close for deep explanations
+  // smooth open/close for detailed explanations
   document.querySelectorAll("details.deep").forEach(d => {
     const sum = d.querySelector("summary"), body = d.querySelector(".deep-body");
     if (reduce || !body) return;
@@ -328,7 +328,7 @@
   const remember = [...document.querySelectorAll("input[data-remember]")];
   function trUpdate() {
     const n = remember.filter(c => c.checked).length, el = document.getElementById("tr-count"), bar = document.getElementById("tr-bar");
-    if (el) el.textContent = n + " of " + remember.length + " ready" + (n === remember.length && n ? ". You're ready!" : "");
+    if (el) el.textContent = n + " of " + remember.length + " ready" + (n === remember.length && n ? ". All points checked." : "");
     if (bar) bar.style.width = (remember.length ? (n / remember.length) * 100 : 0) + "%";
   }
   remember.forEach(c => {

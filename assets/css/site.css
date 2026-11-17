@@ -115,7 +115,7 @@ ol.steps{padding-left:20px} ol.steps li{margin-bottom:8px}
 svg{max-width:100%;height:auto;color:#dfe6f7}
 section.topic svg{display:block;width:100%;max-width:540px;margin:12px auto}
 
-/* deep explanation dropdown */
+/* detailed explanation dropdown */
 details.deep{margin-top:18px;border:1.5px solid rgba(234,254,7,.35);border-radius:14px;background:rgba(7,23,63,.55);overflow:hidden}
 details.deep>summary{list-style:none;cursor:pointer;padding:13px 16px;display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:800}
 details.deep>summary::-webkit-details-marker{display:none}

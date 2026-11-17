@@ -136,7 +136,7 @@
           <div class="ex-score"><span class="big">${right}<small>/${nM}</small></span><span>Section I · ${pct}%</span></div>
           ${nF ? `<div class="ex-score"><span class="big frqpts">0<small>/${frqPts}</small></span><span>Section II · check the rubric below</span></div>` : ""}
           <div class="ex-groups">${Object.entries(groups).map(([g, [a, b]]) => `<div><span>${g}</span><div class="bar"><i style="width:${(a / b) * 100}%"></i></div><b>${a}/${b}</b></div>`).join("")}</div>
-          <p class="sub">${timed() ? `Time used on Section I: ${mmss(st.mcqUsed)}. ` : ""}${pct >= 80 ? "Strong result. Try the Challenge chapter next." : pct >= 60 ? "Solid. Review the questions you missed below." : "Review the explanations below, then revisit those chapters."}</p>
+          <p class="sub">${timed() ? `Time used on Section I: ${mmss(st.mcqUsed)}. ` : ""}${pct >= 80 ? "Strong result. The Challenge chapter is the next step." : pct >= 60 ? "Solid. Review the questions you missed below." : "Review the explanations below, then revisit those chapters."}</p>
           <button class="btn ex-again">Retake exam</button>
         </div>
         <h3 class="ex-h">Section I review</h3>
