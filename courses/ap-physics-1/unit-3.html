@@ -271,6 +271,7 @@
   <h3>2. It can never go higher than it started</h3>
   <p>A car released from rest can't climb above its starting height, because it would need more energy than it has. If it starts with some speed v₀, it can rise an extra <span class="eq">v₀²/(2g)</span> above its start.</p>
   <h3>3. Loops</h3>
+  <div class="box plain"><b class="lbl">Which unit?</b>Loop problems combine two units: the speed comes from <b>energy</b> (Unit 3), and the forces at the top or bottom come from <b>circular motion</b> (Unit 2, Topic 2.9). The AP exam can mix them, so it's worth practicing both steps together.</div>
   <p>At the top of a loop of radius R, the car is upside down and needs a net force toward the center of <span class="eq">mv²/R</span>. Gravity and the track's normal force both point down there:</p>
   <div class="big-eq">N + mg = mv²/R &nbsp;&nbsp;→&nbsp;&nbsp; minimum speed: v<sub>top</sub> = √(gR)</div>
   <p>Combining that with energy gives the minimum release height from rest: <span class="eq">h = 2.5R</span>.</p>
@@ -301,7 +302,7 @@
 </section>
 <section class="topic" id="coaster-problems">
   <h2>Roller coaster problems</h2>
-  <p class="sub">12 problems from basic to hard, each with an animated track. Click an answer to check it. Use g = 10 m/s².</p>
+  <p class="sub">15 problems from basic to hard, each with an animated track. Click an answer to check it. Use g = 10 m/s².</p>
   <div class="quiz" data-src="quiz-coaster"></div>
 </section>
 </div>
@@ -1951,6 +1952,148 @@
    "lines": [
     [
      "F = 2,500 N",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "A 400 kg car is released from rest at the minimum height for a 10 m-radius loop (25 m). What normal force does the track exert on the car at the bottom of the loop?",
+  "o": [
+   "4,000 N",
+   "20,000 N",
+   "28,000 N",
+   "24,000 N"
+  ],
+  "a": 3,
+  "x": "Energy: v² at the bottom = 2g(25) = 500 = 5gR. At the bottom the net force points up: N − mg = mv²/R → N = 4,000 + (400)(500)/10 = 4,000 + 20,000 = 24,000 N. That's 6 times the car's weight, which is why real loops aren't perfect circles. 20,000 N forgets gravity.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     25
+    ],
+    [
+     8,
+     25,
+     "A"
+    ],
+    [
+     40,
+     0
+    ],
+    [
+     55,
+     0
+    ],
+    [
+     80,
+     0
+    ]
+   ],
+   "loop": {
+    "at": 3,
+    "R": 10,
+    "l": "T"
+   },
+   "lines": [
+    [
+     "N at bottom = 24,000 N",
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "t": "e",
+  "q": "A car starts from rest 30 m high and enters a loop of radius 8.0 m (top of the loop is 16 m high). Ignoring friction, how fast is it moving at the top of the loop?",
+  "o": [
+   "24.5 m/s",
+   "280 m/s",
+   "16.7 m/s",
+   "8.9 m/s"
+  ],
+  "a": 2,
+  "x": "Drop from start to the top of the loop = 30 − 16 = 14 m. v² = 2(10)(14) = 280 → v ≈ 16.7 m/s. That's more than the minimum √(gR) = √80 ≈ 8.9 m/s, so the car stays on the track. 24.5 m/s uses the full 30 m drop.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     30
+    ],
+    [
+     8,
+     30,
+     "A"
+    ],
+    [
+     40,
+     0
+    ],
+    [
+     55,
+     0
+    ],
+    [
+     80,
+     0
+    ]
+   ],
+   "loop": {
+    "at": 3,
+    "R": 8,
+    "l": "T"
+   },
+   "ask": "T"
+  }
+ },
+ {
+  "t": "e",
+  "q": "A car goes over the top of a loop at exactly the minimum speed needed to stay on the track. At that instant, what provides the centripetal force?",
+  "o": [
+   "Gravity only; the normal force is zero",
+   "Gravity and the normal force together",
+   "No force is needed at the top",
+   "The normal force only"
+  ],
+  "a": 0,
+  "x": "At the minimum speed, v² = gR, so mv²/R = mg. Gravity alone supplies exactly the needed centripetal force, so the track pushes with zero force. Any slower and gravity would pull the car off its circular path, so it would fall.",
+  "sim": {
+   "type": "rollercoaster",
+   "pts": [
+    [
+     0,
+     25
+    ],
+    [
+     8,
+     25,
+     "A"
+    ],
+    [
+     40,
+     0
+    ],
+    [
+     55,
+     0
+    ],
+    [
+     80,
+     0
+    ]
+   ],
+   "loop": {
+    "at": 3,
+    "R": 10,
+    "l": "T"
+   },
+   "lines": [
+    [
+     "N at top = 0",
      true
     ]
    ]
