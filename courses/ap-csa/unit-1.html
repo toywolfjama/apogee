@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP CSA Unit 1: Using Objects and Methods | Apogee</title>
+<meta name="description" content="AP Computer Science A Unit 1 review with code animations, interactive labs, practice questions and a practice exam.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&family=Fira+Sans:wght@400;500;600;700&family=Overpass:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../" data-course="ap-csa" data-unit="unit-1">
+
+<div class="hero">
+  <span class="kicker">AP Computer Science A · Unit 1</span>
+  <h1>Using Objects<br><span class="hl">and Methods</span></h1>
+  <p>Variables and types, expressions, casting, calling methods, the Math class, objects and references, and Strings: explanations, code you can step through, interactive labs, 38 practice questions checked in Java, and a timed practice exam.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="overview-c1" data-title="Overview" data-short="Overview">
+<section class="topic" id="start-c1">
+  <h2>How to use this page</h2>
+  <p class="sub">Suggested order.</p>
+  <ol class="steps">
+<li>Read the chapters in order. Each topic has an explanation, code, a worked example and a <b>Detailed explanation</b> for the full reasoning.</li>
+<li>Use the <b>labs</b> (dashed boxes): type your own values and watch Java's answer change.</li>
+<li>Code animations step through a program line by line. Press <b>Step ▶</b> to go one line at a time and predict the next value before you see it.</li>
+<li>Then do <b>Practice</b>, <b>Challenge</b> and the timed <b>Practice Exam</b>.</li></ol>
+  
+</section>
+<section class="topic" id="core-c1">
+  <h2>Core ideas</h2>
+  
+  <p>A Java program is a list of instructions that run from top to bottom. Each instruction stores a value, computes something, or calls a method. Unit 1 is about the building blocks: <b>variables and types</b>, <b>expressions</b>, <b>calling methods</b>, <b>creating objects</b>, and working with <b>Strings</b>.</p>
+<div class="sim" data-sim='{"type": "trace", "code": ["int score = 7;", "int bonus = 2;", "score = score + bonus;", "System.out.println(score);"], "steps": [[1, {"score": 7}, ""], [2, {"score": 7, "bonus": 2}, ""], [3, {"score": 9, "bonus": 2}, ""], [4, {"score": 9, "bonus": 2}, "9"]], "caption": "Step through: each line runs in order and changes the variables", "reveal": true}'></div>
+<div class="grid2"><div class="mini"><h4>Exam weight</h4><p>Unit 1 is 15–25% of the AP exam. Almost every multiple-choice question in the other units also needs these skills, especially tracing code by hand.</p></div>
+<div class="mini"><h4>The main skill</h4><p>Tracing: keeping track of every variable's value as each line runs. Write a small table on scratch paper and update it line by line.</p></div></div>
+  
+</section>
+</div>
+<div class="chapter" id="basics-c1" data-title="Programs & Variables" data-short="Variables">
+<section class="topic" id="algorithms">
+  <h2><span class="pill e">1.1</span>Algorithms, programs and compilers</h2>
+  <p class="sub">How code becomes a running program, and the three kinds of errors.</p>
+  
+<p>An <b>algorithm</b> is a step-by-step process to solve a problem. A <b>program</b> is an algorithm written in a programming language. Java code is turned into something the computer can run by a <b>compiler</b>, which also checks the code's grammar.</p>
+<div class="tblwrap"><table><tr><th>Kind of error</th><th>When it appears</th><th>Example</th></tr>
+<tr><td><b>Syntax (compile-time) error</b></td><td>The compiler refuses to build the program.</td><td>Missing semicolon, misspelled keyword, storing a String in an int</td></tr>
+<tr><td><b>Run-time error (exception)</b></td><td>The program compiles, then crashes while running.</td><td>Dividing an int by 0, calling a method on <code>null</code>, a bad String index</td></tr>
+<tr><td><b>Logic error</b></td><td>It runs, but gives the wrong answer.</td><td>Using <code>&lt;</code> instead of <code>&lt;=</code>, adding when you meant to multiply</td></tr></table></div>
+<h3>Output</h3>
+<p><code>System.out.println(x)</code> prints x and then moves to a new line. <code>System.out.print(x)</code> prints x and stays on the same line.</p>
+<pre class="code"><code><span class="t">System</span>.out.print(<span class="s">"A"</span>);
+<span class="t">System</span>.out.println(<span class="s">"B"</span>);
+<span class="t">System</span>.out.println(<span class="s">"C"</span>);</code></pre>
+<p>Output:</p><div class="out-box">AB
+C</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Compiling, running and finding errors</summary><div class="deep-body"><h4>What the compiler does</h4><p>The compiler reads your whole source file and translates it into bytecode. It refuses if any line breaks Java's rules, and it reports the first problems it finds. Nothing runs until every compile error is fixed.</p>
+<h4>Exceptions</h4><p>An exception is Java's way of stopping a program that tried something impossible while running: <code>ArithmeticException</code> (integer division by zero), <code>NullPointerException</code> (using a reference that points to nothing), <code>StringIndexOutOfBoundsException</code> (a bad index). The program stops at that line unless the exception is handled.</p>
+<h4>Logic errors are the hardest</h4><p>The computer can't detect them. You find them by testing with inputs whose answers you already know, especially edge cases like 0, 1, negative numbers and empty Strings.</p>
+<h4>On the exam</h4><p>Questions often ask what happens when code runs. Check in this order: does it compile? does it crash? if not, trace the output.</p></div></details>
+</section>
+<section class="topic" id="variables">
+  <h2><span class="pill e">1.2</span>Variables and data types</h2>
+  <p class="sub">Choosing a type, declaring and assigning.</p>
+  
+<p>A <b>variable</b> is a named storage location. Every variable has a <b>type</b> that decides what it can hold. Declaring a variable gives it a type and name; assigning gives it a value.</p>
+<div class="tblwrap"><table><tr><th>Type</th><th>Holds</th><th>Examples</th></tr>
+<tr><td><code>int</code></td><td>whole numbers</td><td><code>0</code>, <code>-12</code>, <code>2147483647</code></td></tr>
+<tr><td><code>double</code></td><td>numbers with decimals</td><td><code>2.5</code>, <code>-0.1</code>, <code>3.0</code></td></tr>
+<tr><td><code>boolean</code></td><td>true or false</td><td><code>true</code>, <code>false</code></td></tr>
+<tr><td><code>String</code> (a reference type)</td><td>text</td><td><code>"Ada"</code>, <code>""</code></td></tr></table></div>
+<p><code>int</code>, <code>double</code> and <code>boolean</code> are <b>primitive types</b>: the variable holds the value itself. <code>String</code> and every class are <b>reference types</b>: the variable holds a reference (an arrow) to an object.</p>
+<pre class="code"><code><span class="k">int</span> a = <span class="n">5</span>;
+<span class="k">double</span> b = <span class="n">2.5</span>;
+<span class="k">boolean</span> done = <span class="k">false</span>;
+<span class="k">String</span> name = <span class="s">"Ada"</span>;
+<span class="t">System</span>.out.println(a + <span class="s">" "</span> + b + <span class="s">" "</span> + done + <span class="s">" "</span> + name);</code></pre>
+<div class="out-box">5 2.5 false Ada</div>
+<p>A <b>final</b> variable is a constant: once assigned, it can't change. By convention its name is in capitals: <code>final int MAX_TRIES = 3;</code></p>
+<div class="box trap"><b class="lbl">Common mistake</b>An int can be stored in a double (<code>double d = 5;</code> stores 5.0), but a double can't be stored in an int without a cast: <code>int x = 2.5;</code> is a compile error.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Primitive vs reference, and naming rules</summary><div class="deep-body"><h4>Why two kinds of types?</h4><p>Primitives are small, fixed-size values (an int is 32 bits). Objects can be large and complicated, so the variable stores only the object's address. This difference explains aliasing and <code>==</code> vs <code>equals</code>, which come up later in this unit.</p>
+<h4>Naming</h4><p>Names can contain letters, digits, _ and $, can't start with a digit, and can't be keywords like <code>int</code> or <code>class</code>. Java style uses camelCase: <code>totalScore</code>, <code>numStudents</code>. Names are case-sensitive: <code>score</code> and <code>Score</code> are different variables.</p>
+<h4>Declaring twice</h4><p>A variable can be declared only once in the same block. <code>int x = 3; int x = 4;</code> is a compile error; the second line should be <code>x = 4;</code>.</p>
+<h4>Using a variable before giving it a value</h4><p>A local variable that has been declared but not assigned can't be used: the compiler reports "variable might not have been initialized".</p></div></details>
+</section>
+<section class="topic" id="expressions">
+  <h2><span class="pill e">1.3</span>Expressions and output</h2>
+  <p class="sub">Operators, integer division, % and joining Strings.</p>
+  
+<p>Arithmetic operators: <code>+ - * / %</code>. Java follows the usual order of operations: <code>* / %</code> before <code>+ -</code>, left to right, with parentheses first.</p>
+<h3>Integer division and remainder</h3>
+<p>When <b>both</b> operands are ints, <code>/</code> gives an int: the decimal part is cut off (not rounded). <code>%</code> (modulus) gives the remainder.</p>
+<div class="tblwrap"><table><tr><th>Expression</th><th>Value</th><th>Why</th></tr>
+<tr><td><code>7 / 2</code></td><td>3</td><td>int / int: 3.5 truncated</td></tr>
+<tr><td><code>7.0 / 2</code></td><td>3.5</td><td>a double is involved</td></tr>
+<tr><td><code>7 % 2</code></td><td>1</td><td>7 = 2·3 + <b>1</b></td></tr>
+<tr><td><code>2 % 7</code></td><td>2</td><td>7 goes in 0 times, remainder 2</td></tr>
+<tr><td><code>-7 / 2</code></td><td>-3</td><td>truncates toward zero</td></tr></table></div>
+<div class="cslab" data-lab='{"type": "arith"}'></div>
+<h3>String concatenation</h3>
+<p><code>+</code> with a String joins text. It's evaluated left to right, so the order matters:</p>
+<pre class="code"><code><span class="t">System</span>.out.println(<span class="n">1</span> + <span class="n">2</span> + <span class="s">"3"</span> + <span class="n">4</span> + <span class="n">5</span>);</code></pre>
+<div class="out-box">3345</div>
+<p>1 + 2 is 3 (both ints), then "3" + "3" is "33", then "334", then "3345".</p>
+<h3>Escape sequences</h3><p>Inside a String: <code>\"</code> is a quote, <code>\\</code> is a backslash, <code>\n</code> is a new line.</p>
+<div class="worked"><div class="q">Worked example: What does <code>System.out.println(17 % 5 + 17 / 5 * 2);</code> print?</div><div class="a">17 % 5 = 2. 17 / 5 = 3 (int division), times 2 = 6. 2 + 6 = <b>8</b>.</div></div>
+<div class="box trap"><b class="lbl">Common mistake</b><code>int / int</code> by zero throws ArithmeticException, but <code>double / 0</code> gives Infinity. AP questions use the int case.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Using % in real code</summary><div class="deep-body"><h4>Even or odd</h4><p><code>n % 2 == 0</code> is true for even n. Odd numbers give a remainder of 1 (or −1 for negative n), so test <code>n % 2 != 0</code> for odd.</p>
+<h4>Digits</h4><p><code>n % 10</code> is the last digit; <code>n / 10</code> removes the last digit. Repeating both in a loop (Unit 2) takes a number apart digit by digit.</p>
+<h4>Wrapping around</h4><p><code>(i + 1) % size</code> cycles 0, 1, 2, …, size−1, 0, … which is handy for clocks and turns.</p>
+<h4>Divisibility</h4><p><code>a % b == 0</code> means b divides a evenly.</p></div></details>
+</section>
+<section class="topic" id="assignment">
+  <h2><span class="pill e">1.4</span>Assignment statements and input</h2>
+  <p class="sub">= means store, and the right side is evaluated first.</p>
+  
+<p>The assignment operator <code>=</code> means "store": evaluate the right side, then put the value in the variable on the left. It is <b>not</b> a statement that two things are equal.</p>
+<pre class="code"><code>x = x + <span class="n">1</span>;   <span class="c">// take x, add 1, store the result back in x</span></code></pre>
+<p>The value on the right is computed using the <b>current</b> values of the variables, before anything changes.</p>
+<div class="sim" data-sim='{"type": "trace", "code": ["int x = 10;", "int y = 3;", "x = x + y;", "y = x - y;", "x = x - y;", "System.out.println(x + \" \" + y);"], "steps": [[1, {"x": 10}, ""], [2, {"x": 10, "y": 3}, ""], [3, {"x": 13, "y": 3}, ""], [4, {"x": 13, "y": 10}, ""], [5, {"x": 3, "y": 10}, ""], [6, {"x": 3, "y": 10}, "3 10"]], "caption": "Swapping two values without a third variable. Use Step \u25b6 to predict each line", "reveal": true}'></div>
+<h3>Input</h3><p>Programs can read keyboard input with the <code>Scanner</code> class. The AP exam does not test keyboard input; values usually come in as method parameters.</p>
+<div class="box tip"><b class="lbl">Tracing tip</b>Write each variable at the top of a column. Each time a line assigns, cross out the old value and write the new one below it. Never update in your head.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="casting-c1" data-title="Casting & Operators" data-short="Casting">
+<section class="topic" id="casting">
+  <h2><span class="pill e">1.5</span>Casting and range of variables</h2>
+  <p class="sub">Converting between int and double.</p>
+  
+<p>A <b>cast</b> converts a value to another type: <code>(int)</code> or <code>(double)</code> in front of a value.</p>
+<div class="grid2"><div class="mini"><h4><code>(int)</code> on a double</h4><p>Cuts off the decimal part (truncates toward zero). <code>(int) 3.99</code> is 3; <code>(int) -3.99</code> is -3.</p></div>
+<div class="mini"><h4><code>(double)</code> on an int</h4><p>Gives the same number as a double: <code>(double) 7</code> is 7.0. Use it to force real division.</p></div></div>
+<pre class="code"><code><span class="t">System</span>.out.println((<span class="k">double</span>) <span class="n">7</span> / <span class="n">2</span>);    <span class="c">// cast happens first: 7.0 / 2 = 3.5</span>
+<span class="t">System</span>.out.println((<span class="k">double</span>) (<span class="n">7</span> / <span class="n">2</span>));  <span class="c">// 7 / 2 = 3 first, then 3.0</span></code></pre>
+<div class="out-box">3.5
+3.0</div>
+<h3>Rounding</h3><p>To round a positive double to the nearest int: <code>(int) (x + 0.5)</code>. For a negative double: <code>(int) (x - 0.5)</code>.</p>
+<div class="cslab" data-lab='{"type": "casting", "d": 2.6}'></div>
+<h3>Range and overflow</h3><p>An int is stored in 32 bits, so it can only hold values from <code>Integer.MIN_VALUE</code> (−2,147,483,648) to <code>Integer.MAX_VALUE</code> (2,147,483,647). Going past the end <b>overflows</b> and wraps around to the other end without any error.</p>
+<pre class="code"><code><span class="k">int</span> big = <span class="t">Integer</span>.<span class="t">MAX_VALUE</span>;
+big = big + <span class="n">1</span>;   <span class="c">// now equals Integer.MIN_VALUE</span></code></pre>
+<p>Doubles are stored approximately, so some decimals can't be represented exactly: <code>0.1 + 0.2</code> prints 0.30000000000000004.</p>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>When Java converts automatically</summary><div class="deep-body"><h4>Widening is automatic</h4><p>An int fits inside a double without losing anything, so Java converts automatically when you store an int in a double or mix them in arithmetic: <code>5 + 2.0</code> is 7.0.</p>
+<h4>Narrowing needs a cast</h4><p>A double can lose its decimal part when it becomes an int, so Java makes you write the cast to show you mean it.</p>
+<h4>Where the cast applies</h4><p>A cast applies only to the value right after it. <code>(int) 2.5 * 2</code> is <code>2 * 2</code> = 4, but <code>(int) (2.5 * 2)</code> is 5. Use parentheses to cast a whole expression.</p>
+<h4>Averages</h4><p>The classic bug: <code>int sum = 7, count = 2; double avg = sum / count;</code> gives 3.0, because the int division happens before the value is stored. Fix: <code>(double) sum / count</code>.</p></div></details>
+</section>
+<section class="topic" id="compound">
+  <h2><span class="pill e">1.6</span>Compound assignment operators</h2>
+  <p class="sub">Shortcuts for updating a variable.</p>
+  
+<div class="tblwrap"><table><tr><th>Short form</th><th>Means</th></tr>
+<tr><td><code>x += 3;</code></td><td><code>x = x + 3;</code></td></tr><tr><td><code>x -= 3;</code></td><td><code>x = x - 3;</code></td></tr>
+<tr><td><code>x *= 3;</code></td><td><code>x = x * 3;</code></td></tr><tr><td><code>x /= 3;</code></td><td><code>x = x / 3;</code> (int division if x is an int)</td></tr>
+<tr><td><code>x %= 3;</code></td><td><code>x = x % 3;</code></td></tr><tr><td><code>x++;</code> / <code>x--;</code></td><td>add 1 / subtract 1</td></tr></table></div>
+<div class="sim" data-sim='{"type": "trace", "code": ["int n = 5;", "n += 3;", "n *= 2;", "n -= 4;", "n /= 3;", "n %= 3;", "n++;", "System.out.println(n);"], "steps": [[1, {"n": 5}, ""], [2, {"n": 8}, ""], [3, {"n": 16}, ""], [4, {"n": 12}, ""], [5, {"n": 4}, ""], [6, {"n": 1}, ""], [7, {"n": 2}, ""], [8, {"n": 2}, "2"]], "ask": "vars", "caption": "Trace n through each operator; values appear as you step"}'></div>
+<div class="worked"><div class="q">Worked example: What is n after the code above runs?</div><div class="a">5 → 8 → 16 → 12 → 4 (12 / 3) → 1 (4 % 3) → <b>2</b>.</div></div>
+<div class="box tip"><b class="lbl">Exam note</b>On the AP exam, <code>++</code> and <code>--</code> appear only as their own statements (<code>count++;</code>), never inside a larger expression.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="methods-c1" data-title="Methods & the Math Class" data-short="Methods">
+<section class="topic" id="api">
+  <h2><span class="pill e">1.7–1.8</span>APIs, libraries and documentation</h2>
+  <p class="sub">Using code other people wrote.</p>
+  
+<p>A <b>library</b> is a collection of classes someone else wrote. An <b>API</b> (application program interface) is the documentation that tells you what those classes do and how to call their methods, without showing their code. You use <code>String</code> and <code>Math</code> this way: you know what <code>Math.sqrt</code> does without seeing how.</p>
+<p>A <b>class</b> defines a type: the <b>attributes</b> (data) each object has and the <b>behaviors</b> (methods) it can perform.</p>
+<h3>Comments</h3>
+<pre class="code"><code><span class="c">// a single-line comment</span>
+/* a comment that can
+   span several lines */
+/** <span class="t">A</span> <span class="t">Javadoc</span> comment, used to document a method
+ *  @param n the number of items (precondition: n &gt; <span class="n">0</span>)
+ *  @<span class="k">return</span> the average
+ */</code></pre>
+<p>A <b>precondition</b> is something that must be true before a method is called; the method doesn't have to check it. A <b>postcondition</b> is something that will be true after the method finishes (often describing the return value).</p>
+<div class="box tip"><b class="lbl">FRQ note</b>If a free-response question states a precondition (for example, "n is positive"), you can assume it. You don't need extra code to check it.</div>
+
+  
+</section>
+<section class="topic" id="signatures">
+  <h2><span class="pill e">1.9–1.10</span>Method signatures and calling methods</h2>
+  <p class="sub">Reading a method header and calling it correctly.</p>
+  
+<p>A method is a named block of code. Its <b>signature</b> is its name and its parameter list. The header also shows its return type.</p>
+<pre class="code"><code><span class="k">public</span> <span class="k">static</span> <span class="k">double</span> average(<span class="k">int</span> a, <span class="k">int</span> b)</code></pre>
+<div class="grid3"><div class="mini"><h4>Return type</h4><p><code>double</code>: the call produces a double value. <code>void</code> means it returns nothing.</p></div>
+<div class="mini"><h4>Parameters</h4><p><code>int a, int b</code>: the method needs two ints, in that order.</p></div>
+<div class="mini"><h4>Arguments</h4><p>The actual values you pass: <code>average(3, 8)</code>. They are copied into the parameters.</p></div></div>
+<h3>Calling methods</h3>
+<ul><li>A <b>void</b> method is called as its own statement: <code>printReport();</code></li>
+<li>A <b>non-void</b> method returns a value you should use: <code>double avg = average(3, 8);</code> or <code>System.out.println(average(3, 8));</code></li>
+<li><b>Class (static) methods</b> are called with the class name: <code>Math.sqrt(16)</code>. Inside the same class, the name alone works.</li></ul>
+<h3>Overloading</h3><p>Several methods can share a name if their parameter lists differ (in number, type or order of types). Java picks the one that matches the arguments: <code>Math.abs(-3)</code> returns int 3 and <code>Math.abs(-3.0)</code> returns double 3.0.</p>
+<div class="box trap"><b class="lbl">Common mistake</b>Calling a non-void method and ignoring the result: <code>Math.sqrt(x);</code> compiles but does nothing useful. The value must be stored or used.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Parameters are copies</summary><div class="deep-body"><h4>Pass by value</h4><p>When you call a method, each argument's value is copied into the matching parameter. If the method changes its parameter, the caller's variable doesn't change. For objects, the copy is a copy of the reference, so the method can change the object both variables point to (Unit 3 goes deeper).</p>
+<h4>Matching arguments</h4><p>The number of arguments must match, and each must be compatible with its parameter's type. An int argument works for a double parameter (widening), but a double argument doesn't work for an int parameter.</p>
+<h4>Return values flow back</h4><p>A call like <code>average(3, 8)</code> is replaced by its return value when the expression is evaluated, so <code>average(3, 8) * 2</code> works like any number.</p></div></details>
+</section>
+<section class="topic" id="math-class">
+  <h2><span class="pill e">1.11</span>The Math class</h2>
+  <p class="sub">The Java Quick Reference Math methods.</p>
+  
+<div class="tblwrap"><table><tr><th>Method</th><th>Returns</th><th>Example</th></tr>
+<tr><td><code>Math.abs(x)</code></td><td>absolute value (int for int, double for double)</td><td><code>Math.abs(-4)</code> → 4</td></tr>
+<tr><td><code>Math.pow(base, exp)</code></td><td>double: base<sup>exp</sup></td><td><code>Math.pow(2, 3)</code> → 8.0</td></tr>
+<tr><td><code>Math.sqrt(x)</code></td><td>double: square root</td><td><code>Math.sqrt(49)</code> → 7.0</td></tr>
+<tr><td><code>Math.random()</code></td><td>double from 0.0 up to (not including) 1.0</td><td>0.7316…</td></tr></table></div>
+<h3>Random integers in a range</h3>
+<p>To get a random int from <b>low</b> to <b>high</b> inclusive:</p>
+<pre class="code"><code><span class="k">int</span> r = (<span class="k">int</span>) (<span class="t">Math</span>.random() * (high - low + <span class="n">1</span>)) + low;</code></pre>
+<div class="worked"><div class="q">Worked example: Write an expression for a random die roll from 1 to 6.</div><div class="a">Range size = 6 − 1 + 1 = 6. <code>(int) (Math.random() * 6) + 1</code>. Math.random() * 6 is in [0, 6); casting gives 0–5; adding 1 gives 1–6.</div></div>
+<div class="box trap"><b class="lbl">Common mistake</b><code>(int) Math.random() * 6</code> is always 0: the cast applies to Math.random() first (giving 0), then 0 * 6.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Why the random formula works</summary><div class="deep-body"><h4>Stretch, shift, cut</h4><p>Math.random() gives a double in [0, 1). Multiplying by the number of possible values (high − low + 1) stretches it to [0, count). Casting to int gives one of 0, 1, …, count − 1, each equally likely. Adding low shifts the range to low … high.</p>
+<h4>Checking a formula</h4><p>Plug in the extremes: the smallest Math.random() can be is 0, the largest is just under 1. For <code>(int) (Math.random() * 10) + 5</code>: smallest 0 + 5 = 5, largest (int) 9.99… + 5 = 14. Range 5–14.</p>
+<h4>pow and sqrt always return doubles</h4><p><code>Math.pow(2, 3)</code> prints 8.0, not 8. To store it in an int, cast: <code>(int) Math.pow(2, 3)</code>.</p></div></details>
+</section>
+</div>
+<div class="chapter" id="objects-c1" data-title="Objects" data-short="Objects">
+<section class="topic" id="objects">
+  <h2><span class="pill m">1.12–1.13</span>Objects: instances of classes</h2>
+  <p class="sub">Classes, objects, constructors and references.</p>
+  
+<p>A <b>class</b> is a blueprint. An <b>object</b> is one thing built from that blueprint, with its own values for each attribute. <code>Point</code> is a class; a point at (2, 5) is an object of that class (an <b>instance</b>).</p>
+<p>Objects are created with <code>new</code> and a <b>constructor</b>, which sets up the new object's starting values:</p>
+<pre class="code"><code><span class="t">Point</span> p = <span class="k">new</span> <span class="t">Point</span>(<span class="n">2</span>, <span class="n">5</span>);</code></pre>
+<p>The variable <code>p</code> doesn't contain the object; it holds a <b>reference</b> to where the object lives in memory.</p>
+<div class="sim" data-sim='{"type": "memory", "frames": [{"note": "Point p = new Point(2, 5);  creates an object; p stores a reference to it.", "vars": [["p", "Point", "@a"]], "objs": [["a", "Point", [["x", 2], ["y", 5]]]]}, {"note": "Point q = p;  copies the reference, not the object. Both arrows point to the same Point (aliases).", "vars": [["p", "Point", "@a"], ["q", "Point", "@a"]], "objs": [["a", "Point", [["x", 2], ["y", 5]]]]}, {"note": "q.moveRight(3);  changes the one shared object, so p.getX() is now 5 too.", "vars": [["p", "Point", "@a"], ["q", "Point", "@a"]], "objs": [["a", "Point", [["x", 5], ["y", 5]]]]}, {"note": "q = new Point(0, 0);  q now points to a new object. p is unchanged.", "vars": [["p", "Point", "@a"], ["q", "Point", "@b"]], "objs": [["a", "Point", [["x", 5], ["y", 5]]], ["b", "Point", [["x", 0], ["y", 0]]]]}, {"note": "q = null;  q points to nothing. Calling q.getX() now would throw a NullPointerException.", "vars": [["p", "Point", "@a"], ["q", "Point", "null"]], "objs": [["a", "Point", [["x", 5], ["y", 5]]]]}], "caption": "References, aliases and null. Use Step \u25b6 to go one line at a time", "reveal": true}'></div>
+<h3>Constructors and overloading</h3>
+<p>A class can have several constructors with different parameter lists. <code>new Point()</code> might make (0, 0), while <code>new Point(2, 5)</code> uses the given values. Arguments must match one constructor's parameters in number, order and type.</p>
+<h3>null</h3><p>A reference variable that doesn't point to any object holds <code>null</code>. Calling a method through a null reference throws a <b>NullPointerException</b>.</p>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>What new actually does</summary><div class="deep-body"><h4>Three steps</h4><p><code>new Point(2, 5)</code> (1) sets aside memory for a new Point object, (2) runs the constructor to fill in its attributes, (3) produces a reference to it. The assignment then stores that reference in the variable.</p>
+<h4>Aliasing</h4><p>After <code>Point q = p;</code> there's still only one object. Changing it through q is visible through p. That's the main difference from primitives: <code>int b = a;</code> copies the number itself.</p>
+<h4>Garbage collection</h4><p>When no variable refers to an object anymore, Java eventually reclaims its memory automatically.</p>
+<h4>Default values</h4><p>An object's attributes that aren't set by the constructor get defaults: 0 for int, 0.0 for double, false for boolean, null for references.</p></div></details>
+</section>
+<section class="topic" id="instance-methods">
+  <h2><span class="pill m">1.14</span>Calling instance methods</h2>
+  <p class="sub">The dot operator on an object.</p>
+  
+<p>An <b>instance method</b> belongs to an object and is called with the dot operator on a reference: <code>p.moveRight(4)</code>. It can read and change that object's own attributes.</p>
+<pre class="code"><code><span class="k">class</span> <span class="t">Point</span> {
+    <span class="k">private</span> <span class="k">int</span> x;
+    <span class="k">private</span> <span class="k">int</span> y;
+    <span class="k">public</span> <span class="t">Point</span>(<span class="k">int</span> x, <span class="k">int</span> y) { <span class="k">this</span>.x = x; <span class="k">this</span>.y = y; }
+    <span class="k">public</span> <span class="k">int</span> getX() { <span class="k">return</span> x; }
+    <span class="k">public</span> <span class="k">void</span> moveRight(<span class="k">int</span> d) { x += d; }
+}</code></pre>
+<pre class="code"><code><span class="t">Point</span> p = <span class="k">new</span> <span class="t">Point</span>(<span class="n">1</span>, <span class="n">1</span>);
+p.moveRight(<span class="n">4</span>);        <span class="c">// void: changes p's x to 5</span>
+<span class="k">int</span> a = p.getX();      <span class="c">// non-void: returns 5</span>
+<span class="t">System</span>.out.println(a * <span class="n">2</span>);</code></pre>
+<div class="out-box">10</div>
+<div class="grid2"><div class="mini"><h4>Class method</h4><p>Called on the class: <code>Math.sqrt(9)</code>. Doesn't need an object.</p></div>
+<div class="mini"><h4>Instance method</h4><p>Called on an object: <code>p.getX()</code>, <code>name.length()</code>. Uses that object's data.</p></div></div>
+<div class="box trap"><b class="lbl">Common mistake</b>Calling an instance method with the class name: <code>Point.getX()</code> is a compile error, because Java doesn't know which point you mean.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="strings-c1" data-title="Strings" data-short="Strings">
+<section class="topic" id="strings">
+  <h2><span class="pill m">1.15</span>String manipulation</h2>
+  <p class="sub">Indexes, substring, indexOf, equals and compareTo.</p>
+  
+<p>A String is an object holding a sequence of characters. Each character has an <b>index</b>, starting at <b>0</b>. The last index is <code>length() - 1</code>.</p>
+<div class="sim" data-sim='{"type": "strbox", "s": "computer", "ops": [{"f": "length"}, {"f": "substring", "a": 1, "b": 4}, {"f": "substring", "a": 3}, {"f": "indexOf", "x": "put"}, {"f": "indexOf", "x": "z"}], "caption": "Indexes start at 0. substring stops BEFORE its second index", "reveal": true}'></div>
+<div class="tblwrap"><table><tr><th>Method (Java Quick Reference)</th><th>Returns</th></tr>
+<tr><td><code>int length()</code></td><td>number of characters</td></tr>
+<tr><td><code>String substring(int from, int to)</code></td><td>characters from index <code>from</code> up to but <b>not including</b> <code>to</code></td></tr>
+<tr><td><code>String substring(int from)</code></td><td>from index <code>from</code> to the end</td></tr>
+<tr><td><code>int indexOf(String str)</code></td><td>index of the first occurrence of str, or <b>−1</b> if not found</td></tr>
+<tr><td><code>boolean equals(String other)</code></td><td>true if the characters are exactly the same</td></tr>
+<tr><td><code>int compareTo(String other)</code></td><td>negative if this comes first alphabetically, 0 if equal, positive if after</td></tr></table></div>
+<div class="cslab" data-lab='{"type": "string", "s": "computer", "a": 1, "b": 4, "c": 3, "x": "put", "t": "cat"}'></div>
+<h3>One character</h3><p>To get the character at index i as a String: <code>s.substring(i, i + 1)</code>.</p>
+<h3>Strings are immutable</h3><p>No String method changes a String. Methods like <code>substring</code> return a <b>new</b> String. To "change" s, assign the result back: <code>s = s.substring(1);</code></p>
+<div class="sim" data-sim='{"type": "memory", "frames": [{"note": "String s = \"hi\";", "vars": [["s", "String", "@a"]], "objs": [["a", "String", "\"hi\""]]}, {"note": "s.toUpperCase(); returns a NEW String \"HI\" that nothing stores. s still points to \"hi\". Strings never change.", "vars": [["s", "String", "@a"]], "objs": [["a", "String", "\"hi\""], ["b", "String", "\"HI\" (lost)"]]}, {"note": "s = s + \"!\"; builds a new String \"hi!\" and moves the arrow to it.", "vars": [["s", "String", "@c"]], "objs": [["a", "String", "\"hi\""], ["c", "String", "\"hi!\""]]}], "caption": "String methods return new Strings; the original never changes", "reveal": true}'></div>
+<h3>== vs equals</h3><p>For objects, <code>==</code> checks whether two references point to the <b>same object</b>. To compare text, always use <code>equals</code>.</p>
+<div class="worked"><div class="q">Worked example: Given <code>String w = "banana";</code>, what is <code>w.substring(w.indexOf("n"), w.length() - 1)</code>?</div><div class="a">indexOf("n") = 2. length() − 1 = 5. substring(2, 5) = characters at 2, 3, 4 = <b>"nan"</b>.</div></div>
+<div class="box trap"><b class="lbl">Common mistakes</b>substring(a, b) has length b − a. An index equal to length() is allowed as the <i>end</i> of substring, but not as a start for a one-character substring. Going past it throws StringIndexOutOfBoundsException.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>compareTo and String details</summary><div class="deep-body"><h4>How compareTo decides</h4><p>It compares character by character from the left. At the first difference, it returns the difference of the two characters' codes. If one String runs out first, the shorter one comes first. Uppercase letters come before lowercase ("Zebra" comes before "apple"). Only the sign of the result matters on the exam.</p>
+<h4>Concatenation with other types</h4><p><code>"Score: " + 90</code> is "Score: 90". Any value joined with a String becomes text, and objects use their <code>toString</code> method.</p>
+<h4>Finding every occurrence</h4><p>Combining indexOf and substring in a loop (Unit 2) lets you count or remove every copy of a word: find it, record it, then search again in the part after it.</p>
+<h4>Empty String</h4><p><code>""</code> has length 0. <code>s.substring(s.length())</code> is legal and gives "".</p></div></details>
+</section>
+</div>
+<div class="chapter" id="frq-ch-c1" data-title="Tracing & FRQs" data-short="Tracing & FRQs">
+<section class="topic" id="frq-c1">
+  <h2>Tracing questions and free response</h2>
+  <p class="sub">How Unit 1 shows up on the exam.</p>
+  
+<p>The AP exam has 42 multiple-choice questions and 4 free-response questions, all on the computer. Unit 1 skills appear in nearly every question. Three habits earn points:</p>
+<ol class="steps"><li><b>Trace on paper.</b> Make a table with a column per variable and update it line by line.</li>
+<li><b>Check types at every step.</b> Is this division int / int? Is this + joining Strings?</li>
+<li><b>Check compile and run-time problems first</b>: wrong type stored, method called on the class instead of an object, bad substring index, null reference.</li></ol>
+<h3>Free-response question 1: Methods and Control Structures</h3>
+<p>You write method bodies that call other methods described in the problem. Read each method's header carefully: its return type tells you whether to store the result, and its parameters tell you what to pass.</p>
+<pre class="code"><code><span class="c">// Given: public static int getScore(String name)   returns a player's score</span>
+<span class="c">// Write: average of two players' scores, as a double</span>
+<span class="k">public</span> <span class="k">static</span> <span class="k">double</span> averageScore(<span class="k">String</span> a, <span class="k">String</span> b)
+{
+    <span class="k">int</span> total = getScore(a) + getScore(b);
+    <span class="k">return</span> total / <span class="n">2.0</span>;
+}</code></pre>
+<div class="box tip"><b class="lbl">Free-response scoring</b>You lose points for calling methods incorrectly (wrong number or type of arguments), for losing precision with int division, and for printing instead of returning. Small syntax slips like a missing semicolon usually aren't penalized.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="review-ch-c1" data-title="Review" data-short="Review">
+<section class="topic" id="review-c1">
+  <h2>Java Quick Reference: Unit 1 lines</h2>
+  <p class="sub">These are on the reference sheet you get during the exam.</p>
+  
+<div class="tblwrap"><table><tr><th>Class</th><th>Method</th><th>What it does</th></tr>
+<tr><td>String</td><td><code>int length()</code></td><td>number of characters</td></tr>
+<tr><td>String</td><td><code>String substring(int from, int to)</code></td><td>from index from up to to − 1</td></tr>
+<tr><td>String</td><td><code>String substring(int from)</code></td><td>from index from to the end</td></tr>
+<tr><td>String</td><td><code>int indexOf(String str)</code></td><td>first index of str, or −1</td></tr>
+<tr><td>String</td><td><code>boolean equals(Object other)</code></td><td>same characters?</td></tr>
+<tr><td>String</td><td><code>int compareTo(String other)</code></td><td>&lt; 0, 0 or &gt; 0 alphabetically</td></tr>
+<tr><td>Math</td><td><code>int abs(int x)</code>, <code>double abs(double x)</code></td><td>absolute value</td></tr>
+<tr><td>Math</td><td><code>double pow(double base, double exp)</code></td><td>power</td></tr>
+<tr><td>Math</td><td><code>double sqrt(double x)</code></td><td>square root</td></tr>
+<tr><td>Math</td><td><code>double random()</code></td><td>0.0 ≤ value &lt; 1.0</td></tr>
+<tr><td>Integer</td><td><code>Integer.MIN_VALUE</code>, <code>Integer.MAX_VALUE</code></td><td>smallest and largest int</td></tr></table></div>
+  
+</section>
+<section class="topic" id="mistakes-c1">
+  <h2>Common mistakes</h2>
+  <p class="sub">Points students lose most often.</p>
+  <ol class="steps">
+<li>Forgetting int division: <code>5 / 2</code> is 2, and <code>(double) (5 / 2)</code> is 2.0.</li>
+<li>Thinking (int) rounds. It truncates: <code>(int) 2.9</code> is 2.</li>
+<li>substring's second index is excluded; indexes start at 0.</li>
+<li>Comparing Strings with == instead of equals.</li>
+<li>Expecting a String method to change the String. Strings are immutable; store the result.</li>
+<li>Ignoring the return value of a non-void method.</li>
+<li>Calling a method on null (NullPointerException).</li>
+<li>Reading "1" + 2 + 3 as "6". It's "123"; but 1 + 2 + "3" is "33".</li></ol>
+  
+</section>
+</div>
+<div class="chapter" id="practice-c1" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-c1">
+  <h2>Practice questions</h2>
+  <p class="sub">30 questions. Every code answer was checked by running it in Java. Use scratch paper to trace.</p>
+  <div class="quiz" data-src="quiz-c1" data-tags='{"e": "Programs & Types", "m": "Objects & Strings"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-c1" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-c1">
+  <h2>Challenge questions</h2>
+  <p class="sub">Traps that combine several rules. Turn off animated models in ⚙ Settings for a real exam feel.</p>
+  <div class="quiz" data-src="quiz-challenge-c1" data-tags='{"e": "Programs & Types", "m": "Objects & Strings"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-c1" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-c1"><h2>Practice exam</h2><p class="sub">15 multiple-choice questions (30 minutes) and 2 free-response questions (20 minutes). No feedback until you submit.</p><div class="exam" data-src="exam-c1"></div></section>
+</div>
+</main>
+
+<footer>Apogee · AP Computer Science A · Java</footer>
+
+<script type="application/json" id="quiz-c1">
+[
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"n\">14<\/span> / <span class=\"n\">4<\/span>);<\/code><\/pre>",
+  "o": [
+   "3",
+   "3.5",
+   "4",
+   "2"
+  ],
+  "a": 0,
+  "x": "Both operands are ints, so the result is truncated: 3.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"n\">14<\/span> % <span class=\"n\">4<\/span>);<\/code><\/pre>",
+  "o": [
+   "3",
+   "2",
+   "3.5",
+   "0"
+  ],
+  "a": 1,
+  "x": "14 = 4·3 + 2, so the remainder is 2.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"n\">14<\/span> / <span class=\"n\">4.0<\/span>);<\/code><\/pre>",
+  "o": [
+   "3.5",
+   "4",
+   "3.0",
+   "3"
+  ],
+  "a": 0,
+  "x": "4.0 is a double, so this is real division: 3.5.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"n\">2<\/span> + <span class=\"n\">3<\/span> * <span class=\"n\">4<\/span> % <span class=\"n\">5<\/span>);<\/code><\/pre>",
+  "o": [
+   "5",
+   "2",
+   "4",
+   "0"
+  ],
+  "a": 2,
+  "x": "* and % go left to right before +: 3 * 4 = 12, 12 % 5 = 2, 2 + 2 = 4.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"s\">\"A\"<\/span> + <span class=\"n\">1<\/span> + <span class=\"n\">2<\/span>);<\/code><\/pre>",
+  "o": [
+   "A3",
+   "Error",
+   "A12",
+   "3A"
+  ],
+  "a": 2,
+  "x": "Left to right: \"A\" + 1 is \"A1\", then \"A1\" + 2 is \"A12\".",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"n\">1<\/span> + <span class=\"n\">2<\/span> + <span class=\"s\">\"A\"<\/span>);<\/code><\/pre>",
+  "o": [
+   "Error",
+   "12A",
+   "A3",
+   "3A"
+  ],
+  "a": 3,
+  "x": "1 + 2 is evaluated first as int addition: 3, then 3 + \"A\" is \"3A\".",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">double<\/span> d = <span class=\"n\">7<\/span> / <span class=\"n\">2<\/span>;\n<span class=\"t\">System<\/span>.out.println(d);<\/code><\/pre>",
+  "o": [
+   "3.5",
+   "3.0",
+   "3",
+   "4.0"
+  ],
+  "a": 1,
+  "x": "7 / 2 is int division (3) before it is stored, then widened to 3.0.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println((<span class=\"k\">int<\/span>) <span class=\"n\">9.99<\/span>);<\/code><\/pre>",
+  "o": [
+   "10",
+   "9.0",
+   "9.99",
+   "9"
+  ],
+  "a": 3,
+  "x": "(int) truncates; it doesn't round.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println((<span class=\"k\">double<\/span>) <span class=\"n\">9<\/span> / <span class=\"n\">2<\/span>);<\/code><\/pre>",
+  "o": [
+   "4.0",
+   "4",
+   "5.0",
+   "4.5"
+  ],
+  "a": 3,
+  "x": "The cast applies to 9 first, giving 9.0 / 2 = 4.5.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println((<span class=\"k\">double<\/span>) (<span class=\"n\">9<\/span> / <span class=\"n\">2<\/span>));<\/code><\/pre>",
+  "o": [
+   "5.0",
+   "4.0",
+   "4",
+   "4.5"
+  ],
+  "a": 1,
+  "x": "9 / 2 = 4 (int) first, then cast to 4.0.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Which line causes a compile error?",
+  "o": [
+   "<code>int x = 3.0;<\/code>",
+   "<code>int z = (int) 3.7;<\/code>",
+   "<code>double y = 3;<\/code>",
+   "<code>double w = 3 / 2;<\/code>"
+  ],
+  "a": 0,
+  "x": "A double can't be stored in an int without a cast. The others are legal (widening or an explicit cast).",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is the value of n after this code?<pre class=\"code\"><code><span class=\"k\">int<\/span> n = <span class=\"n\">10<\/span>;\nn -= <span class=\"n\">4<\/span>;\nn *= <span class=\"n\">3<\/span>;\nn %= <span class=\"n\">5<\/span>;<\/code><\/pre>",
+  "o": [
+   "2",
+   "3",
+   "0",
+   "18"
+  ],
+  "a": 1,
+  "x": "10 → 6 → 18 → 18 % 5 = 3.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Which expression gives a random int from 5 to 10 inclusive?",
+  "o": [
+   "<code>(int) (Math.random() * 10) + 5<\/code>",
+   "<code>(int) (Math.random() * 6) + 5<\/code>",
+   "<code>(int) (Math.random() * 5) + 5<\/code>",
+   "<code>(int) Math.random() * 6 + 5<\/code>"
+  ],
+  "a": 1,
+  "x": "There are 10 − 5 + 1 = 6 values, so multiply by 6, then add the low end 5.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"t\">Math<\/span>.pow(<span class=\"n\">3<\/span>, <span class=\"n\">2<\/span>) + <span class=\"t\">Math<\/span>.abs(-<span class=\"n\">4<\/span>));<\/code><\/pre>",
+  "o": [
+   "9.04",
+   "5.0",
+   "13",
+   "13.0"
+  ],
+  "a": 3,
+  "x": "Math.pow returns double 9.0; 9.0 + 4 = 13.0.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"t\">Math<\/span>.sqrt(<span class=\"n\">36<\/span>) / <span class=\"n\">4<\/span>);<\/code><\/pre>",
+  "o": [
+   "1",
+   "1.5",
+   "1.0",
+   "6.0"
+  ],
+  "a": 1,
+  "x": "Math.sqrt returns 6.0; 6.0 / 4 = 1.5.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "A method has the header <code>public static int area(int w, int h)<\/code>. Which call is correct?",
+  "o": [
+   "<code>String a = area(3, 4);<\/code>",
+   "<code>int a = area(3, 4);<\/code>",
+   "<code>area(3);<\/code>",
+   "<code>double a = area(3.5, 4);<\/code>"
+  ],
+  "a": 1,
+  "x": "Two int arguments, and the int result is stored in a compatible variable. area(3.5, 4) passes a double to an int parameter.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Which describes a precondition?",
+  "o": [
+   "A condition the method guarantees after it finishes",
+   "An exception the method throws",
+   "A condition that must be true before the method is called",
+   "A comment that describes the return type"
+  ],
+  "a": 2,
+  "x": "Preconditions are the caller's responsibility; postconditions describe what's true afterward.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">String<\/span> s = <span class=\"s\">\"hello world\"<\/span>;\n<span class=\"t\">System<\/span>.out.println(s.substring(<span class=\"n\">2<\/span>, <span class=\"n\">5<\/span>));<\/code><\/pre>",
+  "o": [
+   "llo w",
+   "el",
+   "ello",
+   "llo"
+  ],
+  "a": 3,
+  "x": "Indexes 2, 3, 4: l, l, o.",
+  "h": true,
+  "sim": {
+   "type": "strbox",
+   "s": "hello world",
+   "ops": [
+    {
+     "f": "substring",
+     "a": 2,
+     "b": 5
+    }
+   ],
+   "ask": true
+  }
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">String<\/span> s = <span class=\"s\">\"hello world\"<\/span>;\n<span class=\"t\">System<\/span>.out.println(s.indexOf(<span class=\"s\">\"o\"<\/span>));<\/code><\/pre>",
+  "o": [
+   "-1",
+   "4",
+   "5",
+   "7"
+  ],
+  "a": 1,
+  "x": "The first \"o\" is at index 4 (h0 e1 l2 l3 o4).",
+  "h": true,
+  "sim": {
+   "type": "strbox",
+   "s": "hello world",
+   "ops": [
+    {
+     "f": "indexOf",
+     "x": "o"
+    }
+   ],
+   "ask": true
+  }
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">String<\/span> s = <span class=\"s\">\"hello\"<\/span>;\n<span class=\"t\">System<\/span>.out.println(s.substring(s.length() - <span class=\"n\">2<\/span>));<\/code><\/pre>",
+  "o": [
+   "o",
+   "l",
+   "llo",
+   "lo"
+  ],
+  "a": 3,
+  "x": "length() is 5, so substring(3) is \"lo\".",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What happens?<pre class=\"code\"><code><span class=\"k\">String<\/span> s = <span class=\"s\">\"cat\"<\/span>;\n<span class=\"t\">System<\/span>.out.println(s.substring(<span class=\"n\">2<\/span>, <span class=\"n\">4<\/span>));<\/code><\/pre>",
+  "o": [
+   "Compile error",
+   "t followed by a space",
+   "A StringIndexOutOfBoundsException is thrown",
+   "t"
+  ],
+  "a": 2,
+  "x": "The end index 4 is past length() = 3, so it fails while running.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">String<\/span> s = <span class=\"s\">\"Java\"<\/span>;\ns.substring(<span class=\"n\">1<\/span>);\n<span class=\"t\">System<\/span>.out.println(s);<\/code><\/pre>",
+  "o": [
+   "Java",
+   "J",
+   "ava",
+   "Error"
+  ],
+  "a": 0,
+  "x": "Strings are immutable. The new String from substring is never stored, so s is still \"Java\".",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Which correctly checks whether two String variables <code>a<\/code> and <code>b<\/code> have the same text?",
+  "o": [
+   "<code>a == b<\/code>",
+   "<code>a.compareTo(b) == 1<\/code>",
+   "<code>a.equals(b)<\/code>",
+   "<code>a = b<\/code>"
+  ],
+  "a": 2,
+  "x": "== compares references; equals compares characters.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"s\">\"apple\"<\/span>.compareTo(<span class=\"s\">\"banana\"<\/span>) &lt; <span class=\"n\">0<\/span>);<\/code><\/pre>",
+  "o": [
+   "Error",
+   "true",
+   "false",
+   "-1"
+  ],
+  "a": 1,
+  "x": "\"apple\" comes before \"banana\", so compareTo is negative.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Given the <code>Point<\/code> class shown, what is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Point<\/span> {\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> x;\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> y;\n    <span class=\"k\">public<\/span> <span class=\"t\">Point<\/span>(<span class=\"k\">int<\/span> x, <span class=\"k\">int<\/span> y) { <span class=\"k\">this<\/span>.x = x; <span class=\"k\">this<\/span>.y = y; }\n    <span class=\"k\">public<\/span> <span class=\"k\">int<\/span> getX() { <span class=\"k\">return<\/span> x; }\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> moveRight(<span class=\"k\">int<\/span> d) { x += d; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Point<\/span> a = <span class=\"k\">new<\/span> <span class=\"t\">Point<\/span>(<span class=\"n\">3<\/span>, <span class=\"n\">4<\/span>);\n<span class=\"t\">Point<\/span> b = a;\nb.moveRight(<span class=\"n\">2<\/span>);\n<span class=\"t\">System<\/span>.out.println(a.getX());<\/code><\/pre>",
+  "o": [
+   "Error",
+   "5",
+   "3",
+   "2"
+  ],
+  "a": 1,
+  "x": "a and b refer to the same object, so moving it through b changes what a sees.",
+  "h": true,
+  "sim": {
+   "type": "memory",
+   "hide": [],
+   "frames": [
+    {
+     "note": "a = new Point(3, 4)",
+     "vars": [
+      [
+       "a",
+       "Point",
+       "@p"
+      ]
+     ],
+     "objs": [
+      [
+       "p",
+       "Point",
+       [
+        [
+         "x",
+         3
+        ],
+        [
+         "y",
+         4
+        ]
+       ]
+      ]
+     ]
+    },
+    {
+     "note": "b = a copies the reference",
+     "vars": [
+      [
+       "a",
+       "Point",
+       "@p"
+      ],
+      [
+       "b",
+       "Point",
+       "@p"
+      ]
+     ],
+     "objs": [
+      [
+       "p",
+       "Point",
+       [
+        [
+         "x",
+         3
+        ],
+        [
+         "y",
+         4
+        ]
+       ]
+      ]
+     ]
+    },
+    {
+     "note": "b.moveRight(2) changes the shared object",
+     "vars": [
+      [
+       "a",
+       "Point",
+       "@p"
+      ],
+      [
+       "b",
+       "Point",
+       "@p"
+      ]
+     ],
+     "objs": [
+      [
+       "p",
+       "Point",
+       [
+        [
+         "x",
+         "?"
+        ],
+        [
+         "y",
+         4
+        ]
+       ]
+      ]
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "t": "m",
+  "q": "What happens?<pre class=\"code\"><code><span class=\"t\">Point<\/span> p = <span class=\"k\">null<\/span>;\n<span class=\"t\">System<\/span>.out.println(p.getX());<\/code><\/pre>",
+  "o": [
+   "0 is printed",
+   "null is printed",
+   "A NullPointerException is thrown",
+   "Compile error"
+  ],
+  "a": 2,
+  "x": "p refers to no object, so calling a method through it fails at run time.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Which is a compile error, assuming the <code>Point<\/code> class above?",
+  "o": [
+   "<code>int x = new Point(1, 2).getX();<\/code>",
+   "<code>int x = Point.getX();<\/code>",
+   "<code>new Point(0, 0).moveRight(1);<\/code>",
+   "<code>Point p = new Point(1, 2);<\/code>"
+  ],
+  "a": 1,
+  "x": "getX is an instance method; it must be called on an object, not the class.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Which statement about <code>int<\/code> and <code>String<\/code> variables is true?",
+  "o": [
+   "Both store their values directly",
+   "Both store references",
+   "A String variable can't be null",
+   "An int variable stores its value; a String variable stores a reference to an object"
+  ],
+  "a": 3,
+  "x": "int is primitive; String is a reference type and can be null.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">int<\/span> big = <span class=\"t\">Integer<\/span>.<span class=\"t\">MAX_VALUE<\/span>;\nbig++;\n<span class=\"t\">System<\/span>.out.println(big &lt; <span class=\"n\">0<\/span>);<\/code><\/pre>",
+  "o": [
+   "true",
+   "false",
+   "An error occurs",
+   "Nothing"
+  ],
+  "a": 0,
+  "x": "Adding 1 to the largest int overflows and wraps to Integer.MIN_VALUE, which is negative. No error is reported.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">int<\/span> a = <span class=\"n\">5<\/span>, b = <span class=\"n\">2<\/span>;\n<span class=\"k\">double<\/span> avg = (<span class=\"k\">double<\/span>) (a + b) / <span class=\"n\">2<\/span>;\n<span class=\"t\">System<\/span>.out.println(avg);<\/code><\/pre>",
+  "o": [
+   "3.0",
+   "3",
+   "3.5",
+   "4.0"
+  ],
+  "a": 2,
+  "x": "(double) 7 = 7.0, divided by 2 = 3.5.",
+  "h": true
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-c1">
+[
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">String<\/span> s = <span class=\"s\">\"mississippi\"<\/span>;\n<span class=\"k\">int<\/span> i = s.indexOf(<span class=\"s\">\"ss\"<\/span>);\ns = s.substring(i + <span class=\"n\">2<\/span>);\n<span class=\"t\">System<\/span>.out.println(s.indexOf(<span class=\"s\">\"ss\"<\/span>) + i);<\/code><\/pre>",
+  "o": [
+   "3",
+   "4",
+   "2",
+   "5"
+  ],
+  "a": 0,
+  "x": "The first \"ss\" is at index 2, so i = 2. s becomes s.substring(4) = \"issippi\", where \"ss\" is at index 1. 1 + 2 = 3.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">int<\/span> x = <span class=\"n\">7<\/span>;\n<span class=\"k\">double<\/span> y = x / <span class=\"n\">2<\/span> + x % <span class=\"n\">2<\/span> * <span class=\"n\">1.5<\/span>;\n<span class=\"t\">System<\/span>.out.println(y);<\/code><\/pre>",
+  "o": [
+   "3.5",
+   "4.5",
+   "4.0",
+   "5.0"
+  ],
+  "a": 1,
+  "x": "x / 2 = 3 (int). x % 2 * 1.5 = 1 * 1.5 = 1.5. 3 + 1.5 = 4.5.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"s\">\"\"<\/span> + <span class=\"n\">1<\/span> + <span class=\"n\">2<\/span> * <span class=\"n\">3<\/span> + <span class=\"n\">4<\/span>);<\/code><\/pre>",
+  "o": [
+   "164",
+   "74",
+   "1234",
+   "11"
+  ],
+  "a": 0,
+  "x": "* first: 2 * 3 = 6. Then left to right from the String: \"1\", \"16\", \"164\".",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Which expression rounds a <b>negative<\/b> double d to the nearest int?",
+  "o": [
+   "<code>(int) (d + 0.5)<\/code>",
+   "<code>(int) (d - 0.5)<\/code>",
+   "<code>(int) d + 0.5<\/code>",
+   "<code>(int) d<\/code>"
+  ],
+  "a": 1,
+  "x": "For negatives, subtract 0.5 before truncating toward zero: −2.6 − 0.5 = −3.1 → −3.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">String<\/span> a = <span class=\"s\">\"code\"<\/span>;\n<span class=\"k\">String<\/span> b = a;\na = a + <span class=\"s\">\"r\"<\/span>;\n<span class=\"t\">System<\/span>.out.println(b + <span class=\"s\">\" \"<\/span> + a);<\/code><\/pre>",
+  "o": [
+   "coder coder",
+   "coder code",
+   "code code",
+   "code coder"
+  ],
+  "a": 3,
+  "x": "a + \"r\" builds a new String and moves a to it; b still refers to the original \"code\".",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Assume <code>s<\/code> is a String with at least 2 characters. Which expression is always the same as <code>s<\/code>?",
+  "o": [
+   "<code>s.substring(1) + s.substring(0, 1)<\/code>",
+   "<code>s.substring(0, 1) + s.substring(1)<\/code>",
+   "<code>s.substring(0, 1) + s.substring(2)<\/code>",
+   "<code>s.substring(0, s.length() - 1)<\/code>"
+  ],
+  "a": 1,
+  "x": "The first character plus everything from index 1 rebuilds the whole String.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Which values can <code>(int) (Math.random() * 4) * 2 + 1<\/code> produce?",
+  "o": [
+   "1 to 8",
+   "2, 4, 6, 8",
+   "1, 3, 5, 7",
+   "1, 3, 5, 7, 9"
+  ],
+  "a": 2,
+  "x": "(int) (Math.random() * 4) is 0–3; times 2 is 0, 2, 4, 6; plus 1 is 1, 3, 5, 7.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">int<\/span> m = <span class=\"n\">123<\/span>;\n<span class=\"k\">int<\/span> d = m % <span class=\"n\">10<\/span> * <span class=\"n\">100<\/span> + m / <span class=\"n\">10<\/span> % <span class=\"n\">10<\/span> * <span class=\"n\">10<\/span> + m / <span class=\"n\">100<\/span>;\n<span class=\"t\">System<\/span>.out.println(d);<\/code><\/pre>",
+  "o": [
+   "6",
+   "312",
+   "321",
+   "123"
+  ],
+  "a": 2,
+  "x": "m % 10 = 3, m / 10 % 10 = 2, m / 100 = 1. 300 + 20 + 1 = 321: the digits reversed.",
+  "h": true
+ }
+]
+</script>
+<script type="application/json" id="exam-c1">
+{
+ "title": "Unit 1 Practice Exam: Using Objects and Methods",
+ "mcqMinutes": 30,
+ "frqMinutes": 20,
+ "tags": {
+  "e": "Programs & Types",
+  "m": "Objects & Strings"
+ },
+ "kinds": {
+  "concept": "Concept",
+  "calc": "Code tracing"
+ },
+ "mcq": [
+  {
+   "t": "e",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"n\">5<\/span> + <span class=\"n\">3<\/span> / <span class=\"n\">2<\/span> * <span class=\"n\">2<\/span>);<\/code><\/pre>",
+   "o": [
+    "6",
+    "7",
+    "8",
+    "9"
+   ],
+   "a": 1,
+   "x": "3 / 2 = 1, times 2 = 2, plus 5 = 7.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "e",
+   "q": "Which is a run-time error (not a compile error)?",
+   "o": [
+    "<code>int x = \"5\";<\/code>",
+    "<code>int x = 5 / 0;<\/code>",
+    "<code>String s = 5;<\/code>",
+    "<code>int x = 5.0;<\/code>"
+   ],
+   "a": 1,
+   "x": "5 / 0 compiles but throws ArithmeticException when run.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "e",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">double<\/span> d = <span class=\"n\">2.7<\/span>;\n<span class=\"k\">int<\/span> n = (<span class=\"k\">int<\/span>) d * <span class=\"n\">2<\/span>;\n<span class=\"t\">System<\/span>.out.println(n);<\/code><\/pre>",
+   "o": [
+    "6",
+    "4",
+    "5.4",
+    "5"
+   ],
+   "a": 1,
+   "x": "The cast applies to d first: (int) 2.7 = 2, then 2 * 2 = 4.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "e",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">int<\/span> x = <span class=\"n\">4<\/span>;\nx += x * <span class=\"n\">2<\/span>;\nx /= <span class=\"n\">5<\/span>;\n<span class=\"t\">System<\/span>.out.println(x);<\/code><\/pre>",
+   "o": [
+    "12",
+    "3",
+    "2",
+    "2.4"
+   ],
+   "a": 2,
+   "x": "x = 4 + 8 = 12; 12 / 5 = 2 (int).",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "e",
+   "q": "Which gives a random int from 0 to 9 inclusive?",
+   "o": [
+    "<code>(int) (Math.random() * 10) + 1<\/code>",
+    "<code>(int) (Math.random() * 9)<\/code>",
+    "<code>(int) (Math.random() * 10)<\/code>",
+    "<code>(int) Math.random() * 10<\/code>"
+   ],
+   "a": 2,
+   "x": "Math.random() * 10 is in [0, 10); casting gives 0–9.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "e",
+   "q": "The header is <code>public static void greet(String name)<\/code>. Which statement is legal?",
+   "o": [
+    "<code>System.out.println(greet(\"Ana\"));<\/code>",
+    "<code>greet(\"Ana\");<\/code>",
+    "<code>greet();<\/code>",
+    "<code>String s = greet(\"Ana\");<\/code>"
+   ],
+   "a": 1,
+   "x": "A void method returns nothing, so its call can't be stored or printed.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "m",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">String<\/span> w = <span class=\"s\">\"keyboard\"<\/span>;\n<span class=\"t\">System<\/span>.out.println(w.substring(<span class=\"n\">3<\/span>, <span class=\"n\">6<\/span>) + w.indexOf(<span class=\"s\">\"b\"<\/span>));<\/code><\/pre>",
+   "o": [
+    "boa4",
+    "boar3",
+    "boa3",
+    "ybo3"
+   ],
+   "a": 2,
+   "x": "substring(3, 6) is \"boa\"; indexOf(\"b\") is 3. Joined: \"boa3\".",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "m",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">String<\/span> s = <span class=\"s\">\"abc\"<\/span>;\n<span class=\"t\">System<\/span>.out.println(s.indexOf(<span class=\"s\">\"d\"<\/span>) + s.length());<\/code><\/pre>",
+   "o": [
+    "2",
+    "4",
+    "3",
+    "-1"
+   ],
+   "a": 0,
+   "x": "indexOf returns −1 for not found; −1 + 3 = 2.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "m",
+   "q": "Which statement is true about Strings in Java?",
+   "o": [
+    "String methods return new Strings and never change the original",
+    "substring changes the original String",
+    "== is the correct way to compare String contents",
+    "Indexes start at 1"
+   ],
+   "a": 0,
+   "x": "Strings are immutable.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "m",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Point<\/span> {\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> x;\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> y;\n    <span class=\"k\">public<\/span> <span class=\"t\">Point<\/span>(<span class=\"k\">int<\/span> x, <span class=\"k\">int<\/span> y) { <span class=\"k\">this<\/span>.x = x; <span class=\"k\">this<\/span>.y = y; }\n    <span class=\"k\">public<\/span> <span class=\"k\">int<\/span> getX() { <span class=\"k\">return<\/span> x; }\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> moveRight(<span class=\"k\">int<\/span> d) { x += d; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Point<\/span> p = <span class=\"k\">new<\/span> <span class=\"t\">Point<\/span>(<span class=\"n\">0<\/span>, <span class=\"n\">0<\/span>);\n<span class=\"t\">Point<\/span> q = <span class=\"k\">new<\/span> <span class=\"t\">Point<\/span>(<span class=\"n\">0<\/span>, <span class=\"n\">0<\/span>);\nq.moveRight(<span class=\"n\">1<\/span>);\n<span class=\"t\">System<\/span>.out.println(p.getX() + q.getX());<\/code><\/pre>",
+   "o": [
+    "1",
+    "0",
+    "Error",
+    "2"
+   ],
+   "a": 0,
+   "x": "p and q are two different objects; only q moved.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "m",
+   "q": "What does <code>new<\/code> do?",
+   "o": [
+    "Creates an object, runs a constructor and produces a reference to the object",
+    "Copies an existing object",
+    "Calls a static method",
+    "Declares a primitive variable"
+   ],
+   "a": 0,
+   "x": "new allocates the object, runs the matching constructor and returns a reference.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "m",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"t\">System<\/span>.out.println(<span class=\"s\">\"B\"<\/span>.compareTo(<span class=\"s\">\"a\"<\/span>) &lt; <span class=\"n\">0<\/span>);<\/code><\/pre>",
+   "o": [
+    "true",
+    "Error",
+    "false",
+    "0"
+   ],
+   "a": 0,
+   "x": "Uppercase letters come before lowercase ones, so \"B\" comes first: negative.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "e",
+   "q": "Which method call returns a <code>double<\/code>?",
+   "o": [
+    "<code>\"16\".indexOf(\"6\")<\/code>",
+    "<code>\"16\".length()<\/code>",
+    "<code>Math.abs(-16)<\/code>",
+    "<code>Math.sqrt(16)<\/code>"
+   ],
+   "a": 3,
+   "x": "sqrt always returns double. abs(int) returns int.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "e",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">int<\/span> a = <span class=\"n\">9<\/span>, b = <span class=\"n\">4<\/span>;\n<span class=\"t\">System<\/span>.out.println(a / b + <span class=\"s\">\" \"<\/span> + a % b + <span class=\"s\">\" \"<\/span> + (<span class=\"k\">double<\/span>) a / b);<\/code><\/pre>",
+   "o": [
+    "2.25 1 2.25",
+    "2 1 2.25",
+    "2 1 2.0",
+    "2 0 2.25"
+   ],
+   "a": 1,
+   "x": "9 / 4 = 2, 9 % 4 = 1, 9.0 / 4 = 2.25.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "m",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">String<\/span> s = <span class=\"s\">\"tic\"<\/span>;\ns = s + s.substring(<span class=\"n\">1<\/span>, <span class=\"n\">2<\/span>);\ns = s.substring(<span class=\"n\">1<\/span>) + s.length();\n<span class=\"t\">System<\/span>.out.println(s);<\/code><\/pre>",
+   "o": [
+    "ici4",
+    "tici4",
+    "ici3",
+    "ic4"
+   ],
+   "a": 0,
+   "x": "s = \"tic\" + \"i\" = \"tici\". substring(1) = \"ici\", length is 4 → \"ici4\".",
+   "h": true,
+   "k": "calc"
+  }
+ ],
+ "frq": [
+  {
+   "q": "A class has the method <code>public static int getPoints(String level)<\/code>, which returns the points earned for a level. Write <code>bonusRound<\/code>.<pre class=\"code\"><code>/** <span class=\"t\">Returns<\/span> the average points <span class=\"k\">for<\/span> levels a and b, plus <span class=\"n\">10<\/span>% of that average. */\n<span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">double<\/span> bonusRound(<span class=\"k\">String<\/span> a, <span class=\"k\">String<\/span> b)<\/code><\/pre>",
+   "parts": [
+    {
+     "p": "(a) Write the method body.",
+     "rubric": [
+      [
+       "Calls getPoints correctly for both levels",
+       1
+      ],
+      [
+       "Computes the average without int division (uses 2.0 or a cast)",
+       1
+      ],
+      [
+       "Adds 10% of the average (× 1.1 or + 0.1 × average)",
+       1
+      ],
+      [
+       "Returns the result (does not print it)",
+       1
+      ]
+     ],
+     "answer": "<pre class=\"code\"><code><span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">double<\/span> bonusRound(<span class=\"k\">String<\/span> a, <span class=\"k\">String<\/span> b)\n{\n    <span class=\"k\">double<\/span> avg = (getPoints(a) + getPoints(b)) / <span class=\"n\">2.0<\/span>;\n    <span class=\"k\">return<\/span> avg * <span class=\"n\">1.1<\/span>;\n}<\/code><\/pre>"
+    }
+   ]
+  },
+  {
+   "q": "Write a static method <code>initials<\/code> that takes a first name and a last name (each at least one character) and returns the initials followed by the length of the full name without spaces. For example, <code>initials(\"Grace\", \"Hopper\")<\/code> returns <code>\"GH11\"<\/code>.",
+   "parts": [
+    {
+     "p": "(a) Write the method.",
+     "rubric": [
+      [
+       "Correct header returning String with two String parameters",
+       1
+      ],
+      [
+       "Gets the first character of each name with substring(0, 1)",
+       1
+      ],
+      [
+       "Adds the two lengths",
+       1
+      ],
+      [
+       "Concatenates in the right order and returns",
+       1
+      ]
+     ],
+     "answer": "<pre class=\"code\"><code><span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">String<\/span> initials(<span class=\"k\">String<\/span> first, <span class=\"k\">String<\/span> last)\n{\n    <span class=\"k\">return<\/span> first.substring(<span class=\"n\">0<\/span>, <span class=\"n\">1<\/span>) + last.substring(<span class=\"n\">0<\/span>, <span class=\"n\">1<\/span>) + (first.length() + last.length());\n}<\/code><\/pre>"
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/sims.js"></script>
+<script src="../../assets/js/cs-sims.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

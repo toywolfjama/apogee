@@ -142,7 +142,7 @@
         <h3 class="ex-h">Section I review</h3>
         ${E.mcq.map((q, i) => {
           const a = st.ans[i], ok = a === q.a;
-          return `<div class="qcard ex-rev ${ok ? "ok" : "no"}"><div class="qh"><span>Question ${i + 1} · ${ok ? "Correct" : a === undefined ? "Unanswered" : "Incorrect"}</span><span>${q.k === "concept" ? "Conceptual" : "Calculation"}</span></div>
+          return `<div class="qcard ex-rev ${ok ? "ok" : "no"}"><div class="qh"><span>Question ${i + 1} · ${ok ? "Correct" : a === undefined ? "Unanswered" : "Incorrect"}</span><span>${(E.kinds && E.kinds[q.k]) || (q.k === "concept" ? "Conceptual" : "Calculation")}</span></div>
             <div class="qt">${q.q}</div>
             <div class="opts">${q.o.map((o, j) => `<div class="opt${j === q.a ? " right" : j === a ? " wrong" : ""}">${L(j)}. ${o}</div>`).join("")}</div>
             <div class="expl show">${q.x}</div></div>`;

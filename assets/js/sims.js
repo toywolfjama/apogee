@@ -1090,14 +1090,16 @@
     const make = SIMS[p.type];
     if (!make) return null;
     const sim = make(p);
+    const SH = sim.h || H;   // an animation type can ask for a taller canvas
     el.classList.add("sim");
-    el.innerHTML = `<div class="sim-stage"><canvas width="${W}" height="${H}" aria-label="${p.alt || "Animated example"}" role="img"></canvas></div>
-      <div class="sim-ctrl"><button class="sim-btn play" aria-label="Pause">❚❚</button><button class="sim-btn replay">↺ Replay</button><button class="sim-btn slow">Slow motion</button>${p.caption ? `<span class="sim-cap">${p.caption}</span>` : ""}</div>`;
+    const stepBtns = sim.marks ? `<button class="sim-btn back" aria-label="Previous step">◀ Step</button><button class="sim-btn fwd" aria-label="Next step">Step ▶</button>` : "";
+    el.innerHTML = `<div class="sim-stage"><canvas width="${W}" height="${SH}" aria-label="${p.alt || "Animated example"}" role="img"></canvas></div>
+      <div class="sim-ctrl"><button class="sim-btn play" aria-label="Pause">❚❚</button><button class="sim-btn replay">↺ Replay</button>${stepBtns}<button class="sim-btn slow">Slow motion</button>${p.caption ? `<span class="sim-cap">${p.caption}</span>` : ""}</div>`;
     const cv = el.querySelector("canvas"), c = cv.getContext("2d");
     const st = { t: 0, playing: !reduce, rev: !!p.reveal, slow: false, visible: false, last: 0, dpr: 1 };
     function size() {
       const dpr = Math.min(2, window.devicePixelRatio || 1), w = cv.clientWidth || W;
-      cv.width = Math.round(w * dpr); cv.height = Math.round((w * H / W) * dpr);
+      cv.width = Math.round(w * dpr); cv.height = Math.round((w * SH / W) * dpr);
       st.scale = (w / W) * dpr;
     }
     function render() {
@@ -1117,6 +1119,12 @@
     playBtn.onclick = () => { st.playing = !st.playing; playBtn.textContent = st.playing ? "❚❚" : "▶"; playBtn.setAttribute("aria-label", st.playing ? "Pause" : "Play"); };
     if (!st.playing) playBtn.textContent = "▶";
     el.querySelector(".replay").onclick = () => { st.t = 0; st.playing = true; playBtn.textContent = "❚❚"; render(); };
+    if (sim.marks) {
+      // step through: pause and jump to the previous / next step time
+      const pause = () => { st.playing = false; playBtn.textContent = "▶"; playBtn.setAttribute("aria-label", "Play"); };
+      el.querySelector(".fwd").onclick = () => { pause(); const n = sim.marks.find(m => m > st.t + 1e-3); st.t = n === undefined ? sim.D : n; render(); };
+      el.querySelector(".back").onclick = () => { pause(); const ms = sim.marks.filter(m => m < st.t - 1e-3); st.t = ms.length ? ms[ms.length - 1] : 0; render(); };
+    }
     const slowBtn = el.querySelector(".slow");
     slowBtn.onclick = () => { st.slow = !st.slow; slowBtn.classList.toggle("on", st.slow); };
     const ctl = { tick, render, size, st, el,

@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP CSA Unit 3: Class Creation | Apogee</title>
+<meta name="description" content="AP Computer Science A Unit 3 review with memory animations, practice questions and a practice exam.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&family=Fira+Sans:wght@400;500;600;700&family=Overpass:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../" data-course="ap-csa" data-unit="unit-3">
+
+<div class="hero">
+  <span class="kicker">AP Computer Science A · Unit 3</span>
+  <h1>Class<br><span class="hl">Creation</span></h1>
+  <p>Abstraction and design, instance variables, constructors, writing methods, passing references, static members, scope and this: explanations, memory animations you can step through, 32 practice questions checked in Java, and a timed practice exam with class-design free response.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="overview-c3" data-title="Overview" data-short="Overview">
+<section class="topic" id="start-c3">
+  <h2>How to use this page</h2>
+  <p class="sub">Suggested order.</p>
+  <ol class="steps">
+<li>Start with <b>Anatomy of a Class</b>: every later topic builds on it.</li>
+<li>Memory animations show what happens inside the computer when objects are created and passed to methods. Use <b>Step ▶</b>.</li>
+<li>Free-response question 2 asks you to write a whole class. The <b>Class FRQ</b> chapter walks through one.</li>
+<li>Then <b>Practice</b>, <b>Challenge</b> and the timed <b>Practice Exam</b>.</li></ol>
+  
+</section>
+<section class="topic" id="core-c3">
+  <h2>Core ideas</h2>
+  
+  <p>In Units 1 and 2 you used classes other people wrote. In Unit 3 you write your own: you decide what data each object stores (<b>instance variables</b>), how objects are set up (<b>constructors</b>), and what they can do (<b>methods</b>).</p>
+<div class="sim" data-sim='{"type": "memory", "frames": [{"note": "BankAccount a = new BankAccount(\"Ana\", 50.0);  the constructor fills in the new object&#39;s instance variables.", "vars": [["a", "BankAccount", "@x"]], "objs": [["x", "BankAccount", [["owner", "\"Ana\""], ["balance", 50.0]]]]}, {"note": "a.deposit(25.0);  the method changes this object&#39;s balance.", "vars": [["a", "BankAccount", "@x"]], "objs": [["x", "BankAccount", [["owner", "\"Ana\""], ["balance", 75.0]]]]}, {"note": "a.withdraw(100.0) returns false: 100 > 75, so balance doesn&#39;t change.", "vars": [["a", "BankAccount", "@x"], ["ok", "boolean", "false"]], "objs": [["x", "BankAccount", [["owner", "\"Ana\""], ["balance", 75.0]]]]}], "caption": "One BankAccount object: its data lives inside the object", "reveal": true}'></div>
+<div class="grid2"><div class="mini"><h4>Exam weight</h4><p>Unit 3 is 10–18% of the multiple choice, and free-response question 2 (Class Design) asks you to write a complete class every year.</p></div>
+<div class="mini"><h4>The main skill</h4><p>Turning a description ("each account has an owner and a balance; you can deposit…") into instance variables, a constructor and methods.</p></div></div>
+  
+</section>
+</div>
+<div class="chapter" id="design-c3" data-title="Abstraction & Design" data-short="Design">
+<section class="topic" id="abstraction">
+  <h2><span class="pill e">3.1</span>Abstraction and program design</h2>
+  <p class="sub">Deciding what a class should know and do.</p>
+  
+<p><b>Abstraction</b> means hiding details so you can think about the big picture. A class is an abstraction: someone using <code>BankAccount</code> calls <code>deposit</code> without knowing how the balance is stored. Methods are abstractions too: write a task once, give it a name, and call it wherever it's needed.</p>
+<h3>Designing a class from a description</h3>
+<ol class="steps"><li><b>Nouns</b> describing what each object knows become instance variables ("an owner", "a balance").</li>
+<li><b>Verbs</b> describing what it does become methods ("deposit", "withdraw").</li>
+<li>What must be known when an object is made becomes constructor parameters.</li></ol>
+<p>Designers often sketch this as a <b>class diagram</b>: class name, then attributes, then methods.</p>
+<div class="tblwrap"><table><tr><th>BankAccount</th></tr><tr><td><code>- owner : String</code><br><code>- balance : double</code></td></tr><tr><td><code>+ BankAccount(name : String, start : double)</code><br><code>+ getBalance() : double</code><br><code>+ deposit(amount : double) : void</code><br><code>+ withdraw(amount : double) : boolean</code></td></tr></table></div>
+<p>(− means private, + means public.)</p>
+
+  
+</section>
+<section class="topic" id="impact">
+  <h2><span class="pill e">3.2</span>Impact of program design</h2>
+  <p class="sub">Reliability, privacy, ownership and ethics.</p>
+  
+<p>Programs affect people. The AP framework expects you to consider:</p>
+<div class="grid2"><div class="mini"><h4>System reliability</h4><p>Testing with many inputs, including edge cases, reduces bugs that could harm users.</p></div>
+<div class="mini"><h4>Privacy</h4><p>Collecting personal data creates responsibility to protect it and use it only as users expect.</p></div>
+<div class="mini"><h4>Intellectual property</h4><p>Code, libraries and media are owned by their creators. Licenses say how they can be used; using someone's work without permission can be illegal.</p></div>
+<div class="mini"><h4>Legal and ethical effects</h4><p>Software can have unintended consequences, such as bias in automated decisions or excluding users with disabilities.</p></div></div>
+  
+</section>
+</div>
+<div class="chapter" id="anatomy-c3" data-title="Anatomy & Constructors" data-short="Classes">
+<section class="topic" id="anatomy">
+  <h2><span class="pill e">3.3</span>Anatomy of a class</h2>
+  <p class="sub">Instance variables, constructors, methods.</p>
+  
+<pre class="code"><code><span class="k">public</span> <span class="k">class</span> <span class="t">BankAccount</span>
+{
+    <span class="k">private</span> <span class="k">String</span> owner;
+    <span class="k">private</span> <span class="k">double</span> balance;
+
+    <span class="k">public</span> <span class="t">BankAccount</span>(<span class="k">String</span> name, <span class="k">double</span> start)
+    {
+        owner = name;
+        balance = start;
+    }
+
+    <span class="k">public</span> <span class="k">double</span> getBalance()
+    {
+        <span class="k">return</span> balance;
+    }
+
+    <span class="k">public</span> <span class="k">void</span> deposit(<span class="k">double</span> amount)
+    {
+        <span class="k">if</span> (amount &gt; <span class="n">0</span>)
+            balance += amount;
+    }
+
+    <span class="k">public</span> <span class="k">boolean</span> withdraw(<span class="k">double</span> amount)
+    {
+        <span class="k">if</span> (amount &gt; balance)
+            <span class="k">return</span> <span class="k">false</span>;
+        balance -= amount;
+        <span class="k">return</span> <span class="k">true</span>;
+    }
+
+    <span class="k">public</span> <span class="k">String</span> toString()
+    {
+        <span class="k">return</span> owner + <span class="s">": $"</span> + balance;
+    }
+}</code></pre>
+<div class="tblwrap"><table><tr><th>Part</th><th>In the example</th><th>Purpose</th></tr>
+<tr><td>Instance variables</td><td><code>private String owner;</code> <code>private double balance;</code></td><td>Each object's own data</td></tr>
+<tr><td>Constructor</td><td><code>public BankAccount(String name, double start)</code></td><td>Sets the starting values; same name as the class, no return type</td></tr>
+<tr><td>Accessor (getter)</td><td><code>getBalance()</code></td><td>Returns information without changing the object</td></tr>
+<tr><td>Mutator (setter)</td><td><code>deposit</code>, <code>withdraw</code></td><td>Changes the object's state</td></tr>
+<tr><td><code>toString</code></td><td>returns <code>"Ana: $75.0"</code></td><td>Called automatically when the object is printed or joined to a String</td></tr></table></div>
+<div class="cslab" data-lab='{"type": "object", "cls": "BankAccount", "var": "a", "ctor": "new BankAccount(\"Ana\", 50.0)", "dbl": true, "fields": {"owner": "\"Ana\"", "balance": 50.0}, "methods": [{"sig": "deposit(double amount)", "ret": "void", "params": ["amount"], "defaults": {"amount": 25}, "body": "if (amount > 0) f.balance += amount;"}, {"sig": "withdraw(double amount)", "ret": "boolean", "params": ["amount"], "defaults": {"amount": 100}, "body": "if (amount > f.balance) return false; f.balance -= amount; return true;"}, {"sig": "getBalance()", "ret": "double", "params": [], "body": "return f.balance;"}, {"sig": "toString()", "ret": "String", "params": [], "body": "return f.owner.replace(/\"/g, &#39;&#39;) + &#39;: $&#39; + f.balance.toFixed(1);"}]}'></div>
+<h3>Encapsulation: private data, public methods</h3>
+<p>Instance variables are <code>private</code>: code outside the class can't touch them directly (<code>a.balance = 1000000;</code> is a compile error). Outside code must go through public methods, which can check that changes make sense (deposit ignores negative amounts). This is <b>encapsulation</b>, and on the exam, instance variables should always be private.</p>
+<div class="box trap"><b class="lbl">Common mistake</b>Re-declaring an instance variable inside the constructor: <code>double balance = start;</code> creates a new local variable and leaves the instance variable at 0.0. Write <code>balance = start;</code>.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Access modifiers and what each part may do</summary><div class="deep-body"><h4>private vs public</h4><p><code>private</code> members are visible only inside the class's own code, including in other objects of the same class. <code>public</code> members are visible everywhere. Classes and constructors are normally public; helper methods used only inside the class can be private.</p>
+<h4>Why encapsulate?</h4><p>If every class could change a balance directly, you'd have no single place to enforce rules like "no negative deposits". Encapsulation also lets you change how data is stored later without breaking the code that uses the class.</p>
+<h4>Default values</h4><p>An instance variable that the constructor doesn't set keeps its default: 0, 0.0, false or null. A local variable has no default and must be assigned before use.</p></div></details>
+</section>
+<section class="topic" id="constructors">
+  <h2><span class="pill e">3.4</span>Constructors</h2>
+  <p class="sub">Setting up a new object.</p>
+  
+<p>A constructor runs once, when <code>new</code> creates an object. Its job is to give every instance variable a sensible starting value.</p>
+<pre class="code"><code><span class="k">class</span> <span class="t">Counter</span>
+{
+    <span class="k">private</span> <span class="k">int</span> count;
+    <span class="k">private</span> <span class="k">int</span> step;
+
+    <span class="k">public</span> <span class="t">Counter</span>()
+    {
+        count = <span class="n">0</span>;
+        step = <span class="n">1</span>;
+    }
+
+    <span class="k">public</span> <span class="t">Counter</span>(<span class="k">int</span> start, <span class="k">int</span> step)
+    {
+        count = start;
+        <span class="k">this</span>.step = step;
+    }
+
+    <span class="k">public</span> <span class="k">void</span> click() { count += step; }
+    <span class="k">public</span> <span class="k">int</span> getCount() { <span class="k">return</span> count; }
+}</code></pre>
+<pre class="code"><code><span class="t">Counter</span> a = <span class="k">new</span> <span class="t">Counter</span>();          <span class="c">// uses the no-parameter constructor</span>
+<span class="t">Counter</span> b = <span class="k">new</span> <span class="t">Counter</span>(<span class="n">10</span>, <span class="n">5</span>);     <span class="c">// uses the two-parameter constructor</span>
+a.click(); b.click(); b.click();
+<span class="t">System</span>.out.println(a.getCount() + <span class="s">" "</span> + b.getCount());</code></pre>
+<div class="out-box">1 20</div>
+<div class="sim" data-sim='{"type": "trace", "code": ["public Counter(int start, int step)", "{", "    count = start;", "    this.step = step;", "}", "public void click() { count += step; }", "", "Counter b = new Counter(10, 5);", "b.click();", "b.click();", "System.out.println(b.getCount());"], "steps": [[8, {}, ""], [1, {"start": 10, "step": 5}, ""], [3, {"start": 10, "step": 5, "this.count": 10}, ""], [4, {"start": 10, "step": 5, "this.count": 10, "this.step": 5}, ""], [5, {"start": 10, "step": 5, "this.count": 10, "this.step": 5}, ""], [8, {"b": "@\u2192 new Counter"}, ""], [9, {"b": "@\u2192 new Counter", "b.count": 10, "b.step": 5}, ""], [6, {"b": "@\u2192 new Counter", "b.count": 15, "b.step": 5}, ""], [10, {"b": "@\u2192 new Counter", "b.count": 15, "b.step": 5}, ""], [6, {"b": "@\u2192 new Counter", "b.count": 20, "b.step": 5}, ""], [11, {"b": "@\u2192 new Counter", "b.count": 20, "b.step": 5}, "20"]], "title": "Counter class + calling code", "caption": "Step into the constructor: new runs it, then the reference is stored in b", "reveal": true}'></div>
+<ul><li>A constructor has the <b>same name as the class</b> and <b>no return type</b> (not even void).</li>
+<li>A class can have several constructors with different parameter lists (overloading).</li>
+<li>If you write no constructor, Java provides a default one with no parameters that leaves every instance variable at its default value. Once you write any constructor, that default one is no longer provided.</li></ul>
+<div class="box trap"><b class="lbl">Mutable objects as parameters</b>If a constructor receives an object that can be changed (like another class's object) and just stores the reference, the outside code still has an alias to it. To be safe, store a copy.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="methods-c3" data-title="Methods & References" data-short="Methods">
+<section class="topic" id="writing-methods">
+  <h2><span class="pill e">3.5</span>Writing methods</h2>
+  <p class="sub">Accessors, mutators, toString and return values.</p>
+  
+<pre class="code"><code><span class="k">class</span> <span class="t">Rectangle</span>
+{
+    <span class="k">private</span> <span class="k">int</span> width;
+    <span class="k">private</span> <span class="k">int</span> height;
+
+    <span class="k">public</span> <span class="t">Rectangle</span>(<span class="k">int</span> w, <span class="k">int</span> h)
+    {
+        width = w;
+        height = h;
+    }
+
+    <span class="k">public</span> <span class="k">int</span> area()
+    {
+        <span class="k">return</span> width * height;
+    }
+
+    <span class="k">public</span> <span class="k">boolean</span> isSquare()
+    {
+        <span class="k">return</span> width == height;
+    }
+
+    <span class="k">public</span> <span class="k">void</span> scale(<span class="k">int</span> factor)
+    {
+        width *= factor;
+        height *= factor;
+    }
+
+    <span class="k">public</span> <span class="k">String</span> toString()
+    {
+        <span class="k">return</span> width + <span class="s">"x"</span> + height;
+    }
+}</code></pre>
+<div class="grid3"><div class="mini"><h4>Return a value</h4><p><code>area()</code> computes and returns an int. A non-void method must return a value of its declared type on every path.</p></div>
+<div class="mini"><h4>Return a boolean</h4><p><code>return width == height;</code> returns the comparison directly; no if needed.</p></div>
+<div class="mini"><h4>void mutator</h4><p><code>scale</code> changes the instance variables and returns nothing.</p></div></div>
+<pre class="code"><code><span class="t">Rectangle</span> r = <span class="k">new</span> <span class="t">Rectangle</span>(<span class="n">2</span>, <span class="n">3</span>);
+<span class="t">System</span>.out.println(r.area() + <span class="s">" "</span> + r.isSquare());
+r.scale(<span class="n">2</span>);
+<span class="t">System</span>.out.println(r);    <span class="c">// calls toString automatically</span></code></pre>
+<div class="out-box">6 false
+4x6</div>
+<div class="cslab" data-lab='{"type": "object", "cls": "Rectangle", "var": "r", "ctor": "new Rectangle(2, 3)", "fields": {"width": 2, "height": 3}, "methods": [{"sig": "area()", "ret": "int", "params": [], "body": "return f.width * f.height;"}, {"sig": "isSquare()", "ret": "boolean", "params": [], "body": "return f.width === f.height;"}, {"sig": "scale(int factor)", "ret": "void", "params": ["factor"], "defaults": {"factor": 2}, "body": "f.width *= Math.trunc(factor); f.height *= Math.trunc(factor);"}, {"sig": "toString()", "ret": "String", "params": [], "body": "return f.width + &#39;x&#39; + f.height;"}]}'></div>
+<p>A <code>return</code> statement ends the method immediately. Code after a return on the same path never runs (the compiler reports it as unreachable).</p>
+<div class="box trap"><b class="lbl">Print vs return</b>If the method says it returns a value, return it. Printing inside the method instead of returning loses free-response points.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Parameters, local variables and return paths</summary><div class="deep-body"><h4>Parameters are local variables</h4><p>A method's parameters exist only while the method runs. They're initialized with copies of the arguments.</p>
+<h4>Every path must return</h4><p><code>if (x &gt; 0) return 1;</code> alone doesn't compile in a method that returns int, because when x ≤ 0 nothing is returned. Add an else or a final return.</p>
+<h4>Calling other methods of the same class</h4><p>Inside a class, a method can call another instance method by name alone: <code>if (isSquare()) …</code> calls it on the same object.</p></div></details>
+</section>
+<section class="topic" id="passing-refs">
+  <h2><span class="pill m">3.6</span>Passing and returning object references</h2>
+  <p class="sub">Copies of values and copies of references.</p>
+  
+<p>Java always passes <b>copies</b>. For a primitive, it copies the value. For an object, it copies the <b>reference</b>, so the method gets a second arrow to the same object.</p>
+<pre class="code"><code><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> change(<span class="k">int</span> n, <span class="t">Rectangle</span> r)
+{
+    n = <span class="n">99</span>;
+    r.scale(<span class="n">10</span>);
+    r = <span class="k">new</span> <span class="t">Rectangle</span>(<span class="n">1</span>, <span class="n">1</span>);
+}</code></pre>
+<pre class="code"><code><span class="k">int</span> x = <span class="n">5</span>;
+<span class="t">Rectangle</span> box = <span class="k">new</span> <span class="t">Rectangle</span>(<span class="n">2</span>, <span class="n">3</span>);
+change(x, box);
+<span class="t">System</span>.out.println(x + <span class="s">" "</span> + box);</code></pre>
+<div class="sim" data-sim='{"type": "memory", "frames": [{"note": "Before the call: x = 5 and box refers to a 2x3 Rectangle.", "vars": [["x", "int", 5], ["box", "Rectangle", "@a"]], "objs": [["a", "Rectangle", [["width", 2], ["height", 3]]]]}, {"note": "change(x, box): n gets a copy of 5; r gets a copy of the reference, so r and box point to the same object.", "vars": [["x", "int", 5], ["box", "Rectangle", "@a"], ["n", "int", 5], ["r", "Rectangle", "@a"]], "objs": [["a", "Rectangle", [["width", 2], ["height", 3]]]]}, {"note": "n = 99 changes only the copy. x is still 5.", "vars": [["x", "int", 5], ["box", "Rectangle", "@a"], ["n", "int", 99], ["r", "Rectangle", "@a"]], "objs": [["a", "Rectangle", [["width", 2], ["height", 3]]]]}, {"note": "r.scale(10) changes the shared object, which box also sees.", "vars": [["x", "int", 5], ["box", "Rectangle", "@a"], ["n", "int", 99], ["r", "Rectangle", "@a"]], "objs": [["a", "Rectangle", [["width", 20], ["height", 30]]]]}, {"note": "r = new Rectangle(1, 1) points r somewhere else. box is not affected.", "vars": [["x", "int", 5], ["box", "Rectangle", "@a"], ["n", "int", 99], ["r", "Rectangle", "@b"]], "objs": [["a", "Rectangle", [["width", 20], ["height", 30]]], ["b", "Rectangle", [["width", 1], ["height", 1]]]]}, {"note": "After the method returns, n and r disappear. Printed: 5 20x30", "vars": [["x", "int", 5], ["box", "Rectangle", "@a"]], "objs": [["a", "Rectangle", [["width", 20], ["height", 30]]]]}], "caption": "What changes and what doesn&#39;t when a method receives a primitive and a reference", "reveal": true}'></div>
+<div class="out-box">5 20x30</div>
+<div class="grid3"><div class="mini"><h4>Changing a primitive parameter</h4><p>No effect on the caller.</p></div>
+<div class="mini"><h4>Calling a mutator on an object parameter</h4><p>The caller sees the change: same object.</p></div>
+<div class="mini"><h4>Reassigning an object parameter</h4><p>No effect on the caller's variable.</p></div></div>
+<h3>Returning references</h3><p>A method that returns an instance variable that refers to a changeable object lets outside code change the object's insides. Accessors should return primitives, Strings (which can't change) or copies.</p>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Objects of the same class</summary><div class="deep-body"><h4>Private access across objects</h4><p>Inside a class's methods, you can access the private variables of <b>any</b> object of that class, not just <code>this</code>. That's how methods like <code>equals</code> or <code>isBiggerThan(Rectangle other)</code> compare: <code>return area() &gt; other.width * other.height;</code></p>
+<h4>Methods that build new objects</h4><p>A method can create and return a new object: <code>public Rectangle doubled() { return new Rectangle(width * 2, height * 2); }</code>. The original is unchanged.</p></div></details>
+</section>
+</div>
+<div class="chapter" id="static-c3" data-title="static, Scope & this" data-short="static & this">
+<section class="topic" id="static">
+  <h2><span class="pill m">3.7</span>Class variables and class methods</h2>
+  <p class="sub">static: one shared copy for the whole class.</p>
+  
+<p>A <code>static</code> variable belongs to the class, not to any one object. There is exactly one copy, shared by all objects. A <code>static</code> method belongs to the class too and is called with the class name.</p>
+<pre class="code"><code><span class="k">class</span> <span class="t">Student</span>
+{
+    <span class="k">private</span> <span class="k">static</span> <span class="k">int</span> nextId = <span class="n">1</span>;
+    <span class="k">private</span> <span class="k">String</span> name;
+    <span class="k">private</span> <span class="k">int</span> id;
+
+    <span class="k">public</span> <span class="t">Student</span>(<span class="k">String</span> name)
+    {
+        <span class="k">this</span>.name = name;
+        id = nextId;
+        nextId++;
+    }
+
+    <span class="k">public</span> <span class="k">int</span> getId() { <span class="k">return</span> id; }
+    <span class="k">public</span> <span class="k">static</span> <span class="k">int</span> getNextId() { <span class="k">return</span> nextId; }
+}</code></pre>
+<div class="sim" data-sim='{"type": "memory", "frames": [{"note": "static int nextId belongs to the class itself: there&#39;s only one, shared by every Student.", "vars": [["Student.nextId", "static int", 1]], "objs": []}, {"note": "new Student(\"Ana\") gets id 1, then nextId becomes 2.", "vars": [["Student.nextId", "static int", 2], ["a", "Student", "@p"]], "objs": [["p", "Student", [["name", "\"Ana\""], ["id", 1]]]]}, {"note": "new Student(\"Ben\") gets id 2, then nextId becomes 3. Each object has its own name and id.", "vars": [["Student.nextId", "static int", 3], ["a", "Student", "@p"], ["b", "Student", "@q"]], "objs": [["p", "Student", [["name", "\"Ana\""], ["id", 1]]], ["q", "Student", [["name", "\"Ben\""], ["id", 2]]]]}], "caption": "One shared static variable, separate instance variables per object", "reveal": true}'></div>
+<div class="cslab" data-lab='{"type": "object", "cls": "Student (static nextId shown too)", "var": "Student", "ctor": "(reset class)", "priv": false, "fields": {"static nextId": 1, "students made": 0}, "methods": [{"sig": "new Student(String name)", "label": "new Student(\"Sam\")", "note": "made a student with id", "ret": "creates an object", "params": [], "body": "f[&#39;students made&#39;]++; const id = f[&#39;static nextId&#39;]; f[&#39;static nextId&#39;]++; return id;"}, {"sig": "getNextId()", "label": "Student.getNextId()", "ret": "static int", "params": [], "body": "return f[&#39;static nextId&#39;];"}]}'></div>
+<pre class="code"><code><span class="t">Student</span> a = <span class="k">new</span> <span class="t">Student</span>(<span class="s">"Ana"</span>);
+<span class="t">Student</span> b = <span class="k">new</span> <span class="t">Student</span>(<span class="s">"Ben"</span>);
+<span class="t">System</span>.out.println(a.getId() + <span class="s">" "</span> + b.getId() + <span class="s">" "</span> + <span class="t">Student</span>.getNextId());</code></pre>
+<div class="out-box">1 2 3</div>
+<ul><li>Static methods can use static variables and other static methods.</li>
+<li>Static methods <b>can't</b> use instance variables or <code>this</code> directly: there's no particular object.</li>
+<li>Instance methods can use both instance and static variables.</li></ul>
+
+  
+</section>
+<section class="topic" id="scope-this">
+  <h2><span class="pill m">3.8–3.9</span>Scope, access and the this keyword</h2>
+  <p class="sub">Where variables exist, and the current object.</p>
+  
+<p>A variable's <b>scope</b> is the part of the program where it can be used.</p>
+<div class="tblwrap"><table><tr><th>Kind</th><th>Declared</th><th>Can be used</th></tr>
+<tr><td>Instance variable</td><td>in the class, outside methods</td><td>in every instance method of the class</td></tr>
+<tr><td>Parameter</td><td>in a method header</td><td>only inside that method</td></tr>
+<tr><td>Local variable</td><td>inside a method or block</td><td>from its declaration to the end of its block (<code>{ }</code>)</td></tr></table></div>
+<p>If a local variable or parameter has the same name as an instance variable, the local one <b>shadows</b> it: the plain name means the local variable.</p>
+<pre class="code"><code><span class="k">class</span> <span class="t">Temp</span>
+{
+    <span class="k">private</span> <span class="k">int</span> value = <span class="n">10</span>;
+
+    <span class="k">public</span> <span class="k">void</span> show()
+    {
+        <span class="k">int</span> value = <span class="n">3</span>;
+        <span class="t">System</span>.out.println(value + <span class="s">" "</span> + <span class="k">this</span>.value);
+    }
+}</code></pre>
+<div class="sim" data-sim='{"type": "trace", "code": ["private int value = 10;", "", "public void show()", "{", "    int value = 3;", "    System.out.println(value + \" \" + this.value);", "}"], "steps": [[1, {"this.value": 10}, ""], [3, {"this.value": 10}, ""], [5, {"this.value": 10, "value": 3}, ""], [6, {"this.value": 10, "value": 3}, "3 10"], [7, {"this.value": 10, "value": 3}, "3 10"]], "title": "Inside class Temp", "caption": "Two variables named value: the local one wins unless you write this.value", "reveal": true}'></div>
+<div class="out-box">3 10</div>
+<h3>this</h3>
+<p>Inside an instance method or constructor, <code>this</code> refers to the object the method was called on. Uses:</p>
+<ul><li>Telling a shadowed instance variable apart: <code>this.name = name;</code></li>
+<li>Passing the current object to another method: <code>other.compareWith(this);</code></li></ul>
+<div class="box trap"><b class="lbl">Common mistake</b>Writing <code>name = name;</code> in a constructor whose parameter is also called name. That assigns the parameter to itself, and the instance variable stays null. Use <code>this.name = name;</code>.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="frq-ch-c3" data-title="Class FRQ" data-short="Class FRQ">
+<section class="topic" id="frq-c3">
+  <h2>Free response 2: class design</h2>
+  <p class="sub">Writing a complete class from a description.</p>
+  
+<p>You get a description and example calls, and you write the entire class. Use the example calls to find the constructor parameters and every method header.</p>
+<div class="box plain"><b class="lbl">Prompt</b>A <code>TicketBooth</code> is created with a capacity and a ticket price. <code>buy(n)</code> sells n tickets if that many are left and returns the total cost; otherwise it sells nothing and returns 0.0. <code>ticketsLeft()</code> returns how many can still be sold.
+<pre class="code"><code><span class="t">TicketBooth</span> t = <span class="k">new</span> <span class="t">TicketBooth</span>(<span class="n">100</span>, <span class="n">12.5</span>);
+t.buy(<span class="n">4</span>);          <span class="c">// returns 50.0</span>
+t.buy(<span class="n">97</span>);         <span class="c">// returns 0.0 (only 96 left)</span>
+t.ticketsLeft();   <span class="c">// returns 96</span></code></pre></div>
+<div class="worked"><div class="q">Worked example: Write the TicketBooth class.</div><div class="a"><pre class="code"><code><span class="k">public</span> <span class="k">class</span> <span class="t">TicketBooth</span>
+{
+    <span class="k">private</span> <span class="k">int</span> capacity;
+    <span class="k">private</span> <span class="k">int</span> sold;
+    <span class="k">private</span> <span class="k">double</span> price;
+
+    <span class="k">public</span> <span class="t">TicketBooth</span>(<span class="k">int</span> capacity, <span class="k">double</span> price)
+    {
+        <span class="k">this</span>.capacity = capacity;
+        <span class="k">this</span>.price = price;
+        sold = <span class="n">0</span>;
+    }
+
+    /** <span class="t">Sells</span> n tickets <span class="k">if</span> enough are left; returns the cost, or <span class="n">0.0</span> <span class="k">if</span> not enough */
+    <span class="k">public</span> <span class="k">double</span> buy(<span class="k">int</span> n)
+    {
+        <span class="k">if</span> (sold + n &gt; capacity)
+            <span class="k">return</span> <span class="n">0.0</span>;
+        sold += n;
+        <span class="k">return</span> n * price;
+    }
+
+    <span class="k">public</span> <span class="k">int</span> ticketsLeft()
+    {
+        <span class="k">return</span> capacity - sold;
+    }
+}</code></pre></div></div>
+<h3>Checklist graders use</h3>
+<ol class="steps"><li>Class header and private instance variables for everything the object must remember (including things not passed in, like <code>sold</code>).</li>
+<li>Constructor with the right parameters that initializes every instance variable.</li>
+<li>Each method header matches the example calls (name, parameter types, return type).</li>
+<li>Each method's logic: checks, updates to the state, and correct return values.</li></ol>
+<div class="box tip"><b class="lbl">Think about state</b>Ask: what must each object remember between method calls? Every such value needs an instance variable. Values that are only needed during one call should be local variables.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="review-ch-c3" data-title="Review" data-short="Review">
+<section class="topic" id="review-c3">
+  <h2>Class checklist</h2>
+  <p class="sub">Quick review.</p>
+  <div class="tblwrap"><table><tr><th>Rule</th><th>Example</th></tr>
+<tr><td>Instance variables are private</td><td><code>private int count;</code></td></tr>
+<tr><td>Constructor: class name, no return type</td><td><code>public Counter(int start)</code></td></tr>
+<tr><td>Set instance variables, don't redeclare them</td><td><code>count = start;</code> not <code>int count = start;</code></td></tr>
+<tr><td>Shadowed names need this</td><td><code>this.count = count;</code></td></tr>
+<tr><td>Accessor returns, doesn't change state</td><td><code>public int getCount() { return count; }</code></td></tr>
+<tr><td>Mutator is usually void</td><td><code>public void reset() { count = 0; }</code></td></tr>
+<tr><td>toString returns a String</td><td><code>public String toString() { return "Count: " + count; }</code></td></tr>
+<tr><td>static = shared by the class</td><td><code>private static int total;</code>, called as <code>ClassName.method()</code></td></tr></table></div>
+  
+</section>
+<section class="topic" id="mistakes-c3">
+  <h2>Common mistakes</h2>
+  <p class="sub">Points students lose most often.</p>
+  <ol class="steps">
+<li>Giving a constructor a return type (<code>public void Counter()</code> is a method, not a constructor).</li>
+<li>Redeclaring instance variables as locals in the constructor.</li>
+<li><code>name = name;</code> instead of <code>this.name = name;</code></li>
+<li>Making instance variables public.</li>
+<li>Using an instance variable inside a static method.</li>
+<li>Thinking a method can change a caller's primitive variable or make the caller's reference point elsewhere.</li>
+<li>Forgetting an instance variable for something the object must remember between calls.</li></ol>
+  
+</section>
+</div>
+<div class="chapter" id="practice-c3" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-c3">
+  <h2>Practice questions</h2>
+  <p class="sub">25 questions. Every code answer was checked by running it in Java.</p>
+  <div class="quiz" data-src="quiz-c3" data-tags='{"e": "Writing Classes", "m": "References & static"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-c3" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-c3">
+  <h2>Challenge questions</h2>
+  <p class="sub">References, static and shadowing traps. Turn off animated models in ⚙ Settings for a real exam feel.</p>
+  <div class="quiz" data-src="quiz-challenge-c3" data-tags='{"e": "Writing Classes", "m": "References & static"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-c3" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-c3"><h2>Practice exam</h2><p class="sub">15 multiple-choice questions (30 minutes) and 2 class-design free-response questions (25 minutes). No feedback until you submit.</p><div class="exam" data-src="exam-c3"></div></section>
+</div>
+</main>
+
+<footer>Apogee · AP Computer Science A · Java</footer>
+
+<script type="application/json" id="quiz-c3">
+[
+ {
+  "t": "e",
+  "q": "Given the <code>Rectangle<\/code> class from this page, what is printed?<pre class=\"code\"><code><span class=\"t\">Rectangle<\/span> r = <span class=\"k\">new<\/span> <span class=\"t\">Rectangle<\/span>(<span class=\"n\">3<\/span>, <span class=\"n\">4<\/span>);\nr.scale(<span class=\"n\">2<\/span>);\n<span class=\"t\">System<\/span>.out.println(r.area());<\/code><\/pre>",
+  "o": [
+   "12",
+   "96",
+   "24",
+   "48"
+  ],
+  "a": 3,
+  "x": "After scale(2), it's 6x8 = 48.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Given the <code>Rectangle<\/code> class, what is printed?<pre class=\"code\"><code><span class=\"t\">Rectangle<\/span> r = <span class=\"k\">new<\/span> <span class=\"t\">Rectangle<\/span>(<span class=\"n\">5<\/span>, <span class=\"n\">5<\/span>);\n<span class=\"t\">System<\/span>.out.println(r + <span class=\"s\">\" \"<\/span> + r.isSquare());<\/code><\/pre>",
+  "o": [
+   "Rectangle@1b6d3586 true",
+   "25 true",
+   "5x5 true",
+   "5x5 false"
+  ],
+  "a": 2,
+  "x": "Joining an object to a String calls its toString.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Which is a correct constructor header for a class named <code>Song<\/code>?",
+  "o": [
+   "<code>public Song Song(String title)<\/code>",
+   "<code>public song(String title, int seconds)<\/code>",
+   "<code>public Song(String title, int seconds)<\/code>",
+   "<code>public void Song(String title, int seconds)<\/code>"
+  ],
+  "a": 2,
+  "x": "Same name as the class (case matters) and no return type.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Why are instance variables declared <code>private<\/code>?",
+  "o": [
+   "So other classes can change them faster",
+   "So they can be used in static methods",
+   "So only the class's own methods can access them directly, which protects the object's data",
+   "So they use less memory"
+  ],
+  "a": 2,
+  "x": "That's encapsulation: outside code must use the public methods.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Box<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> size;\n    <span class=\"k\">public<\/span> <span class=\"t\">Box<\/span>(<span class=\"k\">int<\/span> s)\n    {\n        <span class=\"k\">int<\/span> size = s;\n    }\n    <span class=\"k\">public<\/span> <span class=\"k\">int<\/span> getSize() { <span class=\"k\">return<\/span> size; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Box<\/span> b = <span class=\"k\">new<\/span> <span class=\"t\">Box<\/span>(<span class=\"n\">7<\/span>);\n<span class=\"t\">System<\/span>.out.println(b.getSize());<\/code><\/pre>",
+  "o": [
+   "7",
+   "Compile error",
+   "null",
+   "0"
+  ],
+  "a": 3,
+  "x": "The constructor declares a new local variable size, so the instance variable keeps its default 0.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Pet<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">String<\/span> name;\n    <span class=\"k\">public<\/span> <span class=\"t\">Pet<\/span>(<span class=\"k\">String<\/span> name)\n    {\n        name = name;\n    }\n    <span class=\"k\">public<\/span> <span class=\"k\">String<\/span> getName() { <span class=\"k\">return<\/span> name; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Pet<\/span> p = <span class=\"k\">new<\/span> <span class=\"t\">Pet<\/span>(<span class=\"s\">\"Rex\"<\/span>);\n<span class=\"t\">System<\/span>.out.println(p.getName());<\/code><\/pre>",
+  "o": [
+   "null",
+   "Rex",
+   "Compile error",
+   "name"
+  ],
+  "a": 0,
+  "x": "Inside the constructor, name means the parameter, so the line assigns the parameter to itself. The instance variable stays null.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Given the <code>Counter<\/code> class from this page, what is printed?<pre class=\"code\"><code><span class=\"t\">Counter<\/span> c = <span class=\"k\">new<\/span> <span class=\"t\">Counter<\/span>(<span class=\"n\">3<\/span>, <span class=\"n\">4<\/span>);\nc.click();\nc.click();\n<span class=\"t\">System<\/span>.out.println(c.getCount());<\/code><\/pre>",
+  "o": [
+   "3",
+   "11",
+   "8",
+   "5"
+  ],
+  "a": 1,
+  "x": "3 + 4 + 4 = 11.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Given the <code>BankAccount<\/code> class, what is printed?<pre class=\"code\"><code><span class=\"t\">BankAccount<\/span> a = <span class=\"k\">new<\/span> <span class=\"t\">BankAccount<\/span>(<span class=\"s\">\"Lee\"<\/span>, <span class=\"n\">20.0<\/span>);\na.deposit(-<span class=\"n\">5.0<\/span>);\na.withdraw(<span class=\"n\">8.0<\/span>);\n<span class=\"t\">System<\/span>.out.println(a.getBalance());<\/code><\/pre>",
+  "o": [
+   "20.0",
+   "7.0",
+   "17.0",
+   "12.0"
+  ],
+  "a": 3,
+  "x": "deposit ignores negative amounts; withdraw(8.0) succeeds: 20 − 8 = 12.0.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Which statement, written in a class other than <code>BankAccount<\/code>, causes a compile error?",
+  "o": [
+   "<code>a.deposit(100.0);<\/code>",
+   "<code>System.out.println(a);<\/code>",
+   "<code>a.balance = 100.0;<\/code>",
+   "<code>double d = a.getBalance();<\/code>"
+  ],
+  "a": 2,
+  "x": "balance is private.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Given the <code>Counter<\/code> class, what is printed?<pre class=\"code\"><code><span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">void<\/span> bump(<span class=\"k\">int<\/span> n, <span class=\"t\">Counter<\/span> c)\n{\n    n++;\n    c.click();\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"k\">int<\/span> n = <span class=\"n\">5<\/span>;\n<span class=\"t\">Counter<\/span> c = <span class=\"k\">new<\/span> <span class=\"t\">Counter<\/span>();\nbump(n, c);\n<span class=\"t\">System<\/span>.out.println(n + <span class=\"s\">\" \"<\/span> + c.getCount());<\/code><\/pre>",
+  "o": [
+   "5 1",
+   "6 0",
+   "6 1",
+   "5 0"
+  ],
+  "a": 0,
+  "x": "n is a copy, so the caller's n stays 5. c refers to the same Counter, so the click is visible.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Given the <code>Counter<\/code> class, what is printed?<pre class=\"code\"><code><span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">void<\/span> reset(<span class=\"t\">Counter<\/span> c)\n{\n    c = <span class=\"k\">new<\/span> <span class=\"t\">Counter<\/span>();\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Counter<\/span> c = <span class=\"k\">new<\/span> <span class=\"t\">Counter<\/span>(<span class=\"n\">10<\/span>, <span class=\"n\">1<\/span>);\nreset(c);\n<span class=\"t\">System<\/span>.out.println(c.getCount());<\/code><\/pre>",
+  "o": [
+   "Compile error",
+   "1",
+   "10",
+   "0"
+  ],
+  "a": 2,
+  "x": "reset points its own copy of the reference at a new object. The caller's c still refers to the original.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Given the <code>Student<\/code> class with its static <code>nextId<\/code>, what is printed?<pre class=\"code\"><code><span class=\"t\">Student<\/span> x = <span class=\"k\">new<\/span> <span class=\"t\">Student<\/span>(<span class=\"s\">\"A\"<\/span>);\n<span class=\"t\">Student<\/span> y = <span class=\"k\">new<\/span> <span class=\"t\">Student<\/span>(<span class=\"s\">\"B\"<\/span>);\n<span class=\"t\">Student<\/span> z = <span class=\"k\">new<\/span> <span class=\"t\">Student<\/span>(<span class=\"s\">\"C\"<\/span>);\n<span class=\"t\">System<\/span>.out.println(y.getId() + <span class=\"t\">Student<\/span>.getNextId());<\/code><\/pre>",
+  "o": [
+   "24",
+   "6",
+   "2",
+   "5"
+  ],
+  "a": 1,
+  "x": "y's id is 2; after three students nextId is 4. 2 + 4 = 6 (int addition).",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Which line causes a compile error inside this class?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Item<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">double<\/span> price;\n    <span class=\"k\">private<\/span> <span class=\"k\">static<\/span> <span class=\"k\">int<\/span> count;\n    <span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">void<\/span> report()\n    {\n        <span class=\"t\">System<\/span>.out.println(price);    <span class=\"c\">// line A<\/span>\n        <span class=\"t\">System<\/span>.out.println(count);    <span class=\"c\">// line B<\/span>\n    }\n}<\/code><\/pre>",
+  "o": [
+   "Both",
+   "Line B",
+   "Neither",
+   "Line A"
+  ],
+  "a": 3,
+  "x": "A static method has no object, so it can't use the instance variable price. Static variables are fine.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "A class keeps a running total of how many objects have been created. The variable should be…",
+  "o": [
+   "a parameter of the constructor",
+   "a local variable in the constructor",
+   "a private static int",
+   "a private int instance variable"
+  ],
+  "a": 2,
+  "x": "One shared count for the whole class means static.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Temp<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> value = <span class=\"n\">10<\/span>;\n\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> show()\n    {\n        <span class=\"k\">int<\/span> value = <span class=\"n\">3<\/span>;\n        <span class=\"t\">System<\/span>.out.println(value + <span class=\"s\">\" \"<\/span> + <span class=\"k\">this<\/span>.value);\n    }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"k\">new<\/span> <span class=\"t\">Temp<\/span>().show();<\/code><\/pre>",
+  "o": [
+   "10 10",
+   "3 3",
+   "3 10",
+   "10 3"
+  ],
+  "a": 2,
+  "x": "The local value 3 shadows the instance variable; this.value is the instance variable, 10.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What does the keyword <code>this<\/code> refer to inside an instance method?",
+  "o": [
+   "The class itself",
+   "The object the method was called on",
+   "The most recently created object",
+   "The method's return value"
+  ],
+  "a": 1,
+  "x": "this is a reference to the current object.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "A method has header <code>public int max(int a, int b)<\/code> and body <code>if (a &gt; b) return a;<\/code>. What happens?",
+  "o": [
+   "Compile error: missing return on some path",
+   "It returns b when a ≤ b",
+   "It returns 0 when a ≤ b",
+   "Run-time error"
+  ],
+  "a": 0,
+  "x": "A non-void method must return a value on every path.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Which describes an accessor method?",
+  "o": [
+   "It returns information about the object without changing it",
+   "It changes the object's instance variables",
+   "It has the same name as the class",
+   "It must be static"
+  ],
+  "a": 0,
+  "x": "Getters are accessors; setters/mutators change state.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Thermostat<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> temp;\n    <span class=\"k\">public<\/span> <span class=\"t\">Thermostat<\/span>(<span class=\"k\">int<\/span> t) { temp = t; }\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> adjust(<span class=\"k\">int<\/span> target)\n    {\n        <span class=\"k\">while<\/span> (temp &lt; target) temp += <span class=\"n\">2<\/span>;\n        <span class=\"k\">while<\/span> (temp &gt; target) temp--;\n    }\n    <span class=\"k\">public<\/span> <span class=\"k\">int<\/span> getTemp() { <span class=\"k\">return<\/span> temp; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Thermostat<\/span> t = <span class=\"k\">new<\/span> <span class=\"t\">Thermostat<\/span>(<span class=\"n\">65<\/span>);\nt.adjust(<span class=\"n\">70<\/span>);\n<span class=\"t\">System<\/span>.out.println(t.getTemp());<\/code><\/pre>",
+  "o": [
+   "70",
+   "69",
+   "72",
+   "71"
+  ],
+  "a": 0,
+  "x": "65 → 67 → 69 → 71 (up by 2), then down by 1 to 70.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "If a class defines the constructor <code>public Dog(String name)<\/code> and no others, which statement compiles?",
+  "o": [
+   "<code>Dog d = Dog(\"Rex\");<\/code>",
+   "<code>Dog d = new Dog(\"Rex\");<\/code>",
+   "<code>Dog d = new Dog(\"Rex\", 3);<\/code>",
+   "<code>Dog d = new Dog();<\/code>"
+  ],
+  "a": 1,
+  "x": "Once any constructor is written, Java no longer provides the no-argument one.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "This method accesses <code>other.size<\/code>, which is private. What happens?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Box2<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> size;\n    <span class=\"k\">public<\/span> <span class=\"t\">Box2<\/span>(<span class=\"k\">int<\/span> s) { size = s; }\n    <span class=\"k\">public<\/span> <span class=\"k\">boolean<\/span> biggerThan(<span class=\"t\">Box2<\/span> other)\n    {\n        <span class=\"k\">return<\/span> size &gt; other.size;\n    }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Box2<\/span> a = <span class=\"k\">new<\/span> <span class=\"t\">Box2<\/span>(<span class=\"n\">5<\/span>);\n<span class=\"t\">Box2<\/span> b = <span class=\"k\">new<\/span> <span class=\"t\">Box2<\/span>(<span class=\"n\">3<\/span>);\n<span class=\"t\">System<\/span>.out.println(a.biggerThan(b));<\/code><\/pre>",
+  "o": [
+   "It prints true",
+   "Compile error: size is private",
+   "It prints false",
+   "Run-time error"
+  ],
+  "a": 0,
+  "x": "Private means private to the class, so any Box2 method can read another Box2's size.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Given the <code>BankAccount<\/code> class, what is printed?<pre class=\"code\"><code><span class=\"t\">BankAccount<\/span> a = <span class=\"k\">new<\/span> <span class=\"t\">BankAccount<\/span>(<span class=\"s\">\"Kim\"<\/span>, <span class=\"n\">10.0<\/span>);\n<span class=\"t\">BankAccount<\/span> b = a;\nb.deposit(<span class=\"n\">5.0<\/span>);\na.withdraw(<span class=\"n\">3.0<\/span>);\n<span class=\"t\">System<\/span>.out.println(b.getBalance());<\/code><\/pre>",
+  "o": [
+   "7.0",
+   "15.0",
+   "12.0",
+   "10.0"
+  ],
+  "a": 2,
+  "x": "a and b are aliases for one account: 10 + 5 − 3 = 12.0.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "Which is the best reason to write a method instead of repeating the same code in several places?",
+  "o": [
+   "Procedural abstraction: write it once, name it, and reuse it, so changes happen in one place",
+   "Methods use less memory than loops",
+   "Methods make programs run faster",
+   "Java requires all code to be in separate methods"
+  ],
+  "a": 0,
+  "x": "Methods reduce repetition and hide details behind a name.",
+  "h": true
+ },
+ {
+  "t": "e",
+  "q": "A programmer uses an image library found online in an app they sell. What should they check first?",
+  "o": [
+   "The library's license, to see whether commercial use is allowed",
+   "Whether the library is written in Java",
+   "How many lines of code it has",
+   "Nothing; anything online is free to use"
+  ],
+  "a": 0,
+  "x": "Intellectual property: licenses state how code can be used.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Score<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> pts;\n    <span class=\"k\">public<\/span> <span class=\"t\">Score<\/span>(<span class=\"k\">int<\/span> p) { pts = p; }\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> add(<span class=\"k\">int<\/span> p) { pts += p; }\n    <span class=\"k\">public<\/span> <span class=\"k\">String<\/span> toString() { <span class=\"k\">return<\/span> <span class=\"s\">\"pts=\"<\/span> + pts; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Score<\/span> s = <span class=\"k\">new<\/span> <span class=\"t\">Score<\/span>(<span class=\"n\">4<\/span>);\ns.add(s.toString().length());\n<span class=\"t\">System<\/span>.out.println(s);<\/code><\/pre>",
+  "o": [
+   "pts=9",
+   "pts=4",
+   "pts=8",
+   "pts=5"
+  ],
+  "a": 0,
+  "x": "toString() is \"pts=4\" with length 5. 4 + 5 = 9.",
+  "h": true
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-c3">
+[
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Node<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> val;\n    <span class=\"k\">private<\/span> <span class=\"k\">static<\/span> <span class=\"k\">int<\/span> created = <span class=\"n\">0<\/span>;\n    <span class=\"k\">public<\/span> <span class=\"t\">Node<\/span>(<span class=\"k\">int<\/span> v) { val = v; created++; }\n    <span class=\"k\">public<\/span> <span class=\"t\">Node<\/span> copyPlus(<span class=\"k\">int<\/span> d) { <span class=\"k\">return<\/span> <span class=\"k\">new<\/span> <span class=\"t\">Node<\/span>(val + d); }\n    <span class=\"k\">public<\/span> <span class=\"k\">int<\/span> getVal() { <span class=\"k\">return<\/span> val; }\n    <span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">int<\/span> getCreated() { <span class=\"k\">return<\/span> created; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Node<\/span> a = <span class=\"k\">new<\/span> <span class=\"t\">Node<\/span>(<span class=\"n\">1<\/span>);\n<span class=\"t\">Node<\/span> b = a.copyPlus(<span class=\"n\">2<\/span>).copyPlus(<span class=\"n\">3<\/span>);\n<span class=\"t\">System<\/span>.out.println(b.getVal() + <span class=\"s\">\" \"<\/span> + <span class=\"t\">Node<\/span>.getCreated());<\/code><\/pre>",
+  "o": [
+   "6 2",
+   "3 3",
+   "6 1",
+   "6 3"
+  ],
+  "a": 3,
+  "x": "copyPlus returns a new Node each time: values 1, 3, 6. Three Nodes were created.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Given the <code>Counter<\/code> class, what is printed?<pre class=\"code\"><code><span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">void<\/span> swap(<span class=\"t\">Counter<\/span> a, <span class=\"t\">Counter<\/span> b)\n{\n    <span class=\"t\">Counter<\/span> temp = a;\n    a = b;\n    b = temp;\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Counter<\/span> x = <span class=\"k\">new<\/span> <span class=\"t\">Counter<\/span>(<span class=\"n\">1<\/span>, <span class=\"n\">1<\/span>);\n<span class=\"t\">Counter<\/span> y = <span class=\"k\">new<\/span> <span class=\"t\">Counter<\/span>(<span class=\"n\">2<\/span>, <span class=\"n\">1<\/span>);\nswap(x, y);\n<span class=\"t\">System<\/span>.out.println(x.getCount() + <span class=\"s\">\" \"<\/span> + y.getCount());<\/code><\/pre>",
+  "o": [
+   "2 1",
+   "1 2",
+   "2 2",
+   "1 1"
+  ],
+  "a": 1,
+  "x": "swap only rearranges its own copies of the references. The caller's x and y are unchanged.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "Given the <code>Counter<\/code> class, what happens?<pre class=\"code\"><code><span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">void<\/span> swapCounts(<span class=\"t\">Counter<\/span> a, <span class=\"t\">Counter<\/span> b)\n{\n    <span class=\"k\">int<\/span> ca = a.getCount();\n    <span class=\"k\">while<\/span> (a.getCount() &lt; b.getCount()) a.click();\n    <span class=\"k\">while<\/span> (b.getCount() &gt; ca) b.click();\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Counter<\/span> x = <span class=\"k\">new<\/span> <span class=\"t\">Counter<\/span>(<span class=\"n\">1<\/span>, <span class=\"n\">1<\/span>);\n<span class=\"t\">Counter<\/span> y = <span class=\"k\">new<\/span> <span class=\"t\">Counter<\/span>(<span class=\"n\">3<\/span>, <span class=\"n\">1<\/span>);\nswapCounts(x, y);<\/code><\/pre>",
+  "o": [
+   "x is 3 and y is 1",
+   "x is 1 and y is 3",
+   "The second loop never ends (click only increases)",
+   "Compile error"
+  ],
+  "a": 2,
+  "x": "After the first loop x is 3. y is 3 > 1, and click() only adds, so the condition never becomes false.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Wallet<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> cents;\n    <span class=\"k\">public<\/span> <span class=\"t\">Wallet<\/span>(<span class=\"k\">int<\/span> c) { cents = c; }\n    <span class=\"k\">public<\/span> <span class=\"t\">Wallet<\/span> combine(<span class=\"t\">Wallet<\/span> other)\n    {\n        cents += other.cents;\n        other.cents = <span class=\"n\">0<\/span>;\n        <span class=\"k\">return<\/span> <span class=\"k\">this<\/span>;\n    }\n    <span class=\"k\">public<\/span> <span class=\"k\">int<\/span> get() { <span class=\"k\">return<\/span> cents; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Wallet<\/span> a = <span class=\"k\">new<\/span> <span class=\"t\">Wallet<\/span>(<span class=\"n\">5<\/span>);\n<span class=\"t\">Wallet<\/span> b = <span class=\"k\">new<\/span> <span class=\"t\">Wallet<\/span>(<span class=\"n\">7<\/span>);\n<span class=\"t\">Wallet<\/span> c = a.combine(b);\nc.combine(<span class=\"k\">new<\/span> <span class=\"t\">Wallet<\/span>(<span class=\"n\">1<\/span>));\n<span class=\"t\">System<\/span>.out.println(a.get() + <span class=\"s\">\" \"<\/span> + b.get() + <span class=\"s\">\" \"<\/span> + (c == a));<\/code><\/pre>",
+  "o": [
+   "12 7 false",
+   "13 7 false",
+   "12 0 true",
+   "13 0 true"
+  ],
+  "a": 3,
+  "x": "combine returns this, so c is a. a: 5 + 7 = 12, then + 1 = 13. b was emptied to 0.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Acc<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> total;\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> add(<span class=\"k\">int<\/span> total)\n    {\n        total += total;\n    }\n    <span class=\"k\">public<\/span> <span class=\"k\">int<\/span> get() { <span class=\"k\">return<\/span> total; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Acc<\/span> a = <span class=\"k\">new<\/span> <span class=\"t\">Acc<\/span>();\na.add(<span class=\"n\">4<\/span>);\na.add(<span class=\"n\">6<\/span>);\n<span class=\"t\">System<\/span>.out.println(a.get());<\/code><\/pre>",
+  "o": [
+   "Compile error",
+   "10",
+   "20",
+   "0"
+  ],
+  "a": 3,
+  "x": "The parameter total shadows the instance variable, so the method only doubles its parameter. The instance variable stays 0.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "A <code>Course<\/code> class stores a teacher object passed to its constructor and has <code>getTeacher()<\/code> that returns it. Why might this be a problem?",
+  "o": [
+   "Outside code receives a reference to the stored object and can change it, bypassing Course's methods",
+   "Objects can't be returned from methods",
+   "The teacher would be copied each time, wasting memory",
+   "It causes a compile error"
+  ],
+  "a": 0,
+  "x": "Returning a reference to a mutable instance variable breaks encapsulation; return a copy or only the needed information.",
+  "h": true
+ },
+ {
+  "t": "m",
+  "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Temp2<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">static<\/span> <span class=\"k\">int<\/span> count = <span class=\"n\">0<\/span>;\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> id;\n    <span class=\"k\">public<\/span> <span class=\"t\">Temp2<\/span>() { count += <span class=\"n\">2<\/span>; id = count; }\n    <span class=\"k\">public<\/span> <span class=\"k\">int<\/span> getId() { <span class=\"k\">return<\/span> id; }\n    <span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">int<\/span> getCount() { <span class=\"k\">return<\/span> count; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Temp2<\/span> a = <span class=\"k\">new<\/span> <span class=\"t\">Temp2<\/span>();\n<span class=\"t\">Temp2<\/span> b = <span class=\"k\">new<\/span> <span class=\"t\">Temp2<\/span>();\n<span class=\"t\">Temp2<\/span> c = b;\n<span class=\"t\">System<\/span>.out.println(a.getId() + c.getId() + <span class=\"t\">Temp2<\/span>.getCount());<\/code><\/pre>",
+  "o": [
+   "8",
+   "10",
+   "12",
+   "246"
+  ],
+  "a": 1,
+  "x": "a.id = 2, b.id = 4, count = 4. c is b. 2 + 4 + 4 = 10 (all ints).",
+  "h": true
+ }
+]
+</script>
+<script type="application/json" id="exam-c3">
+{
+ "title": "Unit 3 Practice Exam: Class Creation",
+ "mcqMinutes": 30,
+ "frqMinutes": 25,
+ "tags": {
+  "e": "Writing Classes",
+  "m": "References & static"
+ },
+ "kinds": {
+  "concept": "Concept",
+  "calc": "Code tracing"
+ },
+ "mcq": [
+  {
+   "t": "e",
+   "q": "Which is true of a constructor?",
+   "o": [
+    "It has the same name as the class and no return type",
+    "It must be declared void",
+    "It must be static",
+    "A class can have only one"
+   ],
+   "a": 0,
+   "x": "Constructors can be overloaded and have no return type.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "m",
+   "q": "Given the <code>Rectangle<\/code> class, what is printed?<pre class=\"code\"><code><span class=\"t\">Rectangle<\/span> r = <span class=\"k\">new<\/span> <span class=\"t\">Rectangle<\/span>(<span class=\"n\">2<\/span>, <span class=\"n\">5<\/span>);\n<span class=\"t\">Rectangle<\/span> s = r;\ns.scale(<span class=\"n\">3<\/span>);\n<span class=\"t\">System<\/span>.out.println(r.area());<\/code><\/pre>",
+   "o": [
+    "270",
+    "90",
+    "30",
+    "10"
+   ],
+   "a": 1,
+   "x": "r and s are one object: 6x15 = 90.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "e",
+   "q": "Which instance variable declaration follows good encapsulation?",
+   "o": [
+    "<code>int score = 0;<\/code>",
+    "<code>private int score;<\/code>",
+    "<code>public int score;<\/code>",
+    "<code>static int score;<\/code>"
+   ],
+   "a": 1,
+   "x": "Instance variables should be private.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "e",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Lamp<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">boolean<\/span> on;\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> toggle() { on = !on; }\n    <span class=\"k\">public<\/span> <span class=\"k\">boolean<\/span> isOn() { <span class=\"k\">return<\/span> on; }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Lamp<\/span> l = <span class=\"k\">new<\/span> <span class=\"t\">Lamp<\/span>();\nl.toggle();\nl.toggle();\nl.toggle();\n<span class=\"t\">System<\/span>.out.println(l.isOn());<\/code><\/pre>",
+   "o": [
+    "true",
+    "false",
+    "Compile error",
+    "null"
+   ],
+   "a": 0,
+   "x": "on starts false (default); three toggles: true, false, true.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "m",
+   "q": "A static method tries to use an instance variable directly. What happens?",
+   "o": [
+    "Compile error",
+    "It uses the most recent object's value",
+    "It uses 0",
+    "Run-time error"
+   ],
+   "a": 0,
+   "x": "Static methods don't belong to an object.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "m",
+   "q": "Given the <code>Rectangle<\/code> class, what is printed?<pre class=\"code\"><code><span class=\"k\">public<\/span> <span class=\"k\">static<\/span> <span class=\"k\">void<\/span> triple(<span class=\"k\">int<\/span> x, <span class=\"t\">Rectangle<\/span> r)\n{\n    x *= <span class=\"n\">3<\/span>;\n    r.scale(<span class=\"n\">3<\/span>);\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"k\">int<\/span> n = <span class=\"n\">2<\/span>;\n<span class=\"t\">Rectangle<\/span> r = <span class=\"k\">new<\/span> <span class=\"t\">Rectangle<\/span>(<span class=\"n\">1<\/span>, <span class=\"n\">2<\/span>);\ntriple(n, r);\n<span class=\"t\">System<\/span>.out.println(n + <span class=\"s\">\" \"<\/span> + r);<\/code><\/pre>",
+   "o": [
+    "2 1x2",
+    "2 3x6",
+    "6 3x6",
+    "6 1x2"
+   ],
+   "a": 1,
+   "x": "The int is a copy; the object is shared.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "m",
+   "q": "Inside a constructor with parameter <code>speed<\/code>, how do you set the instance variable also named speed?",
+   "o": [
+    "<code>this.speed = speed;<\/code>",
+    "<code>int speed = speed;<\/code>",
+    "<code>speed = speed;<\/code>",
+    "<code>speed = this.speed;<\/code>"
+   ],
+   "a": 0,
+   "x": "this.speed is the instance variable; plain speed is the parameter.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "m",
+   "q": "Given the <code>Student<\/code> class, what is printed?<pre class=\"code\"><code><span class=\"k\">for<\/span> (<span class=\"k\">int<\/span> i = <span class=\"n\">0<\/span>; i &lt; <span class=\"n\">4<\/span>; i++)\n    <span class=\"k\">new<\/span> <span class=\"t\">Student<\/span>(<span class=\"s\">\"S\"<\/span> + i);\n<span class=\"t\">System<\/span>.out.println(<span class=\"t\">Student<\/span>.getNextId());<\/code><\/pre>",
+   "o": [
+    "1",
+    "4",
+    "5",
+    "0"
+   ],
+   "a": 2,
+   "x": "nextId starts at 1 and increases once per student: 5.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "e",
+   "q": "Given the <code>TicketBooth<\/code> class, what is printed?<pre class=\"code\"><code><span class=\"t\">TicketBooth<\/span> t = <span class=\"k\">new<\/span> <span class=\"t\">TicketBooth<\/span>(<span class=\"n\">10<\/span>, <span class=\"n\">2.0<\/span>);\n<span class=\"k\">double<\/span> a = t.buy(<span class=\"n\">6<\/span>);\n<span class=\"k\">double<\/span> b = t.buy(<span class=\"n\">5<\/span>);\n<span class=\"k\">double<\/span> c = t.buy(<span class=\"n\">4<\/span>);\n<span class=\"t\">System<\/span>.out.println(a + b + c + <span class=\"s\">\" \"<\/span> + t.ticketsLeft());<\/code><\/pre>",
+   "o": [
+    "20.0 1",
+    "20.0 0",
+    "22.0 0",
+    "12.0 4"
+   ],
+   "a": 1,
+   "x": "6 sold (12.0), 5 rejected (0.0, only 4 left), 4 sold (8.0). Total 20.0, 0 left.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "e",
+   "q": "What does a class's <code>toString<\/code> method do when the object is printed?",
+   "o": [
+    "Its return value is what gets printed",
+    "It prints the object's memory address",
+    "It must print the object itself",
+    "Nothing; it's only called explicitly"
+   ],
+   "a": 0,
+   "x": "println and String concatenation call toString automatically.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "m",
+   "q": "Which describes a local variable declared inside a method?",
+   "o": [
+    "It exists only while that method's block runs",
+    "It keeps its value between calls",
+    "Every object has its own copy",
+    "Other classes can access it with the dot operator"
+   ],
+   "a": 0,
+   "x": "Local variables disappear when their block ends.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "m",
+   "q": "What is printed?<pre class=\"code\"><code><span class=\"k\">class<\/span> <span class=\"t\">Temp<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> value = <span class=\"n\">10<\/span>;\n\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> show()\n    {\n        <span class=\"k\">int<\/span> value = <span class=\"n\">3<\/span>;\n        <span class=\"k\">this<\/span>.value += value;\n        <span class=\"t\">System<\/span>.out.println(value + <span class=\"s\">\" \"<\/span> + <span class=\"k\">this<\/span>.value);\n    }\n}<\/code><\/pre><pre class=\"code\"><code><span class=\"t\">Temp<\/span> t = <span class=\"k\">new<\/span> <span class=\"t\">Temp<\/span>();\nt.show();\nt.show();<\/code><\/pre>",
+   "o": [
+    "13 13 16 16",
+    "3 10 3 10",
+    "3 13 3 13",
+    "3 13 3 16"
+   ],
+   "a": 3,
+   "x": "Each call adds the local 3 to the instance variable: 13, then 16.",
+   "h": true,
+   "k": "calc"
+  },
+  {
+   "t": "m",
+   "q": "A class has a method <code>public boolean equals(Point other)<\/code> that compares x and y. Which statement is true?",
+   "o": [
+    "It can read other.x and other.y even though they're private",
+    "It can't compile because the fields are private",
+    "It must be static",
+    "It must return an int"
+   ],
+   "a": 0,
+   "x": "Private access is per class, not per object.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "e",
+   "q": "Which change makes a method an accessor rather than a mutator?",
+   "o": [
+    "It returns information and doesn't change instance variables",
+    "It's declared void",
+    "It takes no parameters",
+    "It's declared private"
+   ],
+   "a": 0,
+   "x": "Accessors report state; mutators change it.",
+   "h": true,
+   "k": "concept"
+  },
+  {
+   "t": "e",
+   "q": "Software that decides loan approvals is found to reject one group of people more often for reasons unrelated to risk. This is an example of…",
+   "o": [
+    "a syntax error",
+    "a run-time exception",
+    "an unintended ethical impact of program design",
+    "an intellectual property violation"
+   ],
+   "a": 2,
+   "x": "Topic 3.2: programs can have harmful effects their designers didn't intend.",
+   "h": true,
+   "k": "concept"
+  }
+ ],
+ "frq": [
+  {
+   "q": "Write the complete class <code>Plant<\/code>. A plant is created with a name and a starting height in centimeters. <code>water()<\/code> makes it grow 2 cm, but only if it was not watered the previous time a method was called that day; <code>newDay()<\/code> resets that, and <code>getHeight()<\/code> returns the height.<pre class=\"code\"><code><span class=\"t\">Plant<\/span> p = <span class=\"k\">new<\/span> <span class=\"t\">Plant<\/span>(<span class=\"s\">\"Fern\"<\/span>, <span class=\"n\">10<\/span>);\np.water();       <span class=\"c\">// height 12<\/span>\np.water();       <span class=\"c\">// already watered today: still 12<\/span>\np.newDay();\np.water();       <span class=\"c\">// height 14<\/span>\np.getHeight();   <span class=\"c\">// returns 14<\/span><\/code><\/pre>",
+   "parts": [
+    {
+     "p": "(a) Write the class.",
+     "rubric": [
+      [
+       "Private instance variables for name, height and whether it was watered today",
+       1
+      ],
+      [
+       "Constructor with (String, int) that initializes all three",
+       1
+      ],
+      [
+       "water() grows by 2 only when not yet watered, then records that it was",
+       1
+      ],
+      [
+       "newDay() resets the watered flag",
+       1
+      ],
+      [
+       "getHeight() returns the height",
+       1
+      ]
+     ],
+     "answer": "<pre class=\"code\"><code><span class=\"k\">public<\/span> <span class=\"k\">class<\/span> <span class=\"t\">Plant<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">String<\/span> name;\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> height;\n    <span class=\"k\">private<\/span> <span class=\"k\">boolean<\/span> wateredToday;\n\n    <span class=\"k\">public<\/span> <span class=\"t\">Plant<\/span>(<span class=\"k\">String<\/span> name, <span class=\"k\">int<\/span> height)\n    {\n        <span class=\"k\">this<\/span>.name = name;\n        <span class=\"k\">this<\/span>.height = height;\n        wateredToday = <span class=\"k\">false<\/span>;\n    }\n\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> water()\n    {\n        <span class=\"k\">if<\/span> (!wateredToday)\n        {\n            height += <span class=\"n\">2<\/span>;\n            wateredToday = <span class=\"k\">true<\/span>;\n        }\n    }\n\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> newDay()\n    {\n        wateredToday = <span class=\"k\">false<\/span>;\n    }\n\n    <span class=\"k\">public<\/span> <span class=\"k\">int<\/span> getHeight()\n    {\n        <span class=\"k\">return<\/span> height;\n    }\n}<\/code><\/pre>"
+    }
+   ]
+  },
+  {
+   "q": "Write the class <code>Scoreboard<\/code> for a two-team game. It's created with two team names. <code>recordPoint(String team)<\/code> adds a point to that team. <code>leader()<\/code> returns the name of the team with more points, or \"tie\".<pre class=\"code\"><code><span class=\"t\">Scoreboard<\/span> s = <span class=\"k\">new<\/span> <span class=\"t\">Scoreboard<\/span>(<span class=\"s\">\"Red\"<\/span>, <span class=\"s\">\"Blue\"<\/span>);\ns.recordPoint(<span class=\"s\">\"Blue\"<\/span>);\ns.leader();   <span class=\"c\">// returns \"Blue\"<\/span>\ns.recordPoint(<span class=\"s\">\"Red\"<\/span>);\ns.leader();   <span class=\"c\">// returns \"tie\"<\/span><\/code><\/pre>",
+   "parts": [
+    {
+     "p": "(a) Write the class.",
+     "rubric": [
+      [
+       "Private variables for both names and both scores",
+       1
+      ],
+      [
+       "Constructor stores names and sets scores to 0",
+       1
+      ],
+      [
+       "recordPoint compares with equals and adds to the right score",
+       1
+      ],
+      [
+       "leader returns the correct name or \"tie\"",
+       1
+      ]
+     ],
+     "answer": "<pre class=\"code\"><code><span class=\"k\">public<\/span> <span class=\"k\">class<\/span> <span class=\"t\">Scoreboard<\/span>\n{\n    <span class=\"k\">private<\/span> <span class=\"k\">String<\/span> team1, team2;\n    <span class=\"k\">private<\/span> <span class=\"k\">int<\/span> score1, score2;\n\n    <span class=\"k\">public<\/span> <span class=\"t\">Scoreboard<\/span>(<span class=\"k\">String<\/span> a, <span class=\"k\">String<\/span> b)\n    {\n        team1 = a;\n        team2 = b;\n        score1 = <span class=\"n\">0<\/span>;\n        score2 = <span class=\"n\">0<\/span>;\n    }\n\n    <span class=\"k\">public<\/span> <span class=\"k\">void<\/span> recordPoint(<span class=\"k\">String<\/span> team)\n    {\n        <span class=\"k\">if<\/span> (team.equals(team1))\n            score1++;\n        <span class=\"k\">else<\/span> <span class=\"k\">if<\/span> (team.equals(team2))\n            score2++;\n    }\n\n    <span class=\"k\">public<\/span> <span class=\"k\">String<\/span> leader()\n    {\n        <span class=\"k\">if<\/span> (score1 &gt; score2) <span class=\"k\">return<\/span> team1;\n        <span class=\"k\">if<\/span> (score2 &gt; score1) <span class=\"k\">return<\/span> team2;\n        <span class=\"k\">return<\/span> <span class=\"s\">\"tie\"<\/span>;\n    }\n}<\/code><\/pre>"
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/sims.js"></script>
+<script src="../../assets/js/cs-sims.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

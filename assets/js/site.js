@@ -205,7 +205,7 @@
           it.o.forEach((o, j) => {
             const b = document.createElement("button");
             b.className = "opt";
-            b.textContent = `${letter(j)}. ${o}`;
+            if (it.h) b.innerHTML = `${letter(j)}. ${o}`; else b.textContent = `${letter(j)}. ${o}`;
             b.addEventListener("click", () => {
               if (answered[i] !== undefined) return;
               answered[i] = j; paint(i, card); score();

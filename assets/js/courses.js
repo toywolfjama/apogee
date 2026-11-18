@@ -18,6 +18,17 @@ window.SITE_COURSES = [
       { id: "unit-7", name: "Unit 7: Oscillations" },
       { id: "unit-8", name: "Unit 8: Fluids" }
     ]
+  },
+  {
+    id: "ap-csa",
+    name: "AP Computer Science A",
+    blurb: "Java: objects and methods, selection and iteration, writing classes, and data collections.",
+    units: [
+      { id: "unit-1", name: "Unit 1: Using Objects and Methods", path: "courses/ap-csa/unit-1.html", ready: true },
+      { id: "unit-2", name: "Unit 2: Selection and Iteration", path: "courses/ap-csa/unit-2.html", ready: true },
+      { id: "unit-3", name: "Unit 3: Class Creation", path: "courses/ap-csa/unit-3.html", ready: true },
+      { id: "unit-4", name: "Unit 4: Data Collections" }
+    ]
   }
   // Example for later:
   // { id: "ap-chemistry", name: "AP Chemistry", blurb: "...", units: [ { id: "unit-1", name: "Unit 1: Atomic Structure" } ] }
