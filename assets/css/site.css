@@ -379,3 +379,11 @@ input[type=range]{accent-color:var(--yellow);flex:1;min-width:160px}
 .obj-log{margin-top:12px;display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
 .obj-log div{animation:pop .3s}.obj-log b{color:var(--good)}
 pre.code code,.qt pre.code code,.opt pre.code code{background:none;padding:0;border-radius:0;font-size:inherit}
+.sl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:6px 18px;margin:6px 0 10px}
+.sl{display:grid;grid-template-columns:90px 1fr 48px 34px;align-items:center;gap:8px;font:500 14px "Fira Sans",sans-serif}
+.sl span{color:var(--muted)}.sl b{font:700 15px "Fira Mono",monospace;color:var(--yellow);text-align:right}.sl small{color:var(--muted)}
+.lab-anim{margin:10px 0}.lab-anim .sim{margin:0}
+.lab-table div.wide{grid-column:1/-1;justify-content:flex-start}
+.lab-table .bad{color:var(--bad);font-weight:600}
+.stop-bar{height:16px;border-radius:99px;background:#061335;border:1px solid var(--line);overflow:hidden;margin:8px 0}
+.stop-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--good),var(--yellow),var(--bad));transition:width .25s}

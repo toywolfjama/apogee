@@ -1,0 +1,289 @@
+import math
+from gen_unit import *
+from cs_common import lab
+
+g = 10
+# ---------- checks for worked examples ----------
+close(1500 * 20, 30000); close(0.15 * 40, 6)
+close(2 * 5 + 3 * (-2), 4); close(4 / 5, 0.8)
+close(0.5 * 4 * 0.2, 0.4); close(0.4 / 0.5, 0.8)
+close(0.5 * (10 * -5) - 0.5 * (10 * 5) if False else 0.5 * (-5 - 5), -5)
+close(0.06 * 25 / 0.005, 300)
+close(0.06 * (25 - (-25)), 3)
+close((0.01 * 400) / (0.01 + 2), 1.99, 0.01)
+close(4 * 3 / 1, 12)
+close((3 * 6 + 2 * 0) / 5, 3.6)
+print("unit 4 examples verified")
+
+HOWTO = '''<ol class="steps">
+ <li>Start with <b>Momentum</b>, then <b>Impulse</b>, then <b>Conservation</b> and <b>Collisions</b>. Each builds on the last.</li>
+ <li>The <b>labs</b> (dashed boxes) let you change masses, speeds and forces and rerun the animation with your numbers.</li>
+ <li>Open a <b>Detailed explanation</b> for the full reasoning behind each idea.</li>
+ <li>Then <b>Practice</b>, <b>Challenge</b> and the timed <b>Practice Exam</b>. Use g = 10 m/s².</li>
+</ol>'''
+CORE = ('<p>Momentum describes how hard it is to stop something that\'s moving: it depends on both mass and velocity. The big idea of this unit: <b>in any interaction, momentum is transferred between objects, but the total momentum of a system with no outside push stays the same.</b></p>'
+ + eq("p = mv &nbsp;&nbsp;&nbsp;&nbsp; FΔt = mΔv &nbsp;&nbsp;&nbsp;&nbsp; p = p′")
+ + sim({"type": "collide", "m1": 2, "v1": 5, "m2": 3, "v2": -2, "mode": "stick"}, "Total momentum before = total momentum after")
+ + '<div class="grid2"><div class="mini"><h4>Impulse changes momentum</h4><p>A force acting for a time gives an impulse FΔt, which equals the change in momentum mΔv.</p></div>'
+ '<div class="mini"><h4>Collisions conserve momentum</h4><p>When objects collide, the forces between them are equal and opposite, so the momentum one gains, the other loses.</p></div></div>')
+CH = []
+CH.append(chapter("overview-u4", "Overview", "Overview", [topic("start-u4", "How to use this page", HOWTO, sub="Suggested order."), topic("core-u4", "Core ideas", CORE)]))
+
+# ---------- momentum ----------
+MOM = topic("momentum-u4", "Linear momentum", f'''
+{eq("p = mv")}
+<p><b>Momentum</b> (p) is mass times velocity. Units: kg·m/s. It's a <b>vector</b>: it points the same way as the velocity, so in one dimension its sign gives its direction.</p>
+{worked("A 1500 kg car moves at 20 m/s east. A 0.15 kg baseball moves at 40 m/s west. Find each momentum.", "Car: p = 1500 × 20 = <b>30,000 kg·m/s east</b>. Ball: p = 0.15 × (−40) = <b>−6 kg·m/s</b> (6 kg·m/s west).")}
+<h3>Momentum of a system</h3>
+<p>The momentum of a system is the <b>vector sum</b> of the momenta of its parts. Opposite directions partly cancel.</p>
+{worked("A 2 kg cart moves right at 5 m/s and a 3 kg cart moves left at 2 m/s. Find the total momentum.", "Right as +: (2)(5) + (3)(−2) = 10 − 6 = <b>+4 kg·m/s</b> (to the right).")}
+<h3>Velocity of the center of mass</h3>
+{eq("v<sub>cm</sub> = Σp / Σm = (m₁v₁ + m₂v₂)/(m₁ + m₂)")}
+<p>For the two carts above, v<sub>cm</sub> = 4/5 = 0.8 m/s. If no net external force acts on the system, v<sub>cm</sub> never changes, no matter how the carts collide.</p>
+{box("trap", "Common mistake", "Adding momentum sizes without signs. Two equal carts moving toward each other at the same speed have a total momentum of zero.")}
+''', pill=("m", "UNIT 4.1"), sub="Mass in motion, with a direction.",
+ det=("Momentum vs. kinetic energy", '''<h4>Two ways to describe motion</h4><p>Momentum p = mv is a vector; kinetic energy K = ½mv² is a scalar. Two carts moving toward each other can have zero total momentum but plenty of kinetic energy.</p>
+<h4>Connecting them</h4><p>K = p²/(2m). For the same momentum, a lighter object has more kinetic energy. That's why a light bullet and a heavy rifle get equal and opposite momentum when fired, but the bullet gets almost all the energy.</p>
+<h4>Doubling</h4><p>Doubling speed doubles momentum but quadruples kinetic energy. Doubling mass doubles both.</p>
+<h4>Center of mass</h4><p>v<sub>cm</sub> is the velocity of the system's average position. Internal forces (collisions, explosions) move mass around inside the system but can't change v<sub>cm</sub>; only a net external force can.</p>'''))
+CH.append(chapter("momentum-ch-u4", "Momentum", "Momentum", [MOM]))
+
+# ---------- impulse ----------
+IMP = topic("impulse-u4", "Impulse and change in momentum", f'''
+{eq("J = FΔt = Δp = mΔv")}
+<p><b>Impulse</b> (J) is a force times the time it acts. It equals the change in momentum it causes. Units: N·s, the same as kg·m/s. On your sheet: <span class="eq">FΔt = mΔv</span> and <span class="eq">Δp = mΔv</span>.</p>
+{lab(type="impulse", m=2, v0=0, F=8, dt=2)}
+<h3>Force–time graphs</h3>
+<p>When the force changes, the impulse is the <b>area under the force–time graph</b>.</p>
+{sim({"type": "graph", "kind": "t", "pts": [[0, 0], [0.1, 4], [0.2, 0]], "m": 0.5}, "Area of the triangle = impulse = change in momentum")}
+{worked("A 0.5 kg ball at rest is hit by a force that rises to 4 N and back to 0 over 0.2 s (a triangle). Find its final speed.", "Impulse = area = ½(0.2)(4) = 0.4 N·s. Δv = J/m = 0.4/0.5 = <b>0.8 m/s</b>.")}
+<h3>Bouncing vs. stopping</h3>
+{sim({"type": "bounce", "m": 0.06, "v": 25, "vf": -25}, "A bounce reverses the velocity, so Δp is twice as big as stopping")}
+{worked("A 0.06 kg tennis ball hits a wall at 25 m/s and bounces straight back at 25 m/s. Find the impulse from the wall.", "Toward the wall as +: Δp = m(v′ − v) = 0.06(−25 − 25) = <b>−3 kg·m/s</b>, i.e. 3 N·s away from the wall. If it had stopped dead, Δp would be only 1.5 kg·m/s.")}
+<h3>Stretching the stopping time</h3>
+{sim({"type": "egg"}, "Same Δp: a longer stopping time means a smaller force")}
+{lab(type="stopping", m=70, v=15, dt=0.05)}
+{worked("The same 0.06 kg ball at 25 m/s is caught and stopped in 0.005 s. What is the average force?", "F = Δp/Δt = (0.06 × 25)/0.005 = <b>300 N</b>.")}
+''', pill=("m", "UNIT 4.2"), sub="A force over time changes momentum.",
+ det=("Where impulse comes from, and graph reading", '''<h4>From Newton's second law</h4><p>ΣF = ma = m(Δv/Δt), so ΣF·Δt = mΔv. Impulse is just Newton's second law multiplied by time. The F in FΔt is the <b>net</b> force (or the average net force if it varies).</p>
+<h4>Areas under graphs</h4><p>Rectangle: FΔt. Triangle: ½ × base × height. Trapezoid: average of the two heights × base. Area below the time axis is negative impulse.</p>
+<h4>Average force</h4><p>For a force that varies, the average force is the impulse divided by the time: F<sub>avg</sub> = J/Δt. It's the height of a rectangle with the same area.</p>
+<h4>Why bouncing hurts more</h4><p>To reverse direction, the object first has to be stopped (Δp = mv) and then sent back (another mv), so Δp = 2mv. A rubber bullet that bounces off transfers more momentum to the target than a clay one that sticks.</p>
+<h4>Safety design</h4><p>Airbags, helmets, crumple zones and bending your knees on landing don't change Δp. They increase Δt, which reduces the force.</p>'''))
+CH.append(chapter("impulse-ch-u4", "Impulse", "Impulse", [IMP]))
+
+# ---------- conservation ----------
+CONS = topic("conservation-u4", "Conservation of linear momentum", f'''
+{eq("p = p′ &nbsp;&nbsp;&nbsp; (m₁v₁ + m₂v₂ = m₁v₁′ + m₂v₂′)")}
+<p>If the net <b>external</b> force on a system is zero (or tiny during a brief collision), the system's total momentum doesn't change. Prime (′) means "after".</p>
+<h3>Why it works</h3>
+<p>When two objects collide, object 1 pushes object 2 and object 2 pushes object 1 back with an equal and opposite force (Newton's third law), for the same amount of time. So their impulses are equal and opposite: whatever momentum one gains, the other loses.</p>
+<h3>Choosing the system</h3>
+<p>Include every object that pushes on another in the interaction. If you include only one cart, the other cart's push is an external force and momentum isn't conserved for that "system".</p>
+<h3>Explosions and recoil</h3>
+{sim({"type": "explode", "m1": 4, "m2": 0.01, "v0": 0, "v2f": 400, "o1": "rifle", "o2": "bullet"}, "Starting at rest, total momentum is 0 before and after")}
+{worked("A 4 kg rifle fires a 0.01 kg bullet at 400 m/s. Find the rifle's recoil velocity.", "Total p before = 0. After: 4v + 0.01(400) = 0 → v = −4/4 = <b>−1 m/s</b> (1 m/s backward).")}
+{worked("A 1 kg astronaut tool… a 70 kg astronaut at rest throws a 2 kg wrench at 7 m/s. How fast does she move?", "0 = 2(7) + 70v → v = −14/70 = <b>−0.2 m/s</b>, opposite the wrench.")}
+''', pill=("m", "UNIT 4.3"), sub="Momentum before = momentum after.",
+ det=("When is momentum conserved?", '''<h4>External vs. internal</h4><p>Forces between objects inside the system come in third-law pairs and cancel in the total. Only external forces (from outside the system) change total momentum.</p>
+<h4>Brief collisions</h4><p>Even with friction or gravity acting, a collision lasts so short a time that their impulse is tiny compared with the huge collision forces. So momentum is conserved "just before" to "just after" the collision. Afterward, friction can slow things down.</p>
+<h4>Vertical direction</h4><p>For carts on a track, gravity and the normal force are external, but they cancel. Only horizontal momentum matters.</p>
+<h4>Component by component</h4><p>Momentum is a vector, so in two dimensions it's conserved separately in x and in y.</p>'''))
+CONS = CONS.replace("A 1 kg astronaut tool… a 70 kg astronaut", "A 70 kg astronaut")
+close(-0.01 * 400 / 4, -1); close(-2 * 7 / 70, -0.2)
+CH.append(chapter("conservation-ch-u4", "Conservation", "Conservation", [CONS]))
+
+# ---------- collisions ----------
+COLL = topic("collisions-u4", "Elastic and inelastic collisions", f'''
+<p>Momentum is conserved in <b>every</b> collision (with no external force). Kinetic energy is a different story:</p>
+<div class="tblwrap"><table><tr><th>Type</th><th>Momentum</th><th>Kinetic energy</th><th>What you see</th></tr>
+<tr><td><b>Elastic</b></td><td>conserved</td><td>conserved</td><td>bounce apart, no deformation (ideal)</td></tr>
+<tr><td><b>Inelastic</b></td><td>conserved</td><td>some lost</td><td>bounce apart, some energy goes to heat, sound, deformation</td></tr>
+<tr><td><b>Perfectly inelastic</b></td><td>conserved</td><td>most possible lost</td><td>stick together, same final velocity</td></tr></table></div>
+{lab(type="collision", m1=2, v1=5, m2=3, v2=-2)}
+{worked("A 2 kg cart at 5 m/s hits a 3 kg cart moving at −2 m/s, and they stick. Find the final velocity and the kinetic energy lost.", "p = p′: (2)(5) + (3)(−2) = 5v′ → v′ = 4/5 = <b>0.8 m/s</b>. K before = ½(2)(25) + ½(3)(4) = 31 J. K after = ½(5)(0.64) = 1.6 J. Lost: <b>29.4 J</b>.")}
+{sim({"type": "collide", "m1": 1, "v1": 3, "m2": 1, "v2": 0, "mode": "elastic", "o1": "ball", "o2": "ball"}, "Elastic, equal masses: the moving ball stops and the other takes its velocity")}
+<h3>Checking an elastic collision</h3><p>For a collision to be elastic, K before must equal K after. If a problem gives final velocities, compute both kinetic energies to classify it.</p>
+{box("trap", "Common mistake", "Thinking kinetic energy is conserved because momentum is. Kinetic energy is conserved only in elastic collisions. Momentum is conserved in all of them.")}
+''', pill=("m", "UNIT 4.4"), sub="Momentum always; kinetic energy only sometimes.",
+ det=("Elastic collision patterns", '''<h4>Equal masses, one at rest</h4><p>In an elastic head-on collision, they swap velocities: the moving one stops and the other leaves with its speed (Newton's cradle).</p>
+<h4>Heavy hits light</h4><p>A heavy object hitting a light one at rest barely slows down, and the light one shoots off at almost twice the heavy one's speed.</p>
+<h4>Light hits heavy</h4><p>A light object bouncing off a heavy one at rest comes back with nearly the same speed; the heavy one barely moves.</p>
+<h4>Relative speed</h4><p>In an elastic head-on collision, the speed at which the objects separate equals the speed at which they approached: v₂′ − v₁′ = v₁ − v₂. This gives a second equation alongside p = p′.</p>
+<h4>Where the lost energy goes</h4><p>In inelastic collisions, the "lost" kinetic energy becomes internal energy (temperature), sound and permanent deformation. Total energy is still conserved.</p>'''))
+close(0.5 * 2 * 25 + 0.5 * 3 * 4, 31); close(0.5 * 5 * 0.64, 1.6)
+TWO = topic("collision-2d-u4", "Collisions in two dimensions", f'''
+<p>Momentum is a vector, so conserve it separately in each direction:</p>
+{eq("Σp<sub>x</sub> = Σp<sub>x</sub>′ &nbsp;&nbsp;&nbsp;&nbsp; Σp<sub>y</sub> = Σp<sub>y</sub>′")}
+{worked("A 1000 kg car going east at 20 m/s collides with a 1500 kg car going north at 10 m/s. They stick. Find their velocity after.", "x: 1000(20) = 2500v<sub>x</sub> → v<sub>x</sub> = 8 m/s. y: 1500(10) = 2500v<sub>y</sub> → v<sub>y</sub> = 6 m/s. Speed = √(8² + 6²) = <b>10 m/s</b> at tan⁻¹(6/8) ≈ <b>37° north of east</b>.")}
+''', pill=("m", "UNIT 4.4"), sub="Conserve each component separately.")
+close(1000 * 20 / 2500, 8); close(1500 * 10 / 2500, 6); close(math.hypot(8, 6), 10)
+CH.append(chapter("collisions-ch-u4", "Collisions", "Collisions", [COLL, TWO]))
+
+# ---------- multi-step ----------
+close(0.01 * 400 / 2.01, 1.99, 0.01); close(1.99 ** 2 / (2 * 10), 0.198, 0.01)
+close((2000 * 15 + 0) / 3000, 10); close(10 ** 2 / (2 * 0.5 * 10), 10)
+MULTI = topic("multistep-u4", "Multi-step problems: momentum + energy", f'''
+<p>Many free-response questions chain two stages. The key is knowing which law applies to which stage:</p>
+<div class="grid2"><div class="mini"><h4>During the collision</h4><p>Brief, big internal forces: use <b>p = p′</b>. Don't use energy conservation here unless it's elastic.</p></div>
+<div class="mini"><h4>Before or after the collision</h4><p>Motion with gravity, springs or friction: use <b>E = E′</b> or work–energy, or kinematics.</p></div></div>
+<h3>Ballistic pendulum</h3>
+{sim({"type": "collide", "m1": 0.01, "v1": 400, "m2": 2, "v2": 0, "mode": "stick", "o1": "bullet", "o2": "box"}, "Stage 1: the bullet sticks in the block (momentum)")}
+{worked("A 0.01 kg bullet at 400 m/s embeds in a 2 kg hanging block. How high does the block swing?", "Stage 1 (collision, p = p′): 0.01(400) = 2.01v → v ≈ 1.99 m/s. Stage 2 (swing, E = E′): ½v² = gh → h = v²/(2g) = 1.99²/20 ≈ <b>0.20 m</b>. Using energy conservation for the collision would be wrong: most of the bullet's kinetic energy becomes heat.")}
+<h3>Crash, then slide</h3>
+{worked("A 2000 kg truck at 15 m/s hits a 1000 kg car at rest, and they lock together and skid with μ = 0.5. How far do they skid?", "Collision: 2000(15) = 3000v → v = 10 m/s. Skid: friction does the work: μmgd = ½mv² → d = v²/(2μg) = 100/10 = <b>10 m</b>.")}
+{box("tip", "Order of attack", "Split the story into stages at each collision. List what's conserved in each stage. The output of one stage (a speed) is the input to the next.")}
+''', sub="Using the right law in each stage.")
+CH.append(chapter("multistep-ch-u4", "Multi-Step Problems", "Multi-Step", [MULTI]))
+
+# ---------- labs ----------
+LABS = topic("labs-u4", "Experiments with momentum", f'''
+<div class="tblwrap"><table><tr><th>Experiment</th><th>Measure</th><th>Graph / check</th></tr>
+<tr><td>Carts on a track collide</td><td>masses (balance), velocities before and after (motion sensors or photogates)</td><td>Compare Σmv before and after; compare K to classify the collision</td></tr>
+<tr><td>Force sensor on a cart hitting a bumper</td><td>force vs. time, velocities before and after</td><td>Area under F–t graph vs. mΔv</td></tr>
+<tr><td>Vary the mass of the second cart (stick together)</td><td>v′ for each m₂</td><td>1/v′ vs. (m₁ + m₂) is linear, slope 1/(m₁v₁)</td></tr>
+<tr><td>Explosion (spring-loaded carts at rest)</td><td>masses and both final velocities</td><td>m₁v₁′ = −m₂v₂′; v₁′/v₂′ vs. m₂/m₁</td></tr></table></div>
+{box("tip", "Sources of error", "Friction on the track (an external force) slowly removes momentum, so measure velocities just before and just after the collision. Motion sensors have a short delay; photogates are more precise.")}
+''', sub="What the experimental design questions look like.")
+LQ = [
+ {"t": "m", "q": "Students measure velocities of two carts just before and just after a collision on a track with a little friction. Why measure right before and after?", "o": ["So friction has little time to change the momentum", "So the carts' masses don't change", "Because momentum is only conserved in elastic collisions", "So kinetic energy is conserved"], "a": 0, "x": "Friction is an external force; its impulse grows with time, so short intervals keep the error small."},
+ {"t": "m", "q": "A force sensor records a cart's collision with a bumper. Which quantity should equal the area under the force–time graph?", "o": ["The cart's change in momentum", "The cart's change in kinetic energy", "The cart's final velocity", "The work done by the bumper"], "a": 0, "x": "Area under F–t is impulse, which equals Δp."},
+ {"t": "m", "q": "Two carts collide and their total kinetic energy after is 70% of the total before. The collision is…", "o": ["inelastic", "elastic", "perfectly inelastic, necessarily", "impossible"], "a": 0, "x": "Some kinetic energy was lost, so it's inelastic. Perfectly inelastic would require them to stick."},
+]
+CH.append(chapter("labs-frq-u4", "Labs & FRQs", "Labs & FRQs", [LABS, quiz_section("labs-quiz-u4", "Practice: experiments", "3 questions.", "quiz-labs-u4", {"m": "Momentum"})]))
+
+REV = topic("review-u4", "Your equation sheet (Unit 4 lines)", '''<div class="tblwrap"><table><tr><th>On the sheet</th><th>In words</th><th>Use it when</th></tr>
+<tr><td><span class="eq">p = p′</span></td><td>total momentum before = total after</td><td>collisions, explosions, recoil, sticking together</td></tr>
+<tr><td><span class="eq">FΔt = mΔv</span></td><td>impulse = change in momentum</td><td>a force and a time are given or asked for</td></tr>
+<tr><td><span class="eq">Δp = mΔv</span></td><td>change in momentum</td><td>impulse, bounces (remember the sign flip)</td></tr>
+<tr><td><span class="eq">K = ½mv²</span></td><td>kinetic energy</td><td>checking whether a collision is elastic</td></tr></table></div>
+<h3>Also useful</h3><div class="tblwrap"><table><tr><th>Equation</th><th>Meaning</th></tr>
+<tr><td><span class="eq">p = mv</span></td><td>momentum (a vector)</td></tr>
+<tr><td><span class="eq">v<sub>cm</sub> = Σmv/Σm</span></td><td>center-of-mass velocity</td></tr>
+<tr><td><span class="eq">J = area under F–t</span></td><td>impulse from a graph</td></tr>
+<tr><td><span class="eq">v′ = (m₁v₁ + m₂v₂)/(m₁ + m₂)</span></td><td>stick together</td></tr></table></div>''', sub="The lines you'll use for momentum.")
+MIS = topic("mistakes-u4", "Common mistakes", '''<ol class="steps">
+<li>Dropping signs: objects moving opposite ways need opposite signs.</li>
+<li>Using energy conservation during an inelastic collision.</li>
+<li>Saying momentum is only conserved in elastic collisions.</li>
+<li>Using Δp = mv for a bounce instead of 2mv.</li>
+<li>Thinking a longer stopping time changes Δp (it changes the force).</li>
+<li>Including only one object in the system and then claiming conservation.</li>
+<li>Forgetting that the stuck-together mass is m₁ + m₂.</li></ol>''', sub="Points students lose most often.")
+CH.append(chapter("review-ch-u4", "Review & Equation Sheet", "Review", [REV, MIS]))
+
+# ---------- practice ----------
+close(3 * 4, 12); close(0.5 * 2 * 16, 16)
+close((4 * 6) / (4 + 2), 4); close((6 * 3 - 2 * 3) / 8, 1.5)
+close(50 * 0.2, 10); close(10 / 2, 5)
+close(0.5 * 0.4 * 30, 6); close(6 / 0.2, 30)
+close(0.2 * (-10 - 10), -4)
+close(60 * 0 + 0.5 * 10, 5); close(-0.5 * 10 / 60, -0.0833, 0.01)
+close((2 * 4 + 1 * 0) / 3, 2.667, 0.01)
+close(0.5 * 2 * 16, 16); close(0.5 * 3 * (8 / 3) ** 2, 10.67, 0.01)
+close(1200 * 25 / 0.5, 60000)
+close((3 * 4 - 3 * 4) / 6, 0)
+close(0.5 * 5 * 3, 7.5); close(7.5 / 2.5, 3)
+close(2 * 6 - 3 * 2, 6); close((2 * 6 + 3 * (-2) - 3 * 1) / 2, 1.5)
+PQ = [
+ {"t": "m", "q": "What is the momentum of a 3 kg ball moving at 4 m/s?", "o": ["12 kg·m/s", "7 kg·m/s", "24 kg·m/s", "0.75 kg·m/s"], "a": 0, "x": "p = mv = 3 × 4 = 12 kg·m/s."},
+ {"t": "m", "q": "Two identical carts move toward each other at the same speed. The total momentum of the two-cart system is…", "o": ["zero", "twice one cart's momentum", "equal to one cart's momentum", "impossible to tell"], "a": 0, "x": "Equal sizes, opposite directions: they cancel."},
+ {"t": "m", "q": "If an object's speed doubles, its momentum…", "o": ["doubles", "quadruples", "stays the same", "halves"], "a": 0, "x": "p = mv is proportional to v. (Kinetic energy would quadruple.)"},
+ {"t": "m", "q": "A 4 kg cart at 6 m/s hits a 2 kg cart at rest, and they stick. What is their velocity after?", "o": ["4 m/s", "6 m/s", "3 m/s", "2 m/s"], "a": 0, "x": "4(6) = 6v′ → v′ = 4 m/s.", "sim": {"type": "collide", "m1": 4, "v1": 6, "m2": 2, "v2": 0, "mode": "stick"}},
+ {"t": "m", "q": "A 6 kg cart moving at 3 m/s collides head-on with a 2 kg cart moving at 3 m/s the other way. They stick. What is their velocity?", "o": ["1.5 m/s in the 6 kg cart's direction", "3 m/s", "0", "2.25 m/s"], "a": 0, "x": "6(3) + 2(−3) = 12 = 8v′ → v′ = 1.5 m/s.", "sim": {"type": "collide", "m1": 6, "v1": 3, "m2": 2, "v2": -3, "mode": "stick"}},
+ {"t": "m", "q": "A constant 50 N force acts on a 2 kg object for 0.2 s. What is the change in its velocity?", "o": ["5 m/s", "10 m/s", "25 m/s", "0.2 m/s"], "a": 0, "x": "J = FΔt = 50 × 0.2 = 10 N·s. Δv = J/m = 10/2 = 5 m/s."},
+ {"t": "m", "q": "What does the area under a force–time graph represent?", "o": ["Impulse (change in momentum)", "Work", "Power", "Acceleration"], "a": 0, "x": "Area = force × time = impulse.", "sim": {"type": "graph", "kind": "t", "pts": [[0, 0], [1, 6], [2, 0]], "m": 3}},
+ {"t": "m", "q": "A force rises from 0 to 30 N and back to 0 in a triangle lasting 0.4 s, acting on a 0.2 kg puck at rest. What is the puck's final speed?", "o": ["30 m/s", "60 m/s", "6 m/s", "12 m/s"], "a": 0, "x": "Area = ½(0.4)(30) = 6 N·s. v = 6/0.2 = 30 m/s.", "sim": {"type": "graph", "kind": "t", "pts": [[0, 0], [0.2, 30], [0.4, 0]], "m": 0.2}},
+ {"t": "m", "q": "A 0.2 kg ball hits a wall at 10 m/s and bounces back at 10 m/s. What is the size of its change in momentum?", "o": ["4 kg·m/s", "2 kg·m/s", "0", "20 kg·m/s"], "a": 0, "x": "Δp = 0.2(−10 − 10) = −4 kg·m/s; size 4.", "sim": {"type": "bounce", "m": 0.2, "v": 10, "vf": -10}},
+ {"t": "m", "q": "Ball A and ball B have the same mass and speed. A sticks to a wall; B bounces straight back at the same speed. Which receives the larger impulse from the wall?", "o": ["B, twice as large", "A", "They're equal", "B, four times as large"], "a": 0, "x": "Stopping: mv. Reversing: 2mv."},
+ {"t": "m", "q": "Why does an airbag reduce injuries?", "o": ["It increases the stopping time, so the force is smaller for the same change in momentum", "It reduces the change in momentum", "It reduces the passenger's mass", "It increases the passenger's momentum"], "a": 0, "x": "Δp is fixed by the speed change; F = Δp/Δt drops when Δt grows.", "sim": {"type": "egg"}},
+ {"t": "m", "q": "A 1200 kg car at 25 m/s is stopped in 0.5 s in a crash. What is the average force on it?", "o": ["60,000 N", "15,000 N", "30,000 N", "600 N"], "a": 0, "x": "F = mΔv/Δt = 1200 × 25 / 0.5 = 60,000 N."},
+ {"t": "m", "q": "A 60 kg skater at rest throws a 0.5 kg ball forward at 10 m/s. What is the skater's velocity afterward?", "o": ["0.083 m/s backward", "0.083 m/s forward", "10 m/s backward", "0"], "a": 0, "x": "0 = 0.5(10) + 60v → v = −0.083 m/s.", "sim": {"type": "explode", "m1": 60, "m2": 0.5, "v0": 0, "v2f": 10, "o1": "person", "o2": "ball"}},
+ {"t": "m", "q": "A cannon fires a shell. Compared with the shell, the cannon's recoil has…", "o": ["the same size momentum but much smaller speed", "more momentum", "the same speed", "no momentum"], "a": 0, "x": "Total momentum stays 0, so the momenta are equal and opposite; the heavy cannon moves slowly."},
+ {"t": "m", "q": "For which system is momentum conserved when a ball falls toward Earth?", "o": ["The ball and Earth together", "The ball alone", "Neither", "Only when the ball stops"], "a": 0, "x": "For the ball alone, gravity is an external force. Including Earth makes it internal."},
+ {"t": "m", "q": "In which kind of collision is kinetic energy conserved?", "o": ["Elastic only", "Inelastic only", "All collisions", "Perfectly inelastic only"], "a": 0, "x": "Momentum is conserved in all; kinetic energy only in elastic."},
+ {"t": "m", "q": "Two carts collide and stick together. Which statement is true?", "o": ["Momentum is conserved and kinetic energy decreases", "Both momentum and kinetic energy are conserved", "Kinetic energy is conserved but momentum isn't", "Neither is conserved"], "a": 0, "x": "Sticking means perfectly inelastic."},
+ {"t": "m", "q": "A 2 kg cart at 4 m/s hits a 1 kg cart at rest and they stick. How much kinetic energy is lost?", "o": ["5.33 J", "16 J", "0", "10.67 J"], "a": 0, "x": "v′ = 8/3 ≈ 2.67 m/s. K before 16 J, after ½(3)(2.67²) ≈ 10.67 J. Lost ≈ 5.33 J.", "sim": {"type": "collide", "m1": 2, "v1": 4, "m2": 1, "v2": 0, "mode": "stick"}},
+ {"t": "m", "q": "A 1 kg ball at 3 m/s hits an identical ball at rest in an elastic head-on collision. What happens?", "o": ["The first ball stops and the second moves at 3 m/s", "Both move at 1.5 m/s", "The first bounces back at 3 m/s", "Both stop"], "a": 0, "x": "Equal masses in an elastic collision swap velocities.", "sim": {"type": "collide", "m1": 1, "v1": 3, "m2": 1, "v2": 0, "mode": "elastic", "o1": "ball", "o2": "ball"}},
+ {"t": "m", "q": "A 2 kg cart at 6 m/s hits a 3 kg cart moving at −2 m/s. After, the 3 kg cart moves at +3 m/s. What is the 2 kg cart's velocity after?", "o": ["−1.5 m/s", "1.5 m/s", "0", "3 m/s"], "a": 0, "x": "Total p = 12 − 6 = 6. 2v + 3(3) = 6 → v = −1.5 m/s (it bounces back).", "sim": {"type": "collide", "m1": 2, "v1": 6, "m2": 3, "v2": -2, "mode": "given", "v2f": 3, "known": ["v2f"]}},
+ {"t": "m", "q": "Two carts start at rest with a compressed spring between them. When released, the 3 kg cart moves left at 2 m/s. The other cart has mass 1 kg. What is its velocity?", "o": ["6 m/s right", "2 m/s right", "6 m/s left", "0.67 m/s right"], "a": 0, "x": "0 = 3(−2) + 1v → v = +6 m/s.", "sim": {"type": "explode", "m1": 3, "m2": 1, "v0": 0, "v1f": -2}},
+ {"t": "m", "q": "A system has no net external force. Its center of mass…", "o": ["moves at constant velocity", "must be at rest", "accelerates", "moves toward the heavier object"], "a": 0, "x": "v<sub>cm</sub> = Σp/Σm and Σp is constant."},
+ {"t": "m", "q": "A 3 kg cart at 6 m/s and a 2 kg cart at rest. What is the velocity of their center of mass?", "o": ["3.6 m/s", "6 m/s", "3 m/s", "0"], "a": 0, "x": "v<sub>cm</sub> = (3·6 + 2·0)/5 = 3.6 m/s, and it stays that way through any collision between them."},
+ {"t": "m", "q": "Which unit is equivalent to N·s?", "o": ["kg·m/s", "J", "kg·m/s²", "W"], "a": 0, "x": "N = kg·m/s², so N·s = kg·m/s."},
+ {"t": "m", "q": "A truck and a small car collide head-on. During the collision, which experiences the larger change in momentum?", "o": ["Neither: the changes are equal in size", "The truck", "The car", "It depends on their speeds"], "a": 0, "x": "Equal and opposite forces for the same time give equal and opposite impulses. The car has the larger change in <i>velocity</i>."},
+ {"t": "m", "q": "A 1000 kg car going east at 20 m/s collides with a 1500 kg car going north at 10 m/s. They stick. What is their speed after?", "o": ["10 m/s", "14 m/s", "12 m/s", "8 m/s"], "a": 0, "x": "v<sub>x</sub> = 20000/2500 = 8, v<sub>y</sub> = 15000/2500 = 6, speed = 10 m/s."},
+ {"t": "m", "q": "A bullet embeds in a block that then slides on a rough floor. Which law applies to the instant of impact?", "o": ["Conservation of momentum", "Conservation of kinetic energy", "Conservation of mechanical energy", "Newton's first law only"], "a": 0, "x": "During the brief collision, momentum is conserved; kinetic energy is not (it's inelastic)."},
+ {"t": "m", "q": "A 5 kg cart has a net force of 3 N for 2.5 s, starting at rest. What is its final speed?", "o": ["1.5 m/s", "7.5 m/s", "3 m/s", "0.6 m/s"], "a": 0, "x": "J = 3 × 2.5 = 7.5 N·s. v = 7.5/5 = 1.5 m/s."},
+ {"t": "m", "q": "Which change makes a collision force smaller while keeping the same change in momentum?", "o": ["Making the collision last longer", "Making it last shorter", "Making the object bounce instead of stop", "Increasing the object's speed"], "a": 0, "x": "F = Δp/Δt."},
+ {"t": "m", "q": "A 2 kg cart at +6 m/s collides with a 3 kg cart at −2 m/s. Afterward the 2 kg cart moves at +1.5 m/s. Is this possible?", "o": ["No: the 2 kg cart would have to pass through the 3 kg cart", "Yes, it's elastic", "Yes, it's perfectly inelastic", "No: momentum isn't conserved in collisions"], "a": 0, "x": "Total p = 6, so the 3 kg cart's velocity after would be (6 − 3)/3 = 1 m/s, slower than the 2 kg cart behind it at 1.5 m/s. The rear cart can't still be moving faster after the collision."},
+]
+CHAL = [
+ {"t": "m", "q": "A 0.01 kg bullet at 300 m/s passes through a 1 kg block at rest and exits at 100 m/s. What is the block's speed?", "o": ["2 m/s", "3 m/s", "1 m/s", "4 m/s"], "a": 0, "x": "0.01(300) = 0.01(100) + 1v → v = 2 m/s."},
+ {"t": "m", "q": "A 0.02 kg bullet embeds in a 2 kg pendulum bob, which rises 0.2 m. What was the bullet's speed?", "o": ["202 m/s", "2 m/s", "100 m/s", "20 m/s"], "a": 0, "x": "After: v = √(2gh) = 2 m/s. Before: 0.02v<sub>b</sub> = 2.02(2) → v<sub>b</sub> = 202 m/s.", "sim": {"type": "collide", "m1": 0.02, "v1": 202, "m2": 2, "v2": 0, "mode": "stick", "o1": "bullet", "o2": "box"}},
+ {"t": "m", "q": "A 2 kg cart at 3 m/s collides elastically with a 1 kg cart at rest. What is the 1 kg cart's velocity after?", "o": ["4 m/s", "3 m/s", "6 m/s", "2 m/s"], "a": 0, "x": "v₂′ = 2m₁v₁/(m₁ + m₂) = 12/3 = 4 m/s (and v₁′ = 1 m/s; check: 2·3 = 2·1 + 1·4 ✓, K: 9 = 1 + 8 ✓).", "sim": {"type": "collide", "m1": 2, "v1": 3, "m2": 1, "v2": 0, "mode": "elastic"}},
+ {"t": "m", "q": "A 70 kg person jumps from a boat at 3 m/s; the 140 kg boat starts at rest. Then the person lands on a dock and stops in 0.3 s. What are the boat's speed and the average force on the person while stopping?", "o": ["1.5 m/s; 700 N", "3 m/s; 700 N", "1.5 m/s; 210 N", "0.67 m/s; 63 N"], "a": 0, "x": "Boat: 0 = 70(3) + 140v → |v| = 1.5 m/s. Stopping: F = 70(3)/0.3 = 700 N."},
+ {"t": "m", "q": "A ball of mass m moving at v hits a wall and bounces back at v/2. The collision lasts Δt. What is the average force on the ball?", "o": ["3mv/(2Δt)", "mv/(2Δt)", "mv/Δt", "2mv/Δt"], "a": 0, "x": "Δp = m(−v/2 − v) = −3mv/2. F = Δp/Δt."},
+ {"t": "m", "q": "Two pucks of equal mass collide. Before: A moves at 4 m/s east, B at rest. After: A moves at 2 m/s north. What is B's velocity after?", "o": ["4.5 m/s, about 27° south of east", "2 m/s east", "4 m/s east, 2 m/s south... 6 m/s", "2.8 m/s east"], "a": 0, "x": "x: 4 = 0 + v<sub>Bx</sub> → 4. y: 0 = 2 + v<sub>By</sub> → −2. Speed √20 ≈ 4.5 m/s at tan⁻¹(2/4) ≈ 27° south of east."},
+ {"t": "m", "q": "Cart A (1 kg) moves at 4 m/s toward cart B (3 kg) at rest. A spring bumper between them compresses. At the moment of maximum compression, what is their common speed, and how much energy is stored in the spring?", "o": ["1 m/s; 6 J", "1 m/s; 8 J", "4 m/s; 0 J", "1.33 m/s; 5.3 J"], "a": 0, "x": "At max compression they move together: 4 = 4v → 1 m/s. K before 8 J, K then ½(4)(1) = 2 J; the spring stores 6 J."},
+ {"t": "m", "q": "An object's momentum–time graph is a straight line rising from 2 to 8 kg·m/s over 3 s. What is the net force on it?", "o": ["2 N", "6 N", "8 N", "18 N"], "a": 0, "x": "ΣF = Δp/Δt = slope = 6/3 = 2 N."},
+]
+CHAL[5]["o"] = ["4.5 m/s, about 27° south of east", "2 m/s east", "6 m/s east", "2.8 m/s east"]
+close(math.sqrt(2 * 10 * 0.2), 2); close(2.02 * 2 / 0.02, 202)
+close(2 * 2 * 3 / 3, 4); close(70 * 3 / 140, 1.5); close(70 * 3 / 0.3, 700)
+close(math.hypot(4, 2), 4.47, 0.01); close(math.degrees(math.atan(0.5)), 26.6, 0.01)
+close(0.5 * 1 * 16 - 0.5 * 4 * 1, 6); close((0.01 * 300 - 0.01 * 100) / 1, 2)
+EX = {"title": "Unit 4 Practice Exam: Linear Momentum", "mcqMinutes": 30, "frqMinutes": 25, "tags": {"m": "Momentum"},
+ "mcq": [
+  {"t": "m", "k": "calc", "q": "A 0.5 kg ball moves at 8 m/s. What is its momentum?", "o": ["4 kg·m/s", "16 kg·m/s", "8.5 kg·m/s", "32 kg·m/s"], "a": 0, "x": "0.5 × 8 = 4."},
+  {"t": "m", "k": "concept", "q": "In an inelastic collision between two carts on a frictionless track…", "o": ["momentum is conserved, kinetic energy is not", "kinetic energy is conserved, momentum is not", "both are conserved", "neither is conserved"], "a": 0, "x": "Momentum is conserved in all collisions without external force."},
+  {"t": "m", "k": "calc", "q": "A 3 kg cart at 4 m/s hits a 1 kg cart at rest and they stick. Final velocity?", "o": ["3 m/s", "4 m/s", "1 m/s", "12 m/s"], "a": 0, "x": "12 = 4v′ → 3 m/s."},
+  {"t": "m", "k": "calc", "q": "A 20 N force acts for 0.5 s on a 4 kg cart moving at 1 m/s in the same direction. Final speed?", "o": ["3.5 m/s", "2.5 m/s", "10 m/s", "11 m/s"], "a": 0, "x": "Δv = 10/4 = 2.5; v′ = 3.5 m/s."},
+  {"t": "m", "k": "concept", "q": "A falling egg lands on a pillow instead of concrete and doesn't break. Compared with concrete, the pillow…", "o": ["increases the stopping time, reducing the force", "reduces the egg's change in momentum", "reduces the impulse", "increases the force"], "a": 0, "x": "Same Δp, longer Δt, smaller F."},
+  {"t": "m", "k": "calc", "q": "A force–time graph is a rectangle of height 12 N from 0 to 0.25 s. What impulse does it give?", "o": ["3 N·s", "48 N·s", "12 N·s", "0.25 N·s"], "a": 0, "x": "12 × 0.25 = 3 N·s."},
+  {"t": "m", "k": "calc", "q": "A 0.1 kg ball hits a wall at 20 m/s and rebounds at 15 m/s. Size of its change in momentum?", "o": ["3.5 kg·m/s", "0.5 kg·m/s", "2 kg·m/s", "35 kg·m/s"], "a": 0, "x": "0.1(−15 − 20) = −3.5."},
+  {"t": "m", "k": "calc", "q": "A 50 kg student at rest on ice throws a 2 kg ball at 5 m/s. Student's speed?", "o": ["0.2 m/s", "2.5 m/s", "0.1 m/s", "5 m/s"], "a": 0, "x": "50v = 10 → 0.2 m/s."},
+  {"t": "m", "k": "concept", "q": "A ball rolls down a ramp. Why isn't the ball's momentum conserved?", "o": ["Gravity, an external force, acts on the ball system", "Momentum is never conserved on ramps", "The ball's mass changes", "Kinetic energy increases"], "a": 0, "x": "Conservation needs zero net external force on the chosen system."},
+  {"t": "m", "k": "calc", "q": "Equal-mass carts: A at +5 m/s, B at −3 m/s. They stick. Final velocity?", "o": ["+1 m/s", "+4 m/s", "+2 m/s", "0"], "a": 0, "x": "(5 − 3)/2 = 1 m/s."},
+  {"t": "m", "k": "concept", "q": "Which quantity is the same for both objects during a collision between a truck and a bicycle?", "o": ["The size of the impulse each receives", "Change in velocity", "Acceleration", "Final speed"], "a": 0, "x": "Third law + same time = equal and opposite impulses."},
+  {"t": "m", "k": "calc", "q": "A 2 kg cart at 5 m/s collides with a 2 kg cart at rest, and afterward the first cart moves at 1 m/s. How much kinetic energy was lost?", "o": ["8 J", "0", "16 J", "25 J"], "a": 0, "x": "Second cart: 10 = 2 + 2v → 4 m/s. K before 25 J; after 1 + 16 = 17 J. Lost 8 J."},
+  {"t": "m", "k": "concept", "q": "Two objects stick after colliding. Compared with any other possible outcome conserving momentum, the kinetic energy lost is…", "o": ["the maximum possible", "zero", "the minimum possible", "always half"], "a": 0, "x": "Perfectly inelastic collisions lose the most kinetic energy allowed by momentum conservation."},
+  {"t": "m", "k": "calc", "q": "A 1500 kg car's momentum changes from 30,000 to 0 kg·m/s in 3 s. Average net force?", "o": ["10,000 N", "90,000 N", "20 N", "5000 N"], "a": 0, "x": "30,000/3 = 10,000 N (opposite the motion)."},
+  {"t": "m", "k": "calc", "q": "A 0.04 kg bullet at 500 m/s embeds in a 9.96 kg block. Block's speed after?", "o": ["2 m/s", "5 m/s", "0.5 m/s", "20 m/s"], "a": 0, "x": "20 = 10v → 2 m/s."},
+ ],
+ "frq": [
+  {"q": "Cart A (2.0 kg) moves right at 3.0 m/s toward cart B (1.0 kg) at rest on a level, frictionless track. They collide and stick together.",
+   "parts": [
+    {"p": "(a) Calculate the velocity of the carts after the collision.", "rubric": [["Uses p = p′ with the combined mass", 1], ["v′ = 2.0 m/s to the right", 1]], "answer": "2.0(3.0) = 3.0v′ → v′ = 2.0 m/s right."},
+    {"p": "(b) Calculate the kinetic energy lost and describe where it went.", "rubric": [["K before 9.0 J, after 6.0 J, lost 3.0 J", 1], ["Lost energy becomes internal energy, sound or deformation", 1]], "answer": "K before = ½(2)(9) = 9.0 J; after = ½(3)(4) = 6.0 J; 3.0 J lost to thermal energy, sound and deformation of the coupling."},
+    {"p": "(c) The experiment is repeated with a spring bumper so the carts bounce apart elastically. Is cart B's final speed greater than, less than or equal to its speed in (a)? Justify.", "rubric": [["Greater", 1], ["Justification: in a bounce, A pushes B for longer / A slows below B; with no energy loss B leaves faster (4 m/s)", 1]], "answer": "Greater. In the elastic case no kinetic energy is lost, and A keeps pushing B until they separate, so B leaves at v₂′ = 2m₁v₁/(m₁ + m₂) = 4.0 m/s, faster than 2.0 m/s."},
+   ]},
+  {"q": "A 0.50 kg ball moving at 6.0 m/s strikes a wall and rebounds. The force from the wall varies with time as a triangle that peaks at F<sub>max</sub> and lasts 0.020 s. The ball rebounds at 4.0 m/s.",
+   "parts": [
+    {"p": "(a) Calculate the impulse delivered to the ball.", "rubric": [["Uses Δp = m(v′ − v) with opposite signs", 1], ["5.0 N·s away from the wall", 1]], "answer": "Toward the wall +: Δp = 0.50(−4.0 − 6.0) = −5.0 kg·m/s, so 5.0 N·s away from the wall."},
+    {"p": "(b) Calculate F<sub>max</sub>.", "rubric": [["Area of triangle = ½(0.020)F<sub>max</sub> = 5.0", 1], ["F<sub>max</sub> = 500 N", 1]], "answer": "½(0.020)F<sub>max</sub> = 5.0 → F<sub>max</sub> = 500 N."},
+    {"p": "(c) A clay ball with the same mass and speed hits the wall and sticks. Is the impulse on it greater than, less than or equal to the impulse in (a)? Explain.", "rubric": [["Less", 1], ["The clay only stops (Δp = 3.0 kg·m/s) while the ball also reverses", 1]], "answer": "Less. The clay's momentum only goes from 3.0 kg·m/s to 0, a change of 3.0 kg·m/s; the bouncing ball's changes by 5.0 kg·m/s."},
+   ]},
+ ]}
+close(2 * 3 / 3, 2); close(0.5 * 2 * 9 - 0.5 * 3 * 4, 3); close(2 * 2 * 3 / 3, 4)
+close(0.5 * (-4 - 6), -5); close(5 / (0.5 * 0.02), 500)
+close(10 - 2, 8); close(25 - (1 + 16), 8); close(0.04 * 500 / 10, 2)
+
+CH.append(chapter("practice-u4", "Practice Questions", "Practice", [quiz_section("practice-quiz-u4", "Practice questions", f"{len(PQ)} questions with animated models. Click an answer to check it. Use g = 10 m/s².", "quiz-u4", {"m": "Momentum"})]))
+CH.append(chapter("challenge-u4", "Challenge Questions", "Challenge", [quiz_section("challenge-quiz-u4", "Challenge questions", "Multi-step momentum and energy problems at the hardest level of the exam. Turn off animated models in ⚙ Settings for a real exam feel.", "quiz-challenge-u4", {"m": "Momentum"})], hard=True))
+CH.append(chapter("exam-ch-u4", "Practice Exam", "Practice Exam", ['<section class="topic" id="exam-box-u4"><h2>Practice exam</h2><p class="sub">15 multiple-choice questions (30 minutes) and 2 free-response questions (25 minutes). No feedback until you submit.</p><div class="exam" data-src="exam-u4"></div></section>']))
+CH.append(chapter("calc-u4", "Calculator Program", "Calculator", [calc_section("PHYSNOTE", "Units 3 and 4 (energy and momentum)", [
+  "<b>Find what?</b> menus for momentum, impulse and speed after a collision",
+  "Collisions: stick together, bounce, explosions and recoil",
+  "Impulse: force × time, force–time graphs, bounces, average force",
+  "Multi-step problems: collision then swing or slide",
+  "Show work for every answer, plus notes slides"])]))
+
+shuffle(PQ, 401); shuffle(CHAL, 402); shuffle(EX["mcq"], 403); shuffle(LQ, 404)
+DATA = {"quiz-u4": PQ, "quiz-challenge-u4": CHAL, "quiz-labs-u4": LQ, "exam-u4": EX}
+HTML = page("unit-4", "AP Physics 1 Unit 4: Linear Momentum", "AP Physics 1 · Unit 4",
+            'Linear<br><span class="hl">Momentum</span>',
+            f"Momentum, impulse and force–time graphs, conservation of momentum, elastic and inelastic collisions, explosions and multi-step problems: explanations, worked examples, detailed explanations, animations, interactive collision and impulse labs, {len(PQ)+len(CHAL)+len(LQ)} practice questions and a timed practice exam.",
+            "AP Physics 1 Unit 4 linear momentum review with animations, interactive labs, practice questions and a practice exam.", CH, DATA, extra_js=("cs-sims.js",))
+if __name__ == "__main__":
+    open("/home/claude/ap-physics-study/courses/ap-physics-1/unit-4.html", "w").write(HTML)
+    print("unit 4 written:", len(PQ), len(CHAL), len(EX["mcq"]))

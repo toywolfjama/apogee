@@ -468,6 +468,84 @@
     draw();
   };
 
+
+  /* ---------- physics labs (momentum) ---------- */
+  const r2 = x => (Math.abs(x) < 1e-9 ? 0 : Math.round(x * 100) / 100);
+  function remount(holder, spec) {
+    holder.innerHTML = "";
+    const d = document.createElement("div"); holder.appendChild(d);
+    window.Sims.mount(d, Object.assign({ reveal: true }, spec));
+  }
+  function sliders(el, defs) {
+    return defs.map(([k, lab, min, max, step, v, unit]) =>
+      `<label class="sl"><span>${lab}</span><input type="range" data-k="${k}" min="${min}" max="${max}" step="${step}" value="${v}"><b data-v="${k}"></b><small>${unit}</small></label>`).join("");
+  }
+  LABS.collision = (el, p) => {
+    el.innerHTML = `<div class="lab-h">Collision lab <span>Change the masses, velocities and type of collision. The animation reruns with your numbers.</span></div>
+      <div class="sl-grid">${sliders(el, [["m1", "m₁", 0.5, 10, 0.5, p.m1 ?? 2, "kg"], ["v1", "v₁", -10, 10, 0.5, p.v1 ?? 5, "m/s"], ["m2", "m₂", 0.5, 10, 0.5, p.m2 ?? 3, "kg"], ["v2", "v₂", -10, 10, 0.5, p.v2 ?? -2, "m/s"]])}</div>
+      <div class="lab-row"><label>Type <select class="lab-in" data-k="mode"><option value="stick">Stick together (perfectly inelastic)</option><option value="elastic">Bounce, no energy lost (elastic)</option><option value="given">Inelastic: I choose v₁′</option></select></label>
+      <label class="v1f" style="display:none">v₁′ = <input class="lab-in n" type="number" step="0.5" data-k="v1f" value="0"> m/s</label></div>
+      <div class="lab-anim"></div><div class="lab-table coll-out"></div>`;
+    const g = k => el.querySelector(`[data-k="${k}"]`);
+    let timer;
+    function upd() {
+      const m1 = +g("m1").value, v1 = +g("v1").value, m2 = +g("m2").value, v2 = +g("v2").value, mode = g("mode").value;
+      ["m1", "v1", "m2", "v2"].forEach(k => (el.querySelector(`[data-v="${k}"]`).textContent = g(k).value));
+      el.querySelector(".v1f").style.display = mode === "given" ? "" : "none";
+      const P = m1 * v1 + m2 * v2, K0 = 0.5 * m1 * v1 * v1 + 0.5 * m2 * v2 * v2;
+      let a, b;
+      if (mode === "stick") a = b = P / (m1 + m2);
+      else if (mode === "elastic") { a = ((m1 - m2) * v1 + 2 * m2 * v2) / (m1 + m2); b = ((m2 - m1) * v2 + 2 * m1 * v1) / (m1 + m2); }
+      else { a = +g("v1f").value; b = (P - m1 * a) / m2; }
+      const K1 = 0.5 * m1 * a * a + 0.5 * m2 * b * b, closing = v1 > v2;
+      const bad = mode === "given" && (K1 > K0 + 1e-9 || a > b + 1e-9);
+      el.querySelector(".coll-out").innerHTML =
+        `<div><code>Σp before</code><b>${r2(P)} kg·m/s</b></div><div><code>Σp after</code><b>${r2(m1 * a + m2 * b)} kg·m/s</b></div>
+         <div><code>v₁′</code><b>${r2(a)} m/s</b></div><div><code>v₂′</code><b>${r2(b)} m/s</b></div>
+         <div><code>K before</code><b>${r2(K0)} J</b></div><div><code>K after</code><b class="${K1 < K0 - 1e-9 ? "f" : ""}">${r2(K1)} J</b></div>
+         <div><code>K lost</code><b>${K0 > 0 ? r2(100 * (K0 - K1) / K0) : 0}%</b></div>` +
+        (!closing ? `<div class="wide"><span class="bad">They never meet: cart 1 isn't catching up to cart 2.</span></div>` : "") +
+        (bad ? `<div class="wide"><span class="bad">Not physically possible: ${K1 > K0 + 1e-9 ? "kinetic energy can't increase in a collision" : "cart 1 would pass through cart 2"}.</span></div>` : "");
+      clearTimeout(timer);
+      if (closing && !bad) timer = setTimeout(() => remount(el.querySelector(".lab-anim"), { type: "collide", m1, v1, m2, v2, mode: mode === "given" ? "given" : mode, v1f: a, v2f: b, o1: p.o1, o2: p.o2 }), 250);
+      else el.querySelector(".lab-anim").innerHTML = "";
+    }
+    el.querySelectorAll("input,select").forEach(i => i.addEventListener("input", upd));
+    upd();
+  };
+  LABS.impulse = (el, p) => {
+    el.innerHTML = `<div class="lab-h">Impulse lab <span>A constant force acts on a cart for a time Δt. Impulse is the area under the force–time graph.</span></div>
+      <div class="sl-grid">${sliders(el, [["m", "mass", 0.5, 10, 0.5, p.m ?? 2, "kg"], ["v0", "v₀", -10, 10, 0.5, p.v0 ?? 0, "m/s"], ["F", "force", -20, 20, 1, p.F ?? 8, "N"], ["dt", "Δt", 0.5, 5, 0.5, p.dt ?? 2, "s"]])}</div>
+      <div class="lab-anim"></div><div class="lab-table imp-out"></div>`;
+    const g = k => +el.querySelector(`[data-k="${k}"]`).value;
+    let timer;
+    function upd() {
+      ["m", "v0", "F", "dt"].forEach(k => (el.querySelector(`[data-v="${k}"]`).textContent = el.querySelector(`[data-k="${k}"]`).value));
+      const m = g("m"), v0 = g("v0"), F = g("F"), dt = g("dt"), J = F * dt;
+      el.querySelector(".imp-out").innerHTML = `<div><code>J = FΔt</code><b>${r2(J)} N·s</b></div><div><code>Δp = J</code><b>${r2(J)} kg·m/s</b></div>
+        <div><code>Δv = J/m</code><b>${r2(J / m)} m/s</b></div><div><code>v′ = v₀ + Δv</code><b>${r2(v0 + J / m)} m/s</b></div>`;
+      clearTimeout(timer);
+      timer = setTimeout(() => { if (F > 0) remount(el.querySelector(".lab-anim"), { type: "graph", kind: "t", pts: [[0, F], [dt, F]], m, v0: Math.max(0, v0) }); else el.querySelector(".lab-anim").innerHTML = '<p class="lab-note">(The animation shows positive forces. The numbers above work for any sign.)</p>'; }, 250);
+    }
+    el.querySelectorAll("input").forEach(i => i.addEventListener("input", upd));
+    upd();
+  };
+  LABS.stopping = (el, p) => {
+    el.innerHTML = `<div class="lab-h">Stopping-time lab <span>Same change in momentum, different stopping times.</span></div>
+      <div class="sl-grid">${sliders(el, [["m", "mass", 0.05, 80, 0.05, p.m ?? 70, "kg"], ["v", "speed", 1, 30, 1, p.v ?? 15, "m/s"], ["dt", "stopping time", 0.01, 1, 0.01, p.dt ?? 0.05, "s"]])}</div>
+      <div class="stop-bar"><i></i></div><div class="lab-table stop-out"></div>
+      <p class="lab-note">Δp is set by the masses and speeds, so it doesn't depend on how the object stops. Stretching Δt (airbags, crumple zones, bending your knees) makes the average force smaller.</p>`;
+    const g = k => +el.querySelector(`[data-k="${k}"]`).value;
+    function upd() {
+      ["m", "v", "dt"].forEach(k => (el.querySelector(`[data-v="${k}"]`).textContent = el.querySelector(`[data-k="${k}"]`).value));
+      const dp = g("m") * g("v"), F = dp / g("dt");
+      el.querySelector(".stop-out").innerHTML = `<div><code>Δp = mΔv</code><b>${r2(dp)} kg·m/s</b></div><div><code>F = Δp/Δt</code><b>${Math.round(F).toLocaleString()} N</b></div><div><code>F vs. weight mg</code><b>${r2(F / (g("m") * 10))} × mg</b></div>`;
+      el.querySelector(".stop-bar i").style.width = Math.min(100, (Math.log10(Math.max(F, 1)) / 6) * 100) + "%";
+    }
+    el.querySelectorAll("input").forEach(i => i.addEventListener("input", upd));
+    upd();
+  };
+
   function mountLabs(root) {
     (root || document).querySelectorAll(".cslab[data-lab]").forEach(el => {
       if (el.dataset.mounted) return; el.dataset.mounted = 1;
