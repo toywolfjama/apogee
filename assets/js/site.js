@@ -41,7 +41,7 @@
     });
     header.innerHTML = `
       <div class="in">
-        <a class="brand" href="${root}index.html"><span class="prompt">&gt;_</span><span class="word">apogee</span></a>
+        <a class="brand" href="${root}index.html"><span class="planet" aria-hidden="true"><i></i><b></b></span><span class="mark" aria-hidden="true"><i></i><i></i></span><span class="tt"><span class="u">student@apogee</span><span class="d">:</span><span class="p">~/${termPath()}</span><span class="d">$</span></span><span class="word">Apogee</span></a>
         <span class="spacer"></span>
         <div class="dd dd-settings">
           <button class="navbtn icon" aria-expanded="false" aria-haspopup="true" aria-label="Settings" title="Settings">⚙<span class="lbl"> Settings</span></button>
@@ -57,6 +57,7 @@
           <button class="navbtn" aria-expanded="false" aria-haspopup="true">Courses ▾</button>
           <div class="dd-menu" role="menu">${menu}</div>
         </div>
+        <span class="win" aria-hidden="true"><i>–</i><i>□</i><i>×</i></span>
       </div>`;
     body.prepend(header);
     const menus = [...header.querySelectorAll(".dd")].map(d => ({ btn: d.querySelector(".navbtn"), dd: d.querySelector(".dd-menu") }));
@@ -281,6 +282,93 @@
 
   const header = buildHeader();
   buildChapters(header);
+
+  /* ---------- theme decorations ---------- */
+  function termPath() {
+    const c = body.dataset.course || "", u = body.dataset.unit || "";
+    return [c, u].filter(Boolean).join("/");
+  }
+  function spaceStars() {
+    if (!body.classList.contains("th-space")) return;
+    const cv = document.createElement("canvas"); cv.className = "stars"; cv.setAttribute("aria-hidden", "true");
+    body.prepend(cv);
+    const c = cv.getContext("2d");
+    let w, h, dpr, stars = [], shoot = null, last = 0;
+    function resize() {
+      dpr = Math.min(2, window.devicePixelRatio || 1); w = innerWidth; h = innerHeight;
+      cv.width = w * dpr; cv.height = h * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round((w * h) / 2600);
+      stars = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, z: Math.random(), r: Math.random() * 1.2 + 0.25, p: Math.random() * 6.28, warm: Math.random() < 0.12 }));
+    }
+    function frame(t) {
+      const still = body.classList.contains("no-motion") || matchMedia("(prefers-reduced-motion: reduce)").matches;
+      c.clearRect(0, 0, w, h);
+      const sy = scrollY;
+      for (const s of stars) {
+        const y = (((s.y - sy * (0.04 + s.z * 0.12)) % h) + h) % h;
+        const a = 0.35 + 0.65 * (still ? 0.8 : 0.5 + 0.5 * Math.sin(t / 900 + s.p * 3));
+        c.globalAlpha = a * (0.4 + s.z * 0.6);
+        c.fillStyle = s.warm ? "#FFE2B0" : "#DCE6FF";
+        c.beginPath(); c.arc(s.x, y, s.r * (0.6 + s.z * 0.7), 0, 6.283); c.fill();
+      }
+      if (!still) {
+        if (!shoot && t - last > 6000 + Math.random() * 6000) { last = t; shoot = { x: Math.random() * w * 0.7 + w * 0.2, y: Math.random() * h * 0.35, t: 0 }; }
+        if (shoot) {
+          shoot.t += 16; const k = shoot.t / 700, x = shoot.x - k * 260, y = shoot.y + k * 120;
+          const g = c.createLinearGradient(x, y, x + 90, y - 42); g.addColorStop(0, "rgba(255,255,255,.9)"); g.addColorStop(1, "rgba(255,255,255,0)");
+          c.globalAlpha = Math.max(0, 1 - k); c.strokeStyle = g; c.lineWidth = 1.6; c.beginPath(); c.moveTo(x, y); c.lineTo(x + 90, y - 42); c.stroke();
+          if (k >= 1) shoot = null;
+        }
+      }
+      c.globalAlpha = 1;
+      requestAnimationFrame(frame);
+    }
+    addEventListener("resize", resize); resize(); requestAnimationFrame(frame);
+  }
+  function spaceHero() {
+    const hero = document.querySelector("body.th-space .hero");
+    if (!hero || hero.querySelector(".orbit-art")) return;
+    const art = document.createElement("div"); art.className = "orbit-art"; art.setAttribute("aria-hidden", "true");
+    art.innerHTML = `<svg viewBox="0 0 380 380">
+      <defs>
+        <radialGradient id="pl" cx="34%" cy="30%" r="75%"><stop offset="0" stop-color="#FFE7B0"/><stop offset=".35" stop-color="#FFB347"/><stop offset=".7" stop-color="#B4501E"/><stop offset="1" stop-color="#2A0E04"/></radialGradient>
+        <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset=".55" stop-color="rgba(255,180,80,.35)"/><stop offset="1" stop-color="rgba(255,180,80,0)"/></radialGradient>
+        <radialGradient id="mn" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#8FA3C8"/></radialGradient>
+      </defs>
+      <circle cx="190" cy="190" r="150" fill="url(#glow)"/>
+      <g fill="none" stroke="rgba(124,196,255,.22)" stroke-dasharray="2 6"><ellipse cx="190" cy="190" rx="176" ry="62" transform="rotate(-18 190 190)"/><ellipse cx="190" cy="190" rx="140" ry="140"/></g>
+      <circle cx="190" cy="190" r="86" fill="url(#pl)"/>
+      <path d="M118 176c40 10 104 10 144-2M114 204c46 12 108 10 152-4" stroke="rgba(60,20,5,.35)" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <ellipse cx="190" cy="190" rx="132" ry="30" fill="none" stroke="rgba(255,226,170,.55)" stroke-width="3" transform="rotate(-18 190 190)"/>
+      <g class="sat"><circle r="9" fill="url(#mn)"/><animateMotion dur="11s" repeatCount="indefinite" path="M366 190a176 62 0 1 1-352 0a176 62 0 1 1 352 0" rotate="0"/></g>
+      <g transform="rotate(-18 190 190)"></g>
+      <g font-family="JetBrains Mono, monospace" font-size="10" fill="#A3B0D0" letter-spacing="1.5">
+        <text x="250" y="52">APOGEE</text><line x1="248" y1="56" x2="230" y2="80" stroke="#FFC857" stroke-width="1"/>
+        <text x="18" y="338">PERIGEE</text><line x1="72" y1="328" x2="96" y2="300" stroke="#FFC857" stroke-width="1"/>
+      </g></svg>`;
+    // the moon follows the tilted orbit
+    art.querySelector("animateMotion").setAttribute("path", "M366 190a176 62 0 1 1-352 0a176 62 0 1 1 352 0");
+    art.querySelector(".sat").setAttribute("transform", "rotate(-18 190 190)");
+    hero.appendChild(art);
+  }
+  function termDecor() {
+    if (!body.classList.contains("th-term")) return;
+    const path = "~/" + termPath();
+    const ps = (p, cmd) => `<span class="pr"><span class="u">student@apogee</span>:<span class="p">${p}</span>$</span> <span class="c">${cmd}</span>`;
+    const hero = document.querySelector(".hero");
+    if (hero && !hero.querySelector(".cmd")) {
+      const d = document.createElement("div"); d.className = "cmd"; d.innerHTML = ps("~", `cd ${termPath()} && cat README.md`);
+      hero.prepend(d);
+    }
+    document.querySelectorAll("section.topic").forEach(sec => {
+      if (sec.querySelector(":scope > .ps1")) return;
+      const id = sec.id || "notes";
+      const d = document.createElement("div"); d.className = "ps1";
+      d.innerHTML = ps(path, `cat ${id}.md`) + '<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>';
+      sec.prepend(d);
+    });
+  }
+  spaceStars(); spaceHero(); termDecor();
   buildQuizzes();
   buildCourseList();
   if (window.Sims) window.Sims.mountAll();

@@ -4,32 +4,102 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apogee | Free AP review with practice questions</title>
-<meta name="description" content="Free AP Physics 1 and AP Computer Science A review pages with explanations, detailed explanations and self-checking practice questions.">
+<meta name="description" content="Free AP Physics 1 and AP Computer Science A review: explanations, animations, interactive labs and practice exams.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body data-root="">
+<body class="th-home" data-root="">
 
-<div class="hero">
-  <span class="kicker">apogee · free AP review</span>
-  <h1>AP review,<br><span class="hl">explained</span></h1>
-  <p>AP Physics 1 and AP Computer Science A: explanations, worked examples, detailed explanations of every idea, animations and interactive labs, and practice questions with full solutions.</p>
-  <p style="margin-top:22px"><a class="navbtn solid" href="courses/ap-physics-1/unit-1.html">AP Physics 1 →</a> &nbsp; <a class="navbtn solid" href="courses/ap-csa/unit-1.html">AP Computer Science A →</a> &nbsp; <a class="navbtn" href="calculator.html">TI-84 programs</a></p>
+<div class="home-hero">
+  <span class="kicker">Free AP review</span>
+  <h1>Pick a course.<br><span>Get the 5.</span></h1>
+  <p>Explanations, worked examples, animations you can step through, interactive labs and timed practice exams.</p>
 </div>
 
-<main class="page">
-  <h2 class="section-title">Courses</h2>
-  <div class="courses" id="course-list"></div>
-  <h2 class="section-title">TI-84 Plus CE programs</h2>
-  <section class="topic">
-    <p>Notes and step-by-step solvers for Units 1, 2 and 3. Pick what the question asks you to find, type the numbers it asks for, and it shows the full work and answer.</p>
-    <p><a class="navbtn solid" href="calculator.html">Downloads and install steps →</a></p>
+<main class="portals">
+  <section class="portal space" aria-labelledby="p-phys">
+    <canvas id="portalStars" aria-hidden="true"></canvas>
+    <div class="planet-big" aria-hidden="true"></div>
+    <div class="ring-big" aria-hidden="true"></div>
+    <div class="inner">
+      <span class="tag">Course 01 · Mechanics</span>
+      <h2 id="p-phys">AP Physics 1</h2>
+      <p>Motion, forces, energy and momentum, with animated models of every kind of problem.</p>
+      <div class="units" id="units-phys"></div>
+    </div>
+  </section>
+
+  <section class="portal term" aria-labelledby="p-cs">
+    <div class="titlebar"><span>student@apogee: ~/ap-csa</span><span class="wb" aria-hidden="true"><i></i><i></i><i></i></span></div>
+    <div class="inner">
+      <div class="typed" id="typed" aria-hidden="true"></div>
+      <h2 id="p-cs">AP Computer Science <span>A</span></h2>
+      <p>Java from the ground up: trace code line by line, try it in the labs, and check every answer against real Java output.</p>
+      <div class="units" id="units-cs"></div>
+    </div>
   </section>
 </main>
 
 <footer>Apogee · Not affiliated with the College Board.</footer>
 <script src="assets/js/courses.js"></script>
 <script src="assets/js/site.js"></script>
+<script>
+(function () {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const C = window.SITE_COURSES || [];
+  const find = id => (C.find ? C.find(c => c.id === id) : null);
+  const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  function units(id, el, term) {
+    const c = find(id); if (!c) return;
+    document.getElementById(el).innerHTML = c.units.map(u => {
+      const label = term ? `<span class="nm"><b>${esc(u.id)}/</b>&nbsp;&nbsp;${esc(u.name.replace(/^Unit \d+:\s*/, ""))}</span>` : esc(u.name);
+      return u.path && u.ready !== false ? `<a href="${u.path}">${label}</a>` : `<span>${term ? '<span class="nm">' + esc(u.id) + "/&nbsp;&nbsp;" + esc(u.name.replace(/^Unit \d+:\s*/, "")) + "</span>" : esc(u.name)}<em>${u.note ? "See Unit 3" : "Soon"}</em></span>`;
+    }).join("");
+  }
+  units("ap-physics-1", "units-phys", false);
+  units("ap-csa", "units-cs", true);
+
+  // stars inside the physics portal
+  const cv = document.getElementById("portalStars"), ctx = cv.getContext("2d");
+  let stars = [], W, H;
+  function size() {
+    const r = cv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio || 1);
+    W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+    stars = Array.from({ length: Math.round(W * H / 1500) }, () => ({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.1 + .2, p: Math.random() * 6.3, v: Math.random() * .06 + .01 }));
+  }
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    for (const s of stars) {
+      if (!reduce) s.x -= s.v; if (s.x < 0) s.x = W;
+      ctx.globalAlpha = .35 + .5 * (reduce ? .6 : .5 + .5 * Math.sin(t / 700 + s.p * 4));
+      ctx.fillStyle = "#DCE6FF"; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  addEventListener("resize", size); size(); requestAnimationFrame(draw);
+
+  // typed terminal session in the CS portal
+  const lines = [
+    ["cmd", "cat Main.java"],
+    ["out", 'public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, AP CSA!");\n  }\n}'],
+    ["cmd", "javac Main.java && java Main"],
+    ["out", "Hello, AP CSA!"],
+    ["cmd", "ls units/"]];
+  const el = document.getElementById("typed");
+  const ps1 = '<span class="u">student@apogee</span>:<span class="p">~/ap-csa</span>$ ';
+  if (reduce) { el.innerHTML = lines.map(([k, t]) => (k === "cmd" ? ps1 + esc(t) : `<span class="o">${esc(t)}</span>`)).join("\n") + '<span class="cursor"></span>'; return; }
+  let html = "", li = 0, ci = 0;
+  function step() {
+    if (li >= lines.length) { el.innerHTML = html + '<span class="cursor"></span>'; return; }
+    const [k, t] = lines[li];
+    if (k === "out") { html += `<span class="o">${esc(t)}</span>\n`; li++; el.innerHTML = html + '<span class="cursor"></span>'; return setTimeout(step, 450); }
+    if (ci === 0) html += ps1;
+    if (ci < t.length) { html += esc(t[ci++]); el.innerHTML = html + '<span class="cursor"></span>'; return setTimeout(step, 38 + Math.random() * 40); }
+    ci = 0; li++; if (li < lines.length) html += "\n"; setTimeout(step, 380);
+  }
+  setTimeout(step, 500);
+})();
+</script>
 </body>
 </html>

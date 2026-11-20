@@ -5,8 +5,8 @@
    To add a new animation type: add SIMS.yourType = p => ({ D: seconds, hold: seconds, draw(c, t, rev) {...} }). */
 (function () {
   const W = 720, H = 270;
-  const C = { y: "#FF5500", b: "#D9D4CA", w: "#F0EDE6", m: "#A7A39B", r: "#E0584A", g: "#7FBF7A", o: "#FFB000", p: "#C9B79C",
-              line: "rgba(255,255,255,.28)", faint: "rgba(255,255,255,.10)", dark: "#0B0D10" };
+  const C = { y: "#FFC857", b: "#7CC4FF", w: "#EEF3FF", m: "#A3B0D0", r: "#FF6B6B", g: "#5BE3A4", o: "#FF9F5A", p: "#C3B5FF",
+              line: "rgba(255,255,255,.28)", faint: "rgba(255,255,255,.10)", dark: "#050816" };
   const G = 10;
   const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -59,7 +59,7 @@
     c.shadowColor = col; c.shadowBlur = 14;
     c.fillStyle = col; rr(c, x, y - h - 9, w, h, 7); c.fill();
     c.restore();
-    c.fillStyle = "#13171D"; c.strokeStyle = C.m; c.lineWidth = 2;
+    c.fillStyle = "#0E1A3A"; c.strokeStyle = C.m; c.lineWidth = 2;
     [x + w * 0.25, x + w * 0.75].forEach(cx => { c.beginPath(); c.arc(cx, y - 6, 6, 0, 7); c.fill(); c.stroke(); });
     if (lab) txt(c, lab, x + w / 2, y - h / 2 - 9, { c: labCol || C.dark, s: 13, b: 1, a: "center", bl: "middle" });
   }
@@ -70,7 +70,7 @@
   function ball(c, x, y, r, col, lab) {
     c.save(); c.shadowColor = col; c.shadowBlur = 16;
     const g = c.createRadialGradient(x - r * 0.35, y - r * 0.35, r * 0.1, x, y, r);
-    g.addColorStop(0, "#F0EDE6"); g.addColorStop(0.25, col); g.addColorStop(1, col);
+    g.addColorStop(0, "#EEF3FF"); g.addColorStop(0.25, col); g.addColorStop(1, col);
     c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); c.restore();
     if (lab) txt(c, lab, x, y, { c: C.dark, s: 12, b: 1, a: "center", bl: "middle" });
   }
@@ -112,10 +112,10 @@
   function pill(c, s, x, y) {
     c.font = '700 12px "Plus Jakarta Sans", system-ui, sans-serif';
     const w = c.measureText(s).width + 10;
-    c.fillStyle = "rgba(11,13,16,.85)"; rr(c, x - w / 2, y - 9, w, 18, 9); c.fill();
-    txt(c, s, x, y + 1, { c: "#F0EDE6", s: 12, b: 1, a: "center", bl: "middle" });
+    c.fillStyle = "rgba(5,8,22,.85)"; rr(c, x - w / 2, y - 9, w, 18, 9); c.fill();
+    txt(c, s, x, y + 1, { c: "#EEF3FF", s: 12, b: 1, a: "center", bl: "middle" });
   }
-  function wheel(c, x, y, r) { c.fillStyle = "#13171D"; c.strokeStyle = C.m; c.lineWidth = 2; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); c.stroke(); c.fillStyle = C.m; c.beginPath(); c.arc(x, y, r * 0.3, 0, 7); c.fill(); }
+  function wheel(c, x, y, r) { c.fillStyle = "#0E1A3A"; c.strokeStyle = C.m; c.lineWidth = 2; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); c.stroke(); c.fillStyle = C.m; c.beginPath(); c.arc(x, y, r * 0.3, 0, 7); c.fill(); }
   function figure(c, cx, gy, H, col, skate, pose) {
     // simple person: H = total height
     const head = H * 0.13, hip = gy - H * 0.47 - (skate ? 6 : 0), sh = gy - H * 0.8 - (skate ? 6 : 0), foot = gy - (skate ? 6 : 0);
@@ -136,12 +136,12 @@
     if (kind === "cart") { c.restore(); return cart(c, x, gy, w, h, col, lab); }
     if (kind === "box" || kind === "crate" || kind === "block") {
       box(c, x, gy - h, w, h, col, "");
-      if (kind === "crate") { c.strokeStyle = "rgba(11,13,16,.45)"; c.lineWidth = 3; c.strokeRect(x + 5, gy - h + 5, w - 10, h - 10); c.beginPath(); c.moveTo(x + 5, gy - h + 5); c.lineTo(x + w - 5, gy - 5); c.stroke(); }
+      if (kind === "crate") { c.strokeStyle = "rgba(5,8,22,.45)"; c.lineWidth = 3; c.strokeRect(x + 5, gy - h + 5, w - 10, h - 10); c.beginPath(); c.moveTo(x + 5, gy - h + 5); c.lineTo(x + w - 5, gy - 5); c.stroke(); }
       if (lab) txt(c, lab, x + w / 2, gy - h / 2, { c: C.dark, s: 13, b: 1, a: "center", bl: "middle" });
     } else if (kind === "ball") {
       const r = Math.min(w, h + 10) / 2, cx = x + w / 2, cy = gy - r;
       ball(c, cx, cy, r, col);
-      c.strokeStyle = "rgba(11,13,16,.35)"; c.lineWidth = 2; const a = x / r;
+      c.strokeStyle = "rgba(5,8,22,.35)"; c.lineWidth = 2; const a = x / r;
       c.beginPath(); c.arc(cx, cy, r * 0.75, a, a + 1.2); c.stroke();
       if (lab) txt(c, lab, cx, cy, { c: C.dark, s: 12, b: 1, a: "center", bl: "middle" });
     } else if (kind === "car" || kind === "truck") {
@@ -152,14 +152,14 @@
       if (kind === "car") {
         const l = dir > 0 ? x + w * 0.18 : x + w * 0.3, r = dir > 0 ? x + w * 0.7 : x + w * 0.82;
         c.moveTo(l, by + 2); c.lineTo(l + w * 0.1, by - h * 0.4); c.lineTo(r - w * 0.12, by - h * 0.4); c.lineTo(r, by + 2); c.closePath(); c.fill();
-        c.shadowBlur = 0; c.fillStyle = "rgba(11,13,16,.65)";
+        c.shadowBlur = 0; c.fillStyle = "rgba(5,8,22,.65)";
         c.beginPath(); c.moveTo(l + w * 0.06, by); c.lineTo(l + w * 0.13, by - h * 0.32); c.lineTo(r - w * 0.15, by - h * 0.32); c.lineTo(r - w * 0.06, by); c.closePath(); c.fill();
       } else {
         const cab = dir > 0 ? x + w * 0.68 : x, cw = w * 0.32;
         rr(c, cab, by - h * 0.5, cw, h * 0.55, 5); c.fill(); c.shadowBlur = 0;
-        c.fillStyle = "rgba(11,13,16,.65)"; c.fillRect(cab + cw * 0.2, by - h * 0.42, cw * 0.6, h * 0.22);
+        c.fillStyle = "rgba(5,8,22,.65)"; c.fillRect(cab + cw * 0.2, by - h * 0.42, cw * 0.6, h * 0.22);
       }
-      c.shadowBlur = 0; c.fillStyle = "#FFE3CC";
+      c.shadowBlur = 0; c.fillStyle = "#FFF4D6";
       c.beginPath(); c.arc(dir > 0 ? x + w - 4 : x + 4, by + bh * 0.35, 3, 0, 7); c.fill();
       wheel(c, x + w * 0.22, gy - 8, 8); wheel(c, x + w * 0.78, gy - 8, 8);
       if (lab) txt(c, lab, x + w / 2, by + bh / 2 + 1, { c: C.dark, s: 12, b: 1, a: "center", bl: "middle" });
@@ -462,7 +462,7 @@
         // track
         c.strokeStyle = C.m; c.lineWidth = 4; c.lineJoin = "round"; c.beginPath();
         P.forEach(([x, y], i) => (i ? c.lineTo(X(x), Y(y)) : c.moveTo(X(x), Y(y)))); c.stroke();
-        c.strokeStyle = "rgba(11,13,16,.8)"; c.lineWidth = 1.5; c.setLineDash([2, 7]); c.stroke(); c.setLineDash([]);
+        c.strokeStyle = "rgba(5,8,22,.8)"; c.lineWidth = 1.5; c.setLineDash([2, 7]); c.stroke(); c.setLineDash([]);
         if (p.lift !== undefined) { c.strokeStyle = C.o; c.lineWidth = 2; c.setLineDash([3, 4]); c.beginPath(); for (let i = 0; i <= mk(p.lift).i; i++) (i ? c.lineTo : c.moveTo).call(c, X(P[i][0]) - 3, Y(P[i][1]) + 4); c.stroke(); c.setLineDash([]); }
         // marks
         marks.forEach(m => {
@@ -535,7 +535,7 @@
     D: 4, hold: 1,
     draw(c, t, rev) {
       const n = 5, sw = 60, sh = 30, x0 = 90, y0 = 230;
-      c.fillStyle = "rgba(217,212,202,.18)"; c.strokeStyle = C.m; c.lineWidth = 2;
+      c.fillStyle = "rgba(124,196,255,.18)"; c.strokeStyle = C.m; c.lineWidth = 2;
       c.beginPath(); c.moveTo(x0, y0);
       for (let i = 0; i < n; i++) { c.lineTo(x0 + i * sw, y0 - (i + 1) * sh); c.lineTo(x0 + (i + 1) * sw, y0 - (i + 1) * sh); }
       c.lineTo(x0 + n * sw, y0); c.closePath(); c.fill(); c.stroke();
@@ -568,7 +568,7 @@
         for (let k = 0; k <= X; k++) txt(c, String(k), gx + (k / X) * gw, gy + 18, { c: C.m, s: 11, a: "center" });
         txt(c, f(Fm), gx - 8, gy - gh + 4, { c: C.m, s: 11, a: "right" });
         const PX = q => gx + (q / X) * gw, PY = F => gy - (F / Fm) * gh;
-        c.fillStyle = isT ? "rgba(217,212,202,.35)" : "rgba(255,85,0,.28)";
+        c.fillStyle = isT ? "rgba(124,196,255,.35)" : "rgba(255,200,87,.28)";
         c.beginPath(); c.moveTo(PX(0), gy);
         for (let q = 0; q <= u; q += X / 200) c.lineTo(PX(q), PY(Fat(q)));
         c.lineTo(PX(u), PY(Fat(u))); c.lineTo(PX(u), gy); c.closePath(); c.fill();
@@ -756,7 +756,7 @@
         if (t < tc) x = 50 + (wx - 70) * (t / tc);
         else { const s = clamp((t - tc) / L.stop, 0, 1); def = i ? 40 * Math.sin((s * Math.PI) / 2) : 0; x = 50 + (wx - 70) + (i ? def : 0); }
         if (i === 1) { c.strokeStyle = C.g; c.lineWidth = 3; c.beginPath(); c.moveTo(wx, L.y - 70); c.quadraticCurveTo(wx + def * 1.6, L.y - 35, wx, L.y); c.stroke(); }
-        c.save(); c.fillStyle = "#F0EDE6"; c.shadowColor = "#F0EDE6"; c.shadowBlur = 8; c.beginPath(); c.ellipse(x + 20, L.y - 22, 22, 17, 0, 0, 7); c.fill(); c.restore();
+        c.save(); c.fillStyle = "#EEF3FF"; c.shadowColor = "#EEF3FF"; c.shadowBlur = 8; c.beginPath(); c.ellipse(x + 20, L.y - 22, 22, 17, 0, 0, 7); c.fill(); c.restore();
         if (i === 0 && t > tc) { c.strokeStyle = C.r; c.lineWidth = 2; c.beginPath(); c.moveTo(x + 30, L.y - 38); c.lineTo(x + 22, L.y - 26); c.lineTo(x + 32, L.y - 18); c.lineTo(x + 24, L.y - 8); c.stroke(); }
         txt(c, L.lab, 20, L.y - 82, { c: L.col, s: 13, b: 1 });
         // mini F-t graph
@@ -765,7 +765,7 @@
         txt(c, "F", gx - 12, base - gh, { c: C.m, s: 11 }); txt(c, "t", gx + gw + 6, base + 4, { c: C.m, s: 11 });
         const tt = clamp((t - tc) / 1.0, 0, 1), dur = i ? 0.8 : 0.1, peak = i ? gh * 0.15 : gh;
         const start = gx + 30, width = dur * 220;
-        c.fillStyle = i ? "rgba(127,191,122,.35)" : "rgba(224,88,74,.35)"; c.strokeStyle = L.col; c.lineWidth = 2;
+        c.fillStyle = i ? "rgba(91,227,164,.35)" : "rgba(255,107,107,.35)"; c.strokeStyle = L.col; c.lineWidth = 2;
         c.beginPath(); c.moveTo(start, base);
         for (let s = 0; s <= tt; s += 0.01) { const u = s / 1; c.lineTo(start + u * width, base - peak * Math.sin(Math.PI * clamp(u, 0, 1))); }
         c.lineTo(start + tt * width, base); c.closePath(); c.fill(); c.stroke();
@@ -842,7 +842,7 @@
       draw(c, t, rev) {
         const D = Math.min(4.5, Math.max(2.5, T)), tr = (t / D) * T, ask = p.ask || [];
         c.strokeStyle = C.line; c.lineWidth = 2; c.beginPath(); c.moveTo(16, oy); c.lineTo(704, oy); c.stroke();
-        if (h > 0) { c.fillStyle = "rgba(167,163,155,.18)"; c.fillRect(ox - 60, oy - h * sc, 60, h * sc); c.strokeStyle = C.m; c.strokeRect(ox - 60, oy - h * sc, 60, h * sc); txt(c, "h = " + f(h) + " m", ox - 30, oy - h * sc / 2, { c: C.m, s: 12, a: "center" }); }
+        if (h > 0) { c.fillStyle = "rgba(163,176,208,.18)"; c.fillRect(ox - 60, oy - h * sc, 60, h * sc); c.strokeStyle = C.m; c.strokeRect(ox - 60, oy - h * sc, 60, h * sc); txt(c, "h = " + f(h) + " m", ox - 30, oy - h * sc / 2, { c: C.m, s: 12, a: "center" }); }
         c.setLineDash([3, 6]); c.strokeStyle = C.faint; c.lineWidth = 2; c.beginPath();
         for (let s = 0; s <= T; s += T / 80) { const [x, y] = P(s); s ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke(); c.setLineDash([]);
         c.strokeStyle = C.y; c.lineWidth = 2.5; c.beginPath();
@@ -873,7 +873,7 @@
       D: 4, hold: 1.2,
       draw(c, t, rev) {
         const s = clamp(t / 4, 0, 1), ask = p.ask || [];
-        c.fillStyle = "rgba(217,212,202,.18)"; c.fillRect(16, top, 688, bot - top);
+        c.fillStyle = "rgba(124,196,255,.18)"; c.fillRect(16, top, 688, bot - top);
         c.strokeStyle = C.g; c.lineWidth = 3; [top, bot].forEach(y => { c.beginPath(); c.moveTo(16, y); c.lineTo(704, y); c.stroke(); });
         c.strokeStyle = "rgba(255,255,255,.18)"; c.lineWidth = 1.5;
         for (let i = 0; i < 14; i++) { const x = ((i * 60 + t * 50) % 700) + 10, y = top + 18 + (i % 4) * 40; c.beginPath(); c.moveTo(x, y); c.lineTo(x + 26, y); c.stroke(); }
@@ -932,7 +932,7 @@
       D: 3.5, hold: 1.2,
       draw(c, t, rev) {
         const ask = p.ask || [];
-        c.fillStyle = "rgba(167,163,155,.15)"; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x0 + L * Math.cos(th), y0); c.lineTo(topx, topy); c.closePath(); c.fill();
+        c.fillStyle = "rgba(163,176,208,.15)"; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x0 + L * Math.cos(th), y0); c.lineTo(topx, topy); c.closePath(); c.fill();
         c.strokeStyle = C.m; c.lineWidth = 2.5; c.beginPath(); c.moveTo(topx, topy); c.lineTo(x0 + L * Math.cos(th), y0); c.lineTo(x0, y0); c.stroke();
         txt(c, f(p.ang) + "°", x0 + L * Math.cos(th) - 46, y0 - 8, { c: C.y, s: 13, b: 1 });
         const s = slides ? clamp(0.12 + 0.8 * (t / 3.5) ** 2, 0, 0.92) : 0.25;
@@ -968,7 +968,7 @@
           arrow(c, x - 70, 170, x - 2, 170, C.w, "F = " + f(F) + " N", { la: "right", lx: -74, ly: -10 });
           arrow(c, x + 90, 128, x + 130, 128, C.g, Tl, { w: 2.5 });
         } else if (p.mode === "table") {
-          c.fillStyle = "rgba(167,163,155,.18)"; c.fillRect(40, 120, 420, 14); c.fillRect(60, 134, 10, 110); c.fillRect(430, 134, 10, 110);
+          c.fillStyle = "rgba(163,176,208,.18)"; c.fillRect(40, 120, 420, 14); c.fillRect(60, 134, 10, 110); c.fillRect(430, 134, 10, 110);
           const px = 470, py = 128; c.strokeStyle = C.m; c.lineWidth = 3; c.beginPath(); c.arc(px, py, 12, 0, 7); c.stroke();
           const d = 150 * s, bx = 140 + d, hy = 160 + d;
           box(c, bx, 76, 80, 44, C.y, f(m1) + " kg");
@@ -1017,7 +1017,7 @@
       draw(c, t, rev) {
         const ask = p.ask || [], lap = p.release ? 3 : 4, ang = (t / lap) * Math.PI * 2;
         c.setLineDash([4, 6]); c.strokeStyle = C.faint; c.lineWidth = 2; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.stroke(); c.setLineDash([]);
-        if (p.mode === "orbit") { const g2 = c.createRadialGradient(cx - 14, cy - 14, 4, cx, cy, 44); g2.addColorStop(0, "#D9D4CA"); g2.addColorStop(1, "#3A4250"); c.fillStyle = g2; c.beginPath(); c.arc(cx, cy, 40, 0, 7); c.fill(); }
+        if (p.mode === "orbit") { const g2 = c.createRadialGradient(cx - 14, cy - 14, 4, cx, cy, 44); g2.addColorStop(0, "#7CC4FF"); g2.addColorStop(1, "#1C2F66"); c.fillStyle = g2; c.beginPath(); c.arc(cx, cy, 40, 0, 7); c.fill(); }
         else { c.fillStyle = C.m; c.beginPath(); c.arc(cx, cy, 4, 0, 7); c.fill(); }
         let x, y, vxu, vyu, free = false;
         if (p.release && t > 3) { const a0 = Math.PI * 2; x = cx + R * Math.cos(a0) - Math.sin(a0) * 0; y = cy - R * Math.sin(a0); free = true; const d = (t - 3) * 120; x += 0; y -= d; vxu = 0; vyu = -1; }
@@ -1070,7 +1070,7 @@
       D: 2.6, hold: 1.6,
       draw(c, t, rev) {
         const cx = 230, cy = 140, s = ease(clamp(t / 1.6, 0, 1));
-        thing(c, p.obj || "box", cx - 34, cy + 28, 68, 56, "rgba(255,85,0,.85)", f(m) + " kg");
+        thing(c, p.obj || "box", cx - 34, cy + 28, 68, 56, "rgba(255,200,87,.85)", f(m) + " kg");
         fs_.forEach((q, i) => {
           const L = q.F * sc * s, ex = cx + Math.cos(q.dir * D2R) * L, ey = cy - Math.sin(q.dir * D2R) * L;
           arrow(c, cx, cy, ex, ey, q.c || cols[i % cols.length], s > 0.9 ? q.l + " = " + f(q.F) + " N" : "", { w: 3, lx: Math.cos(q.dir * D2R) >= 0 ? 6 : -6, la: Math.cos(q.dir * D2R) >= 0 ? "left" : "right" });
