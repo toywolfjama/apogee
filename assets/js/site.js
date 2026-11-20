@@ -279,7 +279,6 @@
     const c = body.dataset.course || "", u = body.dataset.unit || "";
     return [c, u].filter(Boolean).join("/");
   }
-  let warpAt = -1;
   function chSlug(id) {
     const ch = id && document.getElementById(id);
     const name = ch ? (ch.dataset.short || ch.dataset.title || id) : "";
@@ -308,18 +307,6 @@
       const still = body.classList.contains("no-motion") || matchMedia("(prefers-reduced-motion: reduce)").matches;
       c.clearRect(0, 0, w, h);
       const sy = scrollY;
-      const wk = still || warpAt < 0 ? 1 : (t - warpAt) / 900;
-      const wi = wk < 1 ? Math.sin(Math.PI * wk) : 0;
-      if (wi > 0) {
-        c.lineCap = "round";
-        for (const s of stars) {
-          const y = (((s.y - sy * (0.04 + s.z * 0.12)) % h) + h) % h;
-          const dx = s.x - w / 2, dy = y - h / 2, L = wi * (0.08 + s.z * 0.3);
-          c.globalAlpha = 0.5 + s.z * 0.5; c.strokeStyle = s.warm ? "#FFE2B0" : "#DCE6FF"; c.lineWidth = s.r * (0.8 + s.z);
-          c.beginPath(); c.moveTo(s.x, y); c.lineTo(s.x + dx * L, y + dy * L); c.stroke();
-        }
-        c.globalAlpha = 1; requestAnimationFrame(frame); return;
-      }
       for (const s of stars) {
         const y = (((s.y - sy * (0.04 + s.z * 0.12)) % h) + h) % h;
         const a = 0.35 + 0.65 * (still ? 0.8 : 0.5 + 0.5 * Math.sin(t / 900 + s.p * 3));
@@ -388,16 +375,13 @@
   // ---------- click animations ----------
   function fx() {
     const still = () => body.classList.contains("no-motion") || matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const SPACE = body.classList.contains("th-space"), TERM = body.classList.contains("th-term");
+    const TERM = body.classList.contains("th-term");
     const isTermEl = el => TERM || !!el.closest(".portal.term");
 
-    function burst(x, y, big) {
-      const d = document.createElement("div"); d.className = "fx-burst" + (big ? " big" : "");
+    function burst(x, y) {
+      const d = document.createElement("div"); d.className = "fx-ring";
       d.style.left = x + "px"; d.style.top = y + "px";
-      let h = "<i></i>";
-      const n = big ? 12 : 8;
-      for (let k = 0; k < n; k++) h += `<b style="--a:${(360 / n) * k + Math.random() * 20}deg;--d:${(big ? 46 : 28) + Math.random() * 18}px"></b>`;
-      d.innerHTML = h; body.appendChild(d); setTimeout(() => d.remove(), 800);
+      body.appendChild(d); setTimeout(() => d.remove(), 600);
     }
     function invert(el) {
       el.classList.remove("fx-inv"); void el.offsetWidth; el.classList.add("fx-inv");
@@ -411,16 +395,18 @@
     });
 
     // chapter switch
-    let lastAct = 0;
+    let lastAct = 0; const seenCh = new Set();
+    { const cur = document.querySelector(".chapterbar .chip.on[data-target]"); if (cur) seenCh.add(cur.dataset.target); }
     ["pointerdown", "keydown"].forEach(t => document.addEventListener(t, () => lastAct = performance.now(), true));
     document.addEventListener("chapterchange", ev => {
       if (performance.now() - lastAct > 1500) return;
       if (still()) return;
       const ch = document.getElementById(ev.detail); if (!ch) return;
-      const cls = TERM ? "fx-tty-in" : "fx-warp-in";
+      if (!TERM) return;
+      if (seenCh.has(ev.detail)) return; seenCh.add(ev.detail);
+      const cls = "fx-tty-in";
       ch.classList.remove(cls); void ch.offsetWidth; ch.classList.add(cls);
       setTimeout(() => ch.classList.remove(cls), 900);
-      if (SPACE) warpAt = performance.now();
       if (TERM) {
         const line = document.createElement("div"); line.className = "fx-cdline";
         line.innerHTML = `<span class="u">student@apogee</span>:<span class="p">~/${termPath()}</span>$ <span class="t"></span>`;
@@ -429,16 +415,6 @@
         let k = 0; (function type() { t.textContent = txt.slice(0, ++k); if (k < txt.length) setTimeout(type, 14); })();
         setTimeout(() => line.classList.add("out"), 900); setTimeout(() => line.remove(), 1300);
       }
-    });
-
-    // right answers get a burst
-    document.addEventListener("click", e => {
-      const b = e.target.closest(".opt"); if (!b || still()) return;
-      setTimeout(() => {
-        if (!b.classList.contains("right")) return;
-        const r = b.getBoundingClientRect();
-        if (!isTermEl(b)) burst(r.left + r.width / 2, r.top + r.height / 2, true);
-      }, 30);
     });
 
     // page-to-page transitions
@@ -457,33 +433,16 @@
       if (url.pathname === location.pathname) return;
       if (!/\.html?$|\/$/.test(url.pathname)) return;
       if (still()) return;
-      e.preventDefault();
       const st = styleFor(url.pathname);
+      try { if (sessionStorage.getItem("fx-seen-" + st)) return; sessionStorage.setItem("fx-seen-" + st, "1"); } catch (er) { return; }
+      e.preventDefault();
       try { sessionStorage.setItem("fx-arrive", st); } catch (er) {}
       (st === "term" ? ttyOut : warpOut)(url, a);
     });
     function warpOut(url) {
-      const o = document.createElement("div"); o.className = "fx-warp"; o.innerHTML = "<canvas></canvas>";
+      const o = document.createElement("div"); o.className = "fx-fade"; o.innerHTML = "<i></i>";
       body.appendChild(o);
-      const cv = o.firstChild, c = cv.getContext("2d"), W = innerWidth, H = innerHeight, dpr = Math.min(2, devicePixelRatio || 1);
-      cv.width = W * dpr; cv.height = H * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const P = Array.from({ length: 480 }, () => { const a = Math.random() * 6.283, r = Math.sqrt(Math.random()) * 0.75 + 0.03; return { a, r, z: Math.random() }; });
-      const t0 = performance.now();
-      (function f(t) {
-        const k = Math.min(1, (t - t0) / 650), sp = k * k;
-        c.fillStyle = `rgba(5,8,22,${0.35 + 0.4 * k})`; c.fillRect(0, 0, W, H);
-        const gl = c.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * (0.15 + 0.35 * sp));
-        gl.addColorStop(0, `rgba(180,210,255,${0.35 * sp})`); gl.addColorStop(1, "rgba(5,8,22,0)"); c.fillStyle = gl; c.fillRect(0, 0, W, H);
-        c.lineCap = "round";
-        for (const p of P) {
-          const base = Math.hypot(W, H) / 2 * p.r * 1.3, r0 = base * (1 + 0.5 * sp), R = base * (1 + (0.15 + 3 * p.z) * sp);
-          const x0 = W / 2 + Math.cos(p.a) * r0, y0 = H / 2 + Math.sin(p.a) * r0, x1 = W / 2 + Math.cos(p.a) * R, y1 = H / 2 + Math.sin(p.a) * R;
-          c.strokeStyle = p.z > 0.85 ? "#FFE2B0" : "#CFE0FF"; c.globalAlpha = 0.55 + 0.45 * k; c.lineWidth = 0.8 + p.z * 2.2;
-          c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke();
-        }
-        c.globalAlpha = 1;
-        if (k < 1) requestAnimationFrame(f); else { o.classList.add("flash"); setTimeout(() => location.href = url.href, 120); }
-      })(t0);
+      setTimeout(() => location.href = url.href, 520);
     }
     function ttyOut(url) {
       const o = document.createElement("div"); o.className = "fx-tty";
@@ -506,7 +465,6 @@
     if (arr && !still()) {
       body.classList.add("fx-arrive-" + arr);
       setTimeout(() => body.classList.remove("fx-arrive-" + arr), 1000);
-      if (arr === "space" && SPACE) warpAt = performance.now() - 450;
     }
     addEventListener("pageshow", e => { if (e.persisted) document.querySelectorAll(".fx-warp,.fx-tty").forEach(x => x.remove()); });
   }
