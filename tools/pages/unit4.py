@@ -27,7 +27,7 @@ CORE = ('<p>Momentum describes how hard it is to stop something that\'s moving: 
  + '<div class="grid2"><div class="mini"><h4>Impulse changes momentum</h4><p>A force acting for a time gives an impulse FΔt, which equals the change in momentum mΔv.</p></div>'
  '<div class="mini"><h4>Collisions conserve momentum</h4><p>When objects collide, the forces between them are equal and opposite, so the momentum one gains, the other loses.</p></div></div>')
 CH = []
-CH.append(chapter("overview-u4", "Overview", "Overview", [topic("start-u4", "How to use this page", HOWTO, sub="Suggested order."), topic("core-u4", "Core ideas", CORE)]))
+CH.append(chapter("overview-u4", "Overview", "Overview", [topic("core-u4", "Core ideas", CORE)]))
 
 # ---------- momentum ----------
 MOM = topic("momentum-u4", "Linear momentum", f'''

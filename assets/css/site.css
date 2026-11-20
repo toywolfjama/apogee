@@ -820,3 +820,41 @@ body.th-term section.topic>.ps1 .dots{flex:none;margin-left:12px}
 body.th-term .chip .n{display:inline!important;margin-right:1px}
 .portal.term .units .nm{padding:0!important;border:0!important;background:none!important;display:inline!important;white-space:normal;overflow:visible;color:inherit}
 .portal.term .units span .nm{color:#6A6E66}
+/* ---------- click animations ---------- */
+.fx-burst{position:fixed;width:0;height:0;pointer-events:none;z-index:9999}
+.fx-burst i{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;border:2px solid #FFC857;box-shadow:0 0 12px rgba(255,200,87,.8);animation:fxring .55s cubic-bezier(.2,.7,.3,1) forwards}
+.fx-burst b{position:absolute;left:-2px;top:-2px;width:4px;height:4px;border-radius:50%;background:#FFE7B0;box-shadow:0 0 8px #FFC857;animation:fxspark .6s cubic-bezier(.15,.8,.3,1) forwards}
+.fx-burst.big i{border-color:#5BE3A4;box-shadow:0 0 18px rgba(91,227,164,.8)}
+.fx-burst.big b{background:#C9FFE6;box-shadow:0 0 10px #5BE3A4}
+@keyframes fxring{to{transform:scale(6);opacity:0;border-width:.5px}}
+@keyframes fxspark{0%{transform:rotate(var(--a)) translateX(0) scale(1.3)}100%{transform:rotate(var(--a)) translateX(var(--d)) scale(0);opacity:.2}}
+.fx-inv{animation:fxinv .38s steps(1)}
+@keyframes fxinv{0%{filter:invert(1) hue-rotate(180deg)}35%{filter:none}55%{filter:invert(1) hue-rotate(180deg)}75%{filter:none;transform:translateX(1px)}100%{filter:none}}
+/* chapter switch */
+.chapter.show.fx-warp-in{animation:fxwarpin .7s cubic-bezier(.16,.84,.3,1)}
+@keyframes fxwarpin{0%{opacity:0;transform:perspective(900px) translateZ(-220px) translateY(30px);filter:blur(8px)}60%{filter:blur(0)}100%{opacity:1;transform:none}}
+.chapter.show.fx-tty-in{animation:fxtty .55s steps(12,end)}
+@keyframes fxtty{0%{clip-path:inset(0 0 100% 0);filter:brightness(1.8)}99%{clip-path:inset(0 0 0 0)}100%{clip-path:none;filter:none}}
+.fx-cdline{font:500 13px var(--mono);color:#D3D7CF;padding:8px 0 4px;transition:opacity .35s,max-height .35s;max-height:40px;overflow:hidden}
+.fx-cdline .u{color:#8AE234;font-weight:700}.fx-cdline .p{color:#729FCF;font-weight:700}
+.fx-cdline .t::after{content:"█";animation:blinkc 1.06s steps(1) infinite}
+.fx-cdline.out{opacity:0;max-height:0;padding:0}
+body.th-space .chip.on{animation:fxchip .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes fxchip{0%{transform:scale(.85)}100%{transform:none}}
+/* page transitions */
+.fx-warp{position:fixed;inset:0;z-index:10000;pointer-events:all}
+.fx-warp canvas{width:100%;height:100%;display:block}
+.fx-warp.flash::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,#fff,#CFE0FF 40%,rgba(5,8,22,0) 80%);animation:fxflash .14s ease-out forwards}
+@keyframes fxflash{from{opacity:0}to{opacity:1}}
+.fx-tty{position:fixed;inset:0;z-index:10000;background:#0C0C0C;padding:28px 24px;font:500 14px/1.7 var(--mono);color:#D3D7CF;animation:fxttyon .14s ease-out}
+.fx-tty pre{margin:0;white-space:pre-wrap;font:inherit}
+.fx-tty .u{color:#8AE234;font-weight:700}.fx-tty .p{color:#729FCF;font-weight:700}.fx-tty .g{color:#9A9F95}
+.fx-tty .cur{display:inline-block;width:9px;height:17px;background:#D3D7CF;vertical-align:-3px}
+.fx-tty.off{animation:fxcrtoff .18s ease-in forwards}
+@keyframes fxttyon{from{opacity:0}to{opacity:1}}
+@keyframes fxcrtoff{0%{transform:none}60%{transform:scaleY(.01);filter:brightness(3)}100%{transform:scale(0,.01);filter:brightness(5)}}
+body.fx-arrive-space main,body.fx-arrive-space .page,body.fx-arrive-space .home-hero,body.fx-arrive-space .portals{animation:fxwarpin .8s cubic-bezier(.16,.84,.3,1)}
+body.fx-arrive-term::before{content:"";position:fixed;inset:0;z-index:10000;background:#0C0C0C;pointer-events:none;animation:fxcrton .5s ease-out forwards}
+@keyframes fxcrton{0%{clip-path:inset(49.5% 0 49.5% 0);background:#fff}25%{clip-path:inset(49.5% 0 49.5% 0);background:#D3D7CF}26%{clip-path:inset(0);background:#0C0C0C;opacity:1}100%{clip-path:inset(0);opacity:0}}
+html:has(body.th-space),html:has(body.th-home){background:#050816}
+html:has(body.th-term){background:#0C0C0C}

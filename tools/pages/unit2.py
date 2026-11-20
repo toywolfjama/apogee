@@ -40,7 +40,6 @@ CORE = ('<p>Unit 1 described motion. Unit 2 explains it: a <b>force</b> is a pus
 
 CH = []
 CH.append(chapter("overview-u2", "Overview", "Overview", [
-  topic("start-u2", "How to use this page", HOWTO, sub="Suggested order."),
   topic("core-u2", "Core ideas", CORE)]))
 
 # ---- systems & center of mass ----

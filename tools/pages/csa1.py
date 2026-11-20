@@ -20,7 +20,7 @@ CORE = f'''<p>A Java program is a list of instructions that run from top to bott
 {anim(t.spec(), "Step through: each line runs in order and changes the variables")}
 <div class="grid2"><div class="mini"><h4>Exam weight</h4><p>Unit 1 is 15–25% of the AP exam. Almost every multiple-choice question in the other units also needs these skills, especially tracing code by hand.</p></div>
 <div class="mini"><h4>The main skill</h4><p>Tracing: keeping track of every variable's value as each line runs. Write a small table on scratch paper and update it line by line.</p></div></div>'''
-CH.append(chapter("overview-c1", "Overview", "Overview", [topic("start-c1", "How to use this page", HOW, sub="Suggested order."), topic("core-c1", "Core ideas", CORE)]))
+CH.append(chapter("overview-c1", "Overview", "Overview", [topic("core-c1", "Core ideas", CORE)]))
 
 # ------------------------------------------------------------------ programs and variables
 jcheck('System.out.print("A");\nSystem.out.println("B");\nSystem.out.println("C");', "AB C")

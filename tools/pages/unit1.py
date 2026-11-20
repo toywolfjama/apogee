@@ -32,7 +32,6 @@ HOWTO = '''<ol class="steps">
 
 CH = []
 CH.append(chapter("overview-u1", "Overview", "Overview", [
-  topic("start-u1", "How to use this page", HOWTO, sub="Suggested order."),
   topic("core-u1", "Core ideas", INTRO_HTML),
 ]))
 

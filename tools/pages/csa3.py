@@ -58,7 +58,7 @@ CORE = f'''<p>In Units 1 and 2 you used classes other people wrote. In Unit 3 yo
 {anim(mem0, "One BankAccount object: its data lives inside the object")}
 <div class="grid2"><div class="mini"><h4>Exam weight</h4><p>Unit 3 is 10–18% of the multiple choice, and free-response question 2 (Class Design) asks you to write a complete class every year.</p></div>
 <div class="mini"><h4>The main skill</h4><p>Turning a description ("each account has an owner and a balance; you can deposit…") into instance variables, a constructor and methods.</p></div></div>'''
-CH.append(chapter("overview-c3", "Overview", "Overview", [topic("start-c3", "How to use this page", HOW, sub="Suggested order."), topic("core-c3", "Core ideas", CORE)]))
+CH.append(chapter("overview-c3", "Overview", "Overview", [topic("core-c3", "Core ideas", CORE)]))
 
 # ------------- design
 DESIGN = topic("abstraction", "Abstraction and program design", f'''

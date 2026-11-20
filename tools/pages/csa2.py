@@ -33,7 +33,7 @@ CORE = f'''<p>So far, every line of a program ran exactly once, top to bottom. U
 {anim(t.spec(), "A loop repeats while its condition is true. Step through to watch the condition being checked")}
 <div class="grid2"><div class="mini"><h4>Exam weight</h4><p>Unit 2 is 25–35% of the exam, the second largest unit. Loop tracing appears in many multiple-choice questions, and free-response question 1 always uses loops and if statements.</p></div>
 <div class="mini"><h4>The main skill</h4><p>Tracing loops: keep a table with one row per pass through the loop. Count passes carefully, especially the first and last.</p></div></div>'''
-CH.append(chapter("overview-c2", "Overview", "Overview", [topic("start-c2", "How to use this page", HOW, sub="Suggested order."), topic("core-c2", "Core ideas", CORE)]))
+CH.append(chapter("overview-c2", "Overview", "Overview", [topic("core-c2", "Core ideas", CORE)]))
 
 # ---------------- boolean + if
 code_g = '''int score = 85;

@@ -11,7 +11,6 @@
   /* ---------- settings (saved in this browser) ---------- */
   const DEFAULTS = { models: true, motion: true, big: false, timer: true };
   let settings = Object.assign({}, DEFAULTS);
-  try { Object.assign(settings, JSON.parse(localStorage.getItem("apogee-settings") || "{}")); } catch (e) {}
   function applySettings() {
     body.classList.toggle("no-models", !settings.models);
     body.classList.toggle("no-motion", !settings.motion);
@@ -41,18 +40,8 @@
     });
     header.innerHTML = `
       <div class="in">
-        <a class="brand" href="${root}index.html"><span class="planet" aria-hidden="true"><i></i><b></b></span><span class="mark" aria-hidden="true"><i></i><i></i></span><span class="tt"><span class="u">student@apogee</span><span class="d">:</span><span class="p">~/${termPath()}</span><span class="d">$</span></span><span class="word">Apogee</span></a>
+        <a class="brand" href="${root}index.html"><span class="planet" aria-hidden="true"><i></i><b></b></span><span class="mark" aria-hidden="true"><i></i><i></i></span><span class="tt"><span class="u">student@apogee</span><span class="d">:</span><span class="p" id="tt-path">~/${termPath()}</span><span class="d">$</span></span><span class="word">Apogee</span></a>
         <span class="spacer"></span>
-        <div class="dd dd-settings">
-          <button class="navbtn icon" aria-expanded="false" aria-haspopup="true" aria-label="Settings" title="Settings">⚙<span class="lbl"> Settings</span></button>
-          <div class="dd-menu settings-menu" role="menu">
-            <div class="course">Settings</div>
-            <label class="set-row"><span><b>Animated models</b><small>Turn off to practice like a real exam</small></span><input type="checkbox" data-set="models"><i class="sw"></i></label>
-            <label class="set-row"><span><b>Motion effects</b><small>Fades and transitions</small></span><input type="checkbox" data-set="motion"><i class="sw"></i></label>
-            <label class="set-row"><span><b>Exam timer</b></span><input type="checkbox" data-set="timer"><i class="sw"></i></label>
-            <label class="set-row"><span><b>Larger text</b><small>Easier reading on small screens</small></span><input type="checkbox" data-set="big"><i class="sw"></i></label>
-          </div>
-        </div>
         <div class="dd">
           <button class="navbtn" aria-expanded="false" aria-haspopup="true">Courses ▾</button>
           <div class="dd-menu" role="menu">${menu}</div>
@@ -127,6 +116,8 @@
       const on = body.classList.toggle("all-chapters");
       all.classList.toggle("on", on);
       all.textContent = on ? "One at a time" : "Show all";
+      const tp = document.getElementById("tt-path"), cur = inner.querySelector(".chip.on");
+      if (tp) tp.textContent = "~/" + termPath() + (on || !cur ? "" : "/" + chSlug(cur.dataset.target));
     });
     inner.appendChild(all);
 
@@ -288,6 +279,19 @@
     const c = body.dataset.course || "", u = body.dataset.unit || "";
     return [c, u].filter(Boolean).join("/");
   }
+  let warpAt = -1;
+  function chSlug(id) {
+    const ch = id && document.getElementById(id);
+    const name = ch ? (ch.dataset.short || ch.dataset.title || id) : "";
+    return name.toLowerCase().replace(/&/g, " ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+  document.addEventListener("chapterchange", ev => {
+    const el = document.getElementById("tt-path"); if (!el || !ev.detail) return;
+    if (body.classList.contains("all-chapters")) { el.textContent = "~/" + termPath(); return; }
+    el.textContent = "~/" + termPath() + "/" + chSlug(ev.detail);
+  });
+  { const el = document.getElementById("tt-path"), cur = document.querySelector(".chapterbar .chip.on[data-target]");
+    if (el && cur && !body.classList.contains("all-chapters")) el.textContent = "~/" + termPath() + "/" + chSlug(cur.dataset.target); }
   function spaceStars() {
     if (!body.classList.contains("th-space")) return;
     const cv = document.createElement("canvas"); cv.className = "stars"; cv.setAttribute("aria-hidden", "true");
@@ -304,6 +308,18 @@
       const still = body.classList.contains("no-motion") || matchMedia("(prefers-reduced-motion: reduce)").matches;
       c.clearRect(0, 0, w, h);
       const sy = scrollY;
+      const wk = still || warpAt < 0 ? 1 : (t - warpAt) / 900;
+      const wi = wk < 1 ? Math.sin(Math.PI * wk) : 0;
+      if (wi > 0) {
+        c.lineCap = "round";
+        for (const s of stars) {
+          const y = (((s.y - sy * (0.04 + s.z * 0.12)) % h) + h) % h;
+          const dx = s.x - w / 2, dy = y - h / 2, L = wi * (0.08 + s.z * 0.3);
+          c.globalAlpha = 0.5 + s.z * 0.5; c.strokeStyle = s.warm ? "#FFE2B0" : "#DCE6FF"; c.lineWidth = s.r * (0.8 + s.z);
+          c.beginPath(); c.moveTo(s.x, y); c.lineTo(s.x + dx * L, y + dy * L); c.stroke();
+        }
+        c.globalAlpha = 1; requestAnimationFrame(frame); return;
+      }
       for (const s of stars) {
         const y = (((s.y - sy * (0.04 + s.z * 0.12)) % h) + h) % h;
         const a = 0.35 + 0.65 * (still ? 0.8 : 0.5 + 0.5 * Math.sin(t / 900 + s.p * 3));
@@ -368,7 +384,133 @@
       sec.prepend(d);
     });
   }
-  spaceStars(); spaceHero(); termDecor();
+
+  // ---------- click animations ----------
+  function fx() {
+    const still = () => body.classList.contains("no-motion") || matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const SPACE = body.classList.contains("th-space"), TERM = body.classList.contains("th-term");
+    const isTermEl = el => TERM || !!el.closest(".portal.term");
+
+    function burst(x, y, big) {
+      const d = document.createElement("div"); d.className = "fx-burst" + (big ? " big" : "");
+      d.style.left = x + "px"; d.style.top = y + "px";
+      let h = "<i></i>";
+      const n = big ? 12 : 8;
+      for (let k = 0; k < n; k++) h += `<b style="--a:${(360 / n) * k + Math.random() * 20}deg;--d:${(big ? 46 : 28) + Math.random() * 18}px"></b>`;
+      d.innerHTML = h; body.appendChild(d); setTimeout(() => d.remove(), 800);
+    }
+    function invert(el) {
+      el.classList.remove("fx-inv"); void el.offsetWidth; el.classList.add("fx-inv");
+      setTimeout(() => el.classList.remove("fx-inv"), 420);
+    }
+    document.addEventListener("pointerdown", e => {
+      if (still() || e.button > 0) return;
+      const el = e.target.closest("button, a, summary, .chip, label.toggle");
+      if (!el) return;
+      if (isTermEl(el)) invert(el); else burst(e.clientX, e.clientY);
+    });
+
+    // chapter switch
+    let lastAct = 0;
+    ["pointerdown", "keydown"].forEach(t => document.addEventListener(t, () => lastAct = performance.now(), true));
+    document.addEventListener("chapterchange", ev => {
+      if (performance.now() - lastAct > 1500) return;
+      if (still()) return;
+      const ch = document.getElementById(ev.detail); if (!ch) return;
+      const cls = TERM ? "fx-tty-in" : "fx-warp-in";
+      ch.classList.remove(cls); void ch.offsetWidth; ch.classList.add(cls);
+      setTimeout(() => ch.classList.remove(cls), 900);
+      if (SPACE) warpAt = performance.now();
+      if (TERM) {
+        const line = document.createElement("div"); line.className = "fx-cdline";
+        line.innerHTML = `<span class="u">student@apogee</span>:<span class="p">~/${termPath()}</span>$ <span class="t"></span>`;
+        ch.prepend(line);
+        const txt = "cd " + chSlug(ev.detail), t = line.querySelector(".t");
+        let k = 0; (function type() { t.textContent = txt.slice(0, ++k); if (k < txt.length) setTimeout(type, 14); })();
+        setTimeout(() => line.classList.add("out"), 900); setTimeout(() => line.remove(), 1300);
+      }
+    });
+
+    // right answers get a burst
+    document.addEventListener("click", e => {
+      const b = e.target.closest(".opt"); if (!b || still()) return;
+      setTimeout(() => {
+        if (!b.classList.contains("right")) return;
+        const r = b.getBoundingClientRect();
+        if (!isTermEl(b)) burst(r.left + r.width / 2, r.top + r.height / 2, true);
+      }, 30);
+    });
+
+    // page-to-page transitions
+    function styleFor(href) {
+      if (/ap-csa/.test(href)) return "term";
+      if (/ap-physics|calculator/.test(href)) return "space";
+      return TERM ? "term" : "space";
+    }
+    document.addEventListener("click", e => {
+      const a = e.target.closest("a[href]");
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (a.target && a.target !== "_self") return;
+      if (a.hasAttribute("download")) return;
+      const url = new URL(a.href, location.href);
+      if (url.origin !== location.origin) return;
+      if (url.pathname === location.pathname) return;
+      if (!/\.html?$|\/$/.test(url.pathname)) return;
+      if (still()) return;
+      e.preventDefault();
+      const st = styleFor(url.pathname);
+      try { sessionStorage.setItem("fx-arrive", st); } catch (er) {}
+      (st === "term" ? ttyOut : warpOut)(url, a);
+    });
+    function warpOut(url) {
+      const o = document.createElement("div"); o.className = "fx-warp"; o.innerHTML = "<canvas></canvas>";
+      body.appendChild(o);
+      const cv = o.firstChild, c = cv.getContext("2d"), W = innerWidth, H = innerHeight, dpr = Math.min(2, devicePixelRatio || 1);
+      cv.width = W * dpr; cv.height = H * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const P = Array.from({ length: 480 }, () => { const a = Math.random() * 6.283, r = Math.sqrt(Math.random()) * 0.75 + 0.03; return { a, r, z: Math.random() }; });
+      const t0 = performance.now();
+      (function f(t) {
+        const k = Math.min(1, (t - t0) / 650), sp = k * k;
+        c.fillStyle = `rgba(5,8,22,${0.35 + 0.4 * k})`; c.fillRect(0, 0, W, H);
+        const gl = c.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * (0.15 + 0.35 * sp));
+        gl.addColorStop(0, `rgba(180,210,255,${0.35 * sp})`); gl.addColorStop(1, "rgba(5,8,22,0)"); c.fillStyle = gl; c.fillRect(0, 0, W, H);
+        c.lineCap = "round";
+        for (const p of P) {
+          const base = Math.hypot(W, H) / 2 * p.r * 1.3, r0 = base * (1 + 0.5 * sp), R = base * (1 + (0.15 + 3 * p.z) * sp);
+          const x0 = W / 2 + Math.cos(p.a) * r0, y0 = H / 2 + Math.sin(p.a) * r0, x1 = W / 2 + Math.cos(p.a) * R, y1 = H / 2 + Math.sin(p.a) * R;
+          c.strokeStyle = p.z > 0.85 ? "#FFE2B0" : "#CFE0FF"; c.globalAlpha = 0.55 + 0.45 * k; c.lineWidth = 0.8 + p.z * 2.2;
+          c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke();
+        }
+        c.globalAlpha = 1;
+        if (k < 1) requestAnimationFrame(f); else { o.classList.add("flash"); setTimeout(() => location.href = url.href, 120); }
+      })(t0);
+    }
+    function ttyOut(url) {
+      const o = document.createElement("div"); o.className = "fx-tty";
+      const path = url.pathname.replace(/^.*?(ap-csa|ap-physics-1)\//, "$1/").replace(/\.html$/, "").replace(/^\/.*\/(index)?$/, "");
+      const lines = [["cmd", `cd ~/${path || ""}`], ["cmd", "cat README.md"], ["out", "loading..."]];
+      o.innerHTML = '<pre></pre>'; body.appendChild(o);
+      const pre = o.firstChild; let html = "", li = 0, ci = 0;
+      const pr = '<span class="u">student@apogee</span>:<span class="p">~</span>$ ';
+      (function step() {
+        if (li >= lines.length) { pre.innerHTML = html + '<span class="cur"></span>'; setTimeout(() => { o.classList.add("off"); setTimeout(() => location.href = url.href, 180); }, 120); return; }
+        const [k, t] = lines[li];
+        if (k === "out") { html += `<span class="g">${t}</span>\n`; li++; pre.innerHTML = html; return setTimeout(step, 90); }
+        if (ci === 0) html += pr;
+        if (ci < t.length) { html += t[ci++].replace(/</g, "&lt;"); pre.innerHTML = html + '<span class="cur"></span>'; return setTimeout(step, 11); }
+        html += "\n"; li++; ci = 0; setTimeout(step, 60);
+      })();
+    }
+    // arriving
+    let arr = null; try { arr = sessionStorage.getItem("fx-arrive"); sessionStorage.removeItem("fx-arrive"); } catch (er) {}
+    if (arr && !still()) {
+      body.classList.add("fx-arrive-" + arr);
+      setTimeout(() => body.classList.remove("fx-arrive-" + arr), 1000);
+      if (arr === "space" && SPACE) warpAt = performance.now() - 450;
+    }
+    addEventListener("pageshow", e => { if (e.persisted) document.querySelectorAll(".fx-warp,.fx-tty").forEach(x => x.remove()); });
+  }
+  spaceStars(); spaceHero(); termDecor(); fx();
   buildQuizzes();
   buildCourseList();
   if (window.Sims) window.Sims.mountAll();
