@@ -41,14 +41,14 @@
     });
     header.innerHTML = `
       <div class="in">
-        <a class="brand" href="${root}index.html"><span class="dot"></span><span class="word">Apogee</span></a>
+        <a class="brand" href="${root}index.html"><span class="prompt">&gt;_</span><span class="word">apogee</span></a>
         <span class="spacer"></span>
         <div class="dd dd-settings">
           <button class="navbtn icon" aria-expanded="false" aria-haspopup="true" aria-label="Settings" title="Settings">⚙<span class="lbl"> Settings</span></button>
           <div class="dd-menu settings-menu" role="menu">
             <div class="course">Settings</div>
             <label class="set-row"><span><b>Animated models</b><small>Turn off to practice like a real exam</small></span><input type="checkbox" data-set="models"><i class="sw"></i></label>
-            <label class="set-row"><span><b>Background &amp; motion effects</b><small>Starfield, fades and transitions</small></span><input type="checkbox" data-set="motion"><i class="sw"></i></label>
+            <label class="set-row"><span><b>Motion effects</b><small>Fades and transitions</small></span><input type="checkbox" data-set="motion"><i class="sw"></i></label>
             <label class="set-row"><span><b>Exam timer</b></span><input type="checkbox" data-set="timer"><i class="sw"></i></label>
             <label class="set-row"><span><b>Larger text</b><small>Easier reading on small screens</small></span><input type="checkbox" data-set="big"><i class="sw"></i></label>
           </div>
@@ -272,47 +272,7 @@
       }
     });
   });
-  // starfield background
-  function starfield() {
-    const cv = document.createElement("canvas");
-    cv.className = "stars"; cv.setAttribute("aria-hidden", "true");
-    body.prepend(cv);
-    const c = cv.getContext("2d");
-    let stars = [], w, h, dpr;
-    function init() {
-      dpr = Math.min(2, devicePixelRatio || 1); w = innerWidth; h = innerHeight;
-      cv.width = w * dpr; cv.height = h * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.round((w * h) / 5200);
-      stars = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.3 + 0.2, s: Math.random() * 0.25 + 0.03, p: Math.random() * 6.28, z: Math.random() }));
-    }
-    let shoot = null, lastShoot = 0;
-    function frame(now) {
-      const still = body.classList.contains("no-motion");
-      if (still && frame.drawn) { requestAnimationFrame(frame); return; }
-      frame.drawn = still;
-      c.clearRect(0, 0, w, h);
-      const par = still ? 0 : scrollY * 0.04;
-      for (const st of stars) {
-        if (!reduce && !still) { st.x -= st.s * 0.25; if (st.x < -2) st.x = w + 2; }
-        const a = still ? 0.6 : 0.35 + 0.55 * (0.5 + 0.5 * Math.sin(now / 900 * (0.5 + st.z) + st.p));
-        c.globalAlpha = a; c.fillStyle = st.z > 0.85 ? "#eafe07" : st.z > 0.7 ? "#9fd0ff" : "#ffffff";
-        c.beginPath(); c.arc(st.x, (st.y - par * st.z + h) % h, st.r, 0, 7); c.fill();
-      }
-      if (!reduce && !still) {
-        if (!shoot && now - lastShoot > 7000 && Math.random() < 0.01) { shoot = { x: Math.random() * w * 0.7 + w * 0.3, y: Math.random() * h * 0.4, t: 0 }; lastShoot = now; }
-        if (shoot) {
-          shoot.t += 0.025; const k = shoot.t, x = shoot.x - k * 260, y = shoot.y + k * 120;
-          const g = c.createLinearGradient(x, y, x + 90, y - 42); g.addColorStop(0, "rgba(255,255,255,.9)"); g.addColorStop(1, "rgba(255,255,255,0)");
-          c.globalAlpha = 1 - k; c.strokeStyle = g; c.lineWidth = 1.6; c.beginPath(); c.moveTo(x, y); c.lineTo(x + 90, y - 42); c.stroke();
-          if (k >= 1) shoot = null;
-        }
-      }
-      c.globalAlpha = 1;
-      if (!reduce) requestAnimationFrame(frame);
-    }
-    init(); addEventListener("resize", () => { init(); frame.drawn = false; }); requestAnimationFrame(frame);
-  }
-  starfield();
+
 
   // add chevron to every deep-dive summary
   document.querySelectorAll("details.deep > summary").forEach(s => {

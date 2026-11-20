@@ -55,7 +55,7 @@ def page(unit_id, title_tag, kicker, h1, intro, desc, chapters, data_blocks, cou
 <title>{title_tag} | Apogee</title>
 <meta name="description" content="{desc}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&family=Fira+Sans:wght@400;500;600;700&family=Overpass:wght@700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/site.css">
 </head>
 <body data-root="../../" data-course="{course}" data-unit="{unit_id}">

@@ -11,14 +11,14 @@
   if (!window.Sims) return;
   const S = window.Sims.types;
   const W = 720;
-  const C = { y: "#eafe07", b: "#2e96f5", w: "#ffffff", m: "#b7c3e0", r: "#ff6b5b", g: "#3ee39a", o: "#ff9d57", p: "#c49bff",
-              line: "rgba(255,255,255,.18)", faint: "rgba(255,255,255,.07)", dark: "#07173f", panel: "rgba(14,36,89,.85)" };
-  const MONO = '"Fira Mono", ui-monospace, Menlo, Consolas, monospace';
+  const C = { y: "#FF5500", b: "#D9D4CA", w: "#F0EDE6", m: "#A7A39B", r: "#E0584A", g: "#7FBF7A", o: "#FFB000", p: "#C9B79C",
+              line: "rgba(255,255,255,.18)", faint: "rgba(255,255,255,.07)", dark: "#0B0D10", panel: "rgba(19,23,29,.85)" };
+  const MONO = '"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace';
   const KW = new Set("int double boolean char long String if else while for return new public private protected class static void final this null true false break continue".split(" "));
   const ease = x => (x < 0 ? 0 : x > 1 ? 1 : x * x * (3 - 2 * x));
 
   function txt(c, s, x, y, o = {}) {
-    c.font = `${o.b ? "700 " : "500 "}${o.s || 14}px ${o.mono ? MONO : '"Fira Sans", system-ui, sans-serif'}`;
+    c.font = `${o.b ? "700 " : "500 "}${o.s || 14}px ${o.mono ? MONO : '"Plus Jakarta Sans", system-ui, sans-serif'}`;
     c.fillStyle = o.c || C.w; c.textAlign = o.a || "left"; c.textBaseline = o.bl || "alphabetic";
     c.globalAlpha = o.al ?? 1; c.fillText(s, x, y); c.globalAlpha = 1;
   }
@@ -39,8 +39,8 @@
     while ((m = re.exec(s))) {
       const t = m[0];
       let col = C.w;
-      if (m[1]) col = "#7d8bb0"; else if (m[2] || m[3]) col = C.g; else if (m[4]) col = C.o;
-      else if (m[5] && KW.has(t)) col = C.b; else if (m[5] && /^[A-Z]/.test(t)) col = C.p;
+      if (m[1]) col = "#6E6B66"; else if (m[2] || m[3]) col = C.g; else if (m[4]) col = C.o;
+      else if (m[5] && KW.has(t)) col = "#FF7A33"; else if (m[5] && /^[A-Z]/.test(t)) col = C.p;
       c.globalAlpha = al; c.fillStyle = col; c.fillText(t, cx, y); c.globalAlpha = 1;
       cx += c.measureText(t).width;
     }
@@ -80,11 +80,11 @@
         if (line > 0) {
           const prevLine = k > 0 ? steps[k - 1][0] : line;
           const ly = y0 + ((prevLine > 0 ? prevLine : line) - 1 + ((line - (prevLine > 0 ? prevLine : line)) * f)) * LH;
-          c.fillStyle = "rgba(234,254,7,.16)"; rr(c, 18, ly - size - 2, 428, LH, 5); c.fill();
+          c.fillStyle = "rgba(255,85,0,.16)"; rr(c, 18, ly - size - 2, 428, LH, 5); c.fill();
           c.fillStyle = C.y; rr(c, 18, ly - size - 2, 4, LH, 2); c.fill();
         }
         code.forEach((s, i) => {
-          txt(c, String(i + 1), 40, y0 + i * LH, { s: 11, c: "#5f6f99", a: "right", mono: 1 });
+          txt(c, String(i + 1), 40, y0 + i * LH, { s: 11, c: "#5C5953", a: "right", mono: 1 });
           codeLine(c, s, 50, y0 + i * LH, size, i + 1 === line ? 1 : 0.78);
         });
         // variables
@@ -94,7 +94,7 @@
         names.forEach((nm, i) => {
           const y = 48 + i * 24, changed = JSON.stringify(prev[nm]) !== JSON.stringify(vars[nm]);
           const hide = !rev && (p.ask === "vars" || p.ask === "both");
-          if (changed && !hide) { c.fillStyle = `rgba(234,254,7,${0.22 * (1 - f) + 0.08})`; rr(c, 474, y - 16, 226, 22, 5); c.fill(); }
+          if (changed && !hide) { c.fillStyle = `rgba(255,85,0,${0.22 * (1 - f) + 0.08})`; rr(c, 474, y - 16, 226, 22, 5); c.fill(); }
           txt(c, nm, 484, y, { s: 14, mono: 1, c: C.m });
           let v = hide ? "?" : String(vars[nm]);
           if (v.length > 17) v = v.slice(0, 16) + "…";
@@ -135,7 +135,7 @@
           const rows = Array.isArray(fields) ? fields.length : 1, bh = 30 + rows * 24;
           const al = isNew ? f : 1;
           c.globalAlpha = al;
-          c.fillStyle = "rgba(46,150,245,.16)"; rr(c, 400, oy, 300, bh, 10); c.fill();
+          c.fillStyle = "rgba(217,212,202,.16)"; rr(c, 400, oy, 300, bh, 10); c.fill();
           c.strokeStyle = C.b; c.lineWidth = 1.5; rr(c, 400, oy, 300, bh, 10); c.stroke();
           c.globalAlpha = 1;
           txt(c, cls, 414, oy + 20, { s: 13, b: 1, c: C.p, mono: 1, al });
@@ -143,7 +143,7 @@
             const old = (pv.objs || []).find(q => q[0] === id);
             const was = old && Array.isArray(old[2]) ? (old[2].find(x => x[0] === fn) || [])[1] : undefined;
             const ch = old && was !== fv;
-            if (ch) { c.fillStyle = `rgba(234,254,7,${0.25 * (1 - f) + 0.08})`; rr(c, 408, oy + 28 + i * 24, 284, 22, 5); c.fill(); }
+            if (ch) { c.fillStyle = `rgba(255,85,0,${0.25 * (1 - f) + 0.08})`; rr(c, 408, oy + 28 + i * 24, 284, 22, 5); c.fill(); }
             txt(c, fn, 420, oy + 44 + i * 24, { s: 13, mono: 1, c: C.m, al });
             txt(c, String(fv), 688, oy + 44 + i * 24, { s: 13, mono: 1, b: 1, c: ch ? C.y : C.w, a: "right", al });
           });
@@ -206,12 +206,12 @@
         }
         for (let i = 0; i < n; i++) {
           const x = x0 + i * bw, inside = i >= lo && i < hi, show = lt > 0.5 || r.scan !== undefined;
-          c.fillStyle = inside && show ? "rgba(234,254,7,.22)" : C.panel; rr(c, x + 2, 70, bw - 4, 56, 8); c.fill();
+          c.fillStyle = inside && show ? "rgba(255,85,0,.22)" : C.panel; rr(c, x + 2, 70, bw - 4, 56, 8); c.fill();
           c.strokeStyle = inside && show ? C.y : C.line; c.lineWidth = inside && show ? 2 : 1; rr(c, x + 2, 70, bw - 4, 56, 8); c.stroke();
           txt(c, s[i] === " " ? "␣" : s[i], x + bw / 2, 106, { s: 22, mono: 1, b: 1, a: "center", c: inside && show ? C.y : C.w });
           txt(c, String(i), x + bw / 2, 146, { s: 13, mono: 1, a: "center", c: C.b });
         }
-        txt(c, String(n), x0 + n * bw + 4, 146, { s: 13, mono: 1, c: "#5f6f99" });
+        txt(c, String(n), x0 + n * bw + 4, 146, { s: 13, mono: 1, c: "#5C5953" });
         txt(c, "index", x0 - 10, 146, { s: 12, a: "right", c: C.m });
         if (r.code) {
           const al = ease((lt - 0.2) / 0.4);
@@ -250,7 +250,7 @@
         }
         cells.slice(0, k).forEach(([i, j], idx) => {
           const last = idx === k - 1 && k < cells.length;
-          c.fillStyle = last ? C.y : "rgba(46,150,245,.75)";
+          c.fillStyle = last ? C.y : "rgba(217,212,202,.75)";
           rr(c, gx + j * cw + 3, gy + i * cw + 3, cw - 6, cw - 6, 4); c.fill();
         });
         const cur = cells[Math.max(0, k - 1)] || [0, 0];
