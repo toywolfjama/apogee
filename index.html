@@ -20,24 +20,41 @@
 <main class="portals">
   <section class="portal space" aria-labelledby="p-phys">
     <canvas id="portalStars" aria-hidden="true"></canvas>
-    <div class="planet-big" aria-hidden="true"></div>
-    <div class="ring-big" aria-hidden="true"></div>
-    <div class="inner">
-      <span class="tag">Course 01 · Mechanics</span>
-      <h2 id="p-phys">AP Physics 1</h2>
-      <p>Motion, forces, energy and momentum, with animated models of every kind of problem.</p>
-      <div class="units" id="units-phys"></div>
+    <div class="pbar"><span>~/ap-physics-1</span><span class="sig">4 units ready</span></div>
+    <div class="art" aria-hidden="true">
+      <svg viewBox="0 0 520 230" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <radialGradient id="hp" cx="34%" cy="30%" r="75%"><stop offset="0" stop-color="#FFE7B0"/><stop offset=".35" stop-color="#FFB347"/><stop offset=".72" stop-color="#B4501E"/><stop offset="1" stop-color="#2A0E04"/></radialGradient>
+          <radialGradient id="hg" cx="50%" cy="50%" r="50%"><stop offset=".5" stop-color="rgba(255,170,70,.28)"/><stop offset="1" stop-color="rgba(255,170,70,0)"/></radialGradient>
+          <radialGradient id="hm" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#9FB2D6"/></radialGradient>
+        </defs>
+        <circle cx="260" cy="118" r="110" fill="url(#hg)"/>
+        <g transform="rotate(-12 260 118)">
+          <ellipse cx="260" cy="118" rx="215" ry="50" fill="none" stroke="rgba(124,196,255,.2)" stroke-dasharray="2 6"/>
+          <path d="M378 118A118 24 0 0 0 142 118" fill="none" stroke="rgba(255,226,170,.4)" stroke-width="3"/>
+          <g><circle r="8" fill="url(#hm)"/><animateMotion dur="12s" repeatCount="indefinite" path="M475 118A215 50 0 0 1 45 118A215 50 0 0 1 475 118"/></g>
+        </g>
+        <circle cx="260" cy="118" r="70" fill="url(#hp)"/>
+        <path d="M200 106c36 9 86 9 120-2M197 130c40 10 90 8 126-4" stroke="rgba(60,20,5,.32)" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <g transform="rotate(-12 260 118)">
+          <path d="M378 118A118 24 0 0 1 142 118" fill="none" stroke="rgba(255,226,170,.7)" stroke-width="3"/>
+          <g><circle r="8" fill="url(#hm)"/><animateMotion dur="12s" repeatCount="indefinite" path="M475 118A215 50 0 0 1 45 118A215 50 0 0 1 475 118"/><animate attributeName="opacity" values="1;0" keyTimes="0;0.5" dur="12s" calcMode="discrete" repeatCount="indefinite"/></g>
+        </g>
+      </svg>
     </div>
+    <span class="tag">Course 01 · Mechanics</span>
+    <h2 id="p-phys">AP Physics 1</h2>
+    <p>Motion, forces, energy and momentum, with animated models of every kind of problem.</p>
+    <div class="units" id="units-phys"></div>
   </section>
 
   <section class="portal term" aria-labelledby="p-cs">
     <div class="titlebar"><span>student@apogee: ~/ap-csa</span><span class="wb" aria-hidden="true"><i></i><i></i><i></i></span></div>
-    <div class="inner">
-      <div class="typed" id="typed" aria-hidden="true"></div>
-      <h2 id="p-cs">AP Computer Science <span>A</span></h2>
-      <p>Java from the ground up: trace code line by line, try it in the labs, and check every answer against real Java output.</p>
-      <div class="units" id="units-cs"></div>
-    </div>
+    <div class="typed" aria-hidden="true"><div id="typed"></div></div>
+    <span class="tag">// course 02 · java</span>
+    <h2 id="p-cs">AP Computer Science <span>A</span></h2>
+    <p>Java from the ground up: trace code line by line, try it in the labs, and check every answer against real Java output.</p>
+    <div class="units" id="units-cs"></div>
   </section>
 </main>
 

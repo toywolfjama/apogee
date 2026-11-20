@@ -339,19 +339,22 @@
         <radialGradient id="mn" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#8FA3C8"/></radialGradient>
       </defs>
       <circle cx="190" cy="190" r="150" fill="url(#glow)"/>
-      <g fill="none" stroke="rgba(124,196,255,.22)" stroke-dasharray="2 6"><ellipse cx="190" cy="190" rx="176" ry="62" transform="rotate(-18 190 190)"/><ellipse cx="190" cy="190" rx="140" ry="140"/></g>
+      <ellipse cx="190" cy="190" rx="140" ry="140" fill="none" stroke="rgba(124,196,255,.22)" stroke-dasharray="2 6"/>
+      <g transform="rotate(-18 190 190)">
+        <ellipse cx="190" cy="190" rx="176" ry="62" fill="none" stroke="rgba(124,196,255,.22)" stroke-dasharray="2 6"/>
+        <path d="M322 190A132 30 0 0 0 58 190" fill="none" stroke="rgba(255,226,170,.35)" stroke-width="3"/>
+        <g><circle r="9" fill="url(#mn)"/><animateMotion dur="11s" repeatCount="indefinite" path="M366 190A176 62 0 0 1 14 190A176 62 0 0 1 366 190"/></g>
+      </g>
       <circle cx="190" cy="190" r="86" fill="url(#pl)"/>
       <path d="M118 176c40 10 104 10 144-2M114 204c46 12 108 10 152-4" stroke="rgba(60,20,5,.35)" stroke-width="7" fill="none" stroke-linecap="round"/>
-      <ellipse cx="190" cy="190" rx="132" ry="30" fill="none" stroke="rgba(255,226,170,.55)" stroke-width="3" transform="rotate(-18 190 190)"/>
-      <g class="sat"><circle r="9" fill="url(#mn)"/><animateMotion dur="11s" repeatCount="indefinite" path="M366 190a176 62 0 1 1-352 0a176 62 0 1 1 352 0" rotate="0"/></g>
-      <g transform="rotate(-18 190 190)"></g>
+      <g transform="rotate(-18 190 190)">
+        <path d="M322 190A132 30 0 0 1 58 190" fill="none" stroke="rgba(255,226,170,.6)" stroke-width="3"/>
+        <g><circle r="9" fill="url(#mn)"/><animateMotion dur="11s" repeatCount="indefinite" path="M366 190A176 62 0 0 1 14 190A176 62 0 0 1 366 190"/><animate attributeName="opacity" values="1;0" keyTimes="0;0.5" dur="11s" calcMode="discrete" repeatCount="indefinite"/></g>
+      </g>
       <g font-family="JetBrains Mono, monospace" font-size="10" fill="#A3B0D0" letter-spacing="1.5">
         <text x="250" y="52">APOGEE</text><line x1="248" y1="56" x2="230" y2="80" stroke="#FFC857" stroke-width="1"/>
         <text x="18" y="338">PERIGEE</text><line x1="72" y1="328" x2="96" y2="300" stroke="#FFC857" stroke-width="1"/>
       </g></svg>`;
-    // the moon follows the tilted orbit
-    art.querySelector("animateMotion").setAttribute("path", "M366 190a176 62 0 1 1-352 0a176 62 0 1 1 352 0");
-    art.querySelector(".sat").setAttribute("transform", "rotate(-18 190 190)");
     hero.appendChild(art);
   }
   function termDecor() {
