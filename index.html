@@ -6,7 +6,7 @@
 <title>Apogee | Free AP review with practice questions</title>
 <meta name="description" content="Free AP Physics 1 and AP Computer Science A review: explanations, animations, interactive labs and practice exams.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body class="th-home" data-root="">
@@ -56,6 +56,33 @@
     <p>Java from the ground up: trace code line by line, try it in the labs, and check every answer against real Java output.</p>
     <div class="units" id="units-cs"></div>
   </section>
+  <section class="portal paris" aria-labelledby="p-fr">
+    <div class="mbar"><span class="rd">M</span><span>Direction&nbsp;: Français</span><span class="sig">5 units ready</span></div>
+    <div class="art" aria-hidden="true">
+      <svg viewBox="0 0 360 236">
+        <circle cx="214" cy="92" r="46" fill="#D7263D" opacity=".12"/>
+        <g fill="none" stroke="#1B2340" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="tower">
+          <path d="M150 14v14M145 28h10l1.5 9h-13z"/>
+          <path d="M144.5 37C142 82 130 150 96 214M155.5 37C158 82 170 150 204 214"/>
+          <path d="M135 100h30M132 106h36M115 160h70M112 166h76"/>
+          <path d="M114 214C126 182 174 182 186 214"/>
+          <path d="M140 46l20 28M160 46l-20 28M138 74l24 26M162 74l-24 26M133 110l34 26M167 110l-34 26M122 136l56 24M178 136l-56 24" stroke-width=".9" opacity=".5"/>
+          <path d="M20 214h320"/>
+          <path d="M24 214v-22h18v-10h16v32M254 214v-28h14v-10h18v38M290 214v-16h22v16" stroke-width="1" opacity=".55"/>
+        </g>
+        <g class="bub" font-family="Fraunces, Georgia, serif" font-size="19" font-weight="600">
+          <g><rect x="196" y="34" width="118" height="38" rx="19" fill="#fff" stroke="#1B2340" stroke-width="1.5"/><path d="M212 71l-8 12 18-11" fill="#fff" stroke="#1B2340" stroke-width="1.5" stroke-linejoin="round"/><text x="255" y="59" text-anchor="middle" fill="#1B2340">Bonjour&#160;!</text></g>
+          <g><rect x="196" y="34" width="118" height="38" rx="19" fill="#1B2340"/><path d="M212 71l-8 12 18-11" fill="#1B2340"/><text x="255" y="59" text-anchor="middle" fill="#fff">Ça va&#160;?</text></g>
+          <g><rect x="196" y="34" width="118" height="38" rx="19" fill="#D7263D"/><path d="M212 71l-8 12 18-11" fill="#D7263D"/><text x="255" y="59" text-anchor="middle" fill="#fff">Merci&#160;!</text></g>
+          <g><rect x="196" y="34" width="118" height="38" rx="19" fill="#fff" stroke="#D7263D" stroke-width="1.5"/><path d="M212 71l-8 12 18-11" fill="#fff" stroke="#D7263D" stroke-width="1.5" stroke-linejoin="round"/><text x="255" y="59" text-anchor="middle" fill="#D7263D">Salut&#160;!</text></g>
+        </g>
+      </svg>
+    </div>
+    <span class="tag">Course 03 · Language</span>
+    <h2 id="p-fr">French <span>1</span></h2>
+    <p>From your first bonjour to telling a story in the past, with audio for every word and labs for every rule.</p>
+    <div class="units" id="units-fr"></div>
+  </section>
 </main>
 
 <footer>Apogee · Not affiliated with the College Board.</footer>
@@ -76,6 +103,7 @@
   }
   units("ap-physics-1", "units-phys", false);
   units("ap-csa", "units-cs", true);
+  units("french-1", "units-fr", false);
 
   // stars inside the physics portal
   const cv = document.getElementById("portalStars"), ctx = cv.getContext("2d");

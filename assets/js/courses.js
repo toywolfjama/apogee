@@ -29,6 +29,18 @@ window.SITE_COURSES = [
       { id: "unit-3", name: "Unit 3: Class Creation", path: "courses/ap-csa/unit-3.html", ready: true },
       { id: "unit-4", name: "Unit 4: Data Collections" }
     ]
+  },
+  {
+    id: "french-1",
+    name: "French 1",
+    blurb: "French from zero: greetings, describing people, everyday life, and talking about the past and future.",
+    units: [
+      { id: "unit-1", name: "Unit 1: Bonjour ! The basics", path: "courses/french-1/unit-1.html", ready: true },
+      { id: "unit-2", name: "Unit 2: People and things", path: "courses/french-1/unit-2.html", ready: true },
+      { id: "unit-3", name: "Unit 3: Verbs in the present", path: "courses/french-1/unit-3.html", ready: true },
+      { id: "unit-4", name: "Unit 4: Everyday life", path: "courses/french-1/unit-4.html", ready: true },
+      { id: "unit-5", name: "Unit 5: Past and future", path: "courses/french-1/unit-5.html", ready: true }
+    ]
   }
   // Example for later:
   // { id: "ap-chemistry", name: "AP Chemistry", blurb: "...", units: [ { id: "unit-1", name: "Unit 1: Atomic Structure" } ] }

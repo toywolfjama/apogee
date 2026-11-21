@@ -357,6 +357,31 @@
       </g></svg>`;
     hero.appendChild(art);
   }
+
+  function parisHero() {
+    const hero = document.querySelector("body.th-paris .hero");
+    if (!hero || hero.querySelector(".paris-art")) return;
+    const art = document.createElement("div"); art.className = "paris-art"; art.setAttribute("aria-hidden", "true");
+    const P = (d, cls, l) => `<path class="tw ${cls || ""} draw" style="--l:${l}" d="${d}"/>`;
+    art.innerHTML = `<svg viewBox="0 0 300 380">
+      <circle cx="214" cy="118" r="62" fill="#D7263D" opacity=".12"/>
+      <circle cx="214" cy="118" r="62" fill="none" stroke="#D7263D" stroke-width="1.2" opacity=".5"/>
+      ${P("M150 18V40", "", 30)}
+      ${P("M143 40h14l2 14h-18z", "", 60)}
+      ${P("M141 54C138 120 120 220 66 352", "", 340)}
+      ${P("M159 54C162 120 180 220 234 352", "", 340)}
+      ${P("M128 150h44", "", 50)}${P("M124 158h52", "", 60)}
+      ${P("M96 252h108", "", 120)}${P("M90 262h120", "", 130)}
+      ${P("M92 352C112 300 188 300 208 352", "", 160)}
+      ${P("M136 70l28 40M164 70l-28 40M134 110l32 40M166 110l-32 40", "thin", 220)}
+      ${P("M127 166l46 42M173 166l-46 42M118 208l64 44M182 208l-64 44", "thin", 340)}
+      ${P("M96 262l30 40M204 262l-30 40", "thin", 110)}
+      ${P("M20 352H280", "", 270)}
+      ${P("M20 352v-26h22v-12h20v38M238 352v-30h16v-10h20v40", "thin", 260)}
+      ${P("M30 366h40M110 366h80M220 366h50", "thin", 200)}
+    </svg>`;
+    hero.appendChild(art);
+  }
   function termDecor() {
     if (!body.classList.contains("th-term")) return;
     const path = "~/" + termPath();
@@ -383,7 +408,7 @@
 
     function burst(x, y) {
       const d = document.createElement("div"); d.className = "fx-ring";
-      d.style.left = x + "px"; d.style.top = y + "px";
+      d.style.left = x + "px"; d.style.top = y + "px"; if (body.classList.contains("th-paris")) d.classList.add("paris");
       body.appendChild(d); setTimeout(() => d.remove(), 600);
     }
     function invert(el) {
@@ -422,6 +447,7 @@
 
     // page-to-page transitions
     function styleFor(href) {
+      if (/french/.test(href)) return "paris";
       if (/ap-csa/.test(href)) return "term";
       if (/ap-physics|calculator/.test(href)) return "space";
       return TERM ? "term" : "space";
@@ -437,6 +463,7 @@
       if (!/\.html?$|\/$/.test(url.pathname)) return;
       if (still()) return;
       const st = styleFor(url.pathname);
+      if (st === "paris") return;
       try { if (sessionStorage.getItem("fx-seen-" + st)) return; sessionStorage.setItem("fx-seen-" + st, "1"); } catch (er) { return; }
       e.preventDefault();
       try { sessionStorage.setItem("fx-arrive", st); } catch (er) {}
@@ -471,7 +498,7 @@
     }
     addEventListener("pageshow", e => { if (e.persisted) document.querySelectorAll(".fx-warp,.fx-tty").forEach(x => x.remove()); });
   }
-  spaceStars(); spaceHero(); termDecor(); fx();
+  spaceStars(); spaceHero(); parisHero(); termDecor(); fx();
   buildQuizzes();
   buildCourseList();
   if (window.Sims) window.Sims.mountAll();

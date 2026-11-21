@@ -55,10 +55,10 @@ def page(unit_id, title_tag, kicker, h1, intro, desc, chapters, data_blocks, cou
 <title>{title_tag} | Apogee</title>
 <meta name="description" content="{desc}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/site.css">
 </head>
-<body class="{"th-term" if course == "ap-csa" else "th-space"}" data-root="../../" data-course="{course}" data-unit="{unit_id}">
+<body class="{ {"ap-csa": "th-term", "french-1": "th-paris"}.get(course, "th-space") }" data-root="../../" data-course="{course}" data-unit="{unit_id}">
 
 <div class="hero">
   <span class="kicker">{kicker}</span>
