@@ -3,18 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Apogee | Free AP review with practice questions</title>
-<meta name="description" content="Free AP Physics 1 and AP Computer Science A review: explanations, animations, interactive labs and practice exams.">
+<title>Apogee | Free study guides with practice exams</title>
+<meta name="description" content="Free study guides for physics, computer science and French: explanations, animations, interactive labs and practice exams.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body class="th-home" data-root="">
 
 <div class="home-hero">
-  <span class="kicker">Free AP review</span>
-  <h1>Pick a course.<br><span>Get the 5.</span></h1>
-  <p>Explanations, worked examples, animations you can step through, interactive labs and timed practice exams.</p>
+  <div class="hero-orbit" aria-hidden="true">
+    <svg viewBox="0 0 220 220">
+      <defs>
+        <linearGradient id="ho-o" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7CC4FF" stop-opacity=".25"/><stop offset="1" stop-color="#FFC857"/></linearGradient>
+        <radialGradient id="ho-p" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#BFE3FF"/><stop offset=".6" stop-color="#4C7DD8"/><stop offset="1" stop-color="#1A2A6B"/></radialGradient>
+        <radialGradient id="ho-g" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFE7A8"/><stop offset=".35" stop-color="#FFC857" stop-opacity=".85"/><stop offset="1" stop-color="#FFC857" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g transform="rotate(-35 110 110)">
+        <ellipse cx="110" cy="110" rx="96" ry="60" fill="none" stroke="url(#ho-o)" stroke-width="3"/>
+        <ellipse cx="110" cy="110" rx="96" ry="60" fill="none" stroke="#FFC857" stroke-opacity=".15" stroke-width="10"/>
+      </g>
+      <circle cx="48.6" cy="153" r="20" fill="url(#ho-p)"/>
+      <g class="ho-sat">
+        <circle r="22" fill="url(#ho-g)"/><circle r="7" fill="#FFF6DA"/>
+        <animateMotion dur="9s" repeatCount="indefinite" calcMode="spline" keyPoints="0;0.5;1" keyTimes="0;0.5;1" keySplines=".45 0 1 .7;0 .3 .55 1"
+          path="M188.6 54.9 A96 60 -35 1 1 31.4 165.1 A96 60 -35 1 1 188.6 54.9"/>
+      </g>
+      <text x="196" y="34" class="ho-lab">apogee</text>
+    </svg>
+  </div>
+  <span class="kicker">Free study guides</span>
+  <h1>Pick a course.<br><span>Reach your apogee.</span></h1>
+  <p>Clear explanations, animations you can step through, interactive labs and timed practice exams for physics, computer science and French.</p>
+  <div class="hero-stats"><span><b>3</b> courses</span><span><b>20</b> units</span><span><b>1,000+</b> French words</span><span><b>Timed</b> practice exams</span></div>
 </div>
 
 <main class="portals">
@@ -96,11 +118,16 @@
   const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
   function units(id, el, term) {
     const c = find(id); if (!c) return;
-    let lastG = null;
-    document.getElementById(el).innerHTML = c.units.map(u => {
-      const head = u.group && u.group !== lastG ? `<div class="ugroup">${esc(u.group)}</div>` : ""; lastG = u.group;
-      const label = term ? `<span class="nm"><b>${esc(u.id)}/</b>&nbsp;&nbsp;${esc(u.name.replace(/^Unit \d+:\s*/, ""))}</span>` : esc(u.name);
-      return head + (u.path && u.ready !== false ? `<a href="${u.path}">${label}</a>` : `<span>${term ? '<span class="nm">' + esc(u.id) + "/&nbsp;&nbsp;" + esc(u.name.replace(/^Unit \d+:\s*/, "")) + "</span>" : esc(u.name)}<em>${u.note ? "See Unit 3" : "Soon"}</em></span>`);
+    const groups = [];
+    c.units.forEach(u => { const g = u.group || "Units"; let G = groups.find(x => x.name === g); if (!G) groups.push(G = { name: g, list: [] }); G.list.push(u); });
+    document.getElementById(el).innerHTML = groups.map(G => {
+      const ready = G.list.filter(u => u.path && u.ready !== false).length;
+      const rows = G.list.map(u => {
+        const name = term ? `<span class="nm"><b>${esc(u.id)}/</b>&nbsp;&nbsp;${esc(u.name.replace(/^Unit \d+:\s*/, ""))}</span>` : `<span class="nm">${esc(u.name)}</span>`;
+        return u.path && u.ready !== false ? `<a href="${u.path}">${name}</a>` : `<span class="soon">${name}<em>Soon</em></span>`;
+      }).join("");
+      const label = term ? (G.name === "Units" ? "ls units/" : G.name) : G.name;
+      return `<details class="udd"><summary><span class="udd-t">${esc(label)}</span><span class="udd-n">${ready} ready${G.list.length > ready ? " · " + (G.list.length - ready) + " soon" : ""}</span><i class="udd-c" aria-hidden="true"></i></summary><div class="udd-list">${rows}</div></details>`;
     }).join("");
   }
   units("ap-physics-1", "units-phys", false);
