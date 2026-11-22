@@ -113,6 +113,15 @@
     arriver: ["to arrive", "er", "arrive arrives arrive arrivons arrivez arrivent", "arrivé", 1],
     rester: ["to stay", "er", "reste restes reste restons restez restent", "resté", 1],
     tomber: ["to fall", "er", "tombe tombes tombe tombons tombez tombent", "tombé", 1],
+    acheter: ["to buy", "er", "achète achètes achète achetons achetez achètent", "acheté"],
+    porter: ["to wear, carry", "er", "porte portes porte portons portez portent", "porté"],
+    ranger: ["to tidy up", "er", "range ranges range rangeons rangez rangent", "rangé"],
+    fermer: ["to close", "er", "ferme fermes ferme fermons fermez ferment", "fermé"],
+    voyager: ["to travel", "er", "voyage voyages voyage voyageons voyagez voyagent", "voyagé"],
+    visiter: ["to visit (a place)", "er", "visite visites visite visitons visitez visitent", "visité"],
+    "écouter": ["to listen to", "er", "écoute écoutes écoute écoutons écoutez écoutent", "écouté"],
+    ouvrir: ["to open", "irr", "ouvre ouvres ouvre ouvrons ouvrez ouvrent", "ouvert"],
+    "se dépêcher": ["to hurry", "refl", "dépêche dépêches dépêche dépêchons dépêchez dépêchent", "dépêché", 1],
     "se lever": ["to get up", "refl", "lève lèves lève levons levez lèvent", "levé", 1],
     "se coucher": ["to go to bed", "refl", "couche couches couche couchons couchez couchent", "couché", 1],
     "s'habiller": ["to get dressed", "refl", "habille habilles habille habillons habillez habillent", "habillé", 1]
@@ -123,7 +132,19 @@
   function subj(i, next) { const p = ["je", "tu", "il", "nous", "vous", "ils"][i]; return i === 0 && vowel(next) ? "j'" : p + " "; }
   function refl(i, next) { const r = REFL[i]; return (i === 0 || i === 1 || i === 2 || i === 5) && vowel(next) ? r[0] + "'" : r + " "; }
   function agree(pp, i) { return ["(e)", "(e)", "", "(e)s", "(e)(s)", "s"][i] ? pp + ["(e)", "(e)", "", "(e)s", "(e)(s)", "s"][i] : pp; }
+  const IMPIRR = { "être": ["sois", "soyons", "soyez"], avoir: ["aie", "ayons", "ayez"] };
+  function imper(key) {
+    const [, kind, forms] = V[key]; const F = forms.split(" ");
+    const isRefl = kind === "refl";
+    let tu = F[1], nous = F[3], vous = F[4];
+    if (IMPIRR[key]) [tu, nous, vous] = IMPIRR[key];
+    else if (/es$/.test(tu) && (kind === "er" || kind === "refl" || key === "ouvrir")) tu = tu.slice(0, -1);
+    else if (key === "aller") tu = "va";
+    const rows = [["(tu)", tu, "-toi"], ["(nous)", nous, "-nous"], ["(vous)", vous, "-vous"]];
+    return rows.map(([pron, f, r]) => ({ pron, lead: "", stem: f + (isRefl ? r : "") + " !", end: "" }));
+  }
   function conj(key, tense) {
+    if (tense === "imp") return imper(key);
     const [en, kind, forms, pp, etre] = V[key]; const F = forms.split(" ");
     const isRefl = kind === "refl"; const inf = key.replace(/^se |^s'/, "");
     return F.map((f, i) => {
@@ -150,7 +171,7 @@
   function labConj(el, p) {
     const keys = p.verbs || Object.keys(V);
     const tenses = p.tenses || ["pres"];
-    const TN = { pres: "Present", pc: "Passé composé", fp: "Futur proche" };
+    const TN = { pres: "Present", pc: "Passé composé", fp: "Futur proche", imp: "Imperative (commands)" };
     el.innerHTML = `<div class="lab-h">Verb lab <span>Pick a verb${tenses.length > 1 ? " and a tense" : ""}. Tap a row to hear it.</span></div>
       <div class="lab-row"><select class="lab-in" data-k="v">${keys.map(k => `<option value="${esc(k)}">${esc(k)} (${esc(V[k][0])})</option>`).join("")}</select>
       ${tenses.length > 1 ? `<select class="lab-in" data-k="t">${tenses.map(t => `<option value="${t}">${TN[t]}</option>`).join("")}</select>` : ""}</div>
@@ -164,10 +185,11 @@
       if (t === "pres" && ["er", "ir", "re"].includes(d[1])) msg += ` · stem <b>${esc(k.slice(0, -2))}-</b> + the <span class="cj-end">endings</span>`;
       if (t === "pc") msg += ` · helper verb <b>${(d[4] || d[1] === "refl") ? "être" : "avoir"}</b> + past participle <b>${esc(d[3])}</b>${(d[4] || d[1] === "refl") ? " (agrees with the subject)" : ""}`;
       if (t === "fp") msg += " · <b>aller</b> in the present + the infinitive";
+      if (t === "imp") msg += IMPIRR[k] ? " · irregular commands: learn these by heart" : d[1] === "er" || d[1] === "refl" || k === "aller" || k === "ouvrir" ? " · present tense without the subject; the tu form drops its <b>-s</b>" + (d[1] === "refl" ? ", and the pronoun goes <b>after</b> with a hyphen" : "") : " · present tense without the subject";
       info.innerHTML = msg;
       grid.innerHTML = rows.map(r => {
         const full = r.lead + r.stem + r.end;
-        return `<button type="button" class="cj-row" data-say="${esc(full.replace(/il \/ elle/, "il"))}"><span class="cj-p">${esc(r.pron)}</span><span class="cj-f">${esc(r.lead)}<b>${esc(r.stem)}</b><span class="cj-end">${esc(r.end)}</span></span></button>`;
+        return `<button type="button" class="cj-row" data-say="${esc(full.replace(/il \/ elle/, "il").replace(/ !$/, ""))}"><span class="cj-p">${esc(r.pron)}</span><span class="cj-f">${esc(r.lead)}<b>${esc(r.stem)}</b><span class="cj-end">${esc(r.end)}</span></span></button>`;
       }).join("");
       if (!reduce()) grid.querySelectorAll(".cj-end").forEach((e, j) => e.animate([{ opacity: 0, transform: "translateY(-8px)" }, { opacity: 1, transform: "none" }], { duration: 380, delay: 60 * j, fill: "backwards" }));
     }
@@ -268,7 +290,9 @@
     livre: ["m", "book"], stylo: ["m", "pen"], cahier: ["m", "notebook"], table: ["f", "table"], chaise: ["f", "chair"], "école": ["f", "school"],
     ami: ["m", "friend (m)"], amie: ["f", "friend (f)"], "hôtel": ["m", "hotel"], parc: ["m", "park"], piscine: ["f", "pool"], "cinéma": ["m", "movie theater"],
     gare: ["f", "train station"], "musée": ["m", "museum"], pain: ["m", "bread"], eau: ["f", "water", "eaux"], fromage: ["m", "cheese"], confiture: ["f", "jam"],
-    chat: ["m", "cat"], maison: ["f", "house"], "frère": ["m", "brother"], "sœur": ["f", "sister"], "université": ["f", "university"], gâteau: ["m", "cake", "gâteaux"]
+    chat: ["m", "cat"], maison: ["f", "house"], chemise: ["f", "shirt"], pantalon: ["m", "pants"], robe: ["f", "dress"], manteau: ["m", "coat", "manteaux"], pull: ["m", "sweater"],
+    jupe: ["f", "skirt"], "écharpe": ["f", "scarf"], "imperméable": ["m", "raincoat"], chaussure: ["f", "shoe"], chapeau: ["m", "hat", "chapeaux"], lit: ["m", "bed"], chambre: ["f", "bedroom"],
+    salon: ["m", "living room"], cuisine: ["f", "kitchen"], armoire: ["f", "wardrobe"], fauteuil: ["m", "armchair"], lampe: ["f", "lamp"], "ordinateur": ["m", "computer"], "appartement": ["m", "apartment"], "frère": ["m", "brother"], "sœur": ["f", "sister"], "université": ["f", "university"], gâteau: ["m", "cake", "gâteaux"]
   };
   function arts(noun, pl) {
     const [g, , plf] = N[noun], v = vowel(noun), w = pl ? (plf || noun + "s") : noun;
@@ -278,7 +302,8 @@
     const a = pl ? "aux " : v ? "à l'" : g === "m" ? "au " : "à la ";
     const de = pl ? "des " : v ? "de l'" : g === "m" ? "du " : "de la ";
     const poss = pl ? "mes " : g === "f" && !v ? "ma " : "mon ";
-    return [["the", def + w, "le / la / l' / les"], ["a, some", ind + w, "un / une / des"], ["some (part of)", part + w, "du / de la / de l' / des"], ["to / at the", a + w, "à + le = au, à + les = aux"], ["of / from the", de + w, "de + le = du, de + les = des"], ["my", poss + w, "mon / ma / mes"]];
+    const dem = pl ? "ces " : g === "f" ? "cette " : v ? "cet " : "ce ";
+    return [["the", def + w, "le / la / l' / les"], ["a, some", ind + w, "un / une / des"], ["some (part of)", part + w, "du / de la / de l' / des"], ["to / at the", a + w, "à + le = au, à + les = aux"], ["of / from the", de + w, "de + le = du, de + les = des"], ["my", poss + w, "mon / ma / mes"], ["this / that", dem + w, "ce / cet / cette / ces"]];
   }
   function labNoun(el, p) {
     const keys = p.nouns || Object.keys(N);
@@ -375,7 +400,138 @@
     el.querySelectorAll("select").forEach(s => s.addEventListener("change", upd)); upd();
   }
 
-  const LABS = { conj: labConj, num: labNum, clock: labClock, noun: labNoun, adj: labAdj, neg: labNeg };
+
+  /* ---------------- countries ---------------- */
+  const G = {
+    France: ["f", "français", "française"], Canada: ["m", "canadien", "canadienne"], "États-Unis": ["pl", "américain", "américaine"], Mexique: ["m", "mexicain", "mexicaine"],
+    Espagne: ["f", "espagnol", "espagnole"], Italie: ["f", "italien", "italienne"], Allemagne: ["f", "allemand", "allemande"], Angleterre: ["f", "anglais", "anglaise"],
+    Belgique: ["f", "belge", "belge"], Suisse: ["f", "suisse", "suisse"], "Sénégal": ["m", "sénégalais", "sénégalaise"], Maroc: ["m", "marocain", "marocaine"],
+    "Côte d'Ivoire": ["f", "ivoirien", "ivoirienne"], Chine: ["f", "chinois", "chinoise"], Japon: ["m", "japonais", "japonaise"], "Brésil": ["m", "brésilien", "brésilienne"],
+    Iran: ["m", "iranien", "iranienne"], "Pays-Bas": ["pl", "néerlandais", "néerlandaise"], "Viêt Nam": ["m", "vietnamien", "vietnamienne"], "Haïti": ["city", "haïtien", "haïtienne"]
+  };
+  function geoRows(c) {
+    const [g, nm, nf] = G[c], v = vowel(c);
+    if (g === "city") return [["the place", c, "a few islands work like cities: no article"], ["in / to", "à " + c, "à + city"], ["from", "d'" + c, "de + city"], ["nationality", nm + " / " + nf, "lowercase"]];
+    const the = g === "pl" ? "les " + c : v ? "l'" + c : (g === "m" ? "le " : "la ") + c;
+    const inn = g === "pl" ? "aux " + c : g === "f" || v ? "en " + c : "au " + c;
+    const frm = g === "pl" ? "des " + c : g === "f" || v ? (v ? "d'" : "de ") + c : "du " + c;
+    const rule = g === "pl" ? "plural → aux / des" : g === "f" ? "feminine → en / de" : v ? "masculine but starts with a vowel → en / d'" : "masculine → au / du";
+    return [["the country", the, rule], ["in / to", inn, "J'habite " + inn + "."], ["from", frm, "Je viens " + frm + "."], ["nationality", nm + " / " + nf, "lowercase as an adjective"]];
+  }
+  function labGeo(el) {
+    el.innerHTML = `<div class="lab-h">Countries lab <span>Pick a country. The little word depends on its gender.</span></div>
+      <div class="lab-row"><select class="lab-in" data-k="c">${Object.keys(G).map(k => `<option>${esc(k)}</option>`).join("")}</select><span class="gtag"></span></div><div class="ar-grid"></div>`;
+    function upd() {
+      const c = el.querySelector("select").value, g = G[c][0];
+      el.querySelector(".gtag").innerHTML = g === "pl" ? '<span class="g-m">plural</span>' : g === "city" ? "no article" : `<span class="g-${g}">${g === "m" ? "masculine" : "feminine"}</span>`;
+      el.querySelector(".ar-grid").innerHTML = geoRows(c).map(([en, fr, rule]) => `<button type="button" class="ar-row" data-say="${esc(fr.replace(" / ", ", "))}"><span class="ar-en">${esc(en)}</span><b>${esc(fr)}</b><span class="ar-rule">${esc(rule)}</span></button>`).join("");
+      if (!reduce()) el.querySelectorAll(".ar-row b").forEach((e, j) => e.animate([{ opacity: 0, transform: "translateX(-8px)" }, { opacity: 1, transform: "none" }], { duration: 300, delay: 40 * j, fill: "backwards" }));
+    }
+    el.querySelector("select").addEventListener("change", upd); upd();
+  }
+
+  /* ---------------- where is the cat? ---------------- */
+  const PP = {
+    sur: ["sur la table", "on", 205, 92, 1, 1], sous: ["sous la table", "under", 205, 178, 1, 1], devant: ["devant la table", "in front of", 160, 196, 1.18, 1],
+    "derrière": ["derrière la table", "behind", 262, 162, .82, 0], "à côté de": ["à côté de la table", "next to", 352, 178, 1, 1],
+    dans: ["dans le panier", "in", 462, 150, .9, 2], entre: ["entre la table et le panier", "between", 382, 178, 1, 1], "loin de": ["loin de la table", "far from", 560, 178, .9, 1]
+  };
+  function labPrep(el) {
+    el.innerHTML = `<div class="lab-h">Where's the cat? <span>Tap a preposition and watch the cat move.</span></div>
+      <div class="pp-btns">${Object.keys(PP).map((k, i) => `<button type="button" class="wa-b${i ? "" : " solid"}" data-p="${esc(k)}">${esc(k)}</button>`).join("")}</div>
+      <svg class="pp-svg" viewBox="0 0 620 240" aria-hidden="true">
+        <line x1="10" y1="226" x2="610" y2="226" class="pp-floor"/>
+        <g class="pp-cat"><g class="pp-cat-in">
+          <ellipse cx="0" cy="-16" rx="26" ry="17"/><circle cx="20" cy="-36" r="13"/><path d="M11 -45l3 -14 9 9zM25 -47l7 -12 3 13z"/>
+          <path class="pp-tail" d="M-24 -18c-18 -4 -20 -26 -8 -34" fill="none" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="24" cy="-38" r="2" class="pp-eye"/><circle cx="17" cy="-38" r="2" class="pp-eye"/></g></g>
+        <g class="pp-table"><rect x="140" y="100" width="150" height="12" rx="3"/><rect x="150" y="112" width="9" height="114"/><rect x="271" y="112" width="9" height="114"/></g>
+        <g class="pp-basket"><path d="M420 178h92l-10 48h-72z"/><path class="h" d="M426 178c6 -34 74 -34 80 0"/></g>
+      </svg>
+      <div class="pp-out"><b class="ad-ph"></b><button type="button" class="saybtn" aria-label="Hear it"></button></div><div class="ad-why"></div>`;
+    const svg = el.querySelector("svg"), cat = el.querySelector(".pp-cat"), table = el.querySelector(".pp-table");
+    function go(k) {
+      const [where, en, x, y, sc, front] = PP[k];
+      cat.style.transform = `translate(${x}px,${y + 48}px) scale(${sc})`;
+      if (front === 1) svg.insertBefore(cat, null); else svg.insertBefore(cat, front === 2 ? el.querySelector(".pp-basket") : table);
+      const t = `Le chat est ${where}.`;
+      el.querySelector(".ad-ph").textContent = t; el.querySelector(".saybtn").dataset.say = t;
+      el.querySelector(".ad-why").innerHTML = `<b>${esc(k)}</b> = ${en}` + (/de$/.test(k) ? `. de + le = <b>du</b>, de + les = <b>des</b>: ${esc(k.replace(/de$/, "du"))} lit.` : "");
+      el.querySelectorAll("[data-p]").forEach(b => b.classList.toggle("solid", b.dataset.p === k));
+    }
+    el.addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (b) { go(b.dataset.p); say(el.querySelector(".ad-ph").textContent); } });
+    go("sur");
+  }
+
+  /* ---------------- word bank ---------------- */
+  const POS = { v: "verb", nm: "m.", nf: "f.", nmf: "m./f.", nmpl: "m. pl.", nfpl: "f. pl.", a: "adj.", adv: "adv.", pr: "pron.", prep: "prep.", conj: "conj.", det: "det.", num: "num.", int: "expr." };
+  const GROUP = { all: () => true, n: p => p[0] === "n", v: p => p === "v", a: p => p === "a", adv: p => p === "adv", other: p => !/^(n|v$|a$|adv$)/.test(p) };
+  function labVocab(el) {
+    const src = document.getElementById("fr-words"); if (!src) return;
+    const W = JSON.parse(src.textContent).map((w, i) => ({ r: i + 1, fr: w[0], p: w[1], en: w[2], key: (w[0] + " " + w[2]).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "") }));
+    const ranges = Math.ceil(W.length / 100);
+    el.innerHTML = `<div class="vb-bar">
+        <input class="lab-in vb-q" type="search" placeholder="Search French or English…" aria-label="Search words">
+        <select class="lab-in vb-r" aria-label="Words by rank"><option value="all">All ${W.length} words</option>${Array.from({ length: ranges }, (_, i) => `<option value="${i}">Words ${i * 100 + 1}–${Math.min(W.length, i * 100 + 100)}</option>`).join("")}</select>
+        <label class="tg"><input type="checkbox" class="vb-hide"> Hide English</label>
+        <button type="button" class="wa-b solid vb-quiz">Quiz me: 10 words</button></div>
+      <div class="vb-types">${[["all", "All"], ["n", "Nouns"], ["v", "Verbs"], ["a", "Adjectives"], ["adv", "Adverbs"], ["other", "Other"]].map(([k, l], i) => `<button type="button" class="wa-b${i ? "" : " solid"}" data-g="${k}">${l}</button>`).join("")}<span class="vb-n"></span></div>
+      <div class="vb-qz" hidden></div>
+      <div class="vb-list" role="list"></div>`;
+    const list = el.querySelector(".vb-list"), qz = el.querySelector(".vb-qz");
+    let g = "all", shown = [];
+    const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    function filter() {
+      const q = norm(el.querySelector(".vb-q").value.trim()), r = el.querySelector(".vb-r").value;
+      return W.filter(w => GROUP[g](w.p) && (r === "all" || Math.floor((w.r - 1) / 100) === +r) && (!q || w.key.includes(q)));
+    }
+    function draw() {
+      shown = filter();
+      el.querySelector(".vb-n").textContent = shown.length + (shown.length === 1 ? " word" : " words");
+      list.innerHTML = shown.map(w => `<div class="vb-row" role="listitem"><span class="vb-rk">${w.r}</span><button type="button" class="vb-fr" data-say="${esc(w.fr.replace(/\(.*?\)/g, ""))}">${esc(w.fr)}</button><span class="vb-pos p-${w.p.replace(/pl$/, "")}">${POS[w.p] || w.p}</span><span class="vb-en" tabindex="0">${esc(w.en)}</span></div>`).join("") || '<p class="vb-none">No words match.</p>';
+    }
+    el.querySelector(".vb-q").addEventListener("input", draw);
+    el.querySelector(".vb-r").addEventListener("change", draw);
+    el.querySelector(".vb-hide").addEventListener("change", e => el.classList.toggle("hide-en", e.target.checked));
+    el.addEventListener("click", e => {
+      const b = e.target.closest("[data-g]"); if (b) { g = b.dataset.g; el.querySelectorAll("[data-g]").forEach(x => x.classList.toggle("solid", x === b)); draw(); }
+      const en = e.target.closest(".vb-en"); if (en && el.classList.contains("hide-en")) en.classList.toggle("show");
+    });
+    // quiz
+    let Q = [], qi = 0, score = 0, missed = [];
+    const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+    function ask() {
+      if (qi >= Q.length) {
+        qz.innerHTML = `<div class="vb-qh">Score: <b>${score} / ${Q.length}</b></div>${missed.length ? `<p>Words to review:</p><div class="vgrid">${missed.map(w => `<div class="vc"><button type="button" class="vb-fr" data-say="${esc(w.fr)}">${esc(w.fr)}</button><span>${esc(w.en)}</span></div>`).join("")}</div>` : "<p>Perfect, every word right!</p>"}<div class="wa-ctl"><button type="button" class="wa-b solid" data-qz="again">Another 10</button><button type="button" class="wa-b" data-qz="close">Close</button></div>`;
+        return;
+      }
+      const w = Q[qi], pool = (shown.length >= 8 ? shown : W).filter(x => x.en !== w.en);
+      const opts = shuffle([w, ...shuffle(pool.slice()).slice(0, 3)]);
+      qz.innerHTML = `<div class="vb-qh">Word ${qi + 1} of ${Q.length} · ${score} right</div>
+        <div class="vb-qw"><button type="button" class="vb-fr big" data-say="${esc(w.fr.replace(/\(.*?\)/g, ""))}">${esc(w.fr)}</button> <span class="vb-pos">${POS[w.p] || ""}</span></div>
+        <div class="vb-opts">${opts.map(o => `<button type="button" class="opt" data-ok="${o === w ? 1 : 0}">${esc(o.en)}</button>`).join("")}</div>`;
+      say(w.fr.replace(/\(.*?\)/g, ""));
+    }
+    function start() {
+      const base = shown.length >= 4 ? shown : W;
+      Q = shuffle(base.slice()).slice(0, 10); qi = 0; score = 0; missed = [];
+      qz.hidden = false; ask(); qz.scrollIntoView({ behavior: reduce() ? "auto" : "smooth", block: "center" });
+    }
+    el.querySelector(".vb-quiz").addEventListener("click", start);
+    qz.addEventListener("click", e => {
+      const o = e.target.closest(".opt[data-ok]");
+      if (o && !qz.querySelector(".opt.right")) {
+        const ok = o.dataset.ok === "1";
+        o.classList.add(ok ? "right" : "wrong"); qz.querySelector('[data-ok="1"]').classList.add("right");
+        if (ok) score++; else missed.push(Q[qi]);
+        setTimeout(() => { qi++; ask(); }, ok ? 650 : 1400);
+      }
+      const c = e.target.closest("[data-qz]");
+      if (c) { if (c.dataset.qz === "again") start(); else { qz.hidden = true; qz.innerHTML = ""; } }
+    });
+    draw();
+  }
+  const LABS = { vocab: labVocab, geo: labGeo, prep: labPrep, conj: labConj, num: labNum, clock: labClock, noun: labNoun, adj: labAdj, neg: labNeg };
   function mount(root) {
     bindSay(root);
     (root || document).querySelectorAll(".frlab[data-lab]").forEach(el => {

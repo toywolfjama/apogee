@@ -14,7 +14,11 @@ CORE = f'''<p>This course takes you from zero to holding a real conversation in 
 <tr><td>2. Les gens et les choses</td><td>use le / la / un / une, describe people, talk about your family, use avoir</td></tr>
 <tr><td>3. Au présent</td><td>talk about activities, ask questions, say what you don't do</td></tr>
 <tr><td>4. La vie de tous les jours</td><td>tell time, give dates, talk about weather, food and places in town</td></tr>
-<tr><td>5. Hier et demain</td><td>say what you did and what you're going to do</td></tr></table></div>'''
+<tr><td>5. Hier et demain</td><td>say what you did and what you're going to do</td></tr>
+<tr><td>6. À la maison</td><td>describe your home, say where things are, give commands</td></tr>
+<tr><td>7. Les vêtements</td><td>talk about clothes, shop, and compare things</td></tr>
+<tr><td>8. Les voyages</td><td>talk about countries and travel, and use le / la / les as pronouns</td></tr>
+<tr><td>Word bank</td><td>learn the 1,000 most common words with audio and quizzes</td></tr></table></div>'''
 CH.append(chapter("overview-f1", "Overview", "Overview", [topic("core-f1", "Bienvenue ! Welcome to French", CORE)]))
 
 # ------------------------------------------------------------------ greetings

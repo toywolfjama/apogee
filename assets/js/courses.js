@@ -39,7 +39,11 @@ window.SITE_COURSES = [
       { id: "unit-2", name: "Unit 2: People and things", path: "courses/french-1/unit-2.html", ready: true },
       { id: "unit-3", name: "Unit 3: Verbs in the present", path: "courses/french-1/unit-3.html", ready: true },
       { id: "unit-4", name: "Unit 4: Everyday life", path: "courses/french-1/unit-4.html", ready: true },
-      { id: "unit-5", name: "Unit 5: Past and future", path: "courses/french-1/unit-5.html", ready: true }
+      { id: "unit-5", name: "Unit 5: Past and future", path: "courses/french-1/unit-5.html", ready: true },
+      { id: "unit-6", name: "Unit 6: At home", path: "courses/french-1/unit-6.html", ready: true },
+      { id: "unit-7", name: "Unit 7: Clothes and shopping", path: "courses/french-1/unit-7.html", ready: true },
+      { id: "unit-8", name: "Unit 8: Travel", path: "courses/french-1/unit-8.html", ready: true },
+      { id: "vocab", name: "Word bank: 1,000 common words", path: "courses/french-1/vocab.html", ready: true }
     ]
   }
   // Example for later:
