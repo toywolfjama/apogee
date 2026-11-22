@@ -120,6 +120,7 @@
         <button type="button" class="srs-btn" data-act="add">+ Add a card</button>
         <button type="button" class="srs-btn" data-act="export">Export progress</button>
         <label class="srs-btn">Import progress<input type="file" accept="application/json" data-act="import" hidden></label>
+        <label class="srs-toggle"><input type="checkbox" data-auto${S.settings.autoAudio ? " checked" : ""}> Auto-play audio</label>
       </div>
       <div class="srs-panel" hidden></div>
       <p class="srs-note">Your progress is saved in this browser only. Use <b>Export</b> to back it up or move it to another device, and <b>Import</b> to load it there.</p>`;
@@ -141,7 +142,7 @@
     view = "study"; shown = false; cur = nextCard();
     const c = counts(deck);
     const head = `<div class="fc-top"><button type="button" class="srs-btn" data-act="back">← Decks</button><b>${esc(deck.name)} <span>${esc(deck.sub)}</span></b>
-      <span class="fc-counts"><i class="c-n">${c.nw}</i><i class="c-l">${c.lrn}</i><i class="c-r">${c.rev}</i></span></div>`;
+      <label class="srs-toggle"><input type="checkbox" data-auto${S.settings.autoAudio ? " checked" : ""}> Auto-play audio</label><span class="fc-counts"><i class="c-n">${c.nw}</i><i class="c-l">${c.lrn}</i><i class="c-r">${c.rev}</i></span></div>`;
     if (!cur) {
       const pending = deck.cards.map(x => S.cards[cid(deck, x)]).filter(s => s && (s.s === "learn" || s.s === "relearn")).sort((a, b) => a.due - b.due)[0];
       app.innerHTML = head + `<div class="fc-done"><div class="fc-big">Félicitations !</div><p>You've finished this deck for now.${sessionN ? ` ${sessionN} card${sessionN > 1 ? "s" : ""} this session.` : ""}</p>
@@ -154,7 +155,7 @@
     app.innerHTML = head + `<div class="fc-stage"><div class="fc${reduce() ? " nomo" : ""}"><div class="fc-face fc-front">${isNew ? '<span class="fc-new">new</span>' : ""}${F.front}</div><div class="fc-face fc-back">${F.front}<hr>${F.back}</div></div></div>
       <div class="fc-ctl"><button type="button" class="srs-btn solid fc-show" data-act="show">Show answer <kbd>space</kbd></button></div>
       <div class="fc-help">Keys: <kbd>space</kbd> show / good · <kbd>1</kbd>–<kbd>4</kbd> grade · <kbd>U</kbd> undo${undo ? ' · <button type="button" class="linkbtn" data-act="undo">Undo last</button>' : ""}</div>`;
-    if (F.sayFront && window.FR) setTimeout(() => window.FR.say(F.sayFront), 150);
+    if (F.sayFront && window.FR && S.settings.autoAudio) setTimeout(() => window.FR.say(F.sayFront), 150);
     if (!reduce()) app.querySelector(".fc").animate([{ opacity: 0, transform: "translateY(14px) scale(.98)" }, { opacity: 1, transform: "none" }], { duration: 260, easing: "cubic-bezier(.2,.8,.2,1)" });
   }
   function show() {
@@ -163,7 +164,7 @@
     const st = S.cards[cid(deck, cur)], now = Date.now();
     const lab = ["Again", "Hard", "Good", "Easy"];
     app.querySelector(".fc-ctl").innerHTML = lab.map((l, i) => `<button type="button" class="srs-grade g${i + 1}" data-g="${i + 1}"><span>${human(preview(st, i + 1).due - now)}</span>${l} <kbd>${i + 1}</kbd></button>`).join("");
-    const F = faces(deck, cur); if (F.sayBack && window.FR) setTimeout(() => window.FR.say(F.sayBack), 250);
+    const F = faces(deck, cur); if (F.sayBack && window.FR && S.settings.autoAudio) setTimeout(() => window.FR.say(F.sayBack), 250);
   }
   function grade(g) {
     if (!shown || !cur) return;
@@ -224,6 +225,7 @@
     a.dataset.sure = 1; a.textContent = "Tap again to confirm reset"; return false;
   }
   app.addEventListener("change", e => {
+    if (e.target.matches("[data-auto]")) { S.settings.autoAudio = e.target.checked; save(); e.target.blur(); if (!e.target.checked && "speechSynthesis" in window) speechSynthesis.cancel(); return; }
     if (e.target.matches('[data-act="import"]')) {
       const f = e.target.files[0]; if (!f) return;
       f.text().then(t => { const d = JSON.parse(t); if (!d || typeof d.cards !== "object") throw 0; localStorage.setItem(KEY, JSON.stringify(d)); load(); renderDecks(); panel("<p>Progress imported.</p>"); })
