@@ -43,6 +43,7 @@
       <div class="in">
         <a class="brand" href="${root}index.html"><span class="planet" aria-hidden="true"><i></i><b></b></span><span class="mark" aria-hidden="true"><img src="${root}assets/img/logo.svg" alt="" width="30" height="30"></span><span class="tt"><span class="u">student@apogee</span><span class="d">:</span><span class="p" id="tt-path">~/${termPath()}</span><span class="d">$</span></span><span class="word">Apogee</span></a>
         <span class="spacer"></span>
+        <a class="navbtn navlink${/review\.html$/.test(location.pathname) ? " on" : ""}" href="${root}review.html">Flashcards</a>
         <div class="dd">
           <button class="navbtn" aria-expanded="false" aria-haspopup="true">Courses ▾</button>
           <div class="dd-menu" role="menu">${menu}</div>
