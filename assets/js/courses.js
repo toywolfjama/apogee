@@ -32,18 +32,23 @@ window.SITE_COURSES = [
   },
   {
     id: "french-1",
-    name: "French 1",
-    blurb: "French from zero: greetings, describing people, everyday life, and talking about the past and future.",
+    name: "French",
+    blurb: "From your first bonjour to college-level grammar: the basics, then the subjunctive, si clauses and essay writing.",
     units: [
-      { id: "unit-1", name: "Unit 1: Bonjour ! The basics", path: "courses/french-1/unit-1.html", ready: true },
-      { id: "unit-2", name: "Unit 2: People and things", path: "courses/french-1/unit-2.html", ready: true },
-      { id: "unit-3", name: "Unit 3: Verbs in the present", path: "courses/french-1/unit-3.html", ready: true },
-      { id: "unit-4", name: "Unit 4: Everyday life", path: "courses/french-1/unit-4.html", ready: true },
-      { id: "unit-5", name: "Unit 5: Past and future", path: "courses/french-1/unit-5.html", ready: true },
-      { id: "unit-6", name: "Unit 6: At home", path: "courses/french-1/unit-6.html", ready: true },
-      { id: "unit-7", name: "Unit 7: Clothes and shopping", path: "courses/french-1/unit-7.html", ready: true },
-      { id: "unit-8", name: "Unit 8: Travel", path: "courses/french-1/unit-8.html", ready: true },
-      { id: "vocab", name: "Word bank: 1,000 common words", path: "courses/french-1/vocab.html", ready: true }
+      { id: "unit-1", group: "Level 1 · The basics", name: "Unit 1: Bonjour ! The basics", path: "courses/french-1/unit-1.html", ready: true },
+      { id: "unit-2", group: "Level 1 · The basics", name: "Unit 2: People and things", path: "courses/french-1/unit-2.html", ready: true },
+      { id: "unit-3", group: "Level 1 · The basics", name: "Unit 3: Verbs in the present", path: "courses/french-1/unit-3.html", ready: true },
+      { id: "unit-4", group: "Level 1 · The basics", name: "Unit 4: Everyday life", path: "courses/french-1/unit-4.html", ready: true },
+      { id: "unit-5", group: "Level 1 · The basics", name: "Unit 5: Past and future", path: "courses/french-1/unit-5.html", ready: true },
+      { id: "unit-6", group: "Level 1 · The basics", name: "Unit 6: At home", path: "courses/french-1/unit-6.html", ready: true },
+      { id: "unit-7", group: "Level 1 · The basics", name: "Unit 7: Clothes and shopping", path: "courses/french-1/unit-7.html", ready: true },
+      { id: "unit-8", group: "Level 1 · The basics", name: "Unit 8: Travel", path: "courses/french-1/unit-8.html", ready: true },
+      { id: "vocab", group: "Level 1 · The basics", name: "Word bank: 1,000 common words", path: "courses/french-1/vocab.html", ready: true },
+      { id: "college-1", group: "Level 2 · College French", name: "Unit 1: Le passé", path: "courses/french-1/college-1.html", ready: true },
+      { id: "college-2", group: "Level 2 · College French", name: "Unit 2: Les pronoms", path: "courses/french-1/college-2.html", ready: true },
+      { id: "college-3", group: "Level 2 · College French", name: "Unit 3: Futur et conditionnel", path: "courses/french-1/college-3.html", ready: true },
+      { id: "college-4", group: "Level 2 · College French", name: "Unit 4: Le subjonctif", path: "courses/french-1/college-4.html", ready: true },
+      { id: "college-5", group: "Level 2 · College French", name: "Unit 5: Le style", path: "courses/french-1/college-5.html", ready: true }
     ]
   }
   // Example for later:

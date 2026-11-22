@@ -57,7 +57,7 @@
     <div class="units" id="units-cs"></div>
   </section>
   <section class="portal paris" aria-labelledby="p-fr">
-    <div class="mbar"><span class="rd">M</span><span>Direction&nbsp;: Français</span><span class="sig">8 units + 1,000 words</span></div>
+    <div class="mbar"><span class="rd">M</span><span>Direction&nbsp;: Français</span><span class="sig">Basics → college</span></div>
     <div class="art" aria-hidden="true">
       <svg viewBox="0 0 360 236">
         <circle cx="214" cy="92" r="46" fill="#D7263D" opacity=".12"/>
@@ -78,9 +78,9 @@
         </g>
       </svg>
     </div>
-    <span class="tag">Course 03 · Language</span>
-    <h2 id="p-fr">French <span>1</span></h2>
-    <p>From your first bonjour to telling a story in the past, with audio for every word and labs for every rule.</p>
+    <span class="tag">Course 03 · Basics → college</span>
+    <h2 id="p-fr">French <span>(Français)</span></h2>
+    <p>Start with your first bonjour, finish with the subjunctive and essay writing. Audio for every word and labs for every rule.</p>
     <div class="units" id="units-fr"></div>
   </section>
 </main>
@@ -96,9 +96,11 @@
   const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
   function units(id, el, term) {
     const c = find(id); if (!c) return;
+    let lastG = null;
     document.getElementById(el).innerHTML = c.units.map(u => {
+      const head = u.group && u.group !== lastG ? `<div class="ugroup">${esc(u.group)}</div>` : ""; lastG = u.group;
       const label = term ? `<span class="nm"><b>${esc(u.id)}/</b>&nbsp;&nbsp;${esc(u.name.replace(/^Unit \d+:\s*/, ""))}</span>` : esc(u.name);
-      return u.path && u.ready !== false ? `<a href="${u.path}">${label}</a>` : `<span>${term ? '<span class="nm">' + esc(u.id) + "/&nbsp;&nbsp;" + esc(u.name.replace(/^Unit \d+:\s*/, "")) + "</span>" : esc(u.name)}<em>${u.note ? "See Unit 3" : "Soon"}</em></span>`;
+      return head + (u.path && u.ready !== false ? `<a href="${u.path}">${label}</a>` : `<span>${term ? '<span class="nm">' + esc(u.id) + "/&nbsp;&nbsp;" + esc(u.name.replace(/^Unit \d+:\s*/, "")) + "</span>" : esc(u.name)}<em>${u.note ? "See Unit 3" : "Soon"}</em></span>`);
     }).join("");
   }
   units("ap-physics-1", "units-phys", false);

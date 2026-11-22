@@ -48,19 +48,21 @@ def check(qs):
 TAGS = {"g": "Grammar", "v": "Vocabulary"}
 FOOT = "Apogee · French 1 · Tap any French word to hear it"
 
-def build(n, slug, title, h1, intro, desc, chapters, PQ, CHAL, EXQ, FRQS, out):
+def build(n, slug, title, h1, intro, desc, chapters, PQ, CHAL, EXQ, FRQS, out, college=False):
     check(PQ); check(CHAL); check(EXQ)
     balance(PQ, 100 + n); balance(CHAL, 200 + n); balance(EXQ, 300 + n)
-    cid = f"f{n}"
+    cid = f"c{n}" if college else f"f{n}"
+    lvl = "College French" if college else "French 1"
+    uid = f"college-{n}" if college else f"unit-{n}"
     ch = list(chapters)
     ch.append(chapter(f"practice-{cid}", "Practice Questions", "Practice", [quiz_section(f"practice-quiz-{cid}", "Practice questions", f"{len(PQ)} questions on everything in this unit. Say each answer out loud before you check it.", f"quiz-{cid}", TAGS)]))
     ch.append(chapter(f"challenge-{cid}", "Challenge Questions", "Challenge", [quiz_section(f"challenge-quiz-{cid}", "Challenge questions", "Harder questions that mix several rules at once.", f"quiz-challenge-{cid}", TAGS)], hard=True))
     ch.append(chapter(f"exam-ch-{cid}", "Practice Exam", "Practice Exam", [f'<section class="topic" id="exam-box-{cid}"><h2>Practice exam</h2><p class="sub">{len(EXQ)} multiple-choice questions (25 minutes) and {len(FRQS)} writing tasks (20 minutes). No feedback until you submit. Grade your writing with the rubric.</p><div class="exam" data-src="exam-{cid}"></div></section>']))
-    EX = {"title": f"Unit {n} Practice Exam: {title}", "mcqMinutes": 25, "frqMinutes": 20, "tags": TAGS,
+    EX = {"title": f"{lvl} Unit {n} Practice Exam: {title}", "mcqMinutes": 25, "frqMinutes": 20, "tags": TAGS,
           "kinds": {"read": "Reading", "gram": "Grammar", "vocab": "Vocabulary", "listen": "Listening"}, "mcq": EXQ, "frq": FRQS}
-    HTML = page(f"unit-{n}", f"French 1 Unit {n}: {title}", f"French 1 · Unit {n}", h1, intro, desc, ch,
+    HTML = page(uid, f"{lvl} Unit {n}: {title}", f"{lvl} · Unit {n}", h1, intro, desc, ch,
                 {f"quiz-{cid}": PQ, f"quiz-challenge-{cid}": CHAL, f"exam-{cid}": EX},
                 course="french-1", footer=FOOT, extra_js=("fr.js",))
     HTML = HTML.replace('<script src="../../assets/js/sims.js"></script>\n', "")
     open(out, "w").write(HTML)
-    print(f"French unit {n} written:", len(PQ), len(CHAL), len(EXQ), len(FRQS))
+    print(f"{lvl} unit {n} written:", len(PQ), len(CHAL), len(EXQ), len(FRQS))

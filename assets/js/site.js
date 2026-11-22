@@ -31,6 +31,7 @@
       menu += `<div class="course">${c.name}</div>`;
       c.units.forEach(u => {
         const cur = c.id === body.dataset.course && u.id === body.dataset.unit;
+        if (u.group && u.group !== c.__g) { menu += `<span class="dd-group">${u.group}</span>`; c.__g = u.group; }
         if (u.path && u.ready !== false) {
           menu += `<a href="${root}${u.path}"${cur ? ' class="current"' : ""}>${u.name}</a>`;
         } else {

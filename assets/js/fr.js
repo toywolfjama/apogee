@@ -122,6 +122,15 @@
     "écouter": ["to listen to", "er", "écoute écoutes écoute écoutons écoutez écoutent", "écouté"],
     ouvrir: ["to open", "irr", "ouvre ouvres ouvre ouvrons ouvrez ouvrent", "ouvert"],
     "se dépêcher": ["to hurry", "refl", "dépêche dépêches dépêche dépêchons dépêchez dépêchent", "dépêché", 1],
+    savoir: ["to know (facts, how to)", "irr", "sais sais sait savons savez savent", "su"],
+    "connaître": ["to know (people, places)", "irr", "connais connais connaît connaissons connaissez connaissent", "connu"],
+    dire: ["to say, tell", "irr", "dis dis dit disons dites disent", "dit"],
+    croire: ["to believe", "irr", "crois crois croit croyons croyez croient", "cru"],
+    envoyer: ["to send", "irr", "envoie envoies envoie envoyons envoyez envoient", "envoyé"],
+    "réussir": ["to succeed", "ir", "réussis réussis réussit réussissons réussissez réussissent", "réussi"],
+    "étudier": ["to study", "er", "étudie étudies étudie étudions étudiez étudient", "étudié"],
+    travailler: ["to work", "er", "travaille travailles travaille travaillons travaillez travaillent", "travaillé"],
+    "se souvenir": ["to remember", "refl", "souviens souviens souvient souvenons souvenez souviennent", "souvenu", 1],
     "se lever": ["to get up", "refl", "lève lèves lève levons levez lèvent", "levé", 1],
     "se coucher": ["to go to bed", "refl", "couche couches couche couchons couchez couchent", "couché", 1],
     "s'habiller": ["to get dressed", "refl", "habille habilles habille habillons habillez habillent", "habillé", 1]
@@ -143,7 +152,49 @@
     const rows = [["(tu)", tu, "-toi"], ["(nous)", nous, "-nous"], ["(vous)", vous, "-vous"]];
     return rows.map(([pron, f, r]) => ({ pron, lead: "", stem: f + (isRefl ? r : "") + " !", end: "" }));
   }
+
+  /* college tenses */
+  const FUT = { "être": "ser", avoir: "aur", aller: "ir", faire: "fer", venir: "viendr", pouvoir: "pourr", vouloir: "voudr", devoir: "devr", voir: "verr", savoir: "saur", envoyer: "enverr", acheter: "achèter", "se lever": "lèver", "se souvenir": "souviendr", courir: "courr" };
+  const SUBJ = {
+    "être": "sois sois soit soyons soyez soient", avoir: "aie aies ait ayons ayez aient", aller: "aille ailles aille allions alliez aillent",
+    faire: "fasse fasses fasse fassions fassiez fassent", pouvoir: "puisse puisses puisse puissions puissiez puissent",
+    savoir: "sache saches sache sachions sachiez sachent", vouloir: "veuille veuilles veuille voulions vouliez veuillent"
+  };
+  const E_IMPF = ["ais", "ais", "ait", "ions", "iez", "aient"], E_FUT = ["ai", "as", "a", "ons", "ez", "ont"], E_SUBJ = ["e", "es", "e", "ions", "iez", "ent"];
+  const AUX_I = { a: "avais avais avait avions aviez avaient".split(" "), e: "étais étais était étions étiez étaient".split(" ") };
+  const AUX_C = { a: "aurais aurais aurait aurions auriez auraient".split(" "), e: "serais serais serait serions seriez seraient".split(" ") };
+  function impfStem(key) { if (key === "être") return "ét"; return V[key][2].split(" ")[3].replace(/ons$/, ""); }
+  function futStem(key) { if (FUT[key]) return FUT[key]; const inf = key.replace(/^se |^s'/, ""); return /re$/.test(inf) ? inf.slice(0, -1) : inf; }
+  const NEWT = { impf: 1, fut: 1, cond: 1, subj: 1, pqp: 1, cpass: 1 };
+  function conj2(key, tense) {
+    const [, kind, forms, pp, etre] = V[key]; const F = forms.split(" "); const isRefl = kind === "refl"; const be = etre || isRefl;
+    return F.map((f, i) => {
+      let stem, end = "", irr = false;
+      if (tense === "impf") { stem = impfStem(key); end = E_IMPF[i]; }
+      else if (tense === "fut") { stem = futStem(key); end = E_FUT[i]; }
+      else if (tense === "cond") { stem = futStem(key); end = E_IMPF[i]; }
+      else if (tense === "subj") {
+        if (SUBJ[key]) { stem = SUBJ[key].split(" ")[i]; irr = true; }
+        else { stem = (i === 3 || i === 4) ? impfStem(key) : F[5].replace(/ent$/, ""); end = E_SUBJ[i]; }
+      } else {
+        const aux = (tense === "pqp" ? AUX_I : AUX_C)[be ? "e" : "a"][i];
+        const r = isRefl ? refl(i, aux) : "";
+        let p2 = be ? agree(pp, i) : pp;
+        if (i === 2 && be) p2 = pp + " / " + pp + "e";
+        if (i === 5 && be) p2 = pp + "s / " + pp + "es";
+        return { pron: PR[i], lead: subj(i, isRefl ? r : aux) + r + aux + " ", stem: p2, end: "" };
+      }
+      if (/^i/.test(end)) stem = stem.replace(/ge$/, "g").replace(/ç$/, "c");
+      const word = stem + end;
+      const r = isRefl ? refl(i, word) : "";
+      let lead = isRefl ? subj(i, r) + r : subj(i, word);
+      if (tense === "subj") lead = (/^(il|ils) /.test(lead) ? "qu'" : "que ") + lead;
+      return { pron: PR[i], lead, stem, end, irr };
+    });
+  }
+  window.FR.conj = (k, t) => (NEWT[t] ? conj2(k, t) : conj(k, t)).map(r => (r.lead + r.stem + r.end).replace(/ \/ .*$/, ""));
   function conj(key, tense) {
+    if (NEWT[tense]) return conj2(key, tense);
     if (tense === "imp") return imper(key);
     const [en, kind, forms, pp, etre] = V[key]; const F = forms.split(" ");
     const isRefl = kind === "refl"; const inf = key.replace(/^se |^s'/, "");
@@ -171,7 +222,7 @@
   function labConj(el, p) {
     const keys = p.verbs || Object.keys(V);
     const tenses = p.tenses || ["pres"];
-    const TN = { pres: "Present", pc: "Passé composé", fp: "Futur proche", imp: "Imperative (commands)" };
+    const TN = { pres: "Present", pc: "Passé composé", fp: "Futur proche", imp: "Imperative (commands)", impf: "Imparfait", fut: "Futur simple", cond: "Conditionnel", subj: "Subjonctif présent", pqp: "Plus-que-parfait", cpass: "Conditionnel passé" };
     el.innerHTML = `<div class="lab-h">Verb lab <span>Pick a verb${tenses.length > 1 ? " and a tense" : ""}. Tap a row to hear it.</span></div>
       <div class="lab-row"><select class="lab-in" data-k="v">${keys.map(k => `<option value="${esc(k)}">${esc(k)} (${esc(V[k][0])})</option>`).join("")}</select>
       ${tenses.length > 1 ? `<select class="lab-in" data-k="t">${tenses.map(t => `<option value="${t}">${TN[t]}</option>`).join("")}</select>` : ""}</div>
@@ -185,6 +236,11 @@
       if (t === "pres" && ["er", "ir", "re"].includes(d[1])) msg += ` · stem <b>${esc(k.slice(0, -2))}-</b> + the <span class="cj-end">endings</span>`;
       if (t === "pc") msg += ` · helper verb <b>${(d[4] || d[1] === "refl") ? "être" : "avoir"}</b> + past participle <b>${esc(d[3])}</b>${(d[4] || d[1] === "refl") ? " (agrees with the subject)" : ""}`;
       if (t === "fp") msg += " · <b>aller</b> in the present + the infinitive";
+      if (t === "impf") msg += ` · stem from <b>nous ${esc(V[k][2].split(" ")[3])}</b> → <b>${esc(impfStem(k))}-</b>${k === "être" ? " (être is the one exception: ét-)" : ""} + <span class="cj-end">-ais, -ais, -ait, -ions, -iez, -aient</span>`;
+      if (t === "fut" || t === "cond") msg += ` · stem <b>${esc(futStem(k))}-</b>${FUT[k] ? " (irregular)" : ""} + <span class="cj-end">${t === "fut" ? "-ai, -as, -a, -ons, -ez, -ont" : "imparfait endings"}</span>`;
+      if (t === "subj") msg += SUBJ[k] ? " · irregular subjunctive: learn it by heart" : ` · stem from <b>ils ${esc(V[k][2].split(" ")[5])}</b> → <b>${esc(V[k][2].split(" ")[5].replace(/ent$/, ""))}-</b>; nous / vous use the imparfait stem`;
+      if (t === "pqp") msg += ` · <b>${(V[k][4] || V[k][1] === "refl") ? "être" : "avoir"}</b> in the imparfait + past participle <b>${esc(V[k][3])}</b>`;
+      if (t === "cpass") msg += ` · <b>${(V[k][4] || V[k][1] === "refl") ? "être" : "avoir"}</b> in the conditionnel + past participle <b>${esc(V[k][3])}</b>`;
       if (t === "imp") msg += IMPIRR[k] ? " · irregular commands: learn these by heart" : d[1] === "er" || d[1] === "refl" || k === "aller" || k === "ouvrir" ? " · present tense without the subject; the tu form drops its <b>-s</b>" + (d[1] === "refl" ? ", and the pronoun goes <b>after</b> with a hyphen" : "") : " · present tense without the subject";
       info.innerHTML = msg;
       grid.innerHTML = rows.map(r => {
@@ -531,7 +587,128 @@
     });
     draw();
   }
-  const LABS = { vocab: labVocab, geo: labGeo, prep: labPrep, conj: labConj, num: labNum, clock: labClock, noun: labNoun, adj: labAdj, neg: labNeg };
+
+  /* ---------------- passé composé vs imparfait timeline ---------------- */
+  function labTl(el, p) {
+    const items = p.items;
+    el.innerHTML = `<div class="lab-h">Timeline lab <span>Imparfait = the background (a long stretch). Passé composé = an event (a single point).</span></div>
+      <div class="lab-row"><select class="lab-in tl-s">${items.map((x, i) => `<option value="${i}">${esc(x.parts.map(q => q[0]).join(""))}</option>`).join("")}</select></div>
+      <div class="tl-sent"></div><svg class="tl-svg" viewBox="0 0 620 150" aria-hidden="true"></svg><div class="ad-why tl-why"></div>`;
+    const svg = el.querySelector("svg");
+    function upd() {
+      const it = items[+el.querySelector(".tl-s").value];
+      const text = it.parts.map(q => q[0]).join("");
+      el.querySelector(".tl-sent").innerHTML = it.parts.map(([t, k]) => k ? `<span class="tl-${k}">${esc(t)}</span>` : esc(t)).join("") + sayBtn(text) + `<div class="wa-en">${esc(it.en)}</div>`;
+      const bg = it.parts.filter(q => q[1] === "i"), ev = it.parts.filter(q => q[1] === "p");
+      let h = `<line x1="20" y1="118" x2="600" y2="118" class="tl-axis"/><path d="M600 118l-10-6v12z" class="tl-arrow"/><text x="22" y="140" class="tl-lab">past</text><text x="560" y="140" class="tl-lab">now</text>`;
+      bg.forEach((q, j) => { const y = 74 - j * 34; h += `<rect x="40" y="${y}" width="500" height="22" rx="11" class="tl-band"/><path d="M48 ${y + 11}${Array.from({ length: 24 }, (_, k) => `q10 ${k % 2 ? 7 : -7} 20 0`).join("")}" class="tl-wave"/><text x="290" y="${y - 6}" text-anchor="middle" class="tl-bt">${esc(q[0].trim())}</text>`; });
+      ev.forEach((q, j) => { const x = ev.length === 1 ? 330 : 170 + j * (300 / Math.max(1, ev.length - 1)); h += `<g class="tl-ev" style="--d:${0.5 + j * 0.35}s"><line x1="${x}" y1="${bg.length ? 30 : 60}" x2="${x}" y2="118" class="tl-pin"/><circle cx="${x}" cy="118" r="7" class="tl-dot"/><text x="${x}" y="${bg.length ? 22 : 52}" text-anchor="middle" class="tl-et">${esc(q[0].trim())}</text></g>`; });
+      svg.innerHTML = h;
+      el.querySelector(".tl-why").innerHTML = it.why;
+    }
+    el.querySelector("select").addEventListener("change", upd); upd();
+  }
+
+  /* ---------------- pronoun order ---------------- */
+  const ORDER = ["me te se nous vous", "le la les", "lui leur", "y", "en"];
+  const rank = pr => ORDER.findIndex(g => g.split(" ").includes(pr));
+  function elide(tokens) {
+    const out = [];
+    for (let i = 0; i < tokens.length; i++) {
+      const t = tokens[i], n = tokens[i + 1];
+      if (n && /^(je|me|te|se|le|la|ne|de)$/i.test(t) && vowel(n)) out.push(t.slice(0, -1) + "'");
+      else out.push(t);
+    }
+    return out.join(" ").replace(/' /g, "'");
+  }
+  function labPron(el, p) {
+    const items = p.items;
+    el.innerHTML = `<div class="lab-h">Pronoun lab <span>Replace the objects and watch where the pronouns go.</span></div>
+      <div class="lab-row"><select class="lab-in pr-s">${items.map((x, i) => `<option value="${i}">${esc(elide([x.s, ...(x.pre ? [x.pre] : []), x.v]) + " " + x.o.map(o => o[1]).join(" "))}</option>`).join("")}</select><label class="tg"><input type="checkbox" class="pr-neg"> negative</label></div>
+      <div class="pr-boxes"></div><div class="ng-out pr-out"></div>
+      <div class="pr-order">${ORDER.map((g, i) => `<span data-r="${i}">${esc(g.replace(/ /g, " / "))}</span>`).join('<i>→</i>')}</div><div class="ad-why pr-why"></div>`;
+    function boxes() {
+      const it = items[+el.querySelector(".pr-s").value];
+      el.querySelector(".pr-boxes").innerHTML = it.o.map((o, i) => `<label class="tg pr-b"><input type="checkbox" data-i="${i}" checked> ${esc(o[1])} → <b>${esc(o[2])}</b></label>`).join("");
+      el.querySelectorAll(".pr-b input").forEach(c => c.addEventListener("change", upd)); upd();
+    }
+    function upd() {
+      const it = items[+el.querySelector(".pr-s").value], neg = el.querySelector(".pr-neg").checked;
+      const on = [...el.querySelectorAll(".pr-b input")].map(c => c.checked);
+      const prons = [...(it.pre ? [it.pre] : []), ...it.o.filter((_, i) => on[i]).map(o => o[2])].sort((a, b) => rank(a) - rank(b));
+      let rest = it.o.filter((_, i) => !on[i]).map(o => o[1]);
+      if (neg) rest = rest.map(r => r.replace(/^(des|du|de la|un|une) (?=[^aeiouhéèêàâîôû])/i, "de ").replace(/^(des|du|de la|de l'|un|une) ?(?=[aeiouhéèêàâîôû])/i, "d'"));
+      const toks = [it.s.toLowerCase(), ...(neg ? ["ne"] : []), ...prons, it.v, ...(neg ? ["pas"] : [])];
+      let sent = elide(toks) + (rest.length ? " " + rest.join(" ") : "");
+      sent = sent[0].toUpperCase() + sent.slice(1) + ".";
+      el.querySelector(".pr-out").innerHTML = `<b class="ad-ph">${esc(sent)}</b>${sayBtn(sent)}`;
+      el.querySelectorAll(".pr-order span").forEach(s => s.classList.toggle("on", prons.some(pr => rank(pr) === +s.dataset.r)));
+      const why = [];
+      if (prons.length) why.push("Object pronouns go right <b>before the conjugated verb</b>" + (neg ? ", inside ne … pas" : "") + ".");
+      if (prons.length > 1) why.push(`Two pronouns follow the fixed order: <b>${prons.join(" + ")}</b>.`);
+      if (prons.includes("en")) why.push("<b>en</b> replaces a noun with du / de la / des or a quantity, and always comes last.");
+      if (prons.includes("y")) why.push("<b>y</b> replaces a place (à, en, dans, chez + place) or à + a thing.");
+      if (prons.some(x => x === "lui" || x === "leur")) why.push("<b>lui / leur</b> replace à + a person.");
+      el.querySelector(".pr-why").innerHTML = why.map(w => `<div>${w}</div>`).join("") || "<div>Tick an object to replace it.</div>";
+      if (!reduce()) el.querySelector(".pr-out .ad-ph").animate([{ opacity: .3, transform: "translateY(4px)" }, { opacity: 1, transform: "none" }], { duration: 300 });
+    }
+    el.querySelector(".pr-s").addEventListener("change", boxes); el.querySelector(".pr-neg").addEventListener("change", upd); boxes();
+  }
+
+  /* ---------------- si clauses ---------------- */
+  const SUBJS = ["je", "tu", "il", "nous", "vous", "ils"];
+  function labSi(el, p) {
+    const sc = p.items;
+    const T = { 1: ["pres", "fut", "Real possibility", "si + présent → futur"], 2: ["impf", "cond", "Hypothetical (now / future)", "si + imparfait → conditionnel"], 3: ["pqp", "cpass", "Didn't happen (past)", "si + plus-que-parfait → conditionnel passé"] };
+    el.innerHTML = `<div class="lab-h">Si clause builder <span>Pick a situation, a subject and how likely it is.</span></div>
+      <div class="lab-row"><select class="lab-in si-c">${sc.map((x, i) => `<option value="${i}">${esc(x.en)}</option>`).join("")}</select>
+      <select class="lab-in si-p">${SUBJS.map((x, i) => `<option value="${i}">${x}</option>`).join("")}</select></div>
+      <div class="pp-btns">${[1, 2, 3].map(t => `<button type="button" class="wa-b${t === 1 ? " solid" : ""}" data-t="${t}">${T[t][2]}</button>`).join("")}</div>
+      <div class="si-out"></div><div class="ad-why si-why"></div>`;
+    let t = 1;
+    function upd() {
+      const x = sc[+el.querySelector(".si-c").value], i = +el.querySelector(".si-p").value;
+      const c = window.FR.conj(x.c[0], T[t][0])[i] + (x.c[1] ? " " + x.c[1] : ""), r = window.FR.conj(x.r[0], T[t][1])[i] + (x.r[1] ? " " + x.r[1] : "");
+      const sent = ("Si " + c).replace(/^Si il/, "S'il") + ", " + r + ".";
+      el.querySelector(".si-out").innerHTML = `<div class="si-row"><span class="si-tag a">si + ${{ pres: "présent", impf: "imparfait", pqp: "plus-que-parfait" }[T[t][0]]}</span><span class="si-tag b">${{ fut: "futur", cond: "conditionnel", cpass: "conditionnel passé" }[T[t][1]]}</span></div><b class="ad-ph">${esc(sent)}</b>${sayBtn(sent)}`;
+      el.querySelector(".si-why").innerHTML = `<div><b>${T[t][3]}</b>. ${t === 1 ? "It could really happen." : t === 2 ? "Imagining: it isn't true now, or probably won't happen." : "Regret or imagining a different past: it didn't happen."}</div><div>Never put the futur or the conditionnel right after <b>si</b>. You can also flip the halves: the result clause first, then si.</div>`;
+      el.querySelectorAll("[data-t]").forEach(b => b.classList.toggle("solid", +b.dataset.t === t));
+      if (!reduce()) el.querySelector(".si-out .ad-ph").animate([{ opacity: .2 }, { opacity: 1 }], { duration: 300 });
+    }
+    el.addEventListener("click", e => { const b = e.target.closest("[data-t]"); if (b) { t = +b.dataset.t; upd(); } });
+    el.querySelectorAll("select").forEach(s => s.addEventListener("change", upd)); upd();
+  }
+
+  /* ---------------- subjunctive or indicative ---------------- */
+  function labMood(el, p) {
+    const TR = p.triggers, VB = p.verbs;
+    el.innerHTML = `<div class="lab-h">Subjunctive or indicative? <span>The expression before que decides the mood.</span></div>
+      <div class="lab-row"><select class="lab-in md-t">${TR.map((x, i) => `<option value="${i}">${esc(x[0])} que…</option>`).join("")}</select>
+      <select class="lab-in md-p">${SUBJS.map((x, i) => `<option value="${i}"${i === 1 ? " selected" : ""}>${x}</option>`).join("")}</select>
+      <select class="lab-in md-v">${VB.map((x, i) => `<option value="${i}">${esc(x[0] + (x[1] ? " " + x[1] : ""))}</option>`).join("")}</select></div>
+      <div class="md-tag"></div><div class="md-out"></div><div class="ad-why md-why"></div>`;
+    function upd() {
+      const tr = TR[+el.querySelector(".md-t").value], i = +el.querySelector(".md-p").value, vb = VB[+el.querySelector(".md-v").value];
+      const subjMood = tr[1] === "s";
+      const mainIsJe = /^(Je|J')/.test(tr[0]);
+      let sent, why = [`<b>${esc(tr[0])}</b> expresses ${esc(tr[2])} → <b>${subjMood ? "subjunctive" : "indicative"}</b>.`];
+      if (subjMood && mainIsJe && i === 0 && tr.length > 3) {
+        const prep = tr[3] === "de" && vowel(vb[0]) ? "d'" : tr[3] ? tr[3] + " " : "";
+        sent = `${tr[0]} ${prep}${vb[0]}${vb[1] ? " " + vb[1] : ""}.`;
+        why.push("Same subject in both halves (je … je): use an <b>infinitive</b> instead of que + subjunctive.");
+      } else {
+        let f = window.FR.conj(vb[0], subjMood ? "subj" : "pres")[i];
+        if (!subjMood) f = (/^(il|ils) /.test(f) ? "qu'" : "que ") + f;
+        sent = `${tr[0]} ${f}${vb[1] ? " " + vb[1] : ""}` + (/^(Bien|Pour|Avant|Sans|Parce)$/.test(tr[0]) ? "…" : ".");
+      }
+      el.querySelector(".md-tag").innerHTML = `<span class="si-tag ${subjMood ? "b" : "a"}">${subjMood ? "subjonctif" : "indicatif"}</span>`;
+      el.querySelector(".md-out").innerHTML = `<b class="ad-ph">${esc(sent)}</b>${sayBtn(sent)}`;
+      el.querySelector(".md-why").innerHTML = why.map(w => `<div>${w}</div>`).join("");
+      if (!reduce()) el.querySelector(".md-out .ad-ph").animate([{ opacity: .2 }, { opacity: 1 }], { duration: 300 });
+    }
+    el.querySelectorAll("select").forEach(s => s.addEventListener("change", upd)); upd();
+  }
+  const LABS = { tl: labTl, pron: labPron, si: labSi, mood: labMood, vocab: labVocab, geo: labGeo, prep: labPrep, conj: labConj, num: labNum, clock: labClock, noun: labNoun, adj: labAdj, neg: labNeg };
   function mount(root) {
     bindSay(root);
     (root || document).querySelectorAll(".frlab[data-lab]").forEach(el => {
