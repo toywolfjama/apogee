@@ -48,6 +48,20 @@ PHYS = [
  ("Normal force on a level surface (no other vertical forces)", "F_N = mg"),
  ("Why astronauts feel weightless in orbit", "They and the station are both in free fall toward Earth."),
  ("Net force on an object moving at constant velocity", "zero"),
+ ("Angular velocity after time t (constant α)", "ω = ω₀ + αt"),
+ ("Angle turned (constant α)", "Δθ = ω₀t + ½αt²"),
+ ("Rotational kinematics with no time", "ω² = ω₀² + 2αΔθ"),
+ ("Linear speed of a point at radius r on a spinning object", "v = rω (θ in radians)"),
+ ("Tangential acceleration", "a_t = rα"),
+ ("1 revolution in radians", "2π rad"),
+ ("Torque", "τ = r⊥F = rF sin θ"),
+ ("Lever arm", "The perpendicular distance from the axis to the force's line of action: r⊥ = r sin θ."),
+ ("Rotational inertia of point masses", "I = Σmr²"),
+ ("Parallel-axis theorem", "I′ = I_cm + Md²"),
+ ("Rank I for a hoop, solid disk and solid sphere (same M, R)", "hoop (MR²) > disk (½MR²) > sphere (⅖MR²)"),
+ ("Newton's second law for rotation", "α = Στ / I"),
+ ("Conditions for static equilibrium", "ΣF = 0 and Στ = 0"),
+ ("Rolling without slipping", "v_cm = Rω and a_cm = Rα"),
 ]
 
 CSA = [

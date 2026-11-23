@@ -1085,6 +1085,148 @@
 
   /* ---------- runtime ---------- */
   const live = new Set();
+
+  /* ===================== Unit 5: rotation ===================== */
+  function disk(c, cx, cy, R, th, col, spokes = 6) {
+    // th = angle in radians, counterclockwise positive
+    c.save(); c.translate(cx, cy); c.rotate(-th);
+    const g = c.createRadialGradient(-R * 0.3, -R * 0.3, R * 0.1, 0, 0, R);
+    g.addColorStop(0, "rgba(124,196,255,.35)"); g.addColorStop(1, "rgba(30,50,110,.55)");
+    c.fillStyle = g; c.strokeStyle = col; c.lineWidth = 3; c.beginPath(); c.arc(0, 0, R, 0, 7); c.fill(); c.stroke();
+    c.strokeStyle = "rgba(255,255,255,.25)"; c.lineWidth = 1.5;
+    for (let i = 0; i < spokes; i++) { const a = (i / spokes) * Math.PI * 2; c.beginPath(); c.moveTo(0, 0); c.lineTo(Math.cos(a) * R, Math.sin(a) * R); c.stroke(); }
+    c.strokeStyle = C.y; c.lineWidth = 3; c.beginPath(); c.moveTo(0, 0); c.lineTo(R, 0); c.stroke();   // reference line
+    c.restore();
+    c.fillStyle = C.w; c.beginPath(); c.arc(cx, cy, 4, 0, 7); c.fill();
+  }
+  function curl(c, cx, cy, r, sign, col, lab) {
+    // curved arrow showing a rotation direction: sign +1 counterclockwise, -1 clockwise
+    if (!sign) return;
+    c.save(); c.strokeStyle = col; c.fillStyle = col; c.lineWidth = 2.5;
+    const a0 = -Math.PI * 0.15, a1 = -Math.PI * 0.85;
+    c.beginPath(); c.arc(cx, cy, r, sign > 0 ? a0 : a1, sign > 0 ? a1 : a0, sign > 0); c.stroke();
+    const ae = sign > 0 ? a1 : a0, ex = cx + r * Math.cos(ae), ey = cy + r * Math.sin(ae), tg = ae + (sign > 0 ? -Math.PI / 2 : Math.PI / 2);
+    c.beginPath(); c.moveTo(ex + 9 * Math.cos(tg), ey + 9 * Math.sin(tg)); c.lineTo(ex + 6 * Math.cos(tg + 2.2), ey + 6 * Math.sin(tg + 2.2)); c.lineTo(ex + 6 * Math.cos(tg - 2.2), ey + 6 * Math.sin(tg - 2.2)); c.closePath(); c.fill();
+    c.restore();
+    if (lab) txt(c, lab, cx, cy - r - 8, { c: col, s: 12, b: 1, a: "center" });
+  }
+
+  // a wheel speeding up or slowing down: θ, ω, α and v = rω at two radii
+  SIMS.rotkin = p => {
+    const w0 = p.w0 ?? 0, al = p.al ?? 1, T = p.T ?? 4, r1 = p.r1 ?? 0.5, r2 = p.r2 ?? 1, rmax = Math.max(r1, r2);
+    const R = 100, cx = 180, cy = 135, ask = p.ask || [];
+    const marks = Array.from({ length: Math.floor(T) }, (_, i) => i + 1);
+    return {
+      D: T, hold: 1.2, marks,
+      draw(c, t, rev) {
+        const th = w0 * t + 0.5 * al * t * t, w = w0 + al * t;
+        disk(c, cx, cy, R, th, C.b);
+        [[r1, C.g, "1"], [r2, C.o, "2"]].forEach(([r, col, k]) => {
+          const pr = R * r / rmax, x = cx + pr * Math.cos(th), y = cy - pr * Math.sin(th);
+          ball(c, x, y, 8, col);
+          const v = r * w, L = clamp(v * 22, -70, 70);
+          arrow(c, x, y, x - Math.sin(th) * L, y - Math.cos(th) * L, col, "v" + k, { w: 2.5 });
+        });
+        curl(c, cx, cy, R + 18, Math.sign(w) || Math.sign(al), C.y, al >= 0 === w >= 0 ? "speeding up" : "slowing down");
+        const rev2 = th / (2 * Math.PI);
+        panel(c, ["t = " + f(t, 1) + " s", "ω₀ = " + f(w0) + " rad/s   α = " + f(al) + " rad/s²",
+          ["ω = ω₀ + αt = " + f(w, 2) + " rad/s", ask.includes("w")], ["Δθ = ω₀t + ½αt² = " + f(th, 2) + " rad (" + f(rev2, 2) + " rev)", ask.includes("th")],
+          ["v₁ = r₁ω = " + f(r1, 2) + " × " + f(w, 2) + " = " + f(r1 * w, 2) + " m/s", ask.includes("v")], ["v₂ = r₂ω = " + f(r2 * w, 2) + " m/s", ask.includes("v")],
+          "every point has the same ω; farther out moves faster"], 700, 40, rev, { a: "right" });
+      }
+    };
+  };
+
+  // a door seen from above: τ = rF sin θ, with the lever arm drawn in
+  SIMS.torque = p => {
+    const r = p.r ?? 0.8, F = p.F ?? 20, ang = (p.ang ?? 90) * Math.PI / 180, L = p.L ?? 1, I = p.I ?? 4;
+    const tau = r * F * Math.sin(ang), alpha = tau / I, hx = 90, hy = 205, PX = 260;
+    return {
+      D: 3.2, hold: 1, marks: [1, 3.2],
+      draw(c, t, rev) {
+        const tt = Math.max(0, t - 1), phi = clamp(0.5 * alpha * tt * tt * 0.6, -0.5, 0.5);
+        const ux = Math.cos(phi), uy = -Math.sin(phi);
+        // wall and hinge
+        c.fillStyle = C.faint; c.fillRect(hx - 40, hy + 8, 40, 60); c.fillRect(hx + PX * L + 4, hy + 8, 60, 60);
+        c.save(); c.strokeStyle = C.y; c.lineWidth = 10; c.lineCap = "round"; c.beginPath(); c.moveTo(hx, hy); c.lineTo(hx + ux * PX * L, hy + uy * PX * L); c.stroke(); c.restore();
+        c.fillStyle = C.w; c.beginPath(); c.arc(hx, hy, 7, 0, 7); c.fill(); txt(c, "hinge (axis)", hx, hy + 28, { c: C.m, s: 12, a: "center" });
+        const px = hx + ux * PX * r, py = hy + uy * PX * r;
+        // force direction: rotate the door direction by ang (counterclockwise)
+        const fa = phi + ang, fx = Math.cos(fa), fy = -Math.sin(fa), FL = 30 + F * 2.2;
+        // line of action and lever arm
+        c.setLineDash([5, 5]); c.strokeStyle = "rgba(255,255,255,.3)"; c.lineWidth = 1.5;
+        c.beginPath(); c.moveTo(px - fx * 260, py - fy * 260); c.lineTo(px + fx * 260, py + fy * 260); c.stroke();
+        const d = (hx - px) * fx + (hy - py) * fy, footx = px + fx * d, footy = py + fy * d;
+        if (Math.abs(Math.sin(ang)) > 0.02) { c.strokeStyle = C.g; c.lineWidth = 2.5; c.beginPath(); c.moveTo(hx, hy); c.lineTo(footx, footy); c.stroke(); }
+        c.setLineDash([]);
+        if (Math.abs(Math.sin(ang)) > 0.02) txt(c, "r⊥", (hx + footx) / 2 - 18, (hy + footy) / 2, { c: C.g, s: 13, b: 1 });
+        arrow(c, px, py, px + fx * FL, py + fy * FL, C.r, "F", { w: 3.5 });
+        txt(c, "r = " + f(r) + " m", hx + ux * PX * r / 2, hy + uy * PX * r / 2 + 22, { c: C.y, s: 12, b: 1, a: "center" });
+        curl(c, hx, hy, 46, Math.sign(tau), C.p);
+        panel(c, ["r = " + f(r) + " m   F = " + f(F) + " N   θ = " + f(ang * 180 / Math.PI, 0) + "°",
+          "lever arm r⊥ = r sin θ = " + f(r * Math.sin(ang), 2) + " m", ["τ = rF sin θ = " + f(tau, 2) + " N·m", (p.ask || []).includes("tau")],
+          Math.abs(tau) < 1e-9 ? "no torque: the force points at the axis" : tau > 0 ? "counterclockwise (+)" : "clockwise (−)"], 706, 40, rev, { a: "right" });
+      }
+    };
+  };
+
+  // a beam on a pivot with masses: does it balance?
+  SIMS.seesaw = p => {
+    const objs = p.objs || [[2, -1], [1, 2]], Lh = p.L ?? 2.5, xp = p.pivot ?? 0, M = p.beam ?? 0, g = G;
+    const sc = 250 / Lh, cx = 360, by = 150;
+    const torques = objs.map(([m, x]) => -m * g * (x - xp));
+    const tb = -M * g * (0 - xp), net = torques.reduce((a, b) => a + b, 0) + tb, bal = Math.abs(net) < 1e-6;
+    return {
+      D: 3, hold: 1.5, marks: [1.2, 3],
+      draw(c, t, rev) {
+        const k = bal ? 0 : ease(clamp((t - 1.2) / 1.6, 0, 1)), tilt = Math.sign(net) * k * 0.2;   // + = counterclockwise
+        const pxp = cx + xp * sc;
+        c.fillStyle = C.m; c.beginPath(); c.moveTo(pxp, by + 6); c.lineTo(pxp - 22, by + 58); c.lineTo(pxp + 22, by + 58); c.closePath(); c.fill();
+        ground(c, by + 58, 40, 680);
+        c.save(); c.translate(pxp, by); c.rotate(-tilt);
+        c.fillStyle = M ? C.y : "#C9A35A"; rr(c, -cx + 360 - 250 - xp * sc, -6, 500, 12, 4); c.fill();
+        for (let x = -Lh; x <= Lh + 1e-9; x += Lh / 5) { const X = (x - xp) * sc; c.fillStyle = "rgba(0,0,0,.35)"; c.fillRect(X - 1, -6, 2, 12); }
+        objs.forEach(([m, x], i) => {
+          const X = (x - xp) * sc, s = 22 + 12 * Math.sqrt(m);
+          box(c, X - s / 2, -6 - s, s, s, i % 2 ? C.o : C.b, f(m) + " kg");
+          if (t < 1.2 || bal || rev) arrow(c, X, -6 - s / 2, X, 40 + 6 * m, C.r, "", { w: 2.5 });
+        });
+        if (M) arrow(c, -xp * sc, 0, -xp * sc, 34 + 4 * M, C.y, "", { w: 2 });
+        c.restore();
+        objs.forEach(([m, x], i) => txt(c, (x - xp >= 0 ? "+" : "") + f(x - xp) + " m", pxp + (x - xp) * sc, by + 78, { c: C.m, s: 12, a: "center" }));
+        const lines = objs.map(([m, x], i) => [`τ${i + 1} = −(${f(m)})(10)(${f(x - xp)}) = ${f(torques[i], 1)} N·m`, false]);
+        if (M) lines.push([`τ beam = ${f(tb, 1)} N·m`, false]);
+        lines.push([`Στ = ${f(net, 1)} N·m`, (p.ask || []).includes("net")]);
+        lines.push(bal ? "balanced: Στ = 0, no angular acceleration" : net > 0 ? "net counterclockwise: tips left side down" : "net clockwise: tips right side down");
+        panel(c, lines, 700, 30, rev, { a: "right" });
+      }
+    };
+  };
+
+  // same falling mass, different rotational inertia
+  SIMS.spin = p => {
+    const m = p.m ?? 1, M = p.M ?? 2, R = p.R ?? 0.2, shapes = p.shapes || ["ring", "disk"];
+    const K = { ring: 1, disk: 0.5, sphere: 0.4, shell: 2 / 3 };
+    const sides = shapes.map(sh => { const I = K[sh] * M * R * R, a = m * G / (m + I / (R * R)); return { sh, I, a, al: a / R }; });
+    const T = 2.2, amax = Math.max(...sides.map(s => s.a)), pxm = 100 / (0.5 * amax * T * T);
+    return {
+      D: T, hold: 1.4, marks: [1, T],
+      draw(c, t, rev) {
+        sides.forEach((s, i) => {
+          const cx = 90 + i * 330, cy = 70, Rp = 34, th = -0.5 * s.al * t * t, drop = 0.5 * s.a * t * t * pxm;
+          c.strokeStyle = C.m; c.lineWidth = 3; c.beginPath(); c.moveTo(cx, 18); c.lineTo(cx, cy); c.stroke();
+          if (s.sh === "ring") { c.save(); c.translate(cx, cy); c.rotate(-th); c.strokeStyle = C.b; c.lineWidth = 9; c.beginPath(); c.arc(0, 0, Rp - 4, 0, 7); c.stroke(); c.strokeStyle = C.y; c.lineWidth = 2; c.beginPath(); c.moveTo(0, 0); c.lineTo(Rp - 4, 0); c.stroke(); c.restore(); c.fillStyle = C.w; c.beginPath(); c.arc(cx, cy, 4, 0, 7); c.fill(); }
+          else disk(c, cx, cy, Rp, th, C.b, 4);
+          c.strokeStyle = C.w; c.lineWidth = 1.5; c.beginPath(); c.moveTo(cx + Rp, cy); c.lineTo(cx + Rp, cy + 40 + drop); c.stroke();
+          box(c, cx + Rp - 15, cy + 40 + drop, 30, 26, C.o, f(m) + "kg");
+          txt(c, s.sh === "ring" ? "hoop (ring)" : s.sh === "disk" ? "solid disk" : s.sh, cx, 262, { c: C.w, s: 13, b: 1, a: "center" });
+          panel(c, ["I = " + (K[s.sh] === 1 ? "" : K[s.sh] === 0.5 ? "½" : f(K[s.sh], 2)) + "MR² = " + f(s.I, 3) + " kg·m²", ["a = " + f(s.a, 2) + " m/s²", (p.ask || []).includes("a")], ["α = a/R = " + f(s.al, 1) + " rad/s²", (p.ask || []).includes("a")]], cx + 62, 110, rev);
+        });
+        txt(c, "same M, R and hanging mass: more rotational inertia → smaller α", 360, 22, { c: C.m, s: 12, a: "center" });
+      }
+    };
+  };
+
   function mount(el, params) {
     const p = params || JSON.parse(el.dataset.sim);
     const make = SIMS[p.type];

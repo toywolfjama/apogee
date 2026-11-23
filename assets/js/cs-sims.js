@@ -550,6 +550,49 @@
     upd();
   };
 
+
+  LABS.balance = (el, p) => {
+    el.innerHTML = `<div class="lab-h">Balance lab <span>Move two masses on a beam (pivot in the middle). Make the torques cancel.</span></div>
+      <div class="sl-grid">${sliders(el, [["m1", "m₁", 0.5, 5, 0.5, p.m1 ?? 2, "kg"], ["x1", "m₁ position", -2.5, 0, 0.25, p.x1 ?? -1, "m"], ["m2", "m₂", 0.5, 5, 0.5, p.m2 ?? 1, "kg"], ["x2", "m₂ position", 0, 2.5, 0.25, p.x2 ?? 1.5, "m"]])}</div>
+      <div class="lab-anim"></div><div class="lab-table bal-out"></div>`;
+    const g = k => +el.querySelector(`[data-k="${k}"]`).value; let timer;
+    function upd() {
+      ["m1", "x1", "m2", "x2"].forEach(k => (el.querySelector(`[data-v="${k}"]`).textContent = el.querySelector(`[data-k="${k}"]`).value));
+      const m1 = g("m1"), x1 = g("x1"), m2 = g("m2"), x2 = g("x2"), t1 = -m1 * 10 * x1, t2 = -m2 * 10 * x2, need = m1 * Math.abs(x1) / m2;
+      el.querySelector(".bal-out").innerHTML = `<div><code>τ₁ = m₁g·d₁ (ccw)</code><b>${r2(t1)} N·m</b></div><div><code>τ₂ = m₂g·d₂ (cw)</code><b>${r2(t2)} N·m</b></div>
+        <div><code>Στ</code><b>${r2(t1 + t2)} N·m</b></div><div><code>balances when x₂ =</code><b>${need <= 2.5 ? r2(need) + " m" : "off the beam"}</b></div>`;
+      clearTimeout(timer); timer = setTimeout(() => remount(el.querySelector(".lab-anim"), { type: "seesaw", objs: [[m1, x1], [m2, x2]] }), 200);
+    }
+    el.querySelectorAll("input").forEach(i => i.addEventListener("input", upd)); upd();
+  };
+  LABS.torquelab = (el, p) => {
+    el.innerHTML = `<div class="lab-h">Torque lab <span>Push a door. Change where you push, how hard, and at what angle.</span></div>
+      <div class="sl-grid">${sliders(el, [["r", "distance from hinge r", 0.1, 1, 0.05, p.r ?? 0.8, "m"], ["F", "force F", 0, 40, 1, p.F ?? 20, "N"], ["ang", "angle θ", 0, 180, 5, p.ang ?? 90, "°"]])}</div>
+      <div class="lab-anim"></div><div class="lab-table tq-out"></div>`;
+    const g = k => +el.querySelector(`[data-k="${k}"]`).value; let timer;
+    function upd() {
+      ["r", "F", "ang"].forEach(k => (el.querySelector(`[data-v="${k}"]`).textContent = el.querySelector(`[data-k="${k}"]`).value));
+      const r = g("r"), F = g("F"), a = g("ang") * Math.PI / 180, tau = r * F * Math.sin(a);
+      el.querySelector(".tq-out").innerHTML = `<div><code>sin θ</code><b>${r2(Math.sin(a))}</b></div><div><code>r⊥ = r sin θ</code><b>${r2(r * Math.sin(a))} m</b></div><div><code>τ = rF sin θ</code><b>${r2(tau)} N·m</b></div>`;
+      clearTimeout(timer); timer = setTimeout(() => remount(el.querySelector(".lab-anim"), { type: "torque", r, F, ang: g("ang") }), 200);
+    }
+    el.querySelectorAll("input").forEach(i => i.addEventListener("input", upd)); upd();
+  };
+  LABS.spinlab = (el, p) => {
+    el.innerHTML = `<div class="lab-h">Rotational inertia lab <span>A hanging mass unwinds a string from a hoop and a solid disk with the same mass and radius.</span></div>
+      <div class="sl-grid">${sliders(el, [["m", "hanging mass m", 0.2, 5, 0.1, p.m ?? 1, "kg"], ["M", "wheel mass M", 0.5, 10, 0.5, p.M ?? 2, "kg"], ["R", "wheel radius R", 0.05, 0.5, 0.05, p.R ?? 0.2, "m"]])}</div>
+      <div class="lab-anim"></div><div class="lab-table sp-out"></div>
+      <p class="lab-note">Newton's second law for each piece: mg − T = ma for the hanging mass and TR = Iα for the wheel, with a = αR. Solving gives a = mg / (m + I/R²).</p>`;
+    const g = k => +el.querySelector(`[data-k="${k}"]`).value; let timer;
+    function upd() {
+      ["m", "M", "R"].forEach(k => (el.querySelector(`[data-v="${k}"]`).textContent = el.querySelector(`[data-k="${k}"]`).value));
+      const m = g("m"), M = g("M"), R = g("R"), a1 = m * 10 / (m + M), a2 = m * 10 / (m + M / 2);
+      el.querySelector(".sp-out").innerHTML = `<div><code>hoop: I = MR²</code><b>a = ${r2(a1)} m/s²</b></div><div><code>disk: I = ½MR²</code><b>a = ${r2(a2)} m/s²</b></div><div><code>tension (disk) T = m(g − a)</code><b>${r2(m * (10 - a2))} N</b></div>`;
+      clearTimeout(timer); timer = setTimeout(() => remount(el.querySelector(".lab-anim"), { type: "spin", m, M, R }), 200);
+    }
+    el.querySelectorAll("input").forEach(i => i.addEventListener("input", upd)); upd();
+  };
+
   function mountLabs(root) {
     (root || document).querySelectorAll(".cslab[data-lab]").forEach(el => {
       if (el.dataset.mounted) return; el.dataset.mounted = 1;

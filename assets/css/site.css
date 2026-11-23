@@ -1321,3 +1321,4 @@ body.th-paris .navlink.on{border-color:#fff;color:#fff;background:rgba(255,255,2
 .srs-toggle{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);cursor:pointer;user-select:none}
 .srs-toggle input{accent-color:#FFC857;width:16px;height:16px}
 .srs-tools .srs-toggle{margin-left:auto}
+.pill.r{background:rgba(195,181,255,.12);color:#C3B5FF}

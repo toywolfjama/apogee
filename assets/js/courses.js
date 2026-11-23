@@ -13,7 +13,7 @@ window.SITE_COURSES = [
       { id: "unit-2", name: "Unit 2: Force and Translational Dynamics", path: "courses/ap-physics-1/unit-2.html", ready: true },
       { id: "unit-3", name: "Unit 3: Work, Energy & Power (+ Momentum)", path: "courses/ap-physics-1/unit-3.html", ready: true },
       { id: "unit-4", name: "Unit 4: Linear Momentum", path: "courses/ap-physics-1/unit-4.html", ready: true },
-      { id: "unit-5", name: "Unit 5: Torque and Rotational Dynamics" },
+      { id: "unit-5", name: "Unit 5: Torque and Rotational Dynamics", path: "courses/ap-physics-1/unit-5.html", ready: true },
       { id: "unit-6", name: "Unit 6: Energy and Momentum of Rotating Systems" },
       { id: "unit-7", name: "Unit 7: Oscillations" },
       { id: "unit-8", name: "Unit 8: Fluids" }
