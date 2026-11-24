@@ -89,7 +89,7 @@
       const nx = box.querySelector(".ex-next"); if (nx) nx.onclick = () => { st.cur++; mcq(); };
       const sb = box.querySelector(".ex-submit"); if (sb) sb.onclick = () => confirmBox(endMcq);
       const t = box.querySelector(".ex-timer"); if (t) t.textContent = mmss((st.end - Date.now()) / 1000);
-      box.querySelectorAll(".ex-q .opt").forEach((b, j) => { b.innerHTML = `<span class="key">${L(j)}</span>` + b.innerHTML.replace(/^[A-Z]\. /, ""); });
+      box.querySelectorAll(".ex-q .opt").forEach((b, j) => { b.innerHTML = `<span class="key">${L(j)}</span><span class="ot">` + b.innerHTML.replace(/^[A-Z]\. /, "") + "</span>"; });
     }
     document.addEventListener("keydown", e => {
       if (st.phase !== "mcq" || e.metaKey || e.ctrlKey || e.altKey || /INPUT|TEXTAREA/.test(e.target.tagName || "")) return;
@@ -156,7 +156,7 @@
           const a = st.ans[i], ok = isOk(q, a);
           return `<div class="qcard ex-rev ${ok ? "ok" : "no"}"><div class="qh"><span>Question ${i + 1} · ${ok ? "Correct" : a === undefined ? "Unanswered" : "Incorrect"}</span><span>${(E.kinds && E.kinds[q.k]) || (E.tags && E.tags[q.t]) || (q.k === "concept" ? "Conceptual" : "Calculation")}</span></div>
             <div class="qt">${q.q}</div>
-            ${q.g ? `<div class="grid-in rev"><span>Your answer: <b>${a === undefined ? "—" : String(a).replace(/</g, "&lt;")}</b></span><span>Accepted: <b>${q.g.join(" or ")}</b></span></div>` : `<div class="opts">${q.o.map((o, j) => `<div class="opt${j === q.a ? " right" : j === a ? " wrong" : ""}">${L(j)}. ${o}</div>`).join("")}</div>`}
+            ${q.g ? `<div class="grid-in rev"><span>Your answer: <b>${a === undefined ? "—" : String(a).replace(/</g, "&lt;")}</b></span><span>Accepted: <b>${q.g.join(" or ")}</b></span></div>` : `<div class="opts">${q.o.map((o, j) => `<div class="opt${j === q.a ? " right" : j === a ? " wrong" : ""}"><span class="key">${L(j)}</span><span class="ot">${o}</span></div>`).join("")}</div>`}
             <div class="expl show">${q.x}</div></div>`;
         }).join("")}
         ${nF ? `<h3 class="ex-h">${E.frqName || "Section II"}: score yourself</h3><p class="sub">Compare your answer to the model answer and tick each point you earned.</p>` +
@@ -167,6 +167,7 @@
               <div class="ex-rubric">${p.rubric.map((r, k) => `<label><input type="checkbox" data-r="${i}-${j}-${k}|${r[1]}"> ${r[0]} <em>${r[1]} pt${r[1] > 1 ? "s" : ""}</em></label>`).join("")}</div>
             </div>`).join("")}</div>`).join("") : ""}`;
       box.querySelector(".ex-again").onclick = () => { reset(); intro(); top(); };
+      if (window.CruxPen) box.querySelectorAll(".ex-rev").forEach((c, ii) => { const q = E.mcq[ii]; if (q && !q.g) window.CruxPen([...c.querySelectorAll(".opt")], q.a, st.ans[ii]); });
       box.querySelectorAll(".ex-rubric input").forEach(c => (c.onchange = () => {
         st.rub[c.dataset.r] = c.checked;
         box.querySelector(".frqpts").innerHTML = rubPts() + `<small>/${frqPts}</small>`;
