@@ -480,3 +480,85 @@ body.th-clean .msteps,body.th-clean .wanim,body.th-clean .mlab,body.th-clean .tp
 body.th-clean .srs-table{border:1.5px solid var(--ink);border-radius:10px;box-shadow:5px 5px 0 var(--hl)}
 body.th-clean .srs-stats div{border:1.5px solid var(--rule);border-radius:8px}
 body.th-clean .srs-stats b{font-family:var(--display)}
+
+/* =====================================================================
+   DARK MODE  (html.dark, set before paint)
+   ===================================================================== */
+html.dark,html.dark:has(body.th-clean){background:#141416;color-scheme:dark}
+html.dark body.th-clean{
+  --paper:#141416; --ink:#ECEBE6; --pencil:#A2A5AC; --rule:#2D2D33; --graphite:#ECEBE6; --pen:#FF5A6E;
+  --space:#141416; --space-2:#1D1D21; --panel:#18181B; --panel-2:#1C1C20; --well:#18181B;
+  --line:#2D2D33; --line-2:#3C3C44; --muted:#A2A5AC; --faint:#71747B; --code-bg:#222227;
+  --mark:color-mix(in srgb,var(--hl) 42%,transparent);
+  --acc-soft:color-mix(in srgb,var(--hl) 16%,transparent); --acc-ink:var(--hl); --acc:var(--hl);
+  --good:#4ADE80; --good-soft:rgba(74,222,128,.1); --bad:#FF5A6E; --bad-soft:rgba(255,90,110,.1);
+  background:#141416!important;color:var(--ink)
+}
+html.dark body.th-clean .topbar{background:rgba(20,20,22,.9);border-bottom-color:var(--rule)}
+html.dark body.th-clean .chapterbar{border-top-color:var(--rule)}
+html.dark body.th-clean .brand .mark img{box-shadow:0 0 0 1px #3C3C44}
+/* highlighter marks under light text: translucent so text stays readable */
+html.dark body.th-clean .hero h1 .mark,html.dark body.th-clean .home-hero h1 .mark,html.dark .hm-h1 .mark{background-image:linear-gradient(var(--mark),var(--mark))}
+html.dark body.th-clean .chip.on::after{background:var(--mark)}
+html.dark body.th-clean .chip.on{color:var(--ink)}
+html.dark body.th-clean .navbtn:hover,html.dark body.th-clean .navbtn[aria-expanded="true"],html.dark body.th-clean .navlink.on{box-shadow:inset 0 -6px 0 var(--mark)}
+html.dark .sy-c h2 span{background-image:linear-gradient(var(--mark),var(--mark))}
+html.dark .sy-u a:hover{background:color-mix(in srgb,var(--hl) 18%,transparent)!important}
+html.dark .hm-tools a:hover b{box-shadow:inset 0 -8px 0 var(--mark)}
+html.dark body.th-clean a{color:var(--ink)}
+html.dark body.th-clean a:hover{background:color-mix(in srgb,var(--hl) 18%,transparent)}
+html.dark body.th-clean .chapter-head .num,html.dark body.th-clean .tactic h4 .tn,html.dark body.th-clean .ex-badge,html.dark body.th-clean .qfilter button.on{color:#141416}
+html.dark body.th-clean .kicker::before{background:var(--hl)}
+/* surfaces that were white */
+html.dark body.th-clean .searchbtn,html.dark .hm-search,html.dark body.th-clean .dd-menu,html.dark body.th-clean .kbd,html.dark body.th-clean .btn,html.dark body.th-clean .mg-b,html.dark body.th-clean .wa-b,html.dark body.th-clean .qfilter button,html.dark body.th-clean .pager button,html.dark body.th-clean .grid-in input,html.dark body.th-clean .ex-dot,html.dark body.th-clean .ex-timer,html.dark body.th-clean .ex-intro,html.dark body.th-clean .ex-result,html.dark body.th-clean .ex-q,html.dark body.th-clean .ex-head,html.dark body.th-clean .ex-confirm,html.dark body.th-clean .ex-frq,html.dark body.th-clean .ex-part textarea,html.dark body.th-clean details.dissect>summary,html.dark body.th-clean details.dissect,html.dark body.th-clean .dx,html.dark body.th-clean code.dz,html.dark body.th-clean .srs-btn,html.dark body.th-clean .srs-table,html.dark body.th-clean .srs-stats div,html.dark body.th-clean .srs-panel,html.dark body.th-clean .fc-done,html.dark body.th-clean .fc-face,html.dark body.th-clean .fc-say,html.dark body.th-clean .srs-grade,html.dark body.th-clean .srs-panel .lab-in,html.dark body.th-clean .tp,html.dark body.th-clean .mlab,html.dark body.th-clean .msteps,html.dark body.th-clean .wanim,html.dark body.th-clean .lab,html.dark body.th-clean .flab,html.dark body.th-clean .cslab,html.dark body.th-clean .ck,html.dark body.th-clean .nm-w,html.dark body.th-clean .tl-wrap,html.dark body.th-clean .passage,html.dark body.th-clean table,html.dark .hm-cont,html.dark body.th-clean .tactic,html.dark body.th-clean .rg-t input,html.dark body.th-clean .pace-bar,html.dark body.th-clean .wt{background:var(--panel)!important;color:var(--ink)}
+html.dark body.th-clean .dd-menu,html.dark body.th-clean .ex-intro,html.dark body.th-clean .ex-q,html.dark body.th-clean .ex-head,html.dark body.th-clean .ex-result,html.dark body.th-clean .searchbtn,html.dark .hm-search,html.dark body.th-clean .pager button,html.dark body.th-clean .btn,html.dark body.th-clean .mg-b,html.dark body.th-clean .wa-b{border-color:var(--line-2)}
+html.dark body.th-clean .dd-menu{box-shadow:5px 5px 0 #000}
+html.dark body.th-clean .mg-b.on,html.dark body.th-clean .wa-b.solid,html.dark body.th-clean .navbtn.solid,html.dark body.th-clean .srs-btn.solid,html.dark body.th-clean .wt.n,html.dark body.th-clean .hero-cta{background:var(--ink)!important;color:#141416!important;border-color:var(--ink)}
+html.dark body.th-clean .wa-stage{background:var(--space-2);border-color:var(--line)}
+html.dark body.th-clean .wt.s{background:color-mix(in srgb,var(--hl) 22%,transparent)!important;color:var(--ink)}
+html.dark body.th-clean .wt.v{background:rgba(251,146,60,.16)!important;color:#FDBA74;border-color:rgba(251,146,60,.4)}
+html.dark body.th-clean .wt.e{background:rgba(250,204,21,.16)!important;color:#FDE68A;border-color:rgba(250,204,21,.4)}
+html.dark body.th-clean .wt.g{background:rgba(74,222,128,.14)!important;color:#86EFAC}
+/* graphs keep a light "paper" plot area so their colors stay legible */
+html.dark body.th-clean .mg-stage,html.dark body.th-clean .rg-right canvas,html.dark body.th-clean .pp-svg{background:#F4F4F0!important;border-color:var(--line-2)}
+html.dark body.th-clean .mg-sl label,html.dark body.th-clean .mg-read,html.dark body.th-clean .mg-read b{color:var(--ink)}
+/* quiz */
+html.dark body.th-clean .opt{color:var(--ink)}
+html.dark body.th-clean .opt .key{background:transparent;border-color:var(--ink);color:var(--ink)}
+html.dark body.th-clean .opt:hover:not(:disabled) .key{background:var(--hl);color:#141416;border-color:var(--hl)}
+html.dark body.th-clean .opt.picked .key,html.dark body.th-clean .opt.wrong .key,html.dark body.th-clean .ex-dot.done{background:var(--ink);color:#141416;border-color:var(--ink)}
+html.dark body.th-clean .qcard .opt.right .key{background:transparent;color:var(--ink)}
+html.dark body.th-clean .opt.wrong{color:var(--pencil)}
+html.dark body.th-clean .score .bar i,html.dark body.th-clean .bar i{box-shadow:none}
+html.dark body.th-clean .grid-in input.right{background:var(--panel);box-shadow:4px 4px 0 var(--hl)}
+html.dark body.th-clean .expl{color:var(--ink)}
+html.dark body.th-clean .box.tip{box-shadow:4px 4px 0 var(--mark)}
+html.dark body.th-clean .opt .pen path{stroke:var(--pen)}
+/* misc */
+html.dark .sp-ov{background:rgba(0,0,0,.55)}
+html.dark .sp-box{background:#1A1A1D;border-color:#2D2D33}
+html.dark .sp-in{border-color:#2D2D33;color:#A2A5AC}
+html.dark .sp-in input{color:#ECEBE6}
+html.dark .sp-it{color:#ECEBE6}
+html.dark .sp-it.on,html.dark .sp-it:hover{background:#26262B}
+html.dark .sp-foot{border-color:#2D2D33}
+html.dark .sp-ov .kbd,html.dark .sp-foot .kbd{background:#222227;border-color:#3C3C44;color:#C9CACE}
+html.dark .hm-cont{border-color:var(--line-2)}
+html.dark .hm-cont:hover{background:var(--panel)!important}
+html.dark .bub{background:transparent;border-color:var(--ink)}
+html.dark .sy-u.seen .bub{background:var(--ink)}
+html.dark .hm-top,html.dark .hm-tools{border-color:var(--ink)}
+html.dark .sy-c{border-color:var(--rule)}
+html.dark body.th-clean section.topic{border-top-color:var(--line-2)}
+html.dark body.th-clean footer{border-top-color:var(--line-2)}
+html.dark body.th-clean th{border-bottom-color:var(--line-2)}
+html.dark body.th-clean table{border-color:var(--line-2)}
+html.dark body.th-clean .lab,html.dark body.th-clean .mlab,html.dark body.th-clean .tp,html.dark body.th-clean .msteps,html.dark body.th-clean .wanim,html.dark body.th-clean .cslab,html.dark body.th-clean .flab,html.dark body.th-clean .ck,html.dark body.th-clean .sim{border-color:var(--line-2)}
+html.dark body.th-clean .dz-fab{background:#ECEBE6;color:#141416}
+html.dark body.th-clean .dz-pane{background:#18181B}
+html.dark body.th-clean img.dk-inv{filter:invert(1)}
+/* theme toggle */
+body.th-clean .themebtn svg{width:18px;height:18px}
+body.th-clean .themebtn .sun{display:none}
+html.dark body.th-clean .themebtn .sun{display:block}
+html.dark body.th-clean .themebtn .moon{display:none}

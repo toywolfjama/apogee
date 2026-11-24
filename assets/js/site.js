@@ -164,6 +164,7 @@
         <button class="navbtn searchbtn" type="button" data-search aria-label="Search">${I.search}<span class="lbl">Search lessons</span><span class="kbd">${isMac ? "⌘" : "Ctrl "}K</span></button>
         <a class="navbtn navlink${/review\.html$/.test(location.pathname) ? " on" : ""}" href="${root}review.html" aria-label="Flashcards">${I.cards}<span class="lbl">Flashcards</span></a>
         <a class="navbtn navlink${/mistakes\.html$/.test(location.pathname) ? " on" : ""}" href="${root}mistakes.html" aria-label="Mistakes">${I.miss}<span class="lbl">Mistakes</span><span class="mcount" hidden></span></a>
+        <button class="navbtn themebtn" type="button" data-theme aria-label="Toggle dark mode" title="Dark mode"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
         <div class="dd">
           <button class="navbtn" aria-expanded="false" aria-haspopup="true">Courses ${I.down}</button>
           <div class="dd-menu" role="menu">${menu}</div>
@@ -660,6 +661,12 @@
   buildQuizzes();
   buildCourseList();
   Crux.visit(); Crux.badge(); searchPalette(); quizKeys();
+  (function themeToggle() {
+    const de = document.documentElement;
+    const setT = d => { de.classList.toggle("dark", d); try { localStorage.setItem("crux.theme", d ? "dark" : "light"); } catch (e) {} };
+    document.addEventListener("click", e => { if (e.target.closest("[data-theme]")) setT(!de.classList.contains("dark")); });
+    try { if (!localStorage.getItem("crux.theme")) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", m => de.classList.toggle("dark", m.matches)); } catch (e) {}
+  })();
   document.querySelectorAll('.hero h1, .home-hero h1').forEach(h => { if (!h.querySelector('.mark')) h.innerHTML = `<span class="mark">${h.innerHTML}</span>`; });
   if (window.Sims) window.Sims.mountAll();
   // checkboxes that remember their state (test review checklist)

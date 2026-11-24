@@ -12,6 +12,9 @@ for p in pages:
     if "clean.css" not in s:
         s = re.sub(r'(<link rel="stylesheet" href="([./]*)assets/css/site.css">)', r'\1\n<link rel="stylesheet" href="\2assets/css/clean.css">', s, count=1)
     s = s.replace("Apogee", "Crux")
+    HEAD = '<script>try{var t=localStorage.getItem("crux.theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}</script>'
+    if "crux.theme" not in s.split("</head>")[0]:
+        s = s.replace("</head>", HEAD + "\n</head>", 1)
     s = re.sub(r'https://fonts\.googleapis\.com/css2\?[^"]+', "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700&display=swap", s)
     p.write_text(s)
 print(len(pages), "pages cleaned")
