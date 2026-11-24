@@ -8,7 +8,7 @@ FORMAT = topic("format", "How the ACT works", f'''
  ["English", "50", "35 min", "42 s", "Yes"], ["Math", "45", "50 min", "67 s", "Yes"], ["Reading", "36", "40 min", "67 s", "Yes"],
  ["Science (optional)", "40", "40 min", "60 s", "No: reported separately, plus a STEM score"], ["Writing (optional)", "1 essay", "40 min", "", "No: scored 2–12"]])}
 {mini(("Scores", "Each section is scored 1–36. Your <b>Composite</b> is the rounded average of English, Math and Reading."),
-      ("Math choices", "Math questions have <b>four</b> answer choices (the old test had five). A calculator is allowed on Math only."),
+      ("Math choices", "Math questions have <b>four</b> answer choices (the old test had five). A calculator is allowed on Math only: the digital ACT has Desmos built in; on paper, bring your own."),
       ("No guessing penalty", "Blank = wrong. Fill in every answer, even with seconds left."),
       ("Not adaptive", "Unlike the SAT, every student gets the same questions. Earlier questions in Math tend to be easier."))}
 {box("tip", "SAT or ACT?", "Both are accepted everywhere that accepts test scores. The ACT gives less time per question but is not adaptive; the SAT gives more time and a built-in graphing calculator. Take one practice test of each and go with the one you score better on.")}

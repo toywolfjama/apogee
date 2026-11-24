@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAT: Desmos and Regression Tactics | Apogee</title>
+<meta name="description" content="SAT Desmos calculator tactics: solving by graphing, regressions, sliders, statistics, with an embedded Desmos calculator.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-exam" data-root="../../" data-course="sat" data-unit="sat-desmos">
+
+<div class="hero">
+  <span class="kicker">SAT · Tactics</span>
+  <h1>Desmos <span class="hl">tactics</span></h1>
+  <p>Solve equations and systems by graphing, regressions from tables, sliders, statistics and more, with Desmos built right into the page.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-why" data-title="Why Desmos" data-short="Why">
+<section class="topic" id="why">
+  <h2><span class="pill d">★</span>Why Desmos is your biggest advantage</h2>
+  
+  
+<p>The Desmos graphing calculator is built into every SAT Math question. Used well, it turns many algebra problems into "type it in and click." Open it with the <b>ƒ Desmos</b> button (bottom right) and try every tactic on this page as you read. Click any gray code chip to copy it, then paste it into Desmos.</p>
+<div class="dz-embed"></div>
+<div class="grid2"><div class="mini"><h4>Typing shortcuts</h4><code class="dz">sqrt</code> → √, <code class="dz">pi</code> → π, <code class="dz">^</code> for exponents, <code class="dz">/</code> makes a fraction, <code class="dz">|x|</code> or <code class="dz">abs(x)</code> for absolute value, <code class="dz"><=</code> → ≤.</div><div class="mini"><h4>Practice the real one</h4>Bluebook's calculator is Desmos with a few features turned off. Practice in the test version too: desmos.com/testing → "Digital SAT."</div></div>
+<div class="box trap"><b class="lbl">Know when NOT to use it</b>If you can do it in your head in 10 seconds (3x = 12), just do it. Desmos is for anything with a graph, a quadratic, a system, a table of data, or a messy equation.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-solve" data-title="Solve It by Graphing" data-short="Solving">
+<section class="topic" id="solve">
+  <h2><span class="pill d">1</span>Solving equations and systems</h2>
+  
+  
+<div class="tactic"><h4><span class="tn">1</span>Solve any equation in one variable</h4><p class="when">Any equation you'd have to rearrange or factor. Type the whole equation; Desmos draws vertical lines (or gray points) at the solutions.</p><div class="type"><b>Type:</b><code class="dz">2x^2-3x-9=0</code> <code class="dz">sqrt(x+3)=x-3</code></div><p>Click the gray dots on the x-axis to read each solution. With a radical, Desmos automatically ignores the extraneous solution.</p></div>
+<div class="tactic"><h4><span class="tn">2</span>Solve a system</h4><p class="when">Two equations, any form. Type both; click where they cross.</p><div class="type"><b>Type:</b><code class="dz">2x+3y=12</code> <code class="dz">x-y=1</code></div><p>Read the intersection: (3, 2). No elimination needed. Nonlinear systems work the same way: count the crossings to answer "how many solutions."</p></div>
+<div class="tactic"><h4><span class="tn">3</span>Graph both sides</h4><p class="when">When an equation has x on both sides or looks ugly, graph y = left side and y = right side separately. The x-values where they cross are the solutions.</p><div class="type"><b>Type:</b><code class="dz">y=2^x</code> <code class="dz">y=x+3</code></div></div>
+<div class="msteps" data-w='{"title": "Desmos workflow for a system", "frames": [{"t": ["a|Type equation 1|s", "b|Type equation 2|v"], "note": "Enter each equation exactly as given. No rearranging."}, {"t": ["c|Zoom out (–)|e"], "note": "If you see no crossing, zoom out. It may be off-screen."}, {"t": ["d|Click the gray point|g"], "note": "Desmos labels it with exact-looking coordinates, like (3, 2)."}]}'></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-reg" data-title="Regressions" data-short="Regressions">
+<section class="topic" id="regression">
+  <h2><span class="pill d">2</span>Regressions: the tactic most students don't know</h2>
+  
+  
+<p>Whenever a question gives you a <b>table of values</b> or <b>a few points</b> and asks for an equation, a constant, or a prediction, let Desmos find the equation with a regression. Type a table (click + → table), then a regression with a tilde <b>~</b>:</p>
+<div class="tblwrap"><table><tr><th>Model</th><th>Type in Desmos</th><th>Use when</th></tr><tr><td>Linear</td><td><code class="dz">y_1 ~ mx_1+b</code></td><td>constant differences</td></tr><tr><td>Quadratic</td><td><code class="dz">y_1 ~ ax_1^2+bx_1+c</code></td><td>parabola, "quadratic function f"</td></tr><tr><td>Exponential</td><td><code class="dz" data-copy="y_1 ~ ab^{x_1}">y_1 ~ ab^{x_1}</code></td><td>constant ratios, growth/decay</td></tr></table></div>
+<div class="tp" data-reg='{"points": [[0, 5], [1, 15], [2, 45], [3, 135]], "model": "exp", "title": "Regression lab", "sub": "This is what Desmos computes behind y₁ ~ … . Try the presets, edit the table, or drag points.", "presets": [{"name": "Exponential table", "points": [[0, 5], [1, 15], [2, 45], [3, 135]], "model": "exp"}, {"name": "Quadratic through 3 points", "points": [[1, 2], [2, 7], [3, 14]], "model": "quad"}, {"name": "Linear table", "points": [[2, 11], [5, 20], [9, 32]], "model": "lin"}, {"name": "Scatterplot (best fit)", "points": [[1, 28], [2, 31], [3, 42], [4, 46], [5, 53], [6, 62], [7, 66]], "model": "lin"}]}'></div>
+<div class="worked"><div class="q">Worked example: A quadratic function f has f(1) = 2, f(2) = 7, f(3) = 14. What is f(5)?</div><div class="a">Table: x₁ = 1, 2, 3 and y₁ = 2, 7, 14. Type <code class="dz">y_1 ~ ax_1^2+bx_1+c</code> → a = 1, b = 2, c = −1, r² = 1. Then type <code class="dz">5^2+2*5-1</code> → <b>34</b>. (Or define f(x) = x² + 2x − 1 and type f(5).)</div></div>
+<div class="worked"><div class="q">Worked example: x: 0, 1, 2, 3; y: 5, 15, 45, 135. Which equation models this?</div><div class="a"><code class="dz" data-copy="y_1 ~ ab^{x_1}">y_1 ~ ab^{x_1}</code> gives a = 5, b = 3: y = 5(3)ˣ.</div></div>
+<div class="box tip"><b class="lbl">r² = 1 means exact</b>If r² = 1, the equation passes through every point: it's THE equation, not an estimate. If r² is less than 1, it's a line/curve of best fit (good for scatterplot questions).</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-more" data-title="More Tactics" data-short="More">
+<section class="topic" id="more">
+  <h2><span class="pill d">3</span>More tactics</h2>
+  
+  
+<div class="tactic"><h4><span class="tn">4</span>Sliders for unknown constants</h4><p class="when">"For what value of k…" questions. Type the equation with a letter; Desmos offers a slider. Drag until the condition happens (one solution, lines parallel, curve through a point).</p><div class="type"><b>Type:</b><code class="dz">y=x^2-6x+k</code> <code class="dz">y=0</code></div><p>Drag k until the parabola just touches y = 0: k = 9. Confirm with algebra (b² − 4ac = 0) if the slider lands between values.</p></div>
+<div class="tactic"><h4><span class="tn">5</span>Function notation</h4><p class="when">Define the function once, then evaluate or compose by typing.</p><div class="type"><b>Type:</b><code class="dz">f(x)=3x^2-2</code> <code class="dz">f(4)</code> <code class="dz">g(x)=x+1</code> <code class="dz">f(g(2))</code></div></div>
+<div class="tactic"><h4><span class="tn">6</span>Vertex, zeros and max/min</h4><p class="when">Click the curve: Desmos shows gray points at x-intercepts, y-intercept, and the max/min.</p><div class="type"><b>Type:</b><code class="dz">y=-2x^2+12x-7</code></div><p>Vertex (3, 11): the maximum value is 11 at x = 3.</p></div>
+<div class="tactic"><h4><span class="tn">7</span>Statistics</h4><p class="when">Mean, median and standard deviation of a list.</p><div class="type"><b>Type:</b><code class="dz">mean([12,15,15,18,40])</code> <code class="dz">median([12,15,15,18,40])</code> <code class="dz">stdev([2,4,4,4,5,5,7,9])</code></div><p>Use this to compare spreads of two data sets quickly.</p></div>
+<div class="tactic"><h4><span class="tn">8</span>Equivalent expressions</h4><p class="when">Graph the original and each answer choice. The one that lies exactly on top is equivalent.</p><div class="type"><b>Type:</b><code class="dz">y=(2x-3)^2-4x</code> <code class="dz">y=4x^2-16x+9</code></div></div>
+<div class="tactic"><h4><span class="tn">9</span>Inequalities and points</h4><p class="when">Type the inequality to shade the solution region; type the point to see if it's inside.</p><div class="type"><b>Type:</b><code class="dz">y>2x-1</code> <code class="dz">y<-x+5</code> <code class="dz">(1,2)</code></div></div>
+<div class="tactic"><h4><span class="tn">10</span>Circles</h4><p class="when">Type the circle in any form. Hover or click the top/bottom/left/right points to read the center and radius.</p><div class="type"><b>Type:</b><code class="dz">x^2+6x+y^2-4y=12</code></div><p>Leftmost (−8, 2), rightmost (2, 2): center (−3, 2), radius 5.</p></div>
+<div class="tactic"><h4><span class="tn">11</span>Restrict a domain</h4><p class="when">Graph only part of a function with curly braces.</p><div class="type"><b>Type:</b><code class="dz">y=x^2\{x>0\}</code></div></div>
+<div class="tactic"><h4><span class="tn">12</span>Trig in degrees</h4><p class="when">SAT Desmos starts in radians. Click the wrench (settings) → Degrees before any trig question with degrees.</p><div class="type"><b>Type:</b><code class="dz">sin(30)</code></div><p>If sin(30) shows −0.988, you're in radians.</p></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="practice-sat-desmos" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-sat-desmos">
+  <h2>Practice questions</h2>
+  <p class="sub">12 questions with instant explanations. Filter by skill with the buttons.</p>
+  <div class="quiz" data-src="quiz-sat-desmos" data-tags='{"d": "Desmos", "s": "Strategy"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-sat-desmos" data-title="Hard Questions" data-short="Hard" data-hard="1">
+<section class="topic" id="challenge-quiz-sat-desmos">
+  <h2>Hard questions</h2>
+  <p class="sub">The kind you'll see in the harder second module. Take your time.</p>
+  <div class="quiz" data-src="quiz-challenge-sat-desmos" data-tags='{"d": "Desmos", "s": "Strategy"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-sat-desmos" data-title="Timed Set" data-short="Timed set">
+<section class="topic" id="exam-box-sat-desmos"><h2>SAT Desmos and Regression Tactics: timed set</h2><p class="sub">10 questions in 12 minutes. No feedback until you submit.</p><div class="exam" data-src="exam-sat-desmos"></div></section>
+</div>
+</main>
+
+<footer>Apogee · SAT prep · Not affiliated with College Board or ACT</footer>
+
+<script type="application/json" id="quiz-sat-desmos">
+[
+ {
+  "t": "d",
+  "q": "Solve 3x² − 5x − 2 = 0 for the positive solution.",
+  "g": [
+   "2"
+  ],
+  "x": "Type 3x^2-5x-2=0. Solutions −1/3 and 2."
+ },
+ {
+  "t": "d",
+  "q": "x + 2y = 10 and 3x − y = 2. What is y?",
+  "g": [
+   "4"
+  ],
+  "x": "Type both, click the crossing: (2, 4)."
+ },
+ {
+  "t": "d",
+  "q": "How many real solutions does x² − 4x + 7 = 2x − 3 have?",
+  "o": [
+   "Infinitely many",
+   "2",
+   "1",
+   "0"
+  ],
+  "a": 3,
+  "x": "Graph both sides: they never cross (x² − 6x + 10 has a negative discriminant)."
+ },
+ {
+  "t": "d",
+  "q": "x: 0, 1, 2, 3 and f(x): 4, 10, 16, 22. f is linear. What is f(10)?",
+  "g": [
+   "64"
+  ],
+  "x": "y_1 ~ mx_1+b → m = 6, b = 4. f(10) = 64."
+ },
+ {
+  "t": "d",
+  "q": "A quadratic passes through (0, 3), (1, 0) and (2, −1). What is its y-value at x = 4?",
+  "g": [
+   "3"
+  ],
+  "x": "Quadratic regression: a = 1, b = −4, c = 3. 16 − 16 + 3."
+ },
+ {
+  "t": "d",
+  "q": "x: 0, 1, 2, 3; y: 800, 400, 200, 100. Which models y?",
+  "o": [
+   "y = 800 − 400x",
+   "y = 800(0.5)ˣ",
+   "y = 400x",
+   "y = 800(2)ˣ"
+  ],
+  "a": 1,
+  "x": "Exponential regression: a = 800, b = 0.5."
+ },
+ {
+  "t": "d",
+  "q": "f(x) = −x² + 8x − 5. What is the maximum value of f?",
+  "g": [
+   "11"
+  ],
+  "x": "Click the vertex: (4, 11)."
+ },
+ {
+  "t": "d",
+  "q": "Mean of 3, 8, 8, 10, 21?",
+  "g": [
+   "10"
+  ],
+  "x": "mean([3,8,8,10,21])."
+ },
+ {
+  "t": "d",
+  "q": "Which is equivalent to (x + 3)² − 2(x + 3)?",
+  "o": [
+   "(x + 3)(x + 1)",
+   "x² + 4x + 3 + x",
+   "(x + 1)²",
+   "x² + 9 − 2x"
+  ],
+  "a": 0,
+  "x": "Graph the original and each choice; (x + 3)(x + 1) overlaps it. Algebra: (x + 3)(x + 3 − 2)."
+ },
+ {
+  "t": "d",
+  "q": "y = x² − 10x + k touches the x-axis at exactly one point. k = ?",
+  "g": [
+   "25"
+  ],
+  "x": "Slider on k until the vertex sits on the axis."
+ },
+ {
+  "t": "d",
+  "q": "The circle x² − 8x + y² + 2y = 8 has center…",
+  "o": [
+   "(4, 1)",
+   "(4, −1)",
+   "(−4, 1)",
+   "(8, −2)"
+  ],
+  "a": 1,
+  "x": "Graph it and read the middle, or complete the square."
+ },
+ {
+  "t": "s",
+  "q": "In which situation is Desmos LEAST helpful?",
+  "o": [
+   "Fitting an equation to a table",
+   "Solving 4x = 20",
+   "Finding the vertex of a parabola",
+   "Finding where two curves meet"
+  ],
+  "a": 1,
+  "x": "Too simple; do it mentally."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-sat-desmos">
+[
+ {
+  "t": "d",
+  "q": "f is quadratic with f(−1) = 6, f(1) = 2 and f(2) = 3. What is f(4)?",
+  "g": [
+   "11"
+  ],
+  "x": "Quadratic regression: a = 1, b = −2, c = 3. f(4) = 16 − 8 + 3 = 11."
+ },
+ {
+  "t": "d",
+  "q": "y = 2x + c and y = x² − 4x + 10 intersect at exactly one point. c = ?",
+  "g": [
+   "1"
+  ],
+  "x": "Slider on c until the line is tangent; algebra: x² − 6x + (10 − c) = 0 → 36 = 4(10 − c)."
+ },
+ {
+  "t": "d",
+  "q": "A table shows t: 0, 2, 4 and P: 300, 432, 622.08. Which best models P?",
+  "o": [
+   "P = 300(2)ᵗ",
+   "P = 300 + 66t",
+   "P = 300(1.2)ᵗ",
+   "P = 300(1.44)ᵗ"
+  ],
+  "a": 2,
+  "x": "y_1 ~ ab^{x_1} gives b = 1.2 (1.2² = 1.44 per 2 steps)."
+ },
+ {
+  "t": "d",
+  "q": "x² + y² = 25 and y = x + 1 intersect at two points. What is the larger x-value?",
+  "g": [
+   "3"
+  ],
+  "x": "Graph both; click intersections: (3, 4) and (−4, −3)."
+ },
+ {
+  "t": "d",
+  "q": "√(2x + 7) = x + 2. What is x?",
+  "g": [
+   "1"
+  ],
+  "x": "Type the equation: Desmos shows only the valid solution x = 1 (x = −3 is extraneous)."
+ },
+ {
+  "t": "d",
+  "q": "Data A: 10, 20, 30, 40, 50. Data B: 28, 29, 30, 31, 32. Which has the larger standard deviation?",
+  "o": [
+   "Equal",
+   "A",
+   "Can't tell",
+   "B"
+  ],
+  "a": 1,
+  "x": "Same mean, but A is far more spread out: stdev([10,20,30,40,50]) ≈ 15.8 vs about 1.6."
+ }
+]
+</script>
+<script type="application/json" id="exam-sat-desmos">
+{
+ "title": "SAT Desmos and Regression Tactics: timed set",
+ "mcqMinutes": 12,
+ "frqMinutes": 0,
+ "tags": {
+  "d": "Desmos",
+  "s": "Strategy"
+ },
+ "mcq": [
+  {
+   "t": "d",
+   "q": "2x² + 5x − 12 = 0. Positive solution?",
+   "g": [
+    "1.5",
+    "3/2"
+   ],
+   "x": "Type it: −4 and 1.5."
+  },
+  {
+   "t": "d",
+   "q": "4x − y = 7 and x + 2y = 4. What is x?",
+   "g": [
+    "2"
+   ],
+   "x": "Intersection (2, 1)."
+  },
+  {
+   "t": "d",
+   "q": "x: 1, 2, 3, 4; y: 3, 12, 48, 192. Which model?",
+   "o": [
+    "y = 4x²",
+    "y = 9x − 6",
+    "y = 3(4)ˣ",
+    "y = 0.75(4)ˣ"
+   ],
+   "a": 3,
+   "x": "Exponential regression: a = 0.75, b = 4."
+  },
+  {
+   "t": "d",
+   "q": "A line passes through (2, 11) and (6, 27). What is its y-intercept?",
+   "g": [
+    "3"
+   ],
+   "x": "Linear regression on the two points: m = 4, b = 3."
+  },
+  {
+   "t": "d",
+   "q": "f(x) = x² − 6x + 13. Minimum value?",
+   "g": [
+    "4"
+   ],
+   "x": "Vertex (3, 4)."
+  },
+  {
+   "t": "d",
+   "q": "How many times do y = x³ − 3x and y = 1 intersect?",
+   "o": [
+    "1",
+    "3",
+    "0",
+    "2"
+   ],
+   "a": 1,
+   "x": "Graph both; count crossings."
+  },
+  {
+   "t": "d",
+   "q": "median of 7, 1, 9, 4, 12, 3?",
+   "g": [
+    "5.5",
+    "11/2"
+   ],
+   "x": "median([7,1,9,4,12,3])."
+  },
+  {
+   "t": "d",
+   "q": "f(x) = 2x + 1, g(x) = x². f(g(3)) = ?",
+   "g": [
+    "19"
+   ],
+   "x": "Define both; type f(g(3))."
+  },
+  {
+   "t": "d",
+   "q": "For what k do 3x + 2y = 6 and 6x + ky = 10 have no solution?",
+   "o": [
+    "4",
+    "2",
+    "6",
+    "−4"
+   ],
+   "a": 0,
+   "x": "Slider on k: the lines are parallel at k = 4."
+  },
+  {
+   "t": "d",
+   "q": "A quadratic has zeros 1 and 7 and passes through (0, 14). What is its value at x = 4?",
+   "g": [
+    "-18"
+   ],
+   "x": "Regression on (1,0), (7,0), (0,14): y = 2x² − 16x + 14. At 4: 32 − 64 + 14 = −18."
+  }
+ ],
+ "frq": [],
+ "mcqName": "Desmos set",
+ "mcqKind": "questions",
+ "rules": [
+  "10 questions in 12 minutes.",
+  "Use the Desmos button: these are all faster with it.",
+  "Grid-ins: type a number or fraction."
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/tp.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

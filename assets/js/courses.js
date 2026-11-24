@@ -73,6 +73,8 @@ window.SITE_COURSES = [
     blurb: "The digital SAT: strategy, Reading and Writing, Math, and a full-length practice test.",
     units: [
       { id: "sat-1", name: "Format and strategy", path: "courses/sat/sat-1.html", ready: true },
+      { id: "sat-tactics", name: "Strategy playbook", path: "courses/sat/sat-tactics.html", ready: true },
+      { id: "sat-desmos", name: "Desmos and regression tactics", path: "courses/sat/sat-desmos.html", ready: true },
       { id: "sat-2", name: "Reading: ideas, evidence and craft", path: "courses/sat/sat-2.html", ready: true },
       { id: "sat-3", name: "Writing: grammar and expression", path: "courses/sat/sat-3.html", ready: true },
       { id: "sat-4", name: "Math: algebra", path: "courses/sat/sat-4.html", ready: true },
@@ -87,6 +89,8 @@ window.SITE_COURSES = [
     blurb: "The enhanced ACT: English, Math, Reading, optional Science and Writing, and a practice test.",
     units: [
       { id: "act-1", name: "Format and strategy", path: "courses/act/act-1.html", ready: true },
+      { id: "act-tactics", name: "Strategy playbook", path: "courses/act/act-tactics.html", ready: true },
+      { id: "act-calc", name: "Calculator tactics: Desmos and TI-84", path: "courses/act/act-calc.html", ready: true },
       { id: "act-2", name: "English", path: "courses/act/act-2.html", ready: true },
       { id: "act-3", name: "Math: numbers, algebra and functions", path: "courses/act/act-3.html", ready: true },
       { id: "act-4", name: "Math: geometry, trig and statistics", path: "courses/act/act-4.html", ready: true },

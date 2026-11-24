@@ -57,7 +57,7 @@ def build(slug, level, n, title, h1, intro, desc, chapters, PQ, CHAL, EXQ, FRQS,
     EX = {"title": f"{level} Unit {n} Practice Exam: {title}", "mcqMinutes": minutes[0], "frqMinutes": minutes[1], "tags": TAGS, "mcq": EXQ, "frq": FRQS}
     HTML = page(slug, f"{level} Unit {n}: {title}", f"{level} · Unit {n}", h1, intro, desc, ch,
                 {f"quiz-{cid}": PQ, f"quiz-challenge-{cid}": CHAL, f"exam-{cid}": EX},
-                course=COURSE, footer=f"Apogee · {level} · Drag the sliders, then check yourself", extra_js=("wa.js", "math.js"))
+                course=COURSE, footer=f"Apogee · {level} · Drag the sliders, then check yourself", extra_js=("wa.js", "math.js", "tp.js"))
     HTML = HTML.replace('<script src="../../assets/js/sims.js"></script>\n', "")
     open(out, "w").write(HTML)
     print(f"{level} unit {n} written:", len(PQ), len(CHAL), len(EXQ), len(FRQS))

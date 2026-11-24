@@ -68,6 +68,117 @@
     draw();
   }
 
+
+  /* ---------- regression lab: what Desmos's y1 ~ ... does ---------- */
+  function solve3(A, b) { // Gaussian elimination, 3x3
+    const M = A.map((r, i) => [...r, b[i]]);
+    for (let c = 0; c < 3; c++) {
+      let p = c; for (let r = c + 1; r < 3; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+      [M[c], M[p]] = [M[p], M[c]]; if (Math.abs(M[c][c]) < 1e-12) return null;
+      for (let r = 0; r < 3; r++) if (r !== c) { const f = M[r][c] / M[c][c]; for (let k = c; k < 4; k++) M[r][k] -= f * M[c][k]; }
+    }
+    return [0, 1, 2].map(i => M[i][3] / M[i][i]);
+  }
+  function fit(pts, model) {
+    const n = pts.length; if (n < 2) return null;
+    const X = pts.map(p => p[0]), Y = pts.map(p => p[1]), sum = a => a.reduce((s, v) => s + v, 0);
+    let f, par, txt;
+    if (model === "lin") {
+      const sx = sum(X), sy = sum(Y), sxx = sum(X.map(x => x * x)), sxy = sum(X.map((x, i) => x * Y[i])), d = n * sxx - sx * sx;
+      if (Math.abs(d) < 1e-12) return null;
+      const m = (n * sxy - sx * sy) / d, b = (sy - m * sx) / n; f = x => m * x + b; par = [["m", m], ["b", b]]; txt = "y₁ ~ m·x₁ + b";
+    } else if (model === "quad") {
+      if (n < 3) return null;
+      const S = k => sum(X.map(x => x ** k)), T = k => sum(X.map((x, i) => x ** k * Y[i]));
+      const r = solve3([[S(4), S(3), S(2)], [S(3), S(2), S(1)], [S(2), S(1), n]], [T(2), T(1), T(0)]); if (!r) return null;
+      const [a, b, c] = r; f = x => a * x * x + b * x + c; par = [["a", a], ["b", b], ["c", c]]; txt = "y₁ ~ a·x₁² + b·x₁ + c";
+    } else {
+      if (Y.some(y => y <= 0)) return { err: "Exponential fits need all y-values above 0." };
+      const L = pts.map(p => [p[0], Math.log(p[1])]), l = fit(L, "lin"); if (!l) return null;
+      const a = Math.exp(l.par[1][1]), b = Math.exp(l.par[0][1]); f = x => a * b ** x; par = [["a", a], ["b", b]]; txt = "y₁ ~ a·b^x₁";
+    }
+    const my = sum(Y) / n, ssr = sum(Y.map((y, i) => (y - f(X[i])) ** 2)), sst = sum(Y.map(y => (y - my) ** 2));
+    return { f, par, txt, r2: sst ? 1 - ssr / sst : 1 };
+  }
+  const nf = v => { if (!isFinite(v)) return "—"; const r = Math.round(v * 1000) / 1000; return (Object.is(r, -0) ? 0 : r).toString().replace("-", "−"); };
+  function pretty(model, v) {
+    const co = (c, t, first) => { const r = Math.round(c * 1000) / 1000; if (r === 0) return ""; const sgn = r < 0 ? (first ? "−" : " − ") : (first ? "" : " + "); const a = Math.abs(r); return sgn + (t && a === 1 ? "" : nf(a)) + t; };
+    if (model === "lin") return "y = " + ((co(v[0], "x", true) + co(v[1], "", !co(v[0], "x", true))) || "0");
+    if (model === "quad") { let s = co(v[0], "x²", true); s += co(v[1], "x", !s); s += co(v[2], "", !s); return "y = " + (s || "0"); }
+    return `y = ${nf(v[0])}·(${nf(v[1])})ˣ`;
+  }
+  function reg(el, p) {
+    let pts = p.points.map(x => x.slice()), model = p.model || "lin";
+    el.innerHTML = `<div class="tp-h">${esc(p.title || "Regression lab")} <span>${esc(p.sub || "Edit the table or drag points. This is exactly what Desmos does when you type y₁ ~ …")}</span></div>
+      <div class="rg-wrap"><div class="rg-left"><table class="rg-t"><thead><tr><th>x₁</th><th>y₁</th><th></th></tr></thead><tbody></tbody></table>
+      <button class="mg-b sm rg-add">+ row</button>
+      <div class="rg-models">${[["lin", "Linear"], ["quad", "Quadratic"], ["exp", "Exponential"]].map(([k, l]) => `<button class="mg-b sm${k === model ? " on" : ""}" data-m="${k}">${l}</button>`).join("")}</div>
+      ${p.presets ? `<div class="rg-pre">${p.presets.map((x, i) => `<button class="mg-b sm" data-p="${i}">${esc(x.name)}</button>`).join("")}</div>` : ""}</div>
+      <div class="rg-right"><canvas width="560" height="340"></canvas><div class="rg-out"></div></div></div>`;
+    const tb = el.querySelector("tbody"), cv = el.querySelector("canvas"), out = el.querySelector(".rg-out");
+    let view, drag = -1;
+    function table() {
+      tb.innerHTML = pts.map((q, i) => `<tr><td><input value="${q[0]}" data-i="${i}" data-k="0" inputmode="decimal"></td><td><input value="${q[1]}" data-i="${i}" data-k="1" inputmode="decimal"></td><td><button class="rg-x" data-i="${i}" aria-label="Remove row">×</button></td></tr>`).join("");
+      tb.querySelectorAll("input").forEach(inp => inp.oninput = () => { const v = parseFloat(inp.value.replace("−", "-")); if (isFinite(v)) { pts[+inp.dataset.i][+inp.dataset.k] = v; draw(false); } });
+      tb.querySelectorAll(".rg-x").forEach(b => b.onclick = () => { pts.splice(+b.dataset.i, 1); table(); draw(true); });
+    }
+    function draw(rescale) {
+      const dpr = Math.min(2, devicePixelRatio || 1), W = 560, H = 340; cv.width = W * dpr; cv.height = H * dpr;
+      const c = cv.getContext("2d"); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, W, H);
+      if (rescale || !view) {
+        const xs = pts.map(q => q[0]), ys = pts.map(q => q[1]);
+        let x0 = Math.min(0, ...xs), x1 = Math.max(...xs), y0 = Math.min(0, ...ys), y1 = Math.max(...ys);
+        const px = (x1 - x0) * 0.15 || 1, py = (y1 - y0) * 0.15 || 1; view = [x0 - px, x1 + px, y0 - py, y1 + py];
+      }
+      const [x0, x1, y0, y1] = view, X = x => 40 + (x - x0) / (x1 - x0) * (W - 56), Y = y => H - 28 - (y - y0) / (y1 - y0) * (H - 44);
+      el._inv = [x => x0 + (x - 40) / (W - 56) * (x1 - x0), y => y0 + (H - 28 - y) / (H - 44) * (y1 - y0), X, Y];
+      c.strokeStyle = "#E5E7EB"; c.lineWidth = 1; const step = (a, b) => { const r = (b - a) / 8, m = 10 ** Math.floor(Math.log10(r)); return [1, 2, 5, 10].map(k => k * m).find(k => k >= r); };
+      const sx = step(x0, x1), sy = step(y0, y1); c.fillStyle = "#6B7280"; c.font = "11px JetBrains Mono, monospace"; c.textAlign = "center";
+      for (let x = Math.ceil(x0 / sx) * sx; x <= x1; x += sx) { c.beginPath(); c.moveTo(X(x), 16); c.lineTo(X(x), H - 28); c.stroke(); c.fillText(nf(x), X(x), H - 12); }
+      c.textAlign = "right"; for (let y = Math.ceil(y0 / sy) * sy; y <= y1; y += sy) { c.beginPath(); c.moveTo(40, Y(y)); c.lineTo(W - 16, Y(y)); c.stroke(); c.fillText(nf(y), 34, Y(y) + 4); }
+      c.strokeStyle = "#374151"; c.lineWidth = 1.4; if (y0 < 0 && y1 > 0) { c.beginPath(); c.moveTo(40, Y(0)); c.lineTo(W - 16, Y(0)); c.stroke(); } if (x0 < 0 && x1 > 0) { c.beginPath(); c.moveTo(X(0), 16); c.lineTo(X(0), H - 28); c.stroke(); }
+      const F = fit(pts, model);
+      if (F && F.f) { c.strokeStyle = "#2563EB"; c.lineWidth = 3; c.beginPath(); let first = true; for (let k = 0; k <= 200; k++) { const x = x0 + (x1 - x0) * k / 200, y = F.f(x); if (!isFinite(y) || y < y0 - (y1 - y0) || y > y1 + (y1 - y0)) { first = true; continue; } first ? c.moveTo(X(x), Y(y)) : c.lineTo(X(x), Y(y)); first = false; } c.stroke(); }
+      pts.forEach(q => { c.beginPath(); c.arc(X(q[0]), Y(q[1]), 6.5, 0, 7); c.fillStyle = "#EA580C"; c.fill(); c.strokeStyle = "#fff"; c.lineWidth = 2; c.stroke(); });
+      out.innerHTML = !F ? "Add more points for this model." : F.err ? F.err : `<code>${F.txt}</code><div class="rg-par">${F.par.map(([k, v]) => `<span>${k} = <b>${nf(v)}</b></span>`).join("")}<span>r² = <b>${nf(F.r2)}</b></span></div><div class="rg-eq">${pretty(model, F.par.map(q => q[1]))}</div>${F.r2 > 0.99999 ? '<div class="rg-ok">r² = 1: the model passes through every point exactly. On the test, that means you\'ve found THE equation.</div>' : ""}`;
+    }
+    const pos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * 560 / r.width, (e.clientY - r.top) * 340 / r.height]; };
+    cv.addEventListener("pointerdown", e => { const [mx, my] = pos(e), [, , X, Y] = el._inv; drag = pts.findIndex(q => Math.hypot(X(q[0]) - mx, Y(q[1]) - my) < 12); if (drag >= 0) cv.setPointerCapture(e.pointerId); });
+    cv.addEventListener("pointermove", e => { if (drag < 0) return; const [mx, my] = pos(e), [ix, iy] = el._inv; pts[drag] = [Math.round(ix(mx) * 10) / 10, Math.round(iy(my) * 10) / 10]; const ins = tb.querySelectorAll("tr")[drag].querySelectorAll("input"); ins[0].value = pts[drag][0]; ins[1].value = pts[drag][1]; draw(false); });
+    cv.addEventListener("pointerup", () => { drag = -1; });
+    el.querySelector(".rg-add").onclick = () => { const l = pts[pts.length - 1] || [0, 0]; pts.push([l[0] + 1, l[1]]); table(); draw(true); };
+    el.querySelectorAll("[data-m]").forEach(b => b.onclick = () => { model = b.dataset.m; el.querySelectorAll("[data-m]").forEach(x => x.classList.toggle("on", x === b)); draw(false); });
+    el.querySelectorAll("[data-p]").forEach(b => b.onclick = () => { const pr = p.presets[+b.dataset.p]; pts = pr.points.map(x => x.slice()); model = pr.model; el.querySelectorAll("[data-m]").forEach(x => x.classList.toggle("on", x.dataset.m === model)); table(); draw(true); });
+    table(); draw(true);
+  }
+
+  /* ---------- copy-to-clipboard chips for Desmos input ---------- */
+  function chips() {
+    document.querySelectorAll("code.dz:not([data-mounted])").forEach(c => {
+      c.dataset.mounted = 1; c.title = "Click to copy"; c.tabIndex = 0;
+      const go = () => { const t = c.dataset.copy || c.textContent; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => { c.classList.add("ok"); setTimeout(() => c.classList.remove("ok"), 900); }).catch(() => {}); if (window.__dzOpen) window.__dzOpen(); };
+      c.onclick = go; c.onkeydown = e => { if (e.key === "Enter") go(); };
+    });
+  }
+
+  /* ---------- Desmos drawer: the real calculator, embedded ---------- */
+  function drawer() {
+    const b = document.body;
+    const want = b.classList.contains("th-exam") || b.dataset.course === "math";
+    if (!want || document.querySelector(".dz-fab")) return;
+    const fab = document.createElement("button"); fab.className = "dz-fab"; fab.innerHTML = '<span class="dz-i">ƒ</span> Desmos';
+    fab.setAttribute("aria-label", "Open the Desmos graphing calculator");
+    const pane = document.createElement("aside"); pane.className = "dz-pane"; pane.setAttribute("aria-label", "Desmos graphing calculator");
+    const act = b.classList.contains("th-act");
+    pane.innerHTML = `<div class="dz-top"><b>Desmos graphing calculator</b><span>${act ? "Built into the digital ACT Math section" : "Same calculator as the SAT"}</span><a href="https://www.desmos.com/calculator" target="_blank" rel="noopener">New tab ↗</a><button class="dz-close" aria-label="Close">×</button></div><div class="dz-body"></div>`;
+    b.append(fab, pane);
+    const open = () => { if (!pane.querySelector("iframe")) pane.querySelector(".dz-body").innerHTML = '<iframe src="https://www.desmos.com/calculator" title="Desmos graphing calculator" loading="lazy" allow="clipboard-read; clipboard-write"></iframe>'; pane.classList.add("on"); b.classList.add("dz-on"); };
+    window.__dzOpen = open;
+    fab.onclick = () => pane.classList.contains("on") ? (pane.classList.remove("on"), b.classList.remove("dz-on")) : open();
+    pane.querySelector(".dz-close").onclick = () => { pane.classList.remove("on"); b.classList.remove("dz-on"); };
+    document.querySelectorAll(".dz-embed:not([data-mounted])").forEach(e => { e.dataset.mounted = 1; e.innerHTML = '<iframe src="https://www.desmos.com/calculator" title="Desmos graphing calculator" loading="lazy"></iframe><p class="dz-cap">Can\'t see it? <a href="https://www.desmos.com/calculator" target="_blank" rel="noopener">Open Desmos in a new tab</a>.</p>'; });
+  }
+
   function examHero() {
     const hero = document.querySelector("body.th-exam .hero");
     if (!hero || hero.querySelector(".exam-art")) return;
@@ -91,7 +202,8 @@
   function mount() {
     document.querySelectorAll(".tp[data-hl]:not([data-mounted])").forEach(el => { el.dataset.mounted = 1; try { hl(el, JSON.parse(el.dataset.hl)); } catch (e) { console.error(e); } });
     document.querySelectorAll(".tp[data-pace]:not([data-mounted])").forEach(el => { el.dataset.mounted = 1; try { pace(el, JSON.parse(el.dataset.pace)); } catch (e) { console.error(e); } });
-    examHero();
+    document.querySelectorAll(".tp[data-reg]:not([data-mounted])").forEach(el => { el.dataset.mounted = 1; try { reg(el, JSON.parse(el.dataset.reg)); } catch (e) { console.error(e); } });
+    chips(); drawer(); examHero();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount); else mount();
 })();

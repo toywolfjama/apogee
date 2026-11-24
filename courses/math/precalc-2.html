@@ -116,48 +116,48 @@
   "t": "p",
   "q": "Arithmetic: a₀ = 7, d = −3. a₁₀ = ?",
   "o": [
-   "37",
-   "−26",
    "−20",
-   "−23"
+   "37",
+   "−23",
+   "−26"
   ],
-  "a": 3,
+  "a": 2,
   "x": "7 + 10(−3)."
  },
  {
   "t": "p",
   "q": "Geometric: g₀ = 3, r = 2. g₅ = ?",
   "o": [
-   "13",
-   "96",
+   "48",
    "30",
-   "48"
+   "96",
+   "13"
   ],
-  "a": 1,
+  "a": 2,
   "x": "3·2⁵."
  },
  {
   "t": "w",
   "q": "x: 0,1,2,3; y: 5,15,45,135. Best model?",
   "o": [
-   "Exponential",
    "Logarithmic",
-   "Linear",
-   "Quadratic"
+   "Exponential",
+   "Quadratic",
+   "Linear"
   ],
-  "a": 0,
+  "a": 1,
   "x": "Constant ratio 3."
  },
  {
   "t": "w",
   "q": "A car worth $20,000 loses 12% per year. Model?",
   "o": [
-   "V = 20000 − 0.12t",
    "V = 20000(0.88)ᵗ",
+   "V = 20000 − 0.12t",
    "V = 20000(1.12)ᵗ",
    "V = 20000(0.12)ᵗ"
   ],
-  "a": 1,
+  "a": 0,
   "x": "Keep 88% each year."
  },
  {
@@ -165,11 +165,11 @@
   "q": "Horizontal asymptote of y = 3·2ˣ − 4?",
   "o": [
    "x = −4",
+   "y = 0",
    "y = −4",
-   "y = 3",
-   "y = 0"
+   "y = 3"
   ],
-  "a": 1,
+  "a": 2,
   "x": "Shifted down 4."
  },
  {
@@ -188,36 +188,36 @@
   "t": "p",
   "q": "log₂(1/8) = ?",
   "o": [
+   "3",
    "−1/3",
    "1/3",
-   "−3",
-   "3"
+   "−3"
   ],
-  "a": 2,
+  "a": 3,
   "x": "2⁻³ = 1/8."
  },
  {
   "t": "p",
   "q": "ln(e⁷) = ?",
   "o": [
-   "1",
    "7",
    "7e",
-   "e⁷"
+   "e⁷",
+   "1"
   ],
-  "a": 1,
+  "a": 0,
   "x": "Inverse functions."
  },
  {
   "t": "p",
   "q": "log 20 + log 5 = ?",
   "o": [
-   "100",
-   "2",
    "1",
-   "log 25"
+   "log 25",
+   "100",
+   "2"
   ],
-  "a": 1,
+  "a": 3,
   "x": "log 100 = 2."
  },
  {
@@ -236,46 +236,46 @@
   "t": "p",
   "q": "Solve 3ˣ = 20.",
   "o": [
-   "x = ln(20/3)",
+   "x = ln 20/ln 3",
    "x = log₂₀ 3",
    "x = 20/3",
-   "x = ln 20/ln 3"
+   "x = ln(20/3)"
   ],
-  "a": 3,
+  "a": 0,
   "x": "Take ln of both sides."
  },
  {
   "t": "c",
   "q": "Domain of f(x) = ln(x − 2)?",
   "o": [
-   "x > 0",
-   "x ≥ 2",
    "All reals",
-   "x > 2"
+   "x ≥ 2",
+   "x > 2",
+   "x > 0"
   ],
-  "a": 3,
+  "a": 2,
   "x": "Argument positive."
  },
  {
   "t": "c",
   "q": "Inverse of f(x) = 10ˣ?",
   "o": [
-   "ln x",
    "log x",
-   "1/10ˣ",
-   "x¹⁰"
+   "x¹⁰",
+   "ln x",
+   "1/10ˣ"
   ],
-  "a": 1,
+  "a": 0,
   "x": "Base 10."
  },
  {
   "t": "g",
   "q": "On a semi-log plot (ln y vs x), exponential data look…",
   "o": [
-   "logarithmic",
    "quadratic",
+   "periodic",
    "linear",
-   "periodic"
+   "logarithmic"
   ],
   "a": 2,
   "x": "ln y = ln a + x ln b."
@@ -284,12 +284,12 @@
   "t": "w",
   "q": "Bacteria double every 4 hours from 100. Model?",
   "o": [
+   "N = 100·2^(t/4)",
    "N = 100·2^(4t)",
    "N = 200t",
-   "N = 100·4^(t/2)",
-   "N = 100·2^(t/4)"
+   "N = 100·4^(t/2)"
   ],
-  "a": 3,
+  "a": 0,
   "x": "One doubling per 4 hours."
  }
 ]
@@ -300,48 +300,48 @@
   "t": "p",
   "q": "Solve log₃(x) + log₃(x − 8) = 2.",
   "o": [
-   "x = 17",
-   "x = −1 or 9",
    "x = 9",
+   "x = −1 or 9",
+   "x = 17",
    "x = −1"
   ],
-  "a": 2,
+  "a": 0,
   "x": "x² − 8x = 9 → (x − 9)(x + 1) = 0; reject −1."
  },
  {
   "t": "p",
   "q": "Solve e^(2x) − 5eˣ + 6 = 0.",
   "o": [
-   "x = 2 or 3",
    "x = ln 2 or ln 3",
    "x = ln 6",
-   "No solution"
+   "No solution",
+   "x = 2 or 3"
   ],
-  "a": 1,
+  "a": 0,
   "x": "Let u = eˣ: u² − 5u + 6 = 0 → u = 2, 3."
  },
  {
   "t": "w",
   "q": "A half-life is 8 days. Fraction left after 20 days?",
   "o": [
-   "0.25",
    "0.4",
+   "(1/2)^2.5 ≈ 0.177",
    "(1/2)^0.4",
-   "(1/2)^2.5 ≈ 0.177"
+   "0.25"
   ],
-  "a": 3,
+  "a": 1,
   "x": "20/8 = 2.5 half-lives."
  },
  {
   "t": "p",
   "q": "2^(t/5) written as bᵗ has b ≈",
   "o": [
-   "0.4",
-   "2.5",
    "1.149",
-   "1.4"
+   "0.4",
+   "1.4",
+   "2.5"
   ],
-  "a": 2,
+  "a": 0,
   "x": "2^(1/5)."
  },
  {
@@ -350,19 +350,19 @@
   "o": [
    "e^(0.7x)",
    "0.7·0.3ˣ",
-   "0.7 + e^(0.3x)",
-   "e^0.7 · (e^0.3)ˣ"
+   "e^0.7 · (e^0.3)ˣ",
+   "0.7 + e^(0.3x)"
   ],
-  "a": 3,
+  "a": 2,
   "x": "Exponentiate both sides."
  },
  {
   "t": "w",
   "q": "$1000 at 5% compounded monthly for 10 years ≈",
   "o": [
-   "$1500",
-   "$1647",
    "$1629",
+   "$1647",
+   "$1500",
    "$1649"
   ],
   "a": 1,
@@ -386,9 +386,9 @@
    "t": "p",
    "q": "Common ratio of 2, 6, 18, 54?",
    "o": [
-    "12",
-    "3",
     "4",
+    "3",
+    "12",
     "2"
    ],
    "a": 1,
@@ -398,36 +398,36 @@
    "t": "c",
    "q": "Which grows fastest for large x?",
    "o": [
-    "1.01ˣ",
-    "100x",
     "x²",
+    "100x",
+    "1.01ˣ",
     "log x"
    ],
-   "a": 0,
+   "a": 2,
    "x": "Exponential growth eventually wins."
   },
   {
    "t": "g",
    "q": "y-intercept of y = 5(0.5)ˣ?",
    "o": [
-    "2.5",
     "5",
-    "0",
-    "0.5"
+    "2.5",
+    "0.5",
+    "0"
    ],
-   "a": 1,
+   "a": 0,
    "x": "x = 0."
   },
   {
    "t": "c",
    "q": "Is y = 4(0.9)ˣ growth or decay?",
    "o": [
-    "Neither",
     "Growth",
-    "Both",
-    "Decay"
+    "Neither",
+    "Decay",
+    "Both"
    ],
-   "a": 3,
+   "a": 2,
    "x": "0 < b < 1."
   },
   {
@@ -435,47 +435,47 @@
    "q": "log₄ 64 = ?",
    "o": [
     "16",
-    "3",
+    "4",
     "1/3",
-    "4"
+    "3"
    ],
-   "a": 1,
+   "a": 3,
    "x": "4³."
   },
   {
    "t": "c",
    "q": "Rewrite 10³ = 1000 in log form.",
    "o": [
-    "log 3 = 1000",
     "log 1000 = 3",
-    "ln 1000 = 3",
-    "log₃ 1000 = 10"
+    "log 3 = 1000",
+    "log₃ 1000 = 10",
+    "ln 1000 = 3"
    ],
-   "a": 1,
+   "a": 0,
    "x": "Base 10."
   },
   {
    "t": "p",
    "q": "log₂ 12 − log₂ 3 = ?",
    "o": [
-    "log₂ 9",
-    "3",
     "4",
-    "2"
+    "3",
+    "2",
+    "log₂ 9"
    ],
-   "a": 3,
+   "a": 2,
    "x": "log₂ 4."
   },
   {
    "t": "p",
    "q": "Solve log x = 3.",
    "o": [
-    "x = 30",
     "x = 1000",
+    "x = 30",
     "x = 3",
     "x = e³"
    ],
-   "a": 1,
+   "a": 0,
    "x": "10³."
   },
   {
@@ -484,8 +484,8 @@
    "o": [
     "x = 3",
     "x = 4",
-    "x = 16",
-    "x = 5"
+    "x = 5",
+    "x = 16"
    ],
    "a": 1,
    "x": "x + 1 = 5."
@@ -494,9 +494,9 @@
    "t": "g",
    "q": "Vertical asymptote of y = log₂(x + 3)?",
    "o": [
-    "y = −3",
     "x = 0",
     "x = 3",
+    "y = −3",
     "x = −3"
    ],
    "a": 3,
@@ -506,24 +506,24 @@
    "t": "c",
    "q": "ln 5 / ln 2 equals…",
    "o": [
+    "log₂ 5",
     "log₅ 2",
-    "ln 3",
     "ln 2.5",
-    "log₂ 5"
+    "ln 3"
    ],
-   "a": 3,
+   "a": 0,
    "x": "Change of base."
   },
   {
    "t": "w",
    "q": "A town grows 3% per year from 8000. Population after 10 years ≈",
    "o": [
+    "10,751",
     "10,400",
     "8,240",
-    "10,751",
     "24,000"
    ],
-   "a": 2,
+   "a": 0,
    "x": "8000(1.03)^10."
   },
   {
@@ -531,11 +531,11 @@
    "q": "If f(x) = eˣ and g(x) = ln x, then f(g(5)) = ?",
    "o": [
     "1",
-    "5",
+    "e⁵",
     "ln 5",
-    "e⁵"
+    "5"
    ],
-   "a": 1,
+   "a": 3,
    "x": "Inverses."
   },
   {
@@ -646,6 +646,7 @@
 <script src="../../assets/js/courses.js"></script>
 <script src="../../assets/js/wa.js"></script>
 <script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/tp.js"></script>
 <script src="../../assets/js/site.js"></script>
 <script src="../../assets/js/exam.js"></script>
 </body>

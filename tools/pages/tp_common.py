@@ -62,8 +62,22 @@ def build(course, slug, level, n, title, h1, intro, desc, chapters, PQ, CHAL, EX
         html, d = exam_box(cid, f"{level} {title}: timed set", EX, minutes, TAGS, exam_name, rules or ["No feedback until you submit. Flag questions and come back to them.", "No penalty for wrong answers: never leave one blank."], frq=frq, frq_minutes=frq_minutes)
         ch.append(chapter(f"exam-ch-{cid}", "Timed Set", "Timed set", [html])); data.update(d)
     if extra_data: data.update(extra_data)
-    HTML = page(slug, f"{level}: {title}", f"{level} · {'Part ' + str(n) if n else 'Practice'}", h1, intro, desc, ch, data,
+    HTML = page(slug, f"{level}: {title}", f"{level} · {'Part ' + str(n) if n else 'Tactics'}", h1, intro, desc, ch, data,
                 course=course, footer=f"Apogee · {level} prep · Not affiliated with College Board or ACT", extra_js=js)
     HTML = HTML.replace('<script src="../../assets/js/sims.js"></script>\n', "")
     open(out, "w").write(HTML)
     print(f"{slug}: {len(PQ)} practice, {len(CHAL)} hard, {len(EX or [])} timed")
+
+def dz(t, copy=None):
+    c = f' data-copy="{copy}"' if copy else ""
+    return f'<code class="dz"{c}>{t}</code>'
+def tactic(n, title, when, types, body=""):
+    ty = ('<div class="type"><b>Type:</b>' + " ".join(dz(t) for t in types) + "</div>") if types else ""
+    return f'<div class="tactic"><h4><span class="tn">{n}</span>{title}</h4><p class="when">{when}</p>{ty}{body}</div>'
+def reg(points, model="lin", title=None, sub=None, presets=None):
+    d = {"points": points, "model": model}
+    if title: d["title"] = title
+    if sub: d["sub"] = sub
+    if presets: d["presets"] = presets
+    return f"<div class=\"tp\" data-reg='{_j(d)}'></div>"
+EMBED = '<div class="dz-embed"></div>'

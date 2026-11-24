@@ -57,6 +57,7 @@ PLAN = topic("plan", "A study plan", f'''
  ["Weeks 5–6", "Timed sets. Practice pacing with the clock above. Keep an error log: question, why you missed it, the rule."],
  ["Weeks 7–8", "Two more full practice tests in Bluebook under real timing. Review every miss."],
  ["Test week", "Light review of your error log. Sleep. Charge your device and install Bluebook updates the day before."]])}
+<p>Next: the <a href="sat-tactics.html">strategy playbook</a> (a tactic for every question type) and <a href="sat-desmos.html">Desmos tactics</a> (regressions, solving by graphing).</p>
 {box("tip", "Error log beats volume", "Doing 50 questions and learning from the 10 you missed beats doing 200 and moving on. Write down the rule each miss teaches you.")}
 ''', pill=("s", "1.4"))
 
