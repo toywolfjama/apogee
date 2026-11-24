@@ -22,103 +22,6 @@
   applySettings();
   const courses = window.SITE_COURSES || [];
 
-
-  /* ---------- progress, mistakes and search (saved in this browser) ---------- */
-  const Crux = window.Crux = (function () {
-    const get = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
-    const set = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
-    const hash = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
-    const here = () => { const m = decodeURIComponent(location.pathname).match(/(courses\/.+\.html)$/); return m ? m[1] : (location.pathname.split("/").pop() || "index.html"); };
-    const title = () => (document.title.split("|")[0] || "").trim();
-    function badge() {
-      const n = Object.keys(get("crux.mistakes", {})).length;
-      document.querySelectorAll(".mcount").forEach(el => { el.hidden = !n; el.textContent = n > 99 ? "99+" : n; });
-    }
-    function record(it, ok, box) {
-      if (it.__k) { // answering from the mistakes page
-        const m = get("crux.mistakes", {}); if (ok) { delete m[it.__k]; set("crux.mistakes", m); } badge(); return;
-      }
-      const unit = here(), qid = hash(String(it.q) + "|" + (it.o || it.g || []).join("|"));
-      const P = get("crux.progress", {}); const u = P[unit] || (P[unit] = { a: {} });
-      u.a[qid] = ok ? 1 : 0; u.ts = Date.now(); u.t = u.t || title(); u.c = u.c || body.dataset.course; set("crux.progress", P);
-      const M = get("crux.mistakes", {}), key = unit + "|" + qid;
-      if (!ok) M[key] = { q: it.q, o: it.o, a: it.a, g: it.g, x: it.x, h: it.h, unit, title: title(), course: body.dataset.course || "", ts: Date.now() };
-      else delete M[key];
-      set("crux.mistakes", M); badge();
-    }
-    function visit() {
-      if (!body.dataset.course) return;
-      const unit = here(), P = get("crux.progress", {}), u = P[unit] || (P[unit] = { a: {} });
-      let n = 0;
-      document.querySelectorAll('script[type="application/json"]').forEach(sc => { try { const d = JSON.parse(sc.textContent); n += Array.isArray(d) ? d.length : (d.mcq ? d.mcq.length : 0); } catch (e) {} });
-      Object.assign(u, { t: title(), c: body.dataset.course, n, v: Date.now() });
-      set("crux.progress", P); set("crux.last", { unit, t: title(), c: body.dataset.course, ts: Date.now() });
-    }
-    function unitStats(path) {
-      const u = get("crux.progress", {})[path]; if (!u) return null;
-      const a = Object.values(u.a || {}); return { visited: !!u.v, answered: a.length, correct: a.filter(x => x).length, n: u.n || 0, t: u.t, ts: Math.max(u.v || 0, u.ts || 0) };
-    }
-    return { get, set, record, visit, badge, unitStats, hash };
-  })();
-
-  function searchPalette() {
-    let ov = null, items = null, sel = 0, list = [];
-    const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
-    function load(cb) {
-      if (items) return cb();
-      const base = []; courses.forEach(c => c.units.forEach(u => { if (u.path && u.ready !== false) base.push({ t: u.name, u: "", c: c.name, h: u.path, k: "unit" }); }));
-      const done = () => { items = base.concat((window.SEARCH_INDEX || []).map(x => ({ t: x.t, u: x.u, c: x.c, h: x.h, k: x.k }))); cb(); };
-      if (window.SEARCH_INDEX) return done();
-      const sc = document.createElement("script"); sc.src = root + "assets/js/search-index.js"; sc.onload = done; sc.onerror = done; document.head.appendChild(sc);
-    }
-    function render(qs) {
-      const toks = qs.toLowerCase().split(/\s+/).filter(Boolean);
-      list = !toks.length ? items.filter(x => x.k === "unit").slice(0, 60) : items.filter(x => { const hay = (x.t + " " + x.u + " " + x.c).toLowerCase(); return toks.every(t => hay.includes(t)); })
-        .map(x => ({ x, s: (x.t.toLowerCase().startsWith(toks[0]) ? 0 : 1) + (x.k === "unit" ? 0 : .5) })).sort((a, b) => a.s - b.s).map(o => o.x).slice(0, 60);
-      sel = 0;
-      ov.querySelector(".sp-list").innerHTML = list.length ? list.map((x, i) => `<a class="sp-it${i === sel ? " on" : ""}" href="${root}${x.h}" data-i="${i}"><span class="sp-k">${x.k === "unit" ? "Page" : x.k === "chapter" ? "Chapter" : "Topic"}</span><span class="sp-t">${esc(x.t)}</span><span class="sp-c">${esc(x.u ? x.u + " · " : "")}${esc(x.c)}</span></a>`).join("") : `<div class="sp-none">No matches for “${esc(qs)}”.</div>`;
-    }
-    function move(d) { const its = ov.querySelectorAll(".sp-it"); if (!its.length) return; its[sel].classList.remove("on"); sel = (sel + d + its.length) % its.length; its[sel].classList.add("on"); its[sel].scrollIntoView({ block: "nearest" }); }
-    function open() {
-      if (ov) { ov.hidden = false; ov.querySelector("input").select(); return; }
-      ov = document.createElement("div"); ov.className = "sp-ov"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "Search");
-      ov.innerHTML = `<div class="sp-box"><div class="sp-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search every lesson, topic and test…" aria-label="Search"><span class="kbd">Esc</span></div><div class="sp-list"></div><div class="sp-foot"><span><span class="kbd">↑</span><span class="kbd">↓</span> move</span><span><span class="kbd">Enter</span> open</span></div></div>`;
-      body.appendChild(ov);
-      const inp = ov.querySelector("input");
-      ov.addEventListener("click", e => { if (e.target === ov) close(); });
-      inp.addEventListener("input", () => render(inp.value));
-      inp.addEventListener("keydown", e => {
-        if (e.key === "ArrowDown") { e.preventDefault(); move(1); } else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
-        else if (e.key === "Enter") { const a = ov.querySelectorAll(".sp-it")[sel]; if (a) location.href = a.href; }
-        else if (e.key === "Escape") close();
-      });
-      ov.querySelector(".sp-list").innerHTML = '<div class="sp-none">Loading…</div>';
-      load(() => render(inp.value)); inp.focus();
-    }
-    function close() { if (ov) ov.hidden = true; }
-    document.addEventListener("keydown", e => {
-      const typing = /INPUT|TEXTAREA|SELECT/.test((e.target.tagName || "")) || e.target.isContentEditable;
-      if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) { e.preventDefault(); ov && !ov.hidden ? close() : open(); }
-      else if (e.key === "/" && !typing) { e.preventDefault(); open(); }
-    });
-    document.addEventListener("click", e => { if (e.target.closest("[data-search]")) open(); });
-    window.CruxSearch = open;
-  }
-
-  /* answer quiz questions with the keyboard: A–D or 1–4 on the question under the pointer/focus */
-  function quizKeys() {
-    let hover = null;
-    document.addEventListener("pointerover", e => { const c = e.target.closest(".quiz .qcard"); if (c) hover = c; });
-    document.addEventListener("focusin", e => { const c = e.target.closest(".quiz .qcard"); if (c) hover = c; });
-    document.addEventListener("keydown", e => {
-      if (e.metaKey || e.ctrlKey || e.altKey || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName || "")) return;
-      if (!hover || !document.body.contains(hover)) return;
-      const k = e.key.toLowerCase(), idx = "abcd".indexOf(k) >= 0 ? "abcd".indexOf(k) : "1234".indexOf(k);
-      if (idx < 0) return;
-      const b = hover.querySelectorAll(".opt")[idx]; if (b && !b.disabled) { e.preventDefault(); b.click(); }
-    });
-  }
-
   /* ---------- header with course dropdown ---------- */
   function buildHeader() {
     const header = document.createElement("header");
@@ -136,24 +39,16 @@
         }
       });
     });
-    const I = {
-      search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
-      cards: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 2h12a2 2 0 0 1 2 2v12"/></svg>',
-      miss: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v5M12 16.5v.5"/><path d="M10.3 3.9 2.6 17.5A2 2 0 0 0 4.3 20.5h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>',
-      down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>'
-    };
-    const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
     header.innerHTML = `
       <div class="in">
-        <a class="brand" href="${root}index.html" aria-label="Crux home"><span class="mark" aria-hidden="true"><img src="${root}assets/img/logo.svg" alt="" width="30" height="30"></span><span class="word">Crux</span></a>
+        <a class="brand" href="${root}index.html"><span class="planet" aria-hidden="true"><i></i><b></b></span><span class="mark" aria-hidden="true"><img src="${root}assets/img/logo.svg" alt="" width="30" height="30"></span><span class="tt"><span class="u">student@apogee</span><span class="d">:</span><span class="p" id="tt-path">~/${termPath()}</span><span class="d">$</span></span><span class="word">Apogee</span></a>
         <span class="spacer"></span>
-        <button class="navbtn searchbtn" type="button" data-search aria-label="Search">${I.search}<span class="lbl">Search lessons</span><span class="kbd">${isMac ? "⌘" : "Ctrl "}K</span></button>
-        <a class="navbtn navlink${/review\.html$/.test(location.pathname) ? " on" : ""}" href="${root}review.html" aria-label="Flashcards">${I.cards}<span class="lbl">Flashcards</span></a>
-        <a class="navbtn navlink${/mistakes\.html$/.test(location.pathname) ? " on" : ""}" href="${root}mistakes.html" aria-label="Mistakes">${I.miss}<span class="lbl">Mistakes</span><span class="mcount" hidden></span></a>
+        <a class="navbtn navlink${/review\.html$/.test(location.pathname) ? " on" : ""}" href="${root}review.html">Flashcards</a>
         <div class="dd">
-          <button class="navbtn" aria-expanded="false" aria-haspopup="true">Courses ${I.down}</button>
+          <button class="navbtn" aria-expanded="false" aria-haspopup="true">Courses ▾</button>
           <div class="dd-menu" role="menu">${menu}</div>
         </div>
+        <span class="win" aria-hidden="true"><i>–</i><i>□</i><i>×</i></span>
       </div>`;
     body.prepend(header);
     const menus = [...header.querySelectorAll(".dd")].map(d => ({ btn: d.querySelector(".navbtn"), dd: d.querySelector(".dd-menu") }));
@@ -315,19 +210,18 @@
           if (it.g) {
             const gi = document.createElement("div"); gi.className = "grid-in";
             gi.innerHTML = `<label>Your answer <input type="text" inputmode="decimal" autocomplete="off" aria-label="Your answer"></label><button class="btn">Check</button><span>Type a number or fraction like 3/4.</span>`;
-            const inp = gi.querySelector("input"), go = () => { const v = inp.value.trim(); if (!v || answered[i] !== undefined) return; answered[i] = v; paint(i, card); score(); const okv = window.GridCheck && window.GridCheck.isOk(it, v); card.classList.add(okv ? "got-it" : "missed"); Crux.record(it, okv, box); };
+            const inp = gi.querySelector("input"), go = () => { const v = inp.value.trim(); if (!v || answered[i] !== undefined) return; answered[i] = v; paint(i, card); score(); card.classList.add(window.GridCheck && window.GridCheck.isOk(it, v) ? "got-it" : "missed"); };
             gi.querySelector("button").onclick = go; inp.onkeydown = e => { if (e.key === "Enter") go(); };
             card.querySelector(".opts").appendChild(gi);
           }
           (it.o || []).forEach((o, j) => {
             const b = document.createElement("button");
             b.className = "opt";
-            b.innerHTML = `<span class="key">${letter(j)}</span>` + (it.h ? o : String(o).replace(/&/g, "&amp;").replace(/</g, "&lt;"));
+            if (it.h) b.innerHTML = `${letter(j)}. ${o}`; else b.textContent = `${letter(j)}. ${o}`;
             b.addEventListener("click", () => {
               if (answered[i] !== undefined) return;
               answered[i] = j; paint(i, card); score();
               card.classList.add(j === it.a ? "got-it" : "missed");
-              Crux.record(it, j === it.a, box);
             });
             card.querySelector(".opts").appendChild(b);
           });
@@ -544,7 +438,6 @@
 
   // ---------- click animations ----------
   function fx() {
-    if (body.classList.contains("th-clean")) return;
     const still = () => body.classList.contains("no-motion") || matchMedia("(prefers-reduced-motion: reduce)").matches;
     const TERM = body.classList.contains("th-term");
     const isTermEl = el => TERM || !!el.closest(".portal.term");
@@ -644,7 +537,6 @@
   spaceStars(); spaceHero(); parisHero(); gridHero(); termDecor(); fx();
   buildQuizzes();
   buildCourseList();
-  Crux.visit(); Crux.badge(); searchPalette(); quizKeys();
   if (window.Sims) window.Sims.mountAll();
   // checkboxes that remember their state (test review checklist)
   const remember = [...document.querySelectorAll("input[data-remember]")];

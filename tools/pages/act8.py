@@ -19,6 +19,6 @@ INTRO = topic("how", "How to use this practice test", f'''
 {box("tip", "Scoring", "The real 1–36 scale depends on that test's difficulty, so we show percent correct and a skill breakdown instead. Use them to choose which lesson to review.")}
 ''', pill=("s", "★"))
 CH = [chapter("ch-how", "Before You Start", "Start", [INTRO])] + chs
-HTML = page("act-test", "ACT: Half-Length Practice Test", "ACT · Practice test", 'Half-length <span class="hl">practice test</span>', "English, Math, Reading and Science at real ACT pace, with explanations and a skill breakdown.", "Free half-length ACT practice test: English, Math, Reading and Science sections with explanations.", CH, data, course=C, footer="Crux · ACT prep · Not affiliated with ACT", extra_js=("tp.js",))
+HTML = page("act-test", "ACT: Half-Length Practice Test", "ACT · Practice test", 'Half-length <span class="hl">practice test</span>', "English, Math, Reading and Science at real ACT pace, with explanations and a skill breakdown.", "Free half-length ACT practice test: English, Math, Reading and Science sections with explanations.", CH, data, course=C, footer="Apogee · ACT prep · Not affiliated with ACT", extra_js=("tp.js",))
 HTML = HTML.replace('<script src="../../assets/js/sims.js"></script>\n', "")
 open(OUT, "w").write(HTML); print("act-test written")

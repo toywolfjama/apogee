@@ -495,6 +495,6 @@ if __name__ == "__main__":
                 f"Boolean expressions, if statements, De Morgan's laws, while and for loops, standard algorithms, String algorithms, nested loops and run-time analysis: explanations, code you can step through, interactive labs, {len(PQ) + len(CHAL)} practice questions checked in Java, and a timed practice exam.",
                 "AP Computer Science A Unit 2 review with code animations, interactive labs, practice questions and a practice exam.",
                 CH, {"quiz-c2": strip_private(PQ), "quiz-challenge-c2": strip_private(CHAL), "exam-c2": EX},
-                course="ap-csa", footer="Crux · AP Computer Science A · Java", extra_js=("cs-sims.js",))
+                course="ap-csa", footer="Apogee · AP Computer Science A · Java", extra_js=("cs-sims.js",))
     open("/home/claude/ap-physics-study/courses/ap-csa/unit-2.html", "w").write(HTML)
     print("CSA unit 2 written:", len(PQ), len(CHAL), len(E))

@@ -63,7 +63,7 @@ def build(course, slug, level, n, title, h1, intro, desc, chapters, PQ, CHAL, EX
         ch.append(chapter(f"exam-ch-{cid}", "Timed Set", "Timed set", [html])); data.update(d)
     if extra_data: data.update(extra_data)
     HTML = page(slug, f"{level}: {title}", f"{level} · {'Part ' + str(n) if n else 'Tactics'}", h1, intro, desc, ch, data,
-                course=course, footer=f"Crux · {level} prep · Not affiliated with College Board or ACT", extra_js=js)
+                course=course, footer=f"Apogee · {level} prep · Not affiliated with College Board or ACT", extra_js=js)
     HTML = HTML.replace('<script src="../../assets/js/sims.js"></script>\n', "")
     open(out, "w").write(HTML)
     print(f"{slug}: {len(PQ)} practice, {len(CHAL)} hard, {len(EX or [])} timed")

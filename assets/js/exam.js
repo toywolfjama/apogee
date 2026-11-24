@@ -89,16 +89,7 @@
       const nx = box.querySelector(".ex-next"); if (nx) nx.onclick = () => { st.cur++; mcq(); };
       const sb = box.querySelector(".ex-submit"); if (sb) sb.onclick = () => confirmBox(endMcq);
       const t = box.querySelector(".ex-timer"); if (t) t.textContent = mmss((st.end - Date.now()) / 1000);
-      box.querySelectorAll(".ex-q .opt").forEach((b, j) => { b.innerHTML = `<span class="key">${L(j)}</span>` + b.innerHTML.replace(/^[A-Z]\. /, ""); });
     }
-    document.addEventListener("keydown", e => {
-      if (st.phase !== "mcq" || e.metaKey || e.ctrlKey || e.altKey || /INPUT|TEXTAREA/.test(e.target.tagName || "")) return;
-      const r = box.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
-      const k = e.key.toLowerCase(), j = "abcd".indexOf(k);
-      if (j >= 0) { const b = box.querySelectorAll(".ex-q .opt")[j]; if (b) { e.preventDefault(); b.click(); } }
-      else if (e.key === "ArrowRight" && st.cur < nM - 1) { e.preventDefault(); st.cur++; mcq(); }
-      else if (e.key === "ArrowLeft" && st.cur > 0) { e.preventDefault(); st.cur--; mcq(); }
-    });
 
     function confirmBox(go) {
       const left = nM - Object.keys(st.ans).length, flagged = Object.values(st.flag).filter(Boolean).length;
@@ -132,7 +123,6 @@
     }
 
     function results() {
-      if (!st.recorded && window.Crux) { st.recorded = 1; E.mcq.forEach((q, i) => { if (st.ans[i] !== undefined) window.Crux.record(q, isOk(q, st.ans[i])); }); }
       const right = E.mcq.filter((q, i) => isOk(q, st.ans[i])).length;
       const groups = {};
       E.mcq.forEach((q, i) => {

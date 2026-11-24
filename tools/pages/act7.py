@@ -32,6 +32,6 @@ FRQ = [{"q": PROMPT2, "parts": [
 html, d = exam_box("act-7", "Timed essay", [], 0, TAGS, "Essay", ["You have 40 minutes.", "Plan first. A clear position beats length.", "When time's up, use the rubric to score yourself honestly."], frq=FRQ, frq_minutes=40, desc="One essay, 40 minutes, then self-score with the rubric.")
 for v in d.values(): v.update({"frqName": "Essay", "frqKind": "prompt"})
 CH = [chapter("ch-task", "The Task", "Task", [TASK]), chapter("ch-plan", "Plan and Sample", "Plan", [PLAN, SAMPLE]), chapter("ch-essay", "Timed Essay", "Timed essay", [html])]
-HTML = page("act-7", "ACT: Writing (optional essay)", "ACT · Part 7", 'The essay, <span class="hl">planned</span>', "How the optional ACT Writing essay is scored, a 40-minute plan, a model outline and a timed practice prompt.", "ACT Writing: scoring domains, a 40-minute plan, model outline and timed essay with rubric.", CH, d, course=C, footer="Crux · ACT prep · Not affiliated with ACT", extra_js=("tp.js",))
+HTML = page("act-7", "ACT: Writing (optional essay)", "ACT · Part 7", 'The essay, <span class="hl">planned</span>', "How the optional ACT Writing essay is scored, a 40-minute plan, a model outline and a timed practice prompt.", "ACT Writing: scoring domains, a 40-minute plan, model outline and timed essay with rubric.", CH, d, course=C, footer="Apogee · ACT prep · Not affiliated with ACT", extra_js=("tp.js",))
 HTML = HTML.replace('<script src="../../assets/js/sims.js"></script>\n', "")
 open(OUT, "w").write(HTML); print("act-7 written")

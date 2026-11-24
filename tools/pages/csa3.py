@@ -567,6 +567,6 @@ if __name__ == "__main__":
                 f"Abstraction and design, instance variables, constructors, writing methods, passing references, static members, scope and this: explanations, memory animations you can step through, {len(PQ) + len(CHAL)} practice questions checked in Java, and a timed practice exam with class-design free response.",
                 "AP Computer Science A Unit 3 review with memory animations, practice questions and a practice exam.",
                 CH, {"quiz-c3": strip_private(PQ), "quiz-challenge-c3": strip_private(CHAL), "exam-c3": EX},
-                course="ap-csa", footer="Crux · AP Computer Science A · Java", extra_js=("cs-sims.js",))
+                course="ap-csa", footer="Apogee · AP Computer Science A · Java", extra_js=("cs-sims.js",))
     open("/home/claude/ap-physics-study/courses/ap-csa/unit-3.html", "w").write(HTML)
     print("CSA unit 3 written:", len(PQ), len(CHAL), len(E))
