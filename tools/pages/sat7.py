@@ -19,6 +19,6 @@ INTRO = topic("how", "How to use this practice test", f'''
 {box("tip", "Why no score conversion?", "The real SAT scales scores using question difficulty data we don't have, so any 400–1600 number here would be a guess. Use the percent correct and skill breakdown instead.")}
 ''', pill=("s", "★"))
 CH = [chapter("ch-how", "Before You Start", "Start", [INTRO])] + [chapter("ch-" + c, t, t.split(" · ")[0].replace("Reading and Writing", "R&W") + " " + t.split(" · ")[1].split(" ")[1], [h]) for c, t, h in secs]
-HTML = page("sat-test", "SAT: Full-Length Practice Test", "SAT · Practice test", 'Full-length <span class="hl">practice test</span>', "Four timed modules, 98 original questions, a skill breakdown after each one.", "Free full-length SAT practice test: two Reading and Writing modules and two Math modules with grid-ins and explanations.", CH, data, course=C, footer="Apogee · SAT prep · Not affiliated with College Board", extra_js=("tp.js",))
+HTML = page("sat-test", "SAT: Full-Length Practice Test", "SAT · Practice test", 'Full-length <span class="hl">practice test</span>', "Four timed modules, 98 original questions, a skill breakdown after each one.", "Free full-length SAT practice test: two Reading and Writing modules and two Math modules with grid-ins and explanations.", CH, data, course=C, footer="Crux · SAT prep · Not affiliated with College Board", extra_js=("tp.js",))
 HTML = HTML.replace('<script src="../../assets/js/sims.js"></script>\n', "")
 open(OUT, "w").write(HTML); print("sat-test written", len(RW1), len(RW2), len(M1), len(M2))

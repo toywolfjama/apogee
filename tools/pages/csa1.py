@@ -409,7 +409,7 @@ if __name__ == "__main__":
                 f"Variables and types, expressions, casting, calling methods, the Math class, objects and references, and Strings: explanations, code you can step through, interactive labs, {len(PQ) + len(CHAL)} practice questions checked in Java, and a timed practice exam.",
                 "AP Computer Science A Unit 1 review with code animations, interactive labs, practice questions and a practice exam.",
                 CH, {"quiz-c1": strip_private(PQ), "quiz-challenge-c1": strip_private(CHAL), "exam-c1": EX},
-                course="ap-csa", footer="Apogee · AP Computer Science A · Java", extra_js=("cs-sims.js",))
+                course="ap-csa", footer="Crux · AP Computer Science A · Java", extra_js=("cs-sims.js",))
     import os; os.makedirs("/home/claude/ap-physics-study/courses/ap-csa", exist_ok=True)
     open("/home/claude/ap-physics-study/courses/ap-csa/unit-1.html", "w").write(HTML)
     print("CSA unit 1 written:", len(PQ), len(CHAL), len(EXQ))

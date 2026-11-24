@@ -46,7 +46,7 @@ def check(qs):
     return qs
 
 TAGS = {"g": "Grammar", "v": "Vocabulary"}
-FOOT = "Apogee · French 1 · Tap any French word to hear it"
+FOOT = "Crux · French 1 · Tap any French word to hear it"
 
 def build(n, slug, title, h1, intro, desc, chapters, PQ, CHAL, EXQ, FRQS, out, college=False):
     check(PQ); check(CHAL); check(EXQ)
