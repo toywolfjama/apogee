@@ -1654,3 +1654,17 @@ body.dz-on .dz-fab{right:min(540px,100vw)}
 .tactic .when{font-size:14px;color:var(--muted);margin:0 0 8px}
 .tactic .type{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}
 .tactic .type b{font-size:13px;color:var(--muted);margin-right:4px}
+/* dissections */
+details.dissect{margin-top:14px;border:1.5px solid #1F2937;border-radius:10px;background:#FFFDF5;overflow:hidden}
+details.dissect>summary{cursor:pointer;padding:10px 16px;font:700 14px "Space Grotesk",sans-serif;background:#1F2937;color:#F5B700;letter-spacing:.04em;list-style:none}
+details.dissect>summary::before{content:"✂  "}
+details.dissect[open]>summary{border-bottom:1px solid #1F2937}
+details.dissect>*:not(summary){margin:12px 16px}
+.dx-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.dx-grid{grid-template-columns:1fr}}
+.dx{border-radius:8px;padding:10px 14px;border:1px solid #E5E1D6;background:#fff}
+.dx b{display:block;font:700 11.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.dx p{margin:0;font-size:15px}
+.dx.why b{color:#4338CA}.dx.trap{background:rgba(220,38,38,.05);border-color:rgba(220,38,38,.3)}.dx.trap b{color:#B91C1C}
+.dx.fast b{color:#047857}.dx.dsm b{color:#16A34A}.dx.rule{background:#FEF3C7;border-color:#F5B700}.dx.rule b{color:#92400E}
+.quiz.single .score{display:none}

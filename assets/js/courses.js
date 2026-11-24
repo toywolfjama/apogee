@@ -75,6 +75,7 @@ window.SITE_COURSES = [
       { id: "sat-1", name: "Format and strategy", path: "courses/sat/sat-1.html", ready: true },
       { id: "sat-tactics", name: "Strategy playbook", path: "courses/sat/sat-tactics.html", ready: true },
       { id: "sat-desmos", name: "Desmos and regression tactics", path: "courses/sat/sat-desmos.html", ready: true },
+      { id: "sat-hardest", name: "The hardest questions, dissected", path: "courses/sat/sat-hardest.html", ready: true },
       { id: "sat-2", name: "Reading: ideas, evidence and craft", path: "courses/sat/sat-2.html", ready: true },
       { id: "sat-3", name: "Writing: grammar and expression", path: "courses/sat/sat-3.html", ready: true },
       { id: "sat-4", name: "Math: algebra", path: "courses/sat/sat-4.html", ready: true },

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAT: The Hardest Questions, Dissected | Apogee</title>
+<meta name="description" content="Hardest SAT question types dissected step by step: discriminant tricks, infinite solutions, exponential rewrites, circles, data traps, rare vocabulary and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-exam" data-root="../../" data-course="sat" data-unit="sat-hardest">
+
+<div class="hero">
+  <span class="kicker">SAT · Tactics</span>
+  <h1>The hardest questions, <span class="hl">dissected</span></h1>
+  <p>Original questions built on the SAT's hardest patterns, each broken down: why it's hard, the trap, the steps, the Desmos route, and the rule to steal.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-intro" data-title="Start Here" data-short="Start">
+<section class="topic" id="intro">
+  <h2><span class="pill r">★</span>How to use this page</h2>
+  
+  
+<p>These are original questions built on the exact patterns that make the SAT's hardest questions hard. Try each one before opening its dissection. Every dissection shows <b>why it's hard</b>, <b>the trap answer</b>, a step-by-step breakdown, and a <b>rule</b> you can reuse.</p>
+<p>For <b>real</b> official hard questions, use: the full practice tests in the Bluebook app, and College Board's free SAT Suite Question Bank (filter Difficulty: Hard). Run every hard miss through the same dissection: why hard, what trap, which rule.</p>
+<div class="box tip"><b class="lbl">What makes SAT questions hard</b>Almost never obscure content. It's (1) a phrase you have to translate ("exactly one point," "infinitely many"), (2) two steps where students stop after one, (3) a trap answer that results from a predictable mistake, or (4) in reading, choices that are all true but only one answers the exact question.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-alg" data-title="Hard Algebra" data-short="Algebra">
+<section class="topic" id="h-infinite">
+  <h2><span class="pill a">★</span>Infinitely many solutions with two unknown constants</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-infinite"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>There are three letters and one equation, so it feels unsolvable. The phrase "infinitely many solutions" is the extra information.</p></div><div class="dx trap"><b>The trap</b><p>Trying to solve for x. Any value of x is a solution; x isn't the point.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|a(2x − 3) + 4|s", "b|=", "c|6x − b|v"], "note": "Infinitely many solutions means both sides are the same expression."}, {"t": ["d|2a·x − 3a + 4|s", "b|=", "c|6x − b|v"], "note": "Distribute the left side."}, {"t": ["e|x-terms: 2a = 6|e", "f|constants: −3a + 4 = −b|e"], "note": "Match the coefficients of x, then the constants."}, {"t": ["g|a = 3|g", "h|−9 + 4 = −b → b = 5|g"], "note": "Solve each."}, {"t": ["i|a + b = 8|g"], "note": "Answer what they asked: a + b."}]}'></div>
+<div class="dx fast"><b>Fastest path</b><p>Match coefficients. Two equations, two unknowns.</p></div>
+
+<div class="dx rule"><b>Rule to steal</b><p>Infinitely many → match every coefficient. No solution → x-coefficients match, constants don't.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-nosol">
+  <h2><span class="pill a">★</span>No solution: signs matter</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-nosol"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>You must compare ratios, and one coefficient is negative.</p></div><div class="dx trap"><b>The trap</b><p>a = 2: ignoring the minus sign in −6y.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|ax + 3y = 7|s", "b|4x − 6y = 5|v"], "note": "No solution → same slope, different intercept."}, {"t": ["c|a/4|e", "d|=|", "e|3/(−6)|e"], "note": "Coefficients must be proportional."}, {"t": ["f|a = −2|g"], "note": "a/4 = −1/2."}]}'></div>
+<div class="dx fast"><b>Fastest path</b><p>Rewrite both in slope form: y = (7 − ax)/3 and y = (4x − 5)/6. Slopes −a/3 and 2/3 → a = −2.</p></div>
+<div class="dx dsm"><b>Desmos route</b><p>Graph both with a slider on a; at a = −2 the lines are parallel.</p></div>
+<div class="dx rule"><b>Rule to steal</b><p>Parallel = same slope. Write slopes explicitly when signs are involved.</p></div>
+</details>
+  
+</section>
+</div>
+<div class="chapter" id="ch-adv" data-title="Hard Advanced Math" data-short="Adv. Math">
+<section class="topic" id="h-tangent">
+  <h2><span class="pill m">★</span>The tangent line with a hidden parameter</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-tangent"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>It looks like a graphing question, but it's really a discriminant question in disguise. Most students try to solve for x and get stuck because there are two unknowns.</p></div><div class="dx trap"><b>The trap</b><p>Answering −6 (ignoring k &gt; 0), or setting the two y-intercepts equal.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|x² + 5|v", "b|=", "c|kx − 4|s"], "note": "\"Intersect\" means set the two equations equal."}, {"t": ["d|x² − kx + 9|e", "b|=", "e|0|n"], "note": "Move everything to one side: a quadratic in x."}, {"t": ["f|\"exactly one point\"|x", "g|→ b² − 4ac = 0|e"], "note": "One intersection = one solution = discriminant zero."}, {"t": ["h|(−k)² − 4(1)(9) = 0|e"], "note": "a = 1, b = −k, c = 9."}, {"t": ["i|k² = 36|v", "j|k = 6|g"], "note": "k = ±6, and k &gt; 0."}]}'></div>
+<div class="dx fast"><b>Fastest path</b><p>Translate "exactly one point" into discriminant = 0 the moment you see it.</p></div>
+<div class="dx dsm"><b>Desmos route</b><p>Type y = kx − 4 and y = x² + 5, make k a slider, drag until the line just touches the parabola: k = 6.</p></div>
+<div class="dx rule"><b>Rule to steal</b><p>Line + curve + "exactly one / no / two points" → set equal, use the discriminant.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-noreal">
+  <h2><span class="pill m">★</span>No real solutions: a range, not a value</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-noreal"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>You have to set up an inequality with the discriminant, then solve a quadratic inequality. Two layers.</p></div><div class="dx trap"><b>The trap</b><p>−1: it makes the discriminant exactly 0 (one real solution), not negative.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|\"no real solutions\"|x", "b|→ b² − 4ac < 0|e"], "note": "Translate the phrase."}, {"t": ["c|(−2k)² − 4(1)(4k + 5) < 0|e"], "note": "a = 1, b = −2k, c = 4k + 5."}, {"t": ["d|4k² − 16k − 20 < 0|v"], "note": "Expand."}, {"t": ["e|(k − 5)(k + 1) < 0|v"], "note": "Divide by 4, factor."}, {"t": ["f|−1 < k < 5|g"], "note": "A product is negative between its zeros. Only 2 is in range."}]}'></div>
+<div class="dx fast"><b>Fastest path</b><p>Plug each choice into b² − 4ac. Only k = 2 gives a negative number (16 − 32 − 20 = −36).</p></div>
+<div class="dx dsm"><b>Desmos route</b><p>Type y = x² − 2kx + 4k + 5 with a k slider. Set k to each choice: the parabola floats above the x-axis only for k = 2.</p></div>
+<div class="dx rule"><b>Rule to steal</b><p>Backsolving answer choices into the discriminant is often faster than solving the inequality.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-exprewrite">
+  <h2><span class="pill m">★</span>Rewriting an exponential to reveal the rate</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-exprewrite"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>The rate is hidden inside a fractional exponent. You need exponent rules, not just the growth formula.</p></div><div class="dx trap"><b>The trap</b><p>1.105: halving the 21% growth. Growth compounds, so you take a square root, not half.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|(1.21)|s", "b|^(t/2)|v"], "note": "Use (b^m)^n = b^(mn) in reverse."}, {"t": ["c|(1.21^(1/2))|s", "d|^t|v"], "note": "Split t/2 into (1/2)·t."}, {"t": ["e|(1.1)|g", "d|^t|v"], "note": "√1.21 = 1.1."}, {"t": ["f|10% per year|g"], "note": "1.1 = 1 + 0.10."}]}'></div>
+
+<div class="dx dsm"><b>Desmos route</b><p>Graph y = 1200(1.21)^(x/2) and each choice; only 1200(1.1)^x lies on top of it.</p></div>
+<div class="dx rule"><b>Rule to steal</b><p>Exponent of t/n → take the nth root of the base to get the per-unit factor.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-sumroots">
+  <h2><span class="pill m">★</span>Sum of solutions without solving</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-sumroots"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>The roots are irrational, so solving takes forever and invites arithmetic errors.</p></div><div class="dx trap"><b>The trap</b><p>11/2: using −b/a before moving everything to one side.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|2x² − 11x|v", "b|=", "c|3x − 9|s"], "note": "First, standard form."}, {"t": ["d|2x² − 14x + 9 = 0|e"], "note": "Subtract 3x, add 9."}, {"t": ["e|sum = −b/a|v"], "note": "Sum of roots of ax² + bx + c."}, {"t": ["f|14/2 = 7|g"], "note": ""}]}'></div>
+
+<div class="dx dsm"><b>Desmos route</b><p>Graph y = 2x² − 11x and y = 3x − 9; add the two intersection x-values: 0.716 + 6.284 = 7.</p></div>
+<div class="dx rule"><b>Rule to steal</b><p>Sum = −b/a, product = c/a. Only after the equation equals zero.</p></div>
+</details>
+  
+</section>
+</div>
+<div class="chapter" id="ch-geo" data-title="Hard Geometry, Trig and Data" data-short="Geo & data">
+<section class="topic" id="h-circle">
+  <h2><span class="pill g">★</span>A circle with an unknown constant</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-circle"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>You must complete the square twice AND remember to add the same amounts to the right side.</p></div><div class="dx trap"><b>The trap</b><p>49 or 7: forgetting that completing the square adds 25 + 4 to the right side.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|x² − 10x|v", "b|+ y² + 4y|s", "c|= k|n"], "note": "Group x terms and y terms."}, {"t": ["a|x² − 10x + 25|v", "b|+ y² + 4y + 4|s", "c|= k + 25 + 4|n"], "note": "Half of −10 is −5 (square 25); half of 4 is 2 (square 4). Add both to each side."}, {"t": ["d|(x − 5)²|v", "e|+ (y + 2)²|s", "f|= k + 29|n"], "note": "Now it&#39;s in standard form."}, {"t": ["g|r² = 49|e", "h|k = 20|g"], "note": "k + 29 = 49."}]}'></div>
+
+<div class="dx dsm"><b>Desmos route</b><p>Type the equation with a k slider; drag until the circle's width is 14 (radius 7).</p></div>
+<div class="dx rule"><b>Rule to steal</b><p>Whatever you add to complete the square on the left goes on the right too.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-similar">
+  <h2><span class="pill g">★</span>Similar triangles and area</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-similar"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>Two traps at once: using DB instead of AB, and scaling area by the length ratio.</p></div><div class="dx trap"><b>The trap</b><p>30 (using 12 × 2.5) or 27 (using 6/4 ratio): the scale factor must be AB/AD and squared for area.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|DE ∥ BC|s", "b|→ ΔADE ~ ΔABC|v"], "note": "Parallel lines make similar triangles."}, {"t": ["c|scale = AB/AD = 10/4|e"], "note": "AB = AD + DB = 10."}, {"t": ["d|area scale = (2.5)² = 6.25|e"], "note": "Areas scale by the square."}, {"t": ["e|ABC = 75|v", "f|DBCE = 75 − 12 = 63|g"], "note": "Subtract the small triangle."}]}'></div>
+
+
+<div class="dx rule"><b>Rule to steal</b><p>Lengths ×k, areas ×k², volumes ×k³.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-cofunction">
+  <h2><span class="pill g">★</span>Sine equals cosine</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-cofunction"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>Looks like it needs inverse trig. It needs one identity.</p></div><div class="dx trap"><b>The trap</b><p>Setting x = 4x − 20 (x = 20/3).</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|sin(x°)|v", "b|=", "c|cos((4x − 20)°)|s"], "note": "Complementary angles: sin θ = cos(90° − θ)."}, {"t": ["d|x + (4x − 20) = 90|e"], "note": "The angles add to 90."}, {"t": ["e|5x = 110|v", "f|x = 22|g"], "note": ""}]}'></div>
+
+<div class="dx dsm"><b>Desmos route</b><p>In degrees mode, graph y = sin(x) and y = cos(4x − 20); click the first positive intersection: x = 22.</p></div>
+<div class="dx rule"><b>Rule to steal</b><p>sin a = cos b ⇒ a + b = 90 (for acute angles).</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-sd">
+  <h2><span class="pill p">★</span>Transforming a data set</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-sd"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>Mean and SD react differently to adding vs multiplying.</p></div><div class="dx trap"><b>The trap</b><p>SD 17: applying "+5" to the spread.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|× 3|v", "b|+ 5|s"], "note": "Two operations on every value."}, {"t": ["c|mean: 20 → 60 → 65|e"], "note": "The mean follows both."}, {"t": ["d|SD: 4 → 12 → 12|g"], "note": "Adding shifts everything equally, so spread doesn&#39;t change."}]}'></div>
+
+<div class="dx dsm"><b>Desmos route</b><p>Test with a tiny list: stdev([16,24]) = 5.66; stdev([53,77]) = 16.97 = 3 × 5.66.</p></div>
+<div class="dx rule"><b>Rule to steal</b><p>Adding a constant: center moves, spread doesn't. Multiplying: both scale.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-nested">
+  <h2><span class="pill p">★</span>Percent of a percent</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-nested"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>Two chained percent changes in words; easy to add instead of multiply.</p></div><div class="dx trap"><b>The trap</b><p>120% (adding +40 and −20).</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|x = 1.4y|v", "b|y = 0.8z|s"], "note": "\"40% greater\" = ×1.4; \"20% less\" = ×0.8."}, {"t": ["c|x = 1.4(0.8z)|e"], "note": "Substitute."}, {"t": ["d|x = 1.12z → 112%|g"], "note": ""}]}'></div>
+<div class="dx fast"><b>Fastest path</b><p>Pick z = 100: y = 80, x = 112.</p></div>
+
+<div class="dx rule"><b>Rule to steal</b><p>Percent changes multiply. Use 100 as a test number.</p></div>
+</details>
+  
+</section>
+</div>
+<div class="chapter" id="ch-rw" data-title="Hard Reading and Writing" data-short="R&W">
+<section class="topic" id="h-infer">
+  <h2><span class="pill r">★</span>Inference: what MUST follow</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-infer"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>Two plausible explanations are introduced, and the text quietly rules one out.</p></div><div class="dx trap"><b>The trap</b><p>"Protect from lizards": it sounds like what shells do, but the text says the lab tests found no extra protection.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|Fact 1: thicker shells in dry valley|s"], "note": "Set up a puzzle: why the difference?"}, {"t": ["a|Fact 1|s", "b|Fact 2: less water loss ✓|g"], "note": "Supports a dryness explanation."}, {"t": ["a|Fact 1|s", "b|Fact 2 ✓|g", "c|Fact 3: no predator benefit ✗|x"], "note": "Rules out the predator explanation."}, {"t": ["d|→ survive dry conditions|g"], "note": "Only the explanation left standing."}]}'></div>
+
+
+<div class="dx rule"><b>Rule to steal</b><p>In completion questions, track which ideas the text supports and which it eliminates.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-data">
+  <h2><span class="pill r">★</span>Data that's true but irrelevant</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-data"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>Every choice is accurate. Only one matches the specific claim, which is about CHANGE, compared across groups.</p></div><div class="dx trap"><b>The trap</b><p>B is true and mentions teens, but it compares levels in 2023, not changes.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|Claim: rise driven by teens|s"], "note": "Key words: \"rise\" (change over time) and \"mainly\" (compared to others)."}, {"t": ["b|Needed: teen change ≫ others&#39; change|e"], "note": "That&#39;s the evidence the claim requires."}, {"t": ["c|A: +18 vs ≤ 3 points|g", "d|B: 2023 levels only|x"], "note": "Only A provides it."}]}'></div>
+
+
+<div class="dx rule"><b>Rule to steal</b><p>Highlight the claim's exact words, then demand data that matches each one.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-wic">
+  <h2><span class="pill r">★</span>A rare meaning of a common word</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-wic"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>The right answer is a familiar word used in an unfamiliar sense.</p></div><div class="dx trap"><b>The trap</b><p>"Reverse": it fits the positive tone, but reversing the disease would come close to curing it, which the text denies.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|did not cure|x", "b|but did ___ its progress|s"], "note": "Contrast: something less than a cure."}, {"t": ["c|prediction: \"slow\" or \"halt\"|e"], "note": "Predict before reading the choices."}, {"t": ["d|arrest = to stop|g"], "note": "Second meaning: arrest a decline, arrest bleeding."}]}'></div>
+
+
+<div class="dx rule"><b>Rule to steal</b><p>On hard vocab questions, expect a common word with a less common meaning.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-semis">
+  <h2><span class="pill w">★</span>Semicolons in a list</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-semis"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>Most students learn "semicolons join sentences" and never learn their second job.</p></div><div class="dx trap"><b>The trap</b><p>"Ghana,": a comma makes it impossible to tell which city goes with which country.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|Lagos, Nigeria|s", "b|;|e", "c|Accra, Ghana|s", "d|___|x", "e|Dakar, Senegal|s"], "note": "Each list item has its own comma."}, {"t": ["a|Lagos, Nigeria|s", "b|;|e", "c|Accra, Ghana|s", "f|;|g", "e|and Dakar, Senegal|s"], "note": "So items are separated by semicolons, matching the first one."}]}'></div>
+
+
+<div class="dx rule"><b>Rule to steal</b><p>Match the punctuation already used in the sentence. The test plants the pattern.</p></div>
+</details>
+  
+</section>
+<section class="topic" id="h-synth">
+  <h2><span class="pill w">★</span>Notes question with a sneaky goal</h2>
+  
+  <p class="sub">Try it first. Then open the dissection.</p>
+<div class="quiz single" data-src="quiz-h-synth"></div>
+<details class="dissect"><summary>Dissect it</summary>
+<div class="dx-grid"><div class="dx why"><b>Why it's hard</b><p>Most notes describe differences. The most interesting choice (B) contrasts them.</p></div><div class="dx trap"><b>The trap</b><p>B: vivid and accurate, but it emphasizes a difference.</p></div></div>
+<div class="msteps" data-w='{"title": "Dissection", "frames": [{"t": ["a|Goal: similarity|e"], "note": "Underline the goal."}, {"t": ["b|Shared: D.C. + Color School|g", "c|Different: methods|x"], "note": "Sort the notes."}, {"t": ["d|Choose the sentence built from shared facts|g"], "note": "A."}]}'></div>
+
+
+<div class="dx rule"><b>Rule to steal</b><p>The goal is the only thing that matters. Ignore how good a sentence sounds.</p></div>
+</details>
+  
+</section>
+</div>
+<div class="chapter" id="practice-sat-hardest" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-sat-hardest">
+  <h2>Practice questions</h2>
+  <p class="sub">10 questions with instant explanations. Filter by skill with the buttons.</p>
+  <div class="quiz" data-src="quiz-sat-hardest" data-tags='{"a": "Algebra", "m": "Advanced Math", "p": "Data", "g": "Geometry & trig", "r": "Reading", "w": "Writing"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-sat-hardest" data-title="Hard Questions" data-short="Hard" data-hard="1">
+<section class="topic" id="challenge-quiz-sat-hardest">
+  <h2>Hard questions</h2>
+  <p class="sub">The kind you'll see in the harder second module. Take your time.</p>
+  <div class="quiz" data-src="quiz-challenge-sat-hardest" data-tags='{"a": "Algebra", "m": "Advanced Math", "p": "Data", "g": "Geometry & trig", "r": "Reading", "w": "Writing"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-sat-hardest" data-title="Timed Set" data-short="Timed set">
+<section class="topic" id="exam-box-sat-hardest"><h2>SAT The Hardest Questions, Dissected: timed set</h2><p class="sub">8 questions in 12 minutes. No feedback until you submit.</p><div class="exam" data-src="exam-sat-hardest"></div></section>
+</div>
+</main>
+
+<footer>Apogee · SAT prep · Not affiliated with College Board or ACT</footer>
+
+<script type="application/json" id="quiz-sat-hardest">
+[
+ {
+  "t": "m",
+  "q": "The line y = 2x + c is tangent to the parabola y = x² − 4x + 13. What is c?",
+  "g": [
+   "4"
+  ],
+  "x": "x² − 6x + (13 − c) = 0 → 36 = 4(13 − c) → c = 4."
+ },
+ {
+  "t": "a",
+  "q": "3(kx + 2) − 4x = 5x + m has infinitely many solutions. What is k + m?",
+  "g": [
+   "9"
+  ],
+  "x": "3k − 4 = 5 → k = 3; m = 6. Sum 9."
+ },
+ {
+  "t": "m",
+  "q": "For which value of c does x² + 6x + c = 0 have two distinct real solutions?",
+  "o": [
+   "10",
+   "12",
+   "9",
+   "8"
+  ],
+  "a": 3,
+  "x": "36 − 4c > 0 → c < 9."
+ },
+ {
+  "t": "m",
+  "q": "f(t) = 500(1.44)^(t/2). Which shows the growth factor per unit of t?",
+  "o": [
+   "500(2.88)ᵗ",
+   "500(1.22)ᵗ",
+   "500(0.72)ᵗ",
+   "500(1.2)ᵗ"
+  ],
+  "a": 3,
+  "x": "√1.44 = 1.2."
+ },
+ {
+  "t": "g",
+  "q": "x² + y² + 8x − 6y = k is a circle with radius 6. k = ?",
+  "g": [
+   "11"
+  ],
+  "x": "(x + 4)² + (y − 3)² = k + 25 → 36."
+ },
+ {
+  "t": "a",
+  "q": "The system 6x − 4y = 9 and bx + 2y = 1 has no solution. b = ?",
+  "g": [
+   "-3"
+  ],
+  "x": "b/6 = 2/(−4) → b = −3."
+ },
+ {
+  "t": "m",
+  "q": "Sum of the solutions to 3x² + 2x = 5x + 12?",
+  "g": [
+   "1"
+  ],
+  "x": "3x² − 3x − 12 = 0 → −b/a = 3/3 = 1."
+ },
+ {
+  "t": "p",
+  "q": "Each value in a data set is increased by 10. What happens to the standard deviation?",
+  "o": [
+   "Multiplies by 10",
+   "Stays the same",
+   "Decreases",
+   "Increases by 10"
+  ],
+  "a": 1,
+  "x": "Shift only."
+ },
+ {
+  "t": "g",
+  "q": "cos(x°) = sin((2x + 15)°) in a right triangle. x = ?",
+  "g": [
+   "25"
+  ],
+  "x": "x + 2x + 15 = 90."
+ },
+ {
+  "t": "p",
+  "q": "a is 25% less than b, and b is 60% more than c. a is what percent of c?",
+  "g": [
+   "120"
+  ],
+  "x": "0.75 × 1.6 = 1.2."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-sat-hardest">
+[
+ {
+  "t": "m",
+  "q": "y = ax² + 4 and y = 2x + 3 intersect at exactly one point. a = ?",
+  "g": [
+   "1"
+  ],
+  "x": "ax² − 2x + 1 = 0 → 4 − 4a = 0."
+ },
+ {
+  "t": "a",
+  "q": "The equation kx − 3 = 2(x + 1) + x has no solution. k = ?",
+  "o": [
+   "5",
+   "3",
+   "−3",
+   "2"
+  ],
+  "a": 1,
+  "x": "kx − 3 = 3x + 2: same x-coefficient, different constants."
+ },
+ {
+  "t": "g",
+  "q": "A triangle's sides are scaled by 1.5. The original area was 24. New area?",
+  "g": [
+   "54"
+  ],
+  "x": "24 × 2.25."
+ },
+ {
+  "t": "m",
+  "q": "The product of the solutions of 4x² − 7x = 2x² + 15 is…",
+  "g": [
+   "-7.5",
+   "-15/2"
+  ],
+  "x": "2x² − 7x − 15 = 0 → c/a = −15/2."
+ },
+ {
+  "t": "r",
+  "q": "<div class=\"passage\"><p>Researchers observed that cities with more bike lanes have fewer traffic deaths. They concluded that bike lanes cause roads to be safer.<\/p><\/div>Which finding would most directly weaken this conclusion?",
+  "o": [
+   "Bike lanes are expensive to build.",
+   "Cities with more bike lanes also have much lower speed limits on average.",
+   "Traffic deaths fell nationwide.",
+   "Some cyclists still ride on sidewalks."
+  ],
+  "a": 1,
+  "x": "A confounding factor could explain both."
+ },
+ {
+  "t": "w",
+  "q": "<div class=\"passage\"><p>Authors traveling to the festival included Chimamanda Ngozi Adichie, author of <i>Americanah<\/i>; Ocean Vuong, author of <i>On Earth We're Briefly Gorgeous<\/i><span class=blank><\/span> and Min Jin Lee, author of <i>Pachinko<\/i>.<\/p><\/div>Which choice conforms to Standard English?",
+  "o": [
+   ",",
+   "—",
+   ";",
+   ":"
+  ],
+  "a": 2,
+  "x": "Match the semicolon pattern."
+ }
+]
+</script>
+<script type="application/json" id="exam-sat-hardest">
+{
+ "title": "SAT The Hardest Questions, Dissected: timed set",
+ "mcqMinutes": 12,
+ "frqMinutes": 0,
+ "tags": {
+  "a": "Algebra",
+  "m": "Advanced Math",
+  "p": "Data",
+  "g": "Geometry & trig",
+  "r": "Reading",
+  "w": "Writing"
+ },
+ "mcq": [
+  {
+   "t": "m",
+   "q": "y = −x² + 6 and y = mx + 10 intersect exactly once, m > 0. m = ?",
+   "g": [
+    "4"
+   ],
+   "x": "−x² − mx − 4 = 0 → x² + mx + 4 = 0 → m² = 16."
+  },
+  {
+   "t": "a",
+   "q": "5(ax − 2) = 15x + b has infinitely many solutions. a − b = ?",
+   "g": [
+    "13"
+   ],
+   "x": "5a = 15 → a = 3; b = −10. 3 − (−10)."
+  },
+  {
+   "t": "m",
+   "q": "x² − 4x + c = 0 has no real solutions. Which could be c?",
+   "o": [
+    "0",
+    "−3",
+    "4",
+    "5"
+   ],
+   "a": 3,
+   "x": "16 − 4c < 0 → c > 4."
+  },
+  {
+   "t": "m",
+   "q": "V(t) = 9000(0.64)^(t/2). Yearly decay factor?",
+   "o": [
+    "0.64",
+    "0.32",
+    "0.82",
+    "0.8"
+   ],
+   "a": 3,
+   "x": "√0.64."
+  },
+  {
+   "t": "g",
+   "q": "x² + y² − 2x + 10y = 10. Radius?",
+   "g": [
+    "6"
+   ],
+   "x": "(x − 1)² + (y + 5)² = 36."
+  },
+  {
+   "t": "p",
+   "q": "Data set mean 12, SD 3. Every value doubled, then 4 subtracted. New SD?",
+   "g": [
+    "6"
+   ],
+   "x": "Only the ×2 affects SD."
+  },
+  {
+   "t": "g",
+   "q": "sin(3x°) = cos((x + 10)°). x = ?",
+   "g": [
+    "20"
+   ],
+   "x": "4x + 10 = 90."
+  },
+  {
+   "t": "r",
+   "q": "<div class=\"passage\"><p>Researchers hypothesized that a garden's increased bee visits were caused by a new flower variety. However, the garden also stopped using pesticides the same year.<\/p><\/div>What best describes the problem with the hypothesis?",
+   "o": [
+    "Pesticides attract bees.",
+    "Another change could explain the increase.",
+    "The variety is too new.",
+    "Bees don't visit flowers."
+   ],
+   "a": 1,
+   "x": "Confound."
+  }
+ ],
+ "frq": [],
+ "mcqName": "Gauntlet",
+ "mcqKind": "questions",
+ "rules": [
+  "8 hard questions in 12 minutes.",
+  "These are all \"Module 2\" difficulty.",
+  "Desmos button is available."
+ ]
+}
+</script>
+<script type="application/json" id="quiz-h-tangent">
+[
+ {
+  "t": "m",
+  "q": "In the xy-plane, the line y = kx − 4 intersects the parabola y = x² + 5 at exactly one point. If k > 0, what is the value of k?",
+  "g": [
+   "6"
+  ],
+  "x": "Set them equal: x² − kx + 9 = 0. Exactly one point → discriminant 0: k² − 36 = 0 → k = 6."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-infinite">
+[
+ {
+  "t": "a",
+  "q": "In the equation a(2x − 3) + 4 = 6x − b, a and b are constants. If the equation has infinitely many solutions, what is the value of a + b?",
+  "g": [
+   "8"
+  ],
+  "x": "Infinitely many → the two sides are identical. 2a = 6 → a = 3. Constants: −3a + 4 = −b → −5 = −b → b = 5. a + b = 8."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-noreal">
+[
+ {
+  "t": "m",
+  "q": "The equation x² − 2kx + 4k + 5 = 0 has no real solutions. Which of the following could be the value of k?",
+  "o": [
+   "6",
+   "−3",
+   "−1",
+   "2"
+  ],
+  "a": 3,
+  "x": "b² − 4ac = 4k² − 16k − 20 < 0 → k² − 4k − 5 < 0 → (k − 5)(k + 1) < 0 → −1 < k < 5. Only 2 works."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-exprewrite">
+[
+ {
+  "t": "m",
+  "q": "A town's population t years from now is modeled by P(t) = 1,200(1.21)^(t/2). Which equivalent form shows the yearly growth factor as a constant?",
+  "o": [
+   "P(t) = 1,200(0.605)ᵗ",
+   "P(t) = 1,200(1.21)^(2t)",
+   "P(t) = 1,200(1.105)ᵗ",
+   "P(t) = 1,200(1.1)ᵗ"
+  ],
+  "a": 3,
+  "x": "1.21^(t/2) = (1.21^(1/2))ᵗ = 1.1ᵗ: 10% per year."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-circle">
+[
+ {
+  "t": "g",
+  "q": "In the xy-plane, the graph of x² + y² − 10x + 4y = k is a circle with radius 7. What is the value of k?",
+  "g": [
+   "20"
+  ],
+  "x": "(x − 5)² + (y + 2)² = k + 25 + 4. Radius 7 → k + 29 = 49 → k = 20."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-nosol">
+[
+ {
+  "t": "a",
+  "q": "In the system ax + 3y = 7 and 4x − 6y = 5, a is a constant. If the system has no solution, what is the value of a?",
+  "g": [
+   "-2"
+  ],
+  "x": "No solution → parallel lines: ratios of x and y coefficients equal: a/4 = 3/(−6) → a = −2. Check constants: −2x + 3y = 7 → ×(−2): 4x − 6y = −14 ≠ 5 ✓."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-sumroots">
+[
+ {
+  "t": "m",
+  "q": "What is the sum of the solutions to 2x² − 11x = 3x − 9?",
+  "g": [
+   "7"
+  ],
+  "x": "2x² − 14x + 9 = 0. Sum of roots = −b/a = 14/2 = 7."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-sd">
+[
+ {
+  "t": "p",
+  "q": "A data set has mean 20 and standard deviation 4. Each value is multiplied by 3, then 5 is added. What are the new mean and standard deviation?",
+  "o": [
+   "Mean 65, SD 17",
+   "Mean 60, SD 12",
+   "Mean 65, SD 4",
+   "Mean 65, SD 12"
+  ],
+  "a": 3,
+  "x": "Mean: 3·20 + 5 = 65. SD scales by 3 but isn't affected by adding 5: 12."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-similar">
+[
+ {
+  "t": "g",
+  "q": "In triangle ABC, D is on AB and E is on AC, with DE parallel to BC. AD = 4, DB = 6, and the area of triangle ADE is 12. What is the area of quadrilateral DBCE?",
+  "g": [
+   "63"
+  ],
+  "x": "AB/AD = 10/4 = 2.5. Areas scale by 2.5² = 6.25: area ABC = 75. 75 − 12 = 63."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-cofunction">
+[
+ {
+  "t": "g",
+  "q": "In a right triangle, sin(x°) = cos((4x − 20)°). What is the value of x?",
+  "g": [
+   "22"
+  ],
+  "x": "sin a = cos b when a + b = 90: x + 4x − 20 = 90 → x = 22."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-nested">
+[
+ {
+  "t": "p",
+  "q": "x is 40% greater than y, and y is 20% less than z. x is what percent of z?",
+  "g": [
+   "112"
+  ],
+  "x": "x = 1.4y and y = 0.8z → x = 1.12z → 112%."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-infer">
+[
+ {
+  "t": "r",
+  "q": "<div class=\"passage\"><p>Biologists compared beetles of one species living in a dry valley with beetles living in a wet forest nearby. Valley beetles had thicker shells. In lab tests, thicker shells sharply reduced water loss but gave no extra protection from the valley's main predator, a lizard. The biologists concluded that the thicker shells most likely <span class=blank><\/span><\/p><\/div>Which choice most logically completes the text?",
+  "o": [
+   "help the valley beetles survive dry conditions.",
+   "evolved to protect valley beetles from lizards.",
+   "are found in every population of the species.",
+   "make valley beetles slower than forest beetles."
+  ],
+  "a": 0,
+  "x": "Water loss reduced; predator protection ruled out. So: dryness."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-data">
+[
+ {
+  "t": "r",
+  "q": "<div class=\"passage\"><table class=\"dt\"><tr><th>Age group<\/th><th>Read daily, 2015<\/th><th>Read daily, 2023<\/th><\/tr><tr><td>13–17<\/td><td>30%<\/td><td>48%<\/td><\/tr><tr><td>18–29<\/td><td>35%<\/td><td>38%<\/td><\/tr><tr><td>30+<\/td><td>42%<\/td><td>41%<\/td><\/tr><\/table><\/div><div class=\"passage\"><p>A researcher claims that the overall rise in daily reading between 2015 and 2023 was driven mainly by teenagers.<\/p><\/div>Which choice most effectively uses data from the table to support the claim?",
+  "o": [
+   "In 2015, the 30+ group had the highest share of daily readers.",
+   "The share of 13–17-year-olds who read daily rose 18 points, while the other groups changed by 3 points or less.",
+   "The 30+ group's share fell slightly from 42% to 41%.",
+   "In 2023, 48% of 13–17-year-olds read daily, more than the 38% of 18–29-year-olds."
+  ],
+  "a": 1,
+  "x": "\"Driven mainly by\" is about change across groups. Only A compares the changes."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-wic">
+[
+ {
+  "t": "r",
+  "q": "<div class=\"passage\"><p>The new treatment did not cure the disease, but in most patients it did <span class=blank><\/span> its progress for several years, buying time for other therapies.<\/p><\/div>Which choice completes the text with the most logical and precise word?",
+  "o": [
+   "reverse",
+   "arrest",
+   "document",
+   "accelerate"
+  ],
+  "a": 1,
+  "x": "Arrest = stop or halt. \"Did not cure\" rules out reverse."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-semis">
+[
+ {
+  "t": "w",
+  "q": "<div class=\"passage\"><p>The tour stopped in Lagos, Nigeria; Accra, <span class=blank><\/span> and Dakar, Senegal.<\/p><\/div>Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "o": [
+   "Ghana;",
+   "Ghana,",
+   "Ghana—",
+   "Ghana:"
+  ],
+  "a": 0,
+  "x": "List items that contain commas are separated by semicolons. The pattern is set by \"Nigeria;\"."
+ }
+]
+</script>
+<script type="application/json" id="quiz-h-synth">
+[
+ {
+  "t": "w",
+  "q": "<div class=\"passage\"><p>While researching a topic, a student has taken the following notes:<\/p><ul><li>Painter Alma Thomas worked in Washington, D.C.<\/li><li>She made abstract paintings from small, mosaic-like dabs of color.<\/li><li>Painter Sam Gilliam also worked in Washington, D.C.<\/li><li>He draped unstretched canvases from walls and ceilings.<\/li><li>Both artists were associated with the Washington Color School.<\/li><\/ul><p>The student wants to emphasize a similarity between the two artists. Which choice most effectively uses relevant information from the notes to accomplish this goal?<\/p><\/div>",
+  "o": [
+   "Alma Thomas and Sam Gilliam both worked in Washington, D.C., and were associated with the Washington Color School.",
+   "While Thomas painted with mosaic-like dabs, Gilliam draped unstretched canvases.",
+   "Thomas made abstract paintings from small, mosaic-like dabs of color.",
+   "Gilliam draped unstretched canvases from walls and ceilings."
+  ],
+  "a": 0,
+  "x": "Only A states what they share."
+ }
+]
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/tp.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>
