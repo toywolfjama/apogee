@@ -119,20 +119,6 @@
     });
   }
 
-
-  /* red-pen grading marks */
-  function pen(b, kind) {
-    if (!b || b.querySelector(".pen." + kind)) return;
-    const NS = "http://www.w3.org/2000/svg", svg = document.createElementNS(NS, "svg"), path = document.createElementNS(NS, "path");
-    const D = { circle: ["0 0 42 42", "M31 7C22 1 7 5 4 18C1 31 13 39 24 37C36 35 41 22 35 11C32 6 27 4 21 5"], check: ["0 0 30 26", "M3 14L11 22L27 3"], strike: ["0 0 100 14", "M1 9C25 6 55 10 99 5"] }[kind];
-    svg.setAttribute("viewBox", D[0]); svg.setAttribute("class", "pen " + kind); svg.setAttribute("aria-hidden", "true");
-    if (kind === "strike") svg.setAttribute("preserveAspectRatio", "none");
-    path.setAttribute("d", D[1]); path.setAttribute("pathLength", "900"); if (kind === "strike") path.setAttribute("vector-effect", "non-scaling-stroke");
-    svg.appendChild(path);
-    (kind === "strike" ? (b.querySelector(".ot") || b) : b).appendChild(svg);
-  }
-  window.CruxPen = (opts, a, j) => opts.forEach((b, k) => { if (k === a) { pen(b, "circle"); if (j === a) pen(b, "check"); } else if (k === j) pen(b, "strike"); });
-
   /* ---------- header with course dropdown ---------- */
   function buildHeader() {
     const header = document.createElement("header");
@@ -308,7 +294,6 @@
           const inp = card.querySelector(".grid-in input"); if (inp) { inp.disabled = true; inp.value = j; inp.classList.add(good ? "right" : "wrong"); }
           const bt = card.querySelector(".grid-in button"); if (bt) bt.remove();
         }
-        if (!it.g) window.CruxPen([...card.querySelectorAll(".opt")], it.a, j);
         card.querySelectorAll(".opt").forEach((b, k) => {
           b.disabled = true;
           if (k === it.a) b.classList.add("right"); else if (k === j) b.classList.add("wrong");
@@ -337,7 +322,7 @@
           (it.o || []).forEach((o, j) => {
             const b = document.createElement("button");
             b.className = "opt";
-            b.innerHTML = `<span class="key">${letter(j)}</span><span class="ot">` + (it.h ? o : String(o).replace(/&/g, "&amp;").replace(/</g, "&lt;")) + "</span>";
+            b.innerHTML = `<span class="key">${letter(j)}</span>` + (it.h ? o : String(o).replace(/&/g, "&amp;").replace(/</g, "&lt;"));
             b.addEventListener("click", () => {
               if (answered[i] !== undefined) return;
               answered[i] = j; paint(i, card); score();
@@ -660,7 +645,6 @@
   buildQuizzes();
   buildCourseList();
   Crux.visit(); Crux.badge(); searchPalette(); quizKeys();
-  document.querySelectorAll('.hero h1, .home-hero h1').forEach(h => { if (!h.querySelector('.mark')) h.innerHTML = `<span class="mark">${h.innerHTML}</span>`; });
   if (window.Sims) window.Sims.mountAll();
   // checkboxes that remember their state (test review checklist)
   const remember = [...document.querySelectorAll("input[data-remember]")];

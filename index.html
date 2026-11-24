@@ -6,7 +6,7 @@
 <title>Crux | Study for AP, SAT and ACT</title>
 <meta name="description" content="Free lessons, interactive labs and timed practice for AP Physics 1, AP CSA, French, AP Precalculus, the SAT and the ACT.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="stylesheet" href="assets/css/clean.css">
@@ -14,49 +14,53 @@
 <body class="th-clean home" data-root="">
 <main class="hm">
   <section class="hm-top">
-    <div class="hm-l">
-      <h1 class="hm-h1"><span class="mark">Pick a course.</span></h1>
-      <button class="hm-search" type="button" data-search><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search any lesson or topic</span><span class="kbd" id="hm-kbd">⌘K</span></button>
-    </div>
-    <div class="hm-r" id="resume"></div>
+    <h1>Pick a course.</h1>
+    <button class="hm-search" type="button" data-search><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search 750+ lessons and topics</span><span class="kbd" id="hm-kbd">⌘K</span></button>
+    <div class="hm-resume" id="resume" hidden></div>
   </section>
-  <section class="sy" id="courses" aria-label="Courses"></section>
+  <section class="hm-grid" id="courses" aria-label="Courses"></section>
   <section class="hm-tools" aria-label="Tools">
-    <a href="review.html"><b>Flashcards</b><span>Spaced repetition decks for every course</span></a>
-    <a href="mistakes.html"><b>Mistakes</b><span id="hm-mist">Questions you miss are saved here to retry</span></a>
-    <a href="calculator.html"><b>TI-84 programs</b><span>Formula and solver programs to load</span></a>
-    <a href="courses/sat/sat-desmos.html"><b>Desmos tactics</b><span>Regressions, graphing, sliders</span></a>
+    <a class="hm-tool" href="review.html"><span class="ic" style="-webkit-mask-image:url(assets/img/icons/cards.svg);mask-image:url(assets/img/icons/cards.svg)"></span><b>Flashcards</b><span>Spaced repetition for every course</span></a>
+    <a class="hm-tool" href="mistakes.html"><span class="ic" style="-webkit-mask-image:url(assets/img/icons/redo.svg);mask-image:url(assets/img/icons/redo.svg)"></span><b>Mistakes</b><span id="hm-mist">Every question you miss, saved to retry</span></a>
+    <a class="hm-tool" href="calculator.html"><span class="ic" style="-webkit-mask-image:url(assets/img/icons/calc.svg);mask-image:url(assets/img/icons/calc.svg)"></span><b>TI-84 programs</b><span>Formula and solver programs to load</span></a>
+    <a class="hm-tool" href="courses/sat/sat-desmos.html"><span class="ic" style="-webkit-mask-image:url(assets/img/icons/math.svg);mask-image:url(assets/img/icons/math.svg)"></span><b>Desmos tactics</b><span>Regressions, graphing and sliders</span></a>
   </section>
 </main>
-<footer>Crux is free and has no ads. Not affiliated with the College Board or ACT.</footer>
+<footer>Crux · Free and ad-free · Not affiliated with the College Board or ACT</footer>
 <script src="assets/js/courses.js"></script>
 <script src="assets/js/site.js"></script>
 <script>
 (function () {
   const C = window.SITE_COURSES || [], X = window.Crux;
+  const ICON = { "ap-physics-1": "phys", "ap-csa": "code", "french-1": "lang", "math": "math", "sat": "sat", "act": "act" };
   const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
   if (!/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)) document.getElementById("hm-kbd").textContent = "Ctrl K";
-  document.getElementById("courses").innerHTML = C.map(c => {
+  const grid = document.getElementById("courses");
+  grid.innerHTML = C.map(c => {
     const ready = c.units.filter(u => u.path && u.ready !== false);
-    let started = 0;
+    let started = 0, ans = 0, cor = 0;
+    ready.forEach(u => { const s = X && X.unitStats(u.path); if (s) { started += s.visited ? 1 : 0; ans += s.answered; cor += s.correct; } });
     const groups = []; c.units.forEach(u => { const g = u.group || ""; let G = groups.find(x => x.n === g); if (!G) groups.push(G = { n: g, l: [] }); G.l.push(u); });
-    const rows = groups.map(G => (G.n ? `<li class="sy-g">${esc(G.n)}</li>` : "") + G.l.map(u => {
-      if (!(u.path && u.ready !== false)) return `<li class="sy-u soon"><span class="bub"></span><span class="nm">${esc(u.name)}</span><em>Coming</em></li>`;
-      const s = X && X.unitStats(u.path); if (s && s.visited) started++;
-      const pct = s && s.answered ? Math.round(100 * s.correct / s.answered) : null;
-      return `<li class="sy-u${s && s.visited ? " seen" : ""}"><a href="${u.path}"><span class="bub"></span><span class="nm">${esc(u.name)}</span>${pct !== null ? `<em>${pct}%</em>` : ""}</a></li>`;
+    const rows = groups.map(G => (G.n ? `<div class="hm-g">${esc(G.n)}</div>` : "") + G.l.map(u => {
+      if (!(u.path && u.ready !== false)) return `<span class="hm-u soon"><i></i>${esc(u.name)}<em>Soon</em></span>`;
+      const s = X && X.unitStats(u.path), pct = s && s.answered ? Math.round(100 * s.correct / s.answered) : null;
+      return `<a class="hm-u${s && s.visited ? " seen" : ""}" href="${u.path}"><i></i>${esc(u.name)}${pct !== null ? `<em>${pct}%</em>` : ""}</a>`;
     }).join("")).join("");
-    return `<article class="sy-c c-${c.id}">
-      <header><h2><span>${esc(c.name.replace(/^Math: /, ""))}</span></h2><p>${esc(c.blurb || "")}</p><div class="sy-meta">${started ? `${started} of ${ready.length} started` : `${ready.length} lessons`}</div></header>
-      <ol class="sy-list${ready.length > 7 ? " two" : ""}">${rows}</ol>
+    const p = ready.length ? started / ready.length : 0;
+    return `<article class="hm-card c-${c.id}">
+      <div class="hm-h"><span class="ic" style="-webkit-mask-image:url(assets/img/icons/${ICON[c.id] || "math"}.svg);mask-image:url(assets/img/icons/${ICON[c.id] || "math"}.svg)"></span><div><h2>${esc(c.name)}</h2><p>${esc(c.blurb || "")}</p></div></div>
+      <div class="hm-prog"><div class="hm-bar"><i style="width:${(p * 100).toFixed(1)}%"></i></div><span>${started ? `${started}/${ready.length} pages started${ans ? ` · ${Math.round(100 * cor / ans)}% correct` : ""}` : `${ready.length} pages`}</span></div>
+      <details class="hm-units"><summary>Lessons</summary><div class="hm-list">${rows}</div></details>
     </article>`;
   }).join("");
-  const last = X && X.get("crux.last", null), mist = X ? Object.keys(X.get("crux.mistakes", {})).length : 0, r = document.getElementById("resume");
-  let h = "";
-  if (last && last.unit) { const c = C.find(x => x.id === last.c); h += `<a class="hm-cont c-${last.c}" href="${last.unit}"><small>Pick up where you left off</small><b>${esc(last.t)}</b><span>${esc(c ? c.name : "")}</span></a>`; }
-  if (mist) h += `<a class="hm-mist" href="mistakes.html"><b>${mist}</b> missed question${mist > 1 ? "s" : ""} to retry</a>`;
-  if (!h) h = `<div class="hm-hint"><b>New here?</b> Open any lesson. Your progress and missed questions save automatically in this browser.</div>`;
-  r.innerHTML = h;
+  // resume card
+  const last = X && X.get("crux.last", null), mist = X ? Object.keys(X.get("crux.mistakes", {})).length : 0;
+  const box = document.getElementById("resume");
+  if (last && last.unit) {
+    const course = C.find(c => c.id === last.c);
+    box.hidden = false;
+    box.innerHTML = `<a class="hm-cont" href="${last.unit}"><span class="lbl">Continue</span><b>${esc(last.t)}</b><span class="c">${esc(course ? course.name : "")}</span><span class="go">→</span></a>${mist ? `<a class="hm-mist" href="mistakes.html"><b>${mist}</b> missed question${mist > 1 ? "s" : ""} to retry →</a>` : ""}`;
+  }
   if (mist) document.getElementById("hm-mist").textContent = `${mist} missed question${mist > 1 ? "s" : ""} waiting`;
 })();
 </script>
