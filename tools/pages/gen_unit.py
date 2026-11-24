@@ -59,7 +59,6 @@ def page(unit_id, title_tag, kicker, h1, intro, desc, chapters, data_blocks, cou
 <link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../assets/css/site.css">
 <link rel="stylesheet" href="../../assets/css/clean.css">
-<script>try{var t=localStorage.getItem("crux.theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}</script>
 </head>
 <body class="th-clean c-{course}" data-root="../../" data-course="{course}" data-unit="{unit_id}">
 
