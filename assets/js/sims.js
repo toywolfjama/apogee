@@ -1235,10 +1235,13 @@
     const SH = sim.h || H;   // an animation type can ask for a taller canvas
     el.classList.add("sim");
     const stepBtns = sim.marks ? `<button class="sim-btn back" aria-label="Previous step">◀ Step</button><button class="sim-btn fwd" aria-label="Next step">Step ▶</button>` : "";
+    const ticks = (sim.marks || []).filter(m => m > 0 && m < sim.D).map(m => `<i class="sim-tick" style="left:${(m / sim.D * 100).toFixed(2)}%"></i>`).join("");
     el.innerHTML = `<div class="sim-stage"><canvas width="${W}" height="${SH}" aria-label="${p.alt || "Animated example"}" role="img"></canvas></div>
-      <div class="sim-ctrl"><button class="sim-btn play" aria-label="Pause">❚❚</button><button class="sim-btn replay">↺ Replay</button>${stepBtns}<button class="sim-btn slow">Slow motion</button>${p.caption ? `<span class="sim-cap">${p.caption}</span>` : ""}</div>`;
+      <div class="sim-scrub"><div class="sim-track"><div class="sim-fill"></div>${ticks}<input type="range" min="0" max="${sim.D}" step="0.01" value="0" aria-label="Animation time"></div><span class="sim-time">0.0 s</span></div>
+      <div class="sim-ctrl"><button class="sim-btn play" aria-label="Pause">❚❚</button><button class="sim-btn replay">↺ Replay</button>${stepBtns}<span class="sim-speed" role="group" aria-label="Playback speed">${[[0.25, "¼×"], [0.5, "½×"], [1, "1×"], [2, "2×"]].map(([v, l]) => `<button class="sim-sp${v === 1 ? " on" : ""}" data-sp="${v}">${l}</button>`).join("")}</span>${p.caption ? `<span class="sim-cap">${p.caption}</span>` : ""}</div>`;
     const cv = el.querySelector("canvas"), c = cv.getContext("2d");
-    const st = { t: 0, playing: !reduce, rev: !!p.reveal, slow: false, visible: false, last: 0, dpr: 1 };
+    const st = { t: 0, playing: !reduce, rev: !!p.reveal, speed: 1, visible: false, last: 0, dpr: 1, tw: null };
+    const scrub = el.querySelector(".sim-scrub input"), fill = el.querySelector(".sim-fill"), tlab = el.querySelector(".sim-time");
     function size() {
       const dpr = Math.min(2, window.devicePixelRatio || 1), w = cv.clientWidth || W;
       cv.width = Math.round(w * dpr); cv.height = Math.round((w * SH / W) * dpr);
@@ -1247,28 +1250,42 @@
     function render() {
       c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, cv.width, cv.height);
       c.setTransform(st.scale, 0, 0, st.scale, 0, 0);
-      try { sim.draw(c, Math.min(st.t, sim.D), st.rev); } catch (e) { console.error(e); }
+      const t = Math.min(st.t, sim.D);
+      try { sim.draw(c, t, st.rev); } catch (e) { console.error(e); }
+      if (!st.dragging) scrub.value = t;
+      fill.style.width = (t / sim.D * 100) + "%";
+      tlab.textContent = t.toFixed(1) + " s";
     }
     function tick(now) {
       const dt = Math.min(0.05, (now - (st.last || now)) / 1000); st.last = now;
+      if (st.tw) {   // eased jump between steps
+        const k = Math.min(1, (now - st.tw.t0) / st.tw.ms), e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+        st.t = st.tw.from + (st.tw.to - st.tw.from) * e; if (k >= 1) st.tw = null;
+        render(); return;
+      }
       if (st.playing && st.visible) {
-        st.t += dt * (st.slow ? 0.35 : 1);
+        st.t += dt * st.speed;
         if (st.t > sim.D + (sim.hold ?? 1)) st.t = 0;
         render();
       }
     }
     const playBtn = el.querySelector(".play");
-    playBtn.onclick = () => { st.playing = !st.playing; playBtn.textContent = st.playing ? "❚❚" : "▶"; playBtn.setAttribute("aria-label", st.playing ? "Pause" : "Play"); };
+    const setPlay = on => { st.playing = on; playBtn.textContent = on ? "❚❚" : "▶"; playBtn.setAttribute("aria-label", on ? "Pause" : "Play"); };
+    playBtn.onclick = () => { st.tw = null; if (!st.playing && st.t >= sim.D) st.t = 0; setPlay(!st.playing); };
     if (!st.playing) playBtn.textContent = "▶";
-    el.querySelector(".replay").onclick = () => { st.t = 0; st.playing = true; playBtn.textContent = "❚❚"; render(); };
+    el.querySelector(".replay").onclick = () => { st.tw = null; st.t = 0; setPlay(true); render(); };
+    const jump = to => { if (reduce) { st.t = to; render(); return; } st.tw = { from: Math.min(st.t, sim.D), to, t0: performance.now(), ms: Math.min(700, 250 + Math.abs(to - st.t) * 260) }; };
     if (sim.marks) {
-      // step through: pause and jump to the previous / next step time
-      const pause = () => { st.playing = false; playBtn.textContent = "▶"; playBtn.setAttribute("aria-label", "Play"); };
-      el.querySelector(".fwd").onclick = () => { pause(); const n = sim.marks.find(m => m > st.t + 1e-3); st.t = n === undefined ? sim.D : n; render(); };
-      el.querySelector(".back").onclick = () => { pause(); const ms = sim.marks.filter(m => m < st.t - 1e-3); st.t = ms.length ? ms[ms.length - 1] : 0; render(); };
+      el.querySelector(".fwd").onclick = () => { setPlay(false); const cur = st.tw ? st.tw.to : st.t, n = sim.marks.find(m => m > cur + 1e-3); jump(n === undefined ? sim.D : n); };
+      el.querySelector(".back").onclick = () => { setPlay(false); const cur = st.tw ? st.tw.to : st.t, ms = sim.marks.filter(m => m < cur - 1e-3); jump(ms.length ? ms[ms.length - 1] : 0); };
     }
-    const slowBtn = el.querySelector(".slow");
-    slowBtn.onclick = () => { st.slow = !st.slow; slowBtn.classList.toggle("on", st.slow); };
+    // scrubber: drag to any moment
+    let wasPlaying = false;
+    scrub.addEventListener("pointerdown", () => { st.dragging = true; wasPlaying = st.playing; setPlay(false); st.tw = null; });
+    scrub.addEventListener("input", () => { st.tw = null; if (!st.dragging) setPlay(false); st.t = +scrub.value; render(); });
+    const endDrag = () => { if (!st.dragging) return; st.dragging = false; if (wasPlaying && st.t < sim.D) setPlay(true); };
+    scrub.addEventListener("pointerup", endDrag); scrub.addEventListener("change", endDrag);
+    el.querySelectorAll(".sim-sp").forEach(b => b.onclick = () => { st.speed = +b.dataset.sp; el.querySelectorAll(".sim-sp").forEach(x => x.classList.toggle("on", x === b)); });
     const ctl = { tick, render, size, st, el,
       reveal() { st.rev = true; render(); el.classList.add("revealed"); } };
     el._ctl = ctl;

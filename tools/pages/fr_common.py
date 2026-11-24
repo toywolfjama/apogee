@@ -62,7 +62,7 @@ def build(n, slug, title, h1, intro, desc, chapters, PQ, CHAL, EXQ, FRQS, out, c
           "kinds": {"read": "Reading", "gram": "Grammar", "vocab": "Vocabulary", "listen": "Listening"}, "mcq": EXQ, "frq": FRQS}
     HTML = page(uid, f"{lvl} Unit {n}: {title}", f"{lvl} · Unit {n}", h1, intro, desc, ch,
                 {f"quiz-{cid}": PQ, f"quiz-challenge-{cid}": CHAL, f"exam-{cid}": EX},
-                course="french-1", footer=FOOT, extra_js=("fr.js",))
+                course="french-1", footer=FOOT, extra_js=("wa.js", "fr.js"))
     HTML = HTML.replace('<script src="../../assets/js/sims.js"></script>\n', "")
     open(out, "w").write(HTML)
     print(f"{lvl} unit {n} written:", len(PQ), len(CHAL), len(EXQ), len(FRQS))

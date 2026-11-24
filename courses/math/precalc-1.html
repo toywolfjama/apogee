@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP Precalculus Unit 1: Polynomial and Rational Functions | Apogee</title>
+<meta name="description" content="AP Precalculus Unit 1: rates of change, polynomial and rational functions with interactive labs and an AP-style practice exam.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid" data-root="../../" data-course="math" data-unit="precalc-1">
+
+<div class="hero">
+  <span class="kicker">AP Precalculus · Unit 1</span>
+  <h1>Polynomial and <span class="hl">rational</span> functions</h1>
+  <p>Rates of change, polynomials and their zeros, rational functions and asymptotes, and choosing a model.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-roc" data-title="Rates of Change" data-short="Rates">
+<section class="topic" id="roc">
+  <h2><span class="pill c">1.1</span>Rates of change (1.1–1.3)</h2>
+  
+  
+<p>Precalc is about <b>how outputs change as inputs change</b>. The <b>average rate of change</b> of <span class="mx">f</span> on [<span class="mx">a</span>, <span class="mx">b</span>] is the slope of the secant line:</p>
+<div class="big-eq">AROC = (f(b) − f(a)) / (b − a)</div>
+<p>As the interval shrinks, the secant line approaches the tangent line and the average rate approaches the <b>rate of change at a point</b> (that's the derivative you'll meet in calculus).</p>
+<div class="mlab" data-lab='{"title": "Secant line lab", "sub": "Shrink the gap between a and b and watch the secant turn into a tangent.", "x": [-4, 4], "y": [-6, 10], "gx": 1, "gy": 2, "params": {"b": [-3.5, 3.5, 0.05, 2.5, "b"], "a": [-3.5, 3.5, 0.25, 0.5, "a"]}, "fns": [{"e": "x^3/2-2*x+1", "label": "f(x) = x³/2 − 2x + 1", "name": "f"}], "secant": {"f": "f", "a": "a", "b": "b"}, "read": [["AROC =", "(f(b)-f(a))/(b-a)"]], "type": "graph"}'></div>
+<div class="tblwrap"><table><tr><th>Behavior</th><th>Means</th></tr><tr><td>Increasing</td><td>as <span class="mx">x</span> increases, <span class="mx">f</span>(<span class="mx">x</span>) increases (rate &gt; 0)</td></tr><tr><td>Concave up</td><td>the rate of change is increasing (graph bends like a cup)</td></tr><tr><td>Concave down</td><td>the rate of change is decreasing (graph bends like a frown)</td></tr><tr><td>Point of inflection</td><td>where concavity switches</td></tr></table></div>
+<p><b>Linear</b> functions have a constant rate of change. <b>Quadratic</b> functions have rates that change at a constant rate: over equal input steps, the first differences form a linear pattern, and the second differences are constant.</p>
+<div class="mlab" data-lab='{"title": "Differences table", "sub": "Equal x-steps: f(x) = a·x² + c. The second difference is always 2a.", "x": [-1, 6], "y": [-5, 40], "gx": 1, "gy": 5, "params": {"a": [-2, 2, 0.5, 1, "a"], "c": [-4, 4, 1, 0, "c"]}, "fns": [{"e": "a*x^2+c", "label": "f(x) = ax² + c"}], "table": {"x": [0, 1, 2, 3, 4, 5], "rows": [["f(x)", "a*x^2+c"]], "diff": "diff"}, "type": "graph"}'></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-poly" data-title="Polynomial Functions" data-short="Polynomials">
+<section class="topic" id="polynomials">
+  <h2><span class="pill g">1.4</span>Polynomial functions (1.4–1.6)</h2>
+  
+  
+<p>A polynomial of degree <span class="mx">n</span>: <span class="mx">p</span>(<span class="mx">x</span>) = <span class="mx">a</span>ₙ<span class="mx">x</span>ⁿ + … + <span class="mx">a</span>₁<span class="mx">x</span> + <span class="mx">a</span>₀. The <b>leading term</b> controls the end behavior.</p>
+<div class="tblwrap"><table><tr><th>Degree</th><th>Leading coefficient</th><th>End behavior</th></tr><tr><td>even</td><td>+</td><td>↑ on both ends</td></tr><tr><td>even</td><td>−</td><td>↓ on both ends</td></tr><tr><td>odd</td><td>+</td><td>↙ down on the left, ↗ up on the right</td></tr><tr><td>odd</td><td>−</td><td>↖ up on the left, ↘ down on the right</td></tr></table></div>
+<p><b>Zeros and multiplicity.</b> A factor (<span class="mx">x</span> − <span class="mx">r</span>)<sup>k</sup> gives a zero at <span class="mx">r</span> with multiplicity <span class="mx">k</span>. Odd multiplicity: the graph <b>crosses</b>. Even multiplicity: it <b>bounces</b> (touches and turns).</p>
+<div class="mlab" data-lab='{"title": "Multiplicity lab", "sub": "y = 0.1(x + 3)ᵖ(x − 1)^q(x − 4). Change each multiplicity: odd crosses, even bounces.", "x": [-6, 7], "y": [-12, 12], "gx": 1, "gy": 2, "params": {"p": [1, 3, 1, 1, "p"], "q": [1, 3, 1, 2, "q"]}, "fns": [{"e": "0.1*(x+3)^p*(x-1)^q*(x-4)", "label": "y = 0.1(x + 3)ᵖ(x − 1)^q(x − 4)"}], "dots": [["-3", "0", "x=−3", "#EA580C"], ["1", "0", "x=1", "#EA580C"], ["4", "0", "x=4", "#EA580C"]], "read": [["degree =", "p+q+1"]], "type": "graph"}'></div>
+<div class="grid2"><div class="mini"><h4>Turning points</h4>A degree-<span class="mx">n</span> polynomial has at most <span class="mx">n</span> − 1 turning points (local max/min) and at most <span class="mx">n</span> real zeros.</div><div class="mini"><h4>Complex zeros</h4>Degree <span class="mx">n</span> means exactly <span class="mx">n</span> complex zeros counting multiplicity. Non-real zeros come in conjugate pairs: if 2 + 3<span class="mx">i</span> is a zero, so is 2 − 3<span class="mx">i</span>.</div></div>
+<div class="grid2"><div class="mini"><h4>Even function</h4><span class="mx">f</span>(−<span class="mx">x</span>) = <span class="mx">f</span>(<span class="mx">x</span>). Symmetric over the y-axis. Example <span class="mx">x</span>⁴ − 3<span class="mx">x</span>².</div><div class="mini"><h4>Odd function</h4><span class="mx">f</span>(−<span class="mx">x</span>) = −<span class="mx">f</span>(<span class="mx">x</span>). Symmetric about the origin. Example <span class="mx">x</span>³ − 5<span class="mx">x</span>.</div></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-rat" data-title="Rational Functions" data-short="Rational">
+<section class="topic" id="rational">
+  <h2><span class="pill c">1.7</span>Rational functions (1.7–1.10)</h2>
+  
+  
+<p>A rational function is a ratio <span class="mx">r</span>(<span class="mx">x</span>) = <span class="mx">p</span>(<span class="mx">x</span>)/<span class="mx">q</span>(<span class="mx">x</span>). Factor first, then read off its features:</p>
+<div class="tblwrap"><table><tr><th>Feature</th><th>Where it comes from</th></tr><tr><td>Zeros</td><td>x-values that make the numerator 0 (and not the denominator)</td></tr><tr><td>Vertical asymptote</td><td>a factor of the denominator that does NOT cancel</td></tr><tr><td>Hole</td><td>a factor that cancels from top and bottom</td></tr><tr><td>Horizontal asymptote</td><td>compare degrees: top &lt; bottom → y = 0; equal → ratio of leading coefficients; top &gt; bottom → none (slant if one more)</td></tr></table></div>
+<div class="msteps" data-w='{"title": "Analyze r(x) = (x² − x − 2) / (x² − 4)", "frames": [{"t": ["a|(x² − x − 2)|s", "b|/", "c|(x² − 4)|v"], "note": "Factor the numerator and denominator."}, {"t": ["d|(x − 2)|e", "e|(x + 1)|s", "b|/", "f|(x − 2)|e", "g|(x + 2)|v"], "note": "x − 2 appears on top and bottom."}, {"t": ["e|(x + 1)|s", "b|/", "g|(x + 2)|v"], "note": "It cancels → hole at x = 2, at y = (2 + 1)/(2 + 2) = 3/4."}, {"t": ["h|zero x = −1|g", "i|VA x = −2|e", "j|HA y = 1|n"], "note": "Zero from the top, VA from the leftover bottom, HA from equal degrees (1/1)."}]}'></div>
+<div class="mlab" data-lab='{"title": "Rational function lab", "sub": "r(x) = a(x − z)/(x − v). Watch the asymptotes (red dashes) follow the sliders.", "x": [-8, 8], "y": [-8, 8], "gx": 1, "gy": 1, "params": {"v": [-5, 5, 0.5, 2, "v"], "z": [-5, 5, 0.5, -1, "z"], "a": [-3, 3, 0.5, 1, "a"]}, "fns": [{"e": "a*(x-z)/(x-v)", "label": "r(x) = a(x − z)/(x − v)"}], "vasym": ["v"], "hasym": ["a"], "dots": [["z", "0", "zero", "#059669"]], "type": "graph"}'></div>
+<p><b>End behavior with limits:</b> as <span class="mx">x</span> → ∞, <span class="mx">r</span>(<span class="mx">x</span>) → (horizontal asymptote). Near a vertical asymptote, <span class="mx">r</span>(<span class="mx">x</span>) → ±∞; test a value on each side to get the sign.</p>
+<div class="box trap"><b class="lbl">Hole or asymptote?</b>Cancel common factors first! (x − 2)/(x − 2)(x + 2) has a hole at 2, not an asymptote.</div>
+
+  
+</section>
+<section class="topic" id="equiv">
+  <h2><span class="pill p">1.11</span>Equivalent forms and transformations (1.11–1.12)</h2>
+  
+  
+<p><b>Polynomial long division</b> rewrites a rational function as quotient + remainder/divisor, which reveals a slant asymptote.</p>
+<div class="worked"><div class="q">Worked example: Divide (<span class="mx">x</span>² + 3<span class="mx">x</span> + 5) ÷ (<span class="mx">x</span> + 1).</div><div class="a"><span class="mx">x</span>·(<span class="mx">x</span> + 1) = <span class="mx">x</span>² + <span class="mx">x</span>, leaving 2<span class="mx">x</span> + 5. Then 2(<span class="mx">x</span> + 1) = 2<span class="mx">x</span> + 2, leaving 3. So <span class="mx">x</span> + 2 + 3/(<span class="mx">x</span> + 1): slant asymptote <span class="mx">y</span> = <span class="mx">x</span> + 2.</div></div>
+<p><b>Binomial theorem</b>: expand (<span class="mx">a</span> + <span class="mx">b</span>)ⁿ with Pascal's triangle coefficients. (<span class="mx">x</span> + 2)³ = <span class="mx">x</span>³ + 3·2<span class="mx">x</span>² + 3·4<span class="mx">x</span> + 8 = <span class="mx">x</span>³ + 6<span class="mx">x</span>² + 12<span class="mx">x</span> + 8.</p>
+<p><b>Transformations</b>: <span class="mx">g</span>(<span class="mx">x</span>) = <span class="mx">a</span>·<span class="mx">f</span>(<span class="mx">b</span>(<span class="mx">x</span> + <span class="mx">c</span>)) + <span class="mx">d</span>. The domain and range shift and scale with them.</p>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-model" data-title="Modeling" data-short="Modeling">
+<section class="topic" id="models">
+  <h2><span class="pill w">1.13</span>Choosing and building models (1.13–1.14)</h2>
+  
+  
+<p>On the AP exam you pick a model from the data or the context, then justify it.</p>
+<div class="tblwrap"><table><tr><th>Clue in the data</th><th>Model</th></tr><tr><td>constant first differences</td><td>linear</td></tr><tr><td>constant second differences</td><td>quadratic</td></tr><tr><td>constant third differences</td><td>cubic</td></tr><tr><td>a few known zeros, a turning shape</td><td>polynomial built from factors</td></tr><tr><td>output → constant as input grows, blows up near a value</td><td>rational</td></tr><tr><td>constant ratios over equal steps</td><td>exponential (Unit 2)</td></tr></table></div>
+<div class="worked"><div class="q">Worked example: A cubic has zeros at x = −1, 2, and 5 and passes through (0, 20). Find it.</div><div class="a"><span class="mx">p</span>(<span class="mx">x</span>) = <span class="mx">a</span>(<span class="mx">x</span> + 1)(<span class="mx">x</span> − 2)(<span class="mx">x</span> − 5). At 0: <span class="mx">a</span>(1)(−2)(−5) = 10<span class="mx">a</span> = 20 → <span class="mx">a</span> = 2.</div></div>
+<div class="box tip"><b class="lbl">Justify</b>Free-response answers need a reason in context: "The second differences are all 4, so a quadratic model is appropriate."</div>
+
+  
+</section>
+<section class="topic" id="summary-pc1">
+  <h2>Unit summary</h2>
+  
+  <div class="grid2"><div class="mini"><h4>Rates</h4>AROC = slope of secant. Concave up ⇔ rate increasing.</div><div class="mini"><h4>Polynomials</h4>Leading term → end behavior. Multiplicity: odd crosses, even bounces. ≤ n zeros, ≤ n − 1 turns.</div><div class="mini"><h4>Rational</h4>Factor! Cancelled → hole. Leftover bottom → VA. Degrees → HA or slant.</div><div class="mini"><h4>Models</h4>Differences pick the polynomial degree. Build from zeros + one point.</div></div>
+  
+</section>
+</div>
+<div class="chapter" id="practice-precalc-1" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-precalc-1">
+  <h2>Practice questions</h2>
+  <p class="sub">15 questions on everything in this unit. Work each one on paper before you pick.</p>
+  <div class="quiz" data-src="quiz-precalc-1" data-tags='{"c": "Concept", "p": "Procedure", "g": "Graphs", "w": "Word problem"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-precalc-1" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-precalc-1">
+  <h2>Challenge questions</h2>
+  <p class="sub">Harder, multi-step questions in the style of the toughest exam items.</p>
+  <div class="quiz" data-src="quiz-challenge-precalc-1" data-tags='{"c": "Concept", "p": "Procedure", "g": "Graphs", "w": "Word problem"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-precalc-1" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-precalc-1"><h2>Practice exam</h2><p class="sub">14 multiple-choice questions (35 minutes) and 2 free-response questions (30 minutes). No feedback until you submit. Use a graphing calculator only where you'd be allowed one. Grade the free response with the rubric.</p><div class="exam" data-src="exam-precalc-1"></div></section>
+</div>
+</main>
+
+<footer>Apogee · AP Precalculus · Drag the sliders, then check yourself</footer>
+
+<script type="application/json" id="quiz-precalc-1">
+[
+ {
+  "t": "p",
+  "q": "f(x) = x³ − 2x. Average rate of change on [1, 3]?",
+  "o": [
+   "22",
+   "7",
+   "11",
+   "10"
+  ],
+  "a": 2,
+  "x": "(21 − (−1))/2 = 11."
+ },
+ {
+  "t": "c",
+  "q": "A graph is concave down on an interval. Its rate of change there is…",
+  "o": [
+   "increasing",
+   "negative",
+   "zero",
+   "decreasing"
+  ],
+  "a": 3,
+  "x": "Concave down = rate of change decreasing."
+ },
+ {
+  "t": "w",
+  "q": "x: 0,1,2,3; f: 3,5,11,21. Best model?",
+  "o": [
+   "Quadratic",
+   "Linear",
+   "Cubic",
+   "Exponential"
+  ],
+  "a": 0,
+  "x": "First differences 2, 6, 10; second differences 4, 4: constant."
+ },
+ {
+  "t": "g",
+  "q": "End behavior of p(x) = −2x⁵ + x²?",
+  "o": [
+   "Up on both ends",
+   "Down on the left, up on the right",
+   "Up on the left, down on the right",
+   "Down on both ends"
+  ],
+  "a": 2,
+  "x": "Odd degree, negative leading coefficient."
+ },
+ {
+  "t": "g",
+  "q": "p(x) = (x − 3)²(x + 1). At x = 3 the graph…",
+  "o": [
+   "touches and turns",
+   "has a hole",
+   "has an asymptote",
+   "crosses"
+  ],
+  "a": 0,
+  "x": "Even multiplicity bounces."
+ },
+ {
+  "t": "c",
+  "q": "A degree-4 polynomial has at most how many turning points?",
+  "o": [
+   "4",
+   "5",
+   "3",
+   "2"
+  ],
+  "a": 2,
+  "x": "n − 1."
+ },
+ {
+  "t": "c",
+  "q": "If 1 − 2i is a zero of a real polynomial, so is…",
+  "o": [
+   "−1 + 2i",
+   "−1 − 2i",
+   "2 − i",
+   "1 + 2i"
+  ],
+  "a": 3,
+  "x": "Conjugate pairs."
+ },
+ {
+  "t": "c",
+  "q": "f(x) = x⁴ − 2x² is…",
+  "o": [
+   "both",
+   "neither",
+   "odd",
+   "even"
+  ],
+  "a": 3,
+  "x": "f(−x) = f(x)."
+ },
+ {
+  "t": "g",
+  "q": "Vertical asymptote of r(x) = (x + 1)/(x − 4)?",
+  "o": [
+   "x = 4",
+   "x = −4",
+   "x = −1",
+   "y = 1"
+  ],
+  "a": 0,
+  "x": "Denominator zero, doesn't cancel."
+ },
+ {
+  "t": "g",
+  "q": "Horizontal asymptote of r(x) = (3x² + 1)/(2x² − 5)?",
+  "o": [
+   "y = 0",
+   "y = 3",
+   "y = 3/2",
+   "None"
+  ],
+  "a": 2,
+  "x": "Equal degrees: ratio of leading coefficients."
+ },
+ {
+  "t": "c",
+  "q": "r(x) = (x − 5)(x + 2)/((x − 5)(x − 1)). At x = 5 there is…",
+  "o": [
+   "a vertical asymptote",
+   "nothing special",
+   "a zero",
+   "a hole"
+  ],
+  "a": 3,
+  "x": "The factor cancels."
+ },
+ {
+  "t": "p",
+  "q": "lim as x → ∞ of (4x + 1)/(x² + 3)?",
+  "o": [
+   "0",
+   "1/3",
+   "4",
+   "∞"
+  ],
+  "a": 0,
+  "x": "Bottom degree is bigger."
+ },
+ {
+  "t": "p",
+  "q": "(x² + 5x + 7) ÷ (x + 2) = ?",
+  "o": [
+   "x + 3 + 1/(x + 2)",
+   "x + 3",
+   "x + 3 − 1/(x + 2)",
+   "x + 7 + 7/(x + 2)"
+  ],
+  "a": 0,
+  "x": "x(x + 2) = x² + 2x, remainder 3x + 7; 3(x + 2) = 3x + 6, remainder 1."
+ },
+ {
+  "t": "p",
+  "q": "Coefficient of x² in (x + 3)³?",
+  "o": [
+   "9",
+   "3",
+   "6",
+   "27"
+  ],
+  "a": 0,
+  "x": "3·3 = 9 (Pascal row 1 3 3 1)."
+ },
+ {
+  "t": "g",
+  "q": "g(x) = f(x − 2) + 3. If f has domain [0, 5], g has domain…",
+  "o": [
+   "[2, 7]",
+   "[−2, 3]",
+   "[0, 5]",
+   "[3, 8]"
+  ],
+  "a": 0,
+  "x": "Inputs shift right 2."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-precalc-1">
+[
+ {
+  "t": "p",
+  "q": "A cubic with zeros −2, 1, 3 passes through (0, 12). Leading coefficient?",
+  "o": [
+   "−2",
+   "2",
+   "1",
+   "6"
+  ],
+  "a": 1,
+  "x": "a(2)(−1)(−3) = 6a = 12."
+ },
+ {
+  "t": "p",
+  "q": "r(x) = (2x² − 8)/(x² − x − 2). Hole at…",
+  "o": [
+   "(−2, 8/3)",
+   "(−1, 0)",
+   "(2, 8/3)",
+   "(2, 0)"
+  ],
+  "a": 2,
+  "x": "2(x − 2)(x + 2)/((x − 2)(x + 1)) → 2(x + 2)/(x + 1); at x = 2: 8/3."
+ },
+ {
+  "t": "c",
+  "q": "As x → −1⁺, r(x) = (x + 3)/(x + 1) →",
+  "o": [
+   "1",
+   "2",
+   "+∞",
+   "−∞"
+  ],
+  "a": 2,
+  "x": "Top ≈ 2 > 0, bottom small positive."
+ },
+ {
+  "t": "p",
+  "q": "Slant asymptote of (x² − 4x + 1)/(x − 1)?",
+  "o": [
+   "y = x + 3",
+   "None",
+   "y = x − 3",
+   "y = x − 4"
+  ],
+  "a": 2,
+  "x": "Division gives x − 3 − 2/(x − 1)."
+ },
+ {
+  "t": "c",
+  "q": "A degree-5 real polynomial has zeros 2 (multiplicity 2) and 3i. How many real zeros can it have in total (with multiplicity)?",
+  "o": [
+   "3",
+   "4",
+   "5",
+   "2"
+  ],
+  "a": 0,
+  "x": "3i and −3i use 2 slots; 5 − 2 = 3 real."
+ },
+ {
+  "t": "c",
+  "q": "On [0, 4], h(t) is increasing and concave down. Which is true?",
+  "o": [
+   "h is decreasing",
+   "AROC is negative",
+   "h increases by less each second",
+   "h increases by more each second"
+  ],
+  "a": 2,
+  "x": "Rate positive but decreasing."
+ }
+]
+</script>
+<script type="application/json" id="exam-precalc-1">
+{
+ "title": "AP Precalculus Unit 1 Practice Exam: Polynomial and Rational Functions",
+ "mcqMinutes": 35,
+ "frqMinutes": 30,
+ "tags": {
+  "c": "Concept",
+  "p": "Procedure",
+  "g": "Graphs",
+  "w": "Word problem"
+ },
+ "mcq": [
+  {
+   "t": "p",
+   "q": "AROC of f(x) = x² from x = 1 to x = 4?",
+   "o": [
+    "15",
+    "3",
+    "5",
+    "8"
+   ],
+   "a": 2,
+   "x": "(16 − 1)/3."
+  },
+  {
+   "t": "c",
+   "q": "Which has constant rate of change?",
+   "o": [
+    "Quadratic",
+    "Cubic",
+    "Linear",
+    "Rational"
+   ],
+   "a": 2,
+   "x": "By definition."
+  },
+  {
+   "t": "g",
+   "q": "Zeros of p(x) = x(x − 2)²(x + 5)?",
+   "o": [
+    "0, 2, −5",
+    "2, −5",
+    "0, −2, 5",
+    "0, 4, −5"
+   ],
+   "a": 0,
+   "x": "Set each factor to zero."
+  },
+  {
+   "t": "g",
+   "q": "End behavior of 3x⁴ − x³?",
+   "o": [
+    "Down left, up right",
+    "Down on both ends",
+    "Up on both ends",
+    "Up left, down right"
+   ],
+   "a": 2,
+   "x": "Even degree, positive."
+  },
+  {
+   "t": "c",
+   "q": "Which is odd?",
+   "o": [
+    "x² + 1",
+    "x³ + x",
+    "|x|",
+    "x³ + 1"
+   ],
+   "a": 1,
+   "x": "f(−x) = −f(x)."
+  },
+  {
+   "t": "g",
+   "q": "Horizontal asymptote of (5x)/(x² + 1)?",
+   "o": [
+    "y = 0",
+    "y = 1",
+    "y = 5",
+    "None"
+   ],
+   "a": 0,
+   "x": "Lower degree on top."
+  },
+  {
+   "t": "g",
+   "q": "Vertical asymptote(s) of 1/(x² − 9)?",
+   "o": [
+    "x = 9",
+    "x = 3",
+    "None",
+    "x = ±3"
+   ],
+   "a": 3,
+   "x": "x² = 9."
+  },
+  {
+   "t": "c",
+   "q": "Domain of (x + 2)/(x² + 4)?",
+   "o": [
+    "x ≠ 4",
+    "x ≠ ±2",
+    "All real numbers",
+    "x ≠ −2"
+   ],
+   "a": 2,
+   "x": "x² + 4 is never 0."
+  },
+  {
+   "t": "c",
+   "q": "A polynomial has degree 6. Max number of real zeros?",
+   "o": [
+    "5",
+    "3",
+    "6",
+    "7"
+   ],
+   "a": 2,
+   "x": "At most n."
+  },
+  {
+   "t": "w",
+   "q": "Data with constant third differences suggests…",
+   "o": [
+    "exponential",
+    "quadratic",
+    "rational",
+    "cubic"
+   ],
+   "a": 3,
+   "x": "Degree = which difference is constant."
+  },
+  {
+   "t": "p",
+   "q": "(x − 1)² expanded?",
+   "o": [
+    "x² − x + 1",
+    "x² − 1",
+    "x² − 2x + 1",
+    "x² + 1"
+   ],
+   "a": 2,
+   "x": "Binomial square."
+  },
+  {
+   "t": "c",
+   "q": "r(x) = (x² − 1)/(x − 1). Which is true?",
+   "o": [
+    "HA y = 1",
+    "Hole at x = 1",
+    "VA at x = 1",
+    "Zero at x = 1"
+   ],
+   "a": 1,
+   "x": "Simplifies to x + 1 with x ≠ 1."
+  },
+  {
+   "t": "p",
+   "q": "lim x→∞ (6x³ − 1)/(2x³ + x) = ?",
+   "o": [
+    "3",
+    "6",
+    "∞",
+    "0"
+   ],
+   "a": 0,
+   "x": "6/2."
+  },
+  {
+   "t": "c",
+   "q": "If f is concave up on [a, b], the AROC on [a, (a+b)/2] is ___ the AROC on [(a+b)/2, b].",
+   "o": [
+    "equal to",
+    "less than",
+    "unrelated to",
+    "greater than"
+   ],
+   "a": 1,
+   "x": "Rates are increasing."
+  }
+ ],
+ "frq": [
+  {
+   "q": "Let r(x) = (x² − 9)/(x² − 2x − 3).",
+   "parts": [
+    {
+     "p": "(a) Find the domain of r and any holes.",
+     "rubric": [
+      [
+       "Factors: (x − 3)(x + 3)/((x − 3)(x + 1))",
+       1
+      ],
+      [
+       "x ≠ 3, −1",
+       1
+      ],
+      [
+       "Hole at (3, 3/2)",
+       1
+      ]
+     ],
+     "answer": "Simplifies to (x + 3)/(x + 1); hole at x = 3, y = 6/4 = 3/2."
+    },
+    {
+     "p": "(b) Find the vertical and horizontal asymptotes. Use limits to describe the behavior near the vertical asymptote.",
+     "rubric": [
+      [
+       "VA x = −1",
+       1
+      ],
+      [
+       "HA y = 1",
+       1
+      ],
+      [
+       "x → −1⁻: −∞; x → −1⁺: +∞",
+       1
+      ]
+     ],
+     "answer": "Near −1: top ≈ 2. Left: bottom negative → −∞. Right: +∞."
+    },
+    {
+     "p": "(c) Find the x- and y-intercepts.",
+     "rubric": [
+      [
+       "x = −3",
+       1
+      ],
+      [
+       "y = 3",
+       1
+      ]
+     ],
+     "answer": "Zero −3; r(0) = 3."
+    }
+   ]
+  },
+  {
+   "q": "The table gives a population P (thousands) t years after 2020: t = 0, 1, 2, 3, 4 → P = 10, 13, 18, 25, 34.",
+   "parts": [
+    {
+     "p": "(a) Show the data are quadratic.",
+     "rubric": [
+      [
+       "First differences 3, 5, 7, 9",
+       1
+      ],
+      [
+       "Second differences constant 2",
+       1
+      ]
+     ],
+     "answer": "Second differences all 2."
+    },
+    {
+     "p": "(b) Write a quadratic model P(t).",
+     "rubric": [
+      [
+       "a = 1 (half the second difference)",
+       1
+      ],
+      [
+       "P(t) = t² + 2t + 10",
+       1
+      ]
+     ],
+     "answer": "P(t) = t² + 2t + 10. Check t = 3: 9 + 6 + 10 = 25 ✓"
+    },
+    {
+     "p": "(c) Find the AROC from t = 1 to t = 4 and interpret it.",
+     "rubric": [
+      [
+       "(34 − 13)/3 = 7",
+       1
+      ],
+      [
+       "About 7,000 people per year on average",
+       1
+      ]
+     ],
+     "answer": "7 thousand people per year."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

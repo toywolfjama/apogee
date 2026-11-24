@@ -24,7 +24,7 @@ TIPS = topic("vocab-tips", "How to actually remember words", f'''
 CH = [chapter("words-fv", "1,000 words", "Word bank", [APP]), chapter("tips-fv", "Study tips", "Tips", [TIPS])]
 HTML = page("vocab", "French 1: The 1,000 most common words", "French 1 · Word bank", 'Les mots <span class="hl">essentiels</span>',
             f"The {len(W):,} most common French words with audio, gender and meaning. Search them, filter them by type or by group of 100, and quiz yourself.",
-            "The 1,000 most common French words with audio, search, filters and quizzes.", CH, {}, course="french-1", footer=FOOT, extra_js=("fr.js",))
+            "The 1,000 most common French words with audio, search, filters and quizzes.", CH, {}, course="french-1", footer=FOOT, extra_js=("wa.js", "fr.js"))
 HTML = HTML.replace('<script src="../../assets/js/sims.js"></script>\n', "")
 open("/home/claude/ap-physics-study/courses/french-1/vocab.html", "w").write(HTML)
 print("vocab page:", len(W))

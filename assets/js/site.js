@@ -384,6 +384,22 @@
     </svg>`;
     hero.appendChild(art);
   }
+
+  function gridHero() {
+    const hero = document.querySelector("body.th-grid .hero");
+    if (!hero || hero.querySelector(".grid-art")) return;
+    const a = document.createElement("div"); a.className = "grid-art"; a.setAttribute("aria-hidden", "true");
+    let gl = ""; for (let i = 0; i <= 12; i++) { gl += `<line class="gl" x1="${i * 25}" y1="0" x2="${i * 25}" y2="240"/>`; if (i <= 9.6) gl += `<line class="gl" x1="0" y1="${i * 25}" x2="300" y2="${i * 25}"/>`; }
+    let sinP = "", par = "";
+    for (let k = 0; k <= 120; k++) { const x = k * 2.5, y = 120 - 55 * Math.sin((x - 25) / 300 * 4 * Math.PI); sinP += (k ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1); }
+    for (let k = 0; k <= 60; k++) { const x = 70 + k * 2.6, u = (x - 148) / 70, y = 205 - 175 * (1 - u * u); par += (k ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1); }
+    a.innerHTML = `<svg viewBox="0 0 300 240"><rect x="0" y="0" width="300" height="240" rx="14" fill="#fff" stroke="#DCE3F0"/>${gl}
+      <line class="ax" x1="0" y1="120" x2="300" y2="120"/><line class="ax" x1="25" y1="0" x2="25" y2="240"/>
+      <path class="c2" d="${par}"/><path class="c1" id="gh-sin" d="${sinP}"/>
+      <circle r="7" fill="#2563EB" stroke="#fff" stroke-width="2.5"><animateMotion dur="6s" repeatCount="indefinite" rotate="0"><mpath href="#gh-sin"/></animateMotion></circle>
+      <text class="lbl" x="236" y="40" fill="#2563EB">y = sin x</text><text class="lbl" x="160" y="226" fill="#EA580C">y = −x²</text></svg>`;
+    hero.appendChild(a);
+  }
   function termDecor() {
     if (!body.classList.contains("th-term")) return;
     const path = "~/" + termPath();
@@ -449,7 +465,7 @@
 
     // page-to-page transitions
     function styleFor(href) {
-      if (/french/.test(href)) return "paris";
+      if (/french|\/math\//.test(href)) return "paris";
       if (/ap-csa/.test(href)) return "term";
       if (/ap-physics|calculator/.test(href)) return "space";
       return TERM ? "term" : "space";
@@ -500,7 +516,7 @@
     }
     addEventListener("pageshow", e => { if (e.persisted) document.querySelectorAll(".fx-warp,.fx-tty").forEach(x => x.remove()); });
   }
-  spaceStars(); spaceHero(); parisHero(); termDecor(); fx();
+  spaceStars(); spaceHero(); parisHero(); gridHero(); termDecor(); fx();
   buildQuizzes();
   buildCourseList();
   if (window.Sims) window.Sims.mountAll();

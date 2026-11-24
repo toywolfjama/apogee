@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Before Precalc Unit 2: Linear Equations and Lines | Apogee</title>
+<meta name="description" content="Before Precalc unit 2: linear equations, slope, systems and inequalities with interactive graphs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid" data-root="../../" data-course="math" data-unit="pre-2">
+
+<div class="hero">
+  <span class="kicker">Before Precalc · Unit 2</span>
+  <h1>Lines and <span class="hl">linear equations</span></h1>
+  <p>Solving equations, slope, the three forms of a line, systems, and inequalities.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-eq" data-title="Linear Equations" data-short="Equations">
+<section class="topic" id="solve-lin">
+  <h2><span class="pill p">2.1</span>Solving linear equations</h2>
+  
+  
+<p>Whatever you do to one side, do to the other. Undo operations in reverse order: first clear addition/subtraction, then multiplication/division.</p>
+<div class="msteps" data-w='{"title": "Solve 3x + 7 = 22", "frames": [{"t": ["a|3x|v", "b|+", "c|7|n", "d|=", "e|22|n"], "note": "Goal: get x alone. First undo the + 7."}, {"t": ["a|3x|v", "b|+", "c|7|n", "f|− 7|e", "d|=", "e|22|n", "g|− 7|e"], "note": "Subtract 7 from both sides."}, {"t": ["a|3x|v", "d|=", "h|15|n"], "note": "Now undo the × 3."}, {"t": ["a|3x|v", "i|÷ 3|e", "d|=", "h|15|n", "j|÷ 3|e"], "note": "Divide both sides by 3."}, {"t": ["k|x|g", "d|=", "l|5|g"], "note": "x = 5. Check: 3(5) + 7 = 22 ✓"}]}'></div>
+<div class="msteps" data-w='{"title": "Solve 2(x − 3) = 4x + 10", "frames": [{"t": ["a|2(x − 3)|e", "d|=", "b|4x|v", "c|+ 10|n"], "note": "Distribute first."}, {"t": ["e|2x|v", "f|− 6|n", "d|=", "b|4x|v", "c|+ 10|n"], "note": "Move the x terms to one side."}, {"t": ["e|2x|v", "g|− 4x|e", "f|− 6|n", "d|=", "c|10|n"], "note": "Subtract 4x from both sides."}, {"t": ["h|−2x|v", "f|− 6|n", "d|=", "c|10|n"], "note": "2x − 4x = −2x. Add 6."}, {"t": ["h|−2x|v", "d|=", "i|16|n"], "note": "Divide by −2."}, {"t": ["j|x|g", "d|=", "k|−8|g"], "note": "x = −8."}]}'></div>
+<div class="box tip"><b class="lbl">Fractions</b>If the equation has fractions, multiply every term by the common denominator first. x/2 + x/3 = 5 → 3x + 2x = 30 → x = 6.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-lines" data-title="Lines and Slope" data-short="Lines">
+<section class="topic" id="slope">
+  <h2><span class="pill c">2.2</span>Slope and the three forms of a line</h2>
+  
+  
+<p><b>Slope</b> is rise over run: <span class="mx">m</span> = (<span class="mx">y</span>₂ − <span class="mx">y</span>₁)/(<span class="mx">x</span>₂ − <span class="mx">x</span>₁). It's how much <span class="mx">y</span> changes every time <span class="mx">x</span> goes up by 1.</p>
+<div class="tblwrap"><table><tr><th>Form</th><th>Equation</th><th>Best for</th></tr><tr><td>Slope-intercept</td><td><span class="mx">y</span> = <span class="mx">mx</span> + <span class="mx">b</span></td><td>graphing: start at b, then rise m per 1 run</td></tr><tr><td>Point-slope</td><td><span class="mx">y</span> − <span class="mx">y</span>₁ = <span class="mx">m</span>(<span class="mx">x</span> − <span class="mx">x</span>₁)</td><td>writing a line from a point and a slope</td></tr><tr><td>Standard</td><td><span class="mx">Ax</span> + <span class="mx">By</span> = <span class="mx">C</span></td><td>intercepts: set x = 0, then y = 0</td></tr></table></div>
+<div class="mlab" data-lab='{"title": "Slope-intercept lab", "sub": "Drag m and b. Watch where the line crosses each axis.", "x": [-10, 10], "y": [-10, 10], "gx": 1, "gy": 1, "params": {"m": [-4, 4, 0.25, 1.5, "m"], "b": [-8, 8, 0.5, -2, "b"]}, "fns": [{"e": "m*x+b", "label": "y = mx + b"}], "dots": [["0", "b", "y-int {b}", "#EA580C"], ["-b/m", "0", "x-int {-b/m}", "#059669"]], "read": [["slope:", "m"], ["x-intercept:", "-b/m"]], "type": "graph"}'></div>
+<div class="grid2"><div class="mini"><h4>Parallel lines</h4>Same slope. y = 2x + 1 and y = 2x − 5 never meet.</div><div class="mini"><h4>Perpendicular lines</h4>Slopes are negative reciprocals: 2 and −1/2. Their product is −1.</div></div>
+<div class="worked"><div class="q">Worked example: Write the line through (2, 5) and (6, −3).</div><div class="a">Slope = (−3 − 5)/(6 − 2) = −8/4 = −2. Point-slope: <span class="mx">y</span> − 5 = −2(<span class="mx">x</span> − 2). Slope-intercept: <span class="mx">y</span> = −2<span class="mx">x</span> + 9.</div></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-sys" data-title="Systems and Inequalities" data-short="Systems">
+<section class="topic" id="systems">
+  <h2><span class="pill p">2.3</span>Systems of equations</h2>
+  
+  
+<p>A system's solution is the point where the lines meet. Two lines can meet once, never (parallel), or everywhere (same line).</p>
+<div class="mlab" data-lab='{"title": "Where do they cross?", "sub": "The solution is the intersection.", "x": [-8, 8], "y": [-8, 8], "gx": 1, "gy": 1, "params": {"m": [-3, 3, 0.5, -1, "m₂"], "b": [-6, 6, 0.5, 4, "b₂"]}, "fns": [{"e": "2*x-2", "label": "y = 2x − 2"}, {"e": "m*x+b", "label": "y = m₂x + b₂"}], "dots": [["(b+2)/(2-m)", "2*(b+2)/(2-m)-2", "({(b+2)/(2-m)}, {2*(b+2)/(2-m)-2})", "#7C3AED"]], "type": "graph"}'></div>
+<div class="msteps" data-w='{"title": "Elimination: 2x + y = 7 and x − y = 2", "frames": [{"t": ["a|2x + y = 7|s", "b|x − y = 2|v"], "note": "The y&#39;s are opposites. Add the equations."}, {"t": ["c|3x = 9|e"], "note": "(2x + x) + (y − y) = 7 + 2."}, {"t": ["d|x = 3|g"], "note": "Divide by 3."}, {"t": ["d|x = 3|g", "e|3 − y = 2|v"], "note": "Substitute into x − y = 2."}, {"t": ["d|x = 3|g", "f|y = 1|g"], "note": "Solution: (3, 1). Check in 2x + y: 6 + 1 = 7 ✓"}]}'></div>
+<div class="box tip"><b class="lbl">Substitution vs elimination</b>If one variable is already alone (y = …), substitute. If coefficients line up or are easy to make opposite, eliminate.</div>
+
+  
+</section>
+<section class="topic" id="inequalities">
+  <h2><span class="pill c">2.4</span>Inequalities and absolute value</h2>
+  
+  
+<p>Solve inequalities like equations, with one extra rule: <b>multiplying or dividing by a negative flips the sign.</b> −2x &lt; 6 → x &gt; −3.</p>
+<div class="tblwrap"><table><tr><th>Absolute value</th><th>Means</th><th>Solution</th></tr><tr><td>|<span class="mx">x</span> − 3| = 5</td><td>distance from 3 is 5</td><td><span class="mx">x</span> = 8 or <span class="mx">x</span> = −2</td></tr><tr><td>|<span class="mx">x</span> − 3| &lt; 5</td><td>within 5 of 3</td><td>−2 &lt; <span class="mx">x</span> &lt; 8</td></tr><tr><td>|<span class="mx">x</span> − 3| &gt; 5</td><td>more than 5 from 3</td><td><span class="mx">x</span> &lt; −2 or <span class="mx">x</span> &gt; 8</td></tr></table></div>
+<div class="mlab" data-lab='{"title": "Absolute value graph", "sub": "y = a|x − h| + k makes a V with its corner at (h, k).", "x": [-8, 8], "y": [-6, 10], "gx": 1, "gy": 1, "params": {"a": [-3, 3, 0.5, 1, "a"], "h": [-5, 5, 0.5, 3, "h"], "k": [-5, 5, 0.5, -2, "k"]}, "fns": [{"e": "a*abs(x-h)+k", "label": "y = a|x − h| + k"}], "dots": [["h", "k", "vertex ({h}, {k})", "#EA580C"]], "type": "graph"}'></div>
+
+  
+</section>
+<section class="topic" id="summary-pre2">
+  <h2>Unit summary</h2>
+  
+  <div class="grid2"><div class="mini"><h4>Equations</h4>Distribute, collect x's on one side, undo + −, then × ÷. Always check.</div><div class="mini"><h4>Slope</h4>m = Δy/Δx. Parallel: same m. Perpendicular: m₁·m₂ = −1.</div><div class="mini"><h4>Systems</h4>Solution = intersection. Substitute or eliminate. Parallel → none, same line → infinitely many.</div><div class="mini"><h4>Inequalities</h4>Flip the sign when you × or ÷ by a negative. |x − c| < d → within d of c.</div></div>
+  
+</section>
+</div>
+<div class="chapter" id="practice-pre-2" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-pre-2">
+  <h2>Practice questions</h2>
+  <p class="sub">14 questions on everything in this unit. Work each one on paper before you pick.</p>
+  <div class="quiz" data-src="quiz-pre-2" data-tags='{"c": "Concept", "p": "Procedure", "g": "Graphs", "w": "Word problem"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-pre-2" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-pre-2">
+  <h2>Challenge questions</h2>
+  <p class="sub">Harder, multi-step questions in the style of the toughest exam items.</p>
+  <div class="quiz" data-src="quiz-challenge-pre-2" data-tags='{"c": "Concept", "p": "Procedure", "g": "Graphs", "w": "Word problem"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-pre-2" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-pre-2"><h2>Practice exam</h2><p class="sub">12 multiple-choice questions (30 minutes) and 2 free-response questions (25 minutes). No feedback until you submit. Grade the free response with the rubric.</p><div class="exam" data-src="exam-pre-2"></div></section>
+</div>
+</main>
+
+<footer>Apogee · Before Precalc · Drag the sliders, then check yourself</footer>
+
+<script type="application/json" id="quiz-pre-2">
+[
+ {
+  "t": "p",
+  "q": "Solve 5x − 4 = 21.",
+  "o": [
+   "x = 25",
+   "x = 5",
+   "x = 4",
+   "x = 17/5"
+  ],
+  "a": 1,
+  "x": "Add 4: 5x = 25, x = 5."
+ },
+ {
+  "t": "p",
+  "q": "Solve 4(x + 1) = 2x − 6.",
+  "o": [
+   "x = −1",
+   "x = −7/3",
+   "x = −5",
+   "x = 5"
+  ],
+  "a": 2,
+  "x": "4x + 4 = 2x − 6 → 2x = −10."
+ },
+ {
+  "t": "p",
+  "q": "Solve x/3 + 2 = x/2.",
+  "o": [
+   "x = 6",
+   "x = 12",
+   "x = −12",
+   "x = 2"
+  ],
+  "a": 1,
+  "x": "Multiply by 6: 2x + 12 = 3x."
+ },
+ {
+  "t": "p",
+  "q": "Slope through (1, 2) and (4, 11)?",
+  "o": [
+   "1/3",
+   "9",
+   "−3",
+   "3"
+  ],
+  "a": 3,
+  "x": "(11 − 2)/(4 − 1) = 9/3."
+ },
+ {
+  "t": "c",
+  "q": "Slope of 2x + 3y = 12?",
+  "o": [
+   "−3/2",
+   "−2/3",
+   "4",
+   "2/3"
+  ],
+  "a": 1,
+  "x": "3y = −2x + 12, y = −(2/3)x + 4."
+ },
+ {
+  "t": "p",
+  "q": "Line with slope −4 through (0, 7)?",
+  "o": [
+   "y = 4x + 7",
+   "y = 7x − 4",
+   "y = −4x − 7",
+   "y = −4x + 7"
+  ],
+  "a": 3,
+  "x": "The point is the y-intercept."
+ },
+ {
+  "t": "c",
+  "q": "Slope of a line perpendicular to y = 3x − 1?",
+  "o": [
+   "1/3",
+   "−3",
+   "3",
+   "−1/3"
+  ],
+  "a": 3,
+  "x": "Negative reciprocal of 3."
+ },
+ {
+  "t": "p",
+  "q": "Solve: y = 2x and x + y = 9.",
+  "o": [
+   "(6, 3)",
+   "(3, 6)",
+   "(2, 7)",
+   "(4.5, 4.5)"
+  ],
+  "a": 1,
+  "x": "x + 2x = 9 → x = 3, y = 6."
+ },
+ {
+  "t": "g",
+  "q": "How many solutions: y = 3x + 1 and y = 3x − 4?",
+  "o": [
+   "None",
+   "Two",
+   "Infinitely many",
+   "One"
+  ],
+  "a": 0,
+  "x": "Same slope, different intercepts: parallel."
+ },
+ {
+  "t": "p",
+  "q": "Solve −3x + 2 ≥ 11.",
+  "o": [
+   "x ≤ −3",
+   "x ≥ −3",
+   "x ≤ 3",
+   "x ≥ 3"
+  ],
+  "a": 0,
+  "x": "−3x ≥ 9; dividing by −3 flips it."
+ },
+ {
+  "t": "p",
+  "q": "Solve |x + 1| = 4.",
+  "o": [
+   "x = 3 or x = −5",
+   "x = 3",
+   "x = −3 or x = 5",
+   "x = ±4"
+  ],
+  "a": 0,
+  "x": "x + 1 = 4 or x + 1 = −4."
+ },
+ {
+  "t": "p",
+  "q": "Solve |x − 2| < 3.",
+  "o": [
+   "x < −1 or x > 5",
+   "−1 < x < 5",
+   "−5 < x < 1",
+   "x < 5"
+  ],
+  "a": 1,
+  "x": "Within 3 of 2."
+ },
+ {
+  "t": "w",
+  "q": "A plan costs $20 plus $0.15 per minute. Which models cost C for m minutes?",
+  "o": [
+   "C = 0.15(m + 20)",
+   "C = 0.15m + 20",
+   "C = 20m + 0.15",
+   "C = 20.15m"
+  ],
+  "a": 1,
+  "x": "Fixed fee is the intercept, rate is the slope."
+ },
+ {
+  "t": "g",
+  "q": "The vertex of y = −2|x + 3| + 5 is…",
+  "o": [
+   "(5, −3)",
+   "(−3, −5)",
+   "(−3, 5)",
+   "(3, 5)"
+  ],
+  "a": 2,
+  "x": "y = a|x − h| + k with h = −3, k = 5."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-pre-2">
+[
+ {
+  "t": "c",
+  "q": "For which k does kx + 2y = 6 have no solution with y = 3x + 1?",
+  "o": [
+   "k = −6",
+   "k = 3",
+   "k = 6",
+   "k = −3"
+  ],
+  "a": 0,
+  "x": "kx + 2y = 6 → y = −(k/2)x + 3. Parallel needs −k/2 = 3, so k = −6 (intercepts 3 ≠ 1)."
+ },
+ {
+  "t": "p",
+  "q": "Solve 3(2x − 1) − 2(x + 4) = x.",
+  "o": [
+   "x = −11/3",
+   "x = 3",
+   "x = 11/5",
+   "x = 11/3"
+  ],
+  "a": 3,
+  "x": "6x − 3 − 2x − 8 = x → 3x = 11."
+ },
+ {
+  "t": "w",
+  "q": "Tickets: adults $8, kids $5. 40 tickets earned $260. How many adults?",
+  "o": [
+   "25",
+   "20",
+   "15",
+   "30"
+  ],
+  "a": 1,
+  "x": "a + k = 40, 8a + 5k = 260 → 8a + 200 − 5a = 260 → a = 20."
+ },
+ {
+  "t": "p",
+  "q": "Solve |2x − 5| ≥ 7.",
+  "o": [
+   "x ≤ −1 or x ≥ 6",
+   "−1 ≤ x ≤ 6",
+   "x ≥ 6",
+   "x ≤ −6 or x ≥ 1"
+  ],
+  "a": 0,
+  "x": "2x − 5 ≥ 7 → x ≥ 6; 2x − 5 ≤ −7 → x ≤ −1."
+ },
+ {
+  "t": "p",
+  "q": "The line through (−2, 4) perpendicular to 2x − y = 3 is…",
+  "o": [
+   "y = 2x + 8",
+   "y = −2x",
+   "y = −x/2 + 3",
+   "y = x/2 + 5"
+  ],
+  "a": 2,
+  "x": "Given slope 2 → perpendicular slope −1/2: y − 4 = −½(x + 2) → y = −x/2 + 3."
+ },
+ {
+  "t": "c",
+  "q": "A system has infinitely many solutions when the two lines…",
+  "o": [
+   "are the same line",
+   "cross at the origin",
+   "have the same slope only",
+   "are perpendicular"
+  ],
+  "a": 0,
+  "x": "Every point on one is on the other."
+ }
+]
+</script>
+<script type="application/json" id="exam-pre-2">
+{
+ "title": "Before Precalc Unit 2 Practice Exam: Linear Equations and Lines",
+ "mcqMinutes": 30,
+ "frqMinutes": 25,
+ "tags": {
+  "c": "Concept",
+  "p": "Procedure",
+  "g": "Graphs",
+  "w": "Word problem"
+ },
+ "mcq": [
+  {
+   "t": "p",
+   "q": "Solve 7 − 2x = 15.",
+   "o": [
+    "x = 4",
+    "x = −11",
+    "x = −4",
+    "x = 11"
+   ],
+   "a": 2,
+   "x": "−2x = 8."
+  },
+  {
+   "t": "p",
+   "q": "Solve 3x − 5 = x + 9.",
+   "o": [
+    "x = −7",
+    "x = 4",
+    "x = 7",
+    "x = 2"
+   ],
+   "a": 2,
+   "x": "2x = 14."
+  },
+  {
+   "t": "p",
+   "q": "Slope through (−1, 3) and (3, −5)?",
+   "o": [
+    "−1/2",
+    "−2",
+    "−8",
+    "2"
+   ],
+   "a": 1,
+   "x": "−8/4."
+  },
+  {
+   "t": "p",
+   "q": "y-intercept of 4x − 2y = 10?",
+   "o": [
+    "2.5",
+    "5",
+    "10",
+    "−5"
+   ],
+   "a": 3,
+   "x": "x = 0 → −2y = 10."
+  },
+  {
+   "t": "p",
+   "q": "Line parallel to y = −x + 2 through (3, 3)?",
+   "o": [
+    "y = x + 6",
+    "y = −x + 6",
+    "y = x",
+    "y = −x + 3"
+   ],
+   "a": 1,
+   "x": "Slope −1: 3 = −3 + b."
+  },
+  {
+   "t": "p",
+   "q": "Solve: x + y = 10, x − y = 4.",
+   "o": [
+    "(6, 4)",
+    "(7, 3)",
+    "(3, 7)",
+    "(5, 5)"
+   ],
+   "a": 1,
+   "x": "Add: 2x = 14."
+  },
+  {
+   "t": "p",
+   "q": "Solve 2x − 3 < 9.",
+   "o": [
+    "x < −6",
+    "x > 6",
+    "x < 3",
+    "x < 6"
+   ],
+   "a": 3,
+   "x": "2x < 12."
+  },
+  {
+   "t": "p",
+   "q": "Solve −x/4 > 2.",
+   "o": [
+    "x > −8",
+    "x < −8",
+    "x > 8",
+    "x < 8"
+   ],
+   "a": 1,
+   "x": "Multiply by −4 and flip."
+  },
+  {
+   "t": "c",
+   "q": "Solve |x| = −3.",
+   "o": [
+    "x = −3",
+    "x = 3",
+    "No solution",
+    "x = ±3"
+   ],
+   "a": 2,
+   "x": "Absolute value is never negative."
+  },
+  {
+   "t": "w",
+   "q": "A taxi charges $3 plus $2 per mile. Cost for 7 miles?",
+   "o": [
+    "$23",
+    "$17",
+    "$14",
+    "$21"
+   ],
+   "a": 1,
+   "x": "3 + 2·7."
+  },
+  {
+   "t": "g",
+   "q": "Which line is steepest?",
+   "o": [
+    "y = −5x + 1",
+    "y = 4x",
+    "y = 0.5x − 3",
+    "y = x + 10"
+   ],
+   "a": 0,
+   "x": "Steepness is |m|; |−5| is largest."
+  },
+  {
+   "t": "g",
+   "q": "Graph of y = |x − 4| has its corner at…",
+   "o": [
+    "(−4, 0)",
+    "(0, −4)",
+    "(0, 4)",
+    "(4, 0)"
+   ],
+   "a": 3,
+   "x": "h = 4, k = 0."
+  }
+ ],
+ "frq": [
+  {
+   "q": "A gym charges a sign-up fee plus a monthly fee. After 3 months a member has paid $110; after 8 months, $235.",
+   "parts": [
+    {
+     "p": "(a) Find the monthly fee and the sign-up fee.",
+     "rubric": [
+      [
+       "Slope (235 − 110)/(8 − 3) = 25",
+       1
+      ],
+      [
+       "Intercept 110 − 75 = 35",
+       1
+      ]
+     ],
+     "answer": "$25 per month, $35 sign-up."
+    },
+    {
+     "p": "(b) Write a linear model C(m) and interpret its slope in context.",
+     "rubric": [
+      [
+       "C(m) = 25m + 35",
+       1
+      ],
+      [
+       "Slope: total cost rises $25 for each extra month",
+       1
+      ]
+     ],
+     "answer": "C(m) = 25m + 35. Each month adds $25."
+    },
+    {
+     "p": "(c) A second gym charges $45 per month with no sign-up fee. After how many months is the first gym cheaper?",
+     "rubric": [
+      [
+       "Sets 25m + 35 < 45m",
+       1
+      ],
+      [
+       "m > 1.75, so from month 2 on",
+       1
+      ]
+     ],
+     "answer": "35 < 20m → m > 1.75: from the 2nd month on."
+    }
+   ]
+  },
+  {
+   "q": "Solve and graph on a number line.",
+   "parts": [
+    {
+     "p": "(a) |3x + 1| ≤ 8",
+     "rubric": [
+      [
+       "−8 ≤ 3x + 1 ≤ 8",
+       1
+      ],
+      [
+       "−3 ≤ x ≤ 7/3, closed dots",
+       1
+      ]
+     ],
+     "answer": "−3 ≤ x ≤ 7/3."
+    },
+    {
+     "p": "(b) 4 − 2x > 10",
+     "rubric": [
+      [
+       "−2x > 6",
+       1
+      ],
+      [
+       "x < −3 with the flip, open dot",
+       1
+      ]
+     ],
+     "answer": "x < −3."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

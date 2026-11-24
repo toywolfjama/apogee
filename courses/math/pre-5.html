@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Before Precalc Unit 5: Geometry and Right-Triangle Trig | Apogee</title>
+<meta name="description" content="Before Precalc unit 5: right-triangle trigonometry, special triangles, distance and circles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid" data-root="../../" data-course="math" data-unit="pre-5">
+
+<div class="hero">
+  <span class="kicker">Before Precalc · Unit 5</span>
+  <h1>Triangles and <span class="hl">trig</span></h1>
+  <p>The Pythagorean theorem, special right triangles, SOH-CAH-TOA and the geometry formulas precalc assumes you know.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-pyth" data-title="Right Triangles" data-short="Triangles">
+<section class="topic" id="pyth">
+  <h2><span class="pill c">5.1</span>Pythagorean theorem and distance</h2>
+  
+  
+<p>In a right triangle with legs <span class="mx">a</span>, <span class="mx">b</span> and hypotenuse <span class="mx">c</span> (the side across from the right angle): <span class="mx">a</span>² + <span class="mx">b</span>² = <span class="mx">c</span>².</p>
+<div class="big-eq">a² + b² = c²</div>
+<div class="grid2"><div class="mini"><h4>Pythagorean triples</h4>3-4-5, 5-12-13, 8-15-17, 7-24-25 and their multiples (6-8-10, 9-12-15…).</div><div class="mini"><h4>Distance formula</h4>It's just Pythagoras on the grid: <span class="mx">d</span> = √((<span class="mx">x</span>₂ − <span class="mx">x</span>₁)² + (<span class="mx">y</span>₂ − <span class="mx">y</span>₁)²). Midpoint = average the coordinates.</div></div>
+<div class="msteps" data-w='{"title": "Distance from (1, 2) to (7, 10)", "frames": [{"t": ["a|Δx = 7 − 1|s", "b|Δy = 10 − 2|v"], "note": "Find the run and the rise."}, {"t": ["c|6|s", "d|8|v"], "note": "Δx = 6, Δy = 8."}, {"t": ["e|√(6² + 8²)|e"], "note": "They are the legs of a right triangle."}, {"t": ["f|√100|e"], "note": "36 + 64 = 100."}, {"t": ["g|10|g"], "note": "d = 10 (a 3-4-5 triangle scaled by 2)."}]}'></div>
+
+  
+</section>
+<section class="topic" id="special">
+  <h2><span class="pill c">5.2</span>Special right triangles</h2>
+  
+  
+<div class="grid2"><div class="mini"><h4>45°-45°-90°</h4>Sides 1 : 1 : √2. A square cut on its diagonal. Legs <span class="mx">x</span>, hypotenuse <span class="mx">x</span>√2.</div><div class="mini"><h4>30°-60°-90°</h4>Sides 1 : √3 : 2. Half an equilateral triangle. Short leg <span class="mx">x</span> (across from 30°), long leg <span class="mx">x</span>√3, hypotenuse 2<span class="mx">x</span>.</div></div>
+<div class="worked"><div class="q">Worked example: A 30-60-90 triangle has hypotenuse 14. Find both legs.</div><div class="a">Short leg = 14/2 = 7. Long leg = 7√3 ≈ 12.1.</div></div>
+<div class="box tip"><b class="lbl">Why these matter</b>These two triangles give you the exact values on the unit circle in precalc: sin 30° = 1/2, cos 45° = √2/2, sin 60° = √3/2.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-trig" data-title="Trigonometry" data-short="Trig">
+<section class="topic" id="sohcahtoa">
+  <h2><span class="pill p">5.3</span>SOH-CAH-TOA</h2>
+  
+  
+<p>For an acute angle θ in a right triangle:</p>
+<div class="tblwrap"><table><tr><th>Ratio</th><th>Definition</th><th>Memory</th></tr><tr><td>sin θ</td><td>opposite / hypotenuse</td><td>SOH</td></tr><tr><td>cos θ</td><td>adjacent / hypotenuse</td><td>CAH</td></tr><tr><td>tan θ</td><td>opposite / adjacent</td><td>TOA</td></tr></table></div>
+<div class="mlab" data-lab='{"type": "circle", "deg": 35}'></div>
+<p>In the unit circle above, the hypotenuse is 1, so the legs <i>are</i> cos θ (horizontal) and sin θ (vertical). That's the bridge into precalc.</p>
+<div class="msteps" data-w='{"title": "Find x: hypotenuse 12, angle 40°, x opposite", "frames": [{"t": ["a|sin 40°|s", "b|=", "c|x / 12|v"], "note": "Opposite and hypotenuse → sine."}, {"t": ["d|12 · sin 40°|e", "b|=", "e|x|v"], "note": "Multiply both sides by 12."}, {"t": ["f|12 · 0.643|e", "b|=", "e|x|v"], "note": "Calculator in DEGREE mode: sin 40° ≈ 0.643."}, {"t": ["g|x ≈ 7.71|g"], "note": "x ≈ 7.71."}]}'></div>
+<p>To find an <b>angle</b>, use the inverse: if tan θ = 3/4, then θ = tan⁻¹(3/4) ≈ 36.9°.</p>
+<div class="box trap"><b class="lbl">Calculator mode</b>Degrees vs radians is the #1 lost-points mistake. sin 30 in radian mode gives −0.988, not 0.5.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-geo" data-title="Geometry Toolkit" data-short="Geometry">
+<section class="topic" id="geo">
+  <h2><span class="pill c">5.4</span>Area, volume and circles</h2>
+  
+  
+<div class="tblwrap"><table><tr><th>Shape</th><th>Formula</th></tr><tr><td>Triangle</td><td>A = ½bh</td></tr><tr><td>Circle</td><td>A = πr², C = 2πr</td></tr><tr><td>Trapezoid</td><td>A = ½(b₁ + b₂)h</td></tr><tr><td>Cylinder</td><td>V = πr²h</td></tr><tr><td>Cone</td><td>V = ⅓πr²h</td></tr><tr><td>Sphere</td><td>V = ⁴⁄₃πr³, S = 4πr²</td></tr><tr><td>Rectangular box</td><td>V = lwh</td></tr></table></div>
+<p>A <b>circle</b> with center (<span class="mx">h</span>, <span class="mx">k</span>) and radius <span class="mx">r</span>: (<span class="mx">x</span> − <span class="mx">h</span>)² + (<span class="mx">y</span> − <span class="mx">k</span>)² = <span class="mx">r</span>². It's the distance formula again.</p>
+<div class="mlab" data-lab='{"title": "Circle equation", "sub": "Top half and bottom half: y = k ± √(r² − (x − h)²).", "h": 540, "x": [-8, 8], "y": [-6, 6], "gx": 1, "gy": 1, "params": {"r": [0.5, 5, 0.25, 3, "r"], "h": [-4, 4, 0.5, 1, "h"], "k": [-3, 3, 0.5, 0, "k"]}, "fns": [{"e": "k+sqrt(r^2-(x-h)^2)", "label": "(x − h)² + (y − k)² = r²"}, {"e": "k-sqrt(r^2-(x-h)^2)", "c": "#2563EB", "hide": true}], "dots": [["h", "k", "center", "#EA580C"]], "read": [["area πr² =", "pi*r^2"], ["circumference =", "2*pi*r"]], "type": "graph"}'></div>
+<p><b>Arc length</b> and <b>sector area</b> are fractions of the whole circle: for a central angle θ°, arc = (θ/360)·2π<span class="mx">r</span>.</p>
+
+  
+</section>
+<section class="topic" id="summary-pre5">
+  <h2>Unit summary</h2>
+  
+  <div class="grid2"><div class="mini"><h4>Right triangles</h4>a² + b² = c². Special: 1:1:√2 and 1:√3:2.</div><div class="mini"><h4>SOH-CAH-TOA</h4>sin = opp/hyp, cos = adj/hyp, tan = opp/adj. Inverse trig finds angles.</div><div class="mini"><h4>Coordinates</h4>Distance √(Δx² + Δy²); midpoint = averages; circle (x − h)² + (y − k)² = r².</div><div class="mini"><h4>Formulas</h4>Area and volume table above. Use the calculator in degree mode for now.</div></div>
+  
+</section>
+</div>
+<div class="chapter" id="practice-pre-5" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-pre-5">
+  <h2>Practice questions</h2>
+  <p class="sub">14 questions on everything in this unit. Work each one on paper before you pick.</p>
+  <div class="quiz" data-src="quiz-pre-5" data-tags='{"c": "Concept", "p": "Procedure", "g": "Graphs", "w": "Word problem"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-pre-5" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-pre-5">
+  <h2>Challenge questions</h2>
+  <p class="sub">Harder, multi-step questions in the style of the toughest exam items.</p>
+  <div class="quiz" data-src="quiz-challenge-pre-5" data-tags='{"c": "Concept", "p": "Procedure", "g": "Graphs", "w": "Word problem"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-pre-5" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-pre-5"><h2>Practice exam</h2><p class="sub">12 multiple-choice questions (30 minutes) and 2 free-response questions (25 minutes). No feedback until you submit. Grade the free response with the rubric.</p><div class="exam" data-src="exam-pre-5"></div></section>
+</div>
+</main>
+
+<footer>Apogee · Before Precalc · Drag the sliders, then check yourself</footer>
+
+<script type="application/json" id="quiz-pre-5">
+[
+ {
+  "t": "p",
+  "q": "Legs 9 and 12. Hypotenuse?",
+  "o": [
+   "15",
+   "√63",
+   "18",
+   "21"
+  ],
+  "a": 0,
+  "x": "81 + 144 = 225."
+ },
+ {
+  "t": "p",
+  "q": "Hypotenuse 13, one leg 5. Other leg?",
+  "o": [
+   "√194",
+   "12",
+   "18",
+   "8"
+  ],
+  "a": 1,
+  "x": "169 − 25 = 144."
+ },
+ {
+  "t": "p",
+  "q": "Distance from (−2, 1) to (4, 9)?",
+  "o": [
+   "10",
+   "√52",
+   "14",
+   "8"
+  ],
+  "a": 0,
+  "x": "√(36 + 64)."
+ },
+ {
+  "t": "p",
+  "q": "Midpoint of (2, −4) and (8, 6)?",
+  "o": [
+   "(3, 5)",
+   "(5, 1)",
+   "(10, 2)",
+   "(6, 10)"
+  ],
+  "a": 1,
+  "x": "Average each coordinate."
+ },
+ {
+  "t": "p",
+  "q": "45-45-90 with leg 6. Hypotenuse?",
+  "o": [
+   "12",
+   "6√2",
+   "6√3",
+   "3√2"
+  ],
+  "a": 1,
+  "x": "Leg × √2."
+ },
+ {
+  "t": "p",
+  "q": "30-60-90 with short leg 5. Long leg?",
+  "o": [
+   "5√3",
+   "10",
+   "5√2",
+   "5/√3"
+  ],
+  "a": 0,
+  "x": "Short × √3."
+ },
+ {
+  "t": "c",
+  "q": "sin θ = ?",
+  "o": [
+   "opposite/adjacent",
+   "opposite/hypotenuse",
+   "adjacent/hypotenuse",
+   "hypotenuse/opposite"
+  ],
+  "a": 1,
+  "x": "SOH."
+ },
+ {
+  "t": "p",
+  "q": "Right triangle: opposite 3, adjacent 4. tan θ = ?",
+  "o": [
+   "4/5",
+   "3/4",
+   "4/3",
+   "3/5"
+  ],
+  "a": 1,
+  "x": "TOA."
+ },
+ {
+  "t": "p",
+  "q": "Same triangle. cos θ = ?",
+  "o": [
+   "5/4",
+   "3/4",
+   "3/5",
+   "4/5"
+  ],
+  "a": 3,
+  "x": "Hypotenuse is 5."
+ },
+ {
+  "t": "c",
+  "q": "sin 30° = ?",
+  "o": [
+   "1",
+   "√3/2",
+   "√2/2",
+   "1/2"
+  ],
+  "a": 3,
+  "x": "Short leg / hypotenuse = 1/2."
+ },
+ {
+  "t": "w",
+  "q": "A 20 ft ladder makes a 70° angle with the ground. How high does it reach?",
+  "o": [
+   "≈ 54.9 ft",
+   "≈ 7.3 ft",
+   "≈ 18.8 ft",
+   "≈ 6.8 ft"
+  ],
+  "a": 2,
+  "x": "20 sin 70° ≈ 18.79."
+ },
+ {
+  "t": "p",
+  "q": "Area of a circle with radius 4?",
+  "o": [
+   "64π",
+   "4π",
+   "16π",
+   "8π"
+  ],
+  "a": 2,
+  "x": "πr²."
+ },
+ {
+  "t": "g",
+  "q": "Center and radius of (x − 2)² + (y + 3)² = 25?",
+  "o": [
+   "(−2, 3), r = 5",
+   "(2, −3), r = 5",
+   "(2, 3), r = 5",
+   "(2, −3), r = 25"
+  ],
+  "a": 1,
+  "x": "Signs flip; r = √25."
+ },
+ {
+  "t": "p",
+  "q": "Volume of a cylinder with r = 3, h = 10?",
+  "o": [
+   "60π",
+   "90π",
+   "30π",
+   "900π"
+  ],
+  "a": 1,
+  "x": "π·9·10."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-pre-5">
+[
+ {
+  "t": "w",
+  "q": "From 50 m away, the angle up to a tower's top is 32°. Height?",
+  "o": [
+   "≈ 31.2 m",
+   "≈ 26.5 m",
+   "≈ 80.0 m",
+   "≈ 42.4 m"
+  ],
+  "a": 0,
+  "x": "50 tan 32° ≈ 31.24."
+ },
+ {
+  "t": "c",
+  "q": "Angle whose tangent is 1?",
+  "o": [
+   "45°",
+   "30°",
+   "60°",
+   "90°"
+  ],
+  "a": 0,
+  "x": "Equal legs."
+ },
+ {
+  "t": "p",
+  "q": "Equilateral triangle with side 8. Area?",
+  "o": [
+   "8√3",
+   "16√3",
+   "32√3",
+   "32"
+  ],
+  "a": 1,
+  "x": "Height 4√3, area ½·8·4√3."
+ },
+ {
+  "t": "p",
+  "q": "Arc length of a 60° arc on a circle with r = 9?",
+  "o": [
+   "6π",
+   "π",
+   "9π",
+   "3π"
+  ],
+  "a": 3,
+  "x": "(60/360)·18π."
+ },
+ {
+  "t": "g",
+  "q": "Is (3, 4) inside, on, or outside x² + y² = 20?",
+  "o": [
+   "Can't tell",
+   "Inside",
+   "Outside",
+   "On"
+  ],
+  "a": 2,
+  "x": "9 + 16 = 25 > 20."
+ },
+ {
+  "t": "c",
+  "q": "If sin θ = 0.6 for acute θ, then cos θ = ?",
+  "o": [
+   "0.4",
+   "0.6",
+   "1.6",
+   "0.8"
+  ],
+  "a": 3,
+  "x": "sin² + cos² = 1: cos² = 0.64."
+ }
+]
+</script>
+<script type="application/json" id="exam-pre-5">
+{
+ "title": "Before Precalc Unit 5 Practice Exam: Geometry and Right-Triangle Trig",
+ "mcqMinutes": 30,
+ "frqMinutes": 25,
+ "tags": {
+  "c": "Concept",
+  "p": "Procedure",
+  "g": "Graphs",
+  "w": "Word problem"
+ },
+ "mcq": [
+  {
+   "t": "p",
+   "q": "Legs 7 and 24. Hypotenuse?",
+   "o": [
+    "√527",
+    "25",
+    "31",
+    "17"
+   ],
+   "a": 1,
+   "x": "Triple 7-24-25."
+  },
+  {
+   "t": "p",
+   "q": "Distance from (0, 0) to (5, 12)?",
+   "o": [
+    "17",
+    "7",
+    "13",
+    "√119"
+   ],
+   "a": 2,
+   "x": "5-12-13."
+  },
+  {
+   "t": "p",
+   "q": "45-45-90 with hypotenuse 10. Each leg?",
+   "o": [
+    "5",
+    "10/√3",
+    "5√2",
+    "10√2"
+   ],
+   "a": 2,
+   "x": "10/√2."
+  },
+  {
+   "t": "p",
+   "q": "30-60-90 with hypotenuse 18. Short leg?",
+   "o": [
+    "6",
+    "9",
+    "9√3",
+    "18√3"
+   ],
+   "a": 1,
+   "x": "Half the hypotenuse."
+  },
+  {
+   "t": "c",
+   "q": "cos 60° = ?",
+   "o": [
+    "√3/2",
+    "√2/2",
+    "0",
+    "1/2"
+   ],
+   "a": 3,
+   "x": "Adjacent to 60° is the short leg."
+  },
+  {
+   "t": "p",
+   "q": "Opposite 5, hypotenuse 13. sin θ?",
+   "o": [
+    "5/12",
+    "13/5",
+    "12/13",
+    "5/13"
+   ],
+   "a": 3,
+   "x": "SOH."
+  },
+  {
+   "t": "p",
+   "q": "tan θ = 1.5. θ ≈ ?",
+   "o": [
+    "1.5°",
+    "56.3°",
+    "33.7°",
+    "48.6°"
+   ],
+   "a": 1,
+   "x": "tan⁻¹(1.5)."
+  },
+  {
+   "t": "g",
+   "q": "Circle with center (0, 4), radius 3?",
+   "o": [
+    "(x − 4)² + y² = 9",
+    "x² + (y + 4)² = 9",
+    "x² + (y − 4)² = 9",
+    "x² + (y − 4)² = 3"
+   ],
+   "a": 2,
+   "x": "Plug in h, k, r²."
+  },
+  {
+   "t": "p",
+   "q": "Circumference with diameter 10?",
+   "o": [
+    "20π",
+    "5π",
+    "10π",
+    "25π"
+   ],
+   "a": 2,
+   "x": "πd."
+  },
+  {
+   "t": "p",
+   "q": "Volume of a sphere with r = 3?",
+   "o": [
+    "12π",
+    "27π",
+    "36π",
+    "108π"
+   ],
+   "a": 2,
+   "x": "⁴⁄₃π·27."
+  },
+  {
+   "t": "w",
+   "q": "A ramp rises 3 ft over a 12 ft run. Angle?",
+   "o": [
+    "≈ 76.0°",
+    "≈ 14.5°",
+    "≈ 25.0°",
+    "≈ 14.0°"
+   ],
+   "a": 3,
+   "x": "tan⁻¹(3/12)."
+  },
+  {
+   "t": "c",
+   "q": "In any right triangle, sin²θ + cos²θ = ?",
+   "o": [
+    "0",
+    "tan θ",
+    "It depends",
+    "1"
+   ],
+   "a": 3,
+   "x": "(a² + b²)/c² = 1."
+  }
+ ],
+ "frq": [
+  {
+   "q": "A kite string is 150 ft long and makes a 38° angle with the ground.",
+   "parts": [
+    {
+     "p": "(a) How high is the kite? (ignore the person's height)",
+     "rubric": [
+      [
+       "Uses sine: h = 150 sin 38°",
+       1
+      ],
+      [
+       "≈ 92.3 ft",
+       1
+      ]
+     ],
+     "answer": "≈ 92.35 ft."
+    },
+    {
+     "p": "(b) How far is the person from the point directly below the kite?",
+     "rubric": [
+      [
+       "Uses cosine",
+       1
+      ],
+      [
+       "≈ 118.2 ft",
+       1
+      ]
+     ],
+     "answer": "150 cos 38° ≈ 118.20 ft."
+    },
+    {
+     "p": "(c) Check your answers with the Pythagorean theorem.",
+     "rubric": [
+      [
+       "92.35² + 118.2² ≈ 150²",
+       1
+      ]
+     ],
+     "answer": "8528 + 13971 ≈ 22500 ✓"
+    }
+   ]
+  },
+  {
+   "q": "Points A(−1, 2) and B(5, 10).",
+   "parts": [
+    {
+     "p": "(a) Find AB and the midpoint M.",
+     "rubric": [
+      [
+       "AB = 10",
+       1
+      ],
+      [
+       "M = (2, 6)",
+       1
+      ]
+     ],
+     "answer": "√(36 + 64) = 10; (2, 6)."
+    },
+    {
+     "p": "(b) Write the circle with diameter AB.",
+     "rubric": [
+      [
+       "Center M, radius 5",
+       1
+      ],
+      [
+       "(x − 2)² + (y − 6)² = 25",
+       1
+      ]
+     ],
+     "answer": "(x − 2)² + (y − 6)² = 25."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

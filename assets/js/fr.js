@@ -49,36 +49,31 @@
       <div class="wa-stage"><div class="wa-row"></div></div>
       <div class="wa-en"></div>
       <div class="wa-note"></div>
-      <div class="wa-ctl"><button type="button" class="wa-b" data-a="back" aria-label="Back">◀</button><span class="wa-dots">${frames.map(() => "<i></i>").join("")}</span><button type="button" class="wa-b solid" data-a="next">Step ▶</button><button type="button" class="wa-b" data-a="hear">Hear it</button></div>`;
+      <div class="wa-ctl"><button type="button" class="wa-b" data-a="back" aria-label="Back">◀</button><span class="wa-dots">${frames.map((_, i) => `<i data-i="${i}"></i>`).join("")}</span><button type="button" class="wa-b" data-a="play">Play</button><button type="button" class="wa-b solid" data-a="next">Step ▶</button><button type="button" class="wa-b" data-a="hear">Hear it</button></div>`;
     const row = el.querySelector(".wa-row"), note = el.querySelector(".wa-note"), en = el.querySelector(".wa-en"), dots = el.querySelectorAll(".wa-dots i");
-    let i = 0;
+    let i = 0, auto = null;
+    const textOf = k => frames[k].t.filter(x => !/\bgl\b/.test(x[2] || "")).map(x => x[1]).join(" ").replace(/' /g, "'").replace(/ -/g, "-").replace(/- /g, "-");
     function render(k, animate) {
-      const old = {};
-      if (animate && !reduce()) row.querySelectorAll(".wt").forEach(t => old[t.dataset.id] = t.getBoundingClientRect());
-      const f = frames[k];
-      row.innerHTML = f.t.map(([id, txt, cls]) => `<span class="wt ${cls || ""}" data-id="${esc(id)}">${esc(txt)}</span>`).join("");
-      note.innerHTML = f.note; en.textContent = f.en;
-      dots.forEach((d, j) => d.classList.toggle("on", j <= k));
-      el.querySelector('[data-a="next"]').textContent = k === frames.length - 1 ? "Replay ↺" : "Step ▶";
-      if (!animate || reduce()) return;
-      row.querySelectorAll(".wt").forEach(t => {
-        const o = old[t.dataset.id], n = t.getBoundingClientRect();
-        if (o) {
-          const dx = o.left - n.left, dy = o.top - n.top, sx = o.width / n.width;
-          t.animate([{ transform: `translate(${dx}px,${dy}px) scaleX(${sx})` }, { transform: "none" }], { duration: 520, easing: "cubic-bezier(.2,.8,.2,1)" });
-        } else {
-          t.animate([{ opacity: 0, transform: "translateY(-18px) scale(.7)" }, { opacity: 1, transform: "none" }], { duration: 480, delay: 160, easing: "cubic-bezier(.2,1.4,.4,1)", fill: "backwards" });
-        }
-      });
+      window.WA.render(el, row, frames, k, animate, note, dots);
+      en.textContent = frames[k].en;
+      if (animate && !reduce()) en.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, delay: 250, fill: "backwards" });
     }
+    function stop() { if (auto) { clearInterval(auto); auto = null; } el.querySelector('[data-a="play"]').textContent = "Play"; }
     el.addEventListener("click", e => {
+      const d = e.target.closest("[data-i]"); if (d) { stop(); i = +d.dataset.i; render(i, true); return; }
       const a = e.target.closest("[data-a]"); if (!a) return;
-      if (a.dataset.a === "next") { i = i === frames.length - 1 ? 0 : i + 1; render(i, i !== 0); }
-      if (a.dataset.a === "back" && i > 0) { i--; render(i, true); }
-      if (a.dataset.a === "hear") say(frames[i].t.filter(x => !/\bgl\b/.test(x[2] || "")).map(x => x[1]).join(" ").replace(/' /g, "'").replace(/ -/g, "-").replace(/- /g, "-"), a);
+      if (a.dataset.a === "next") { stop(); i = i === frames.length - 1 ? 0 : i + 1; render(i, i !== 0); }
+      if (a.dataset.a === "back" && i > 0) { stop(); i--; render(i, true); }
+      if (a.dataset.a === "hear") say(textOf(i), a);
+      if (a.dataset.a === "play") {
+        if (auto) { stop(); return; }
+        a.textContent = "Pause"; if (i === frames.length - 1) { i = 0; render(0, false); }
+        auto = setInterval(() => { if (i >= frames.length - 1) { stop(); return; } i++; render(i, true); }, 1900);
+      }
     });
     render(0, false);
   }
+
 
   /* ---------------- verbs ---------------- */
   const PR = ["je", "tu", "il / elle / on", "nous", "vous", "ils / elles"];

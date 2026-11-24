@@ -37,13 +37,13 @@
   <h1>Pick a course.<br><span>Reach your apogee.</span></h1>
   <p>Clear explanations, animations you can step through, interactive labs and timed practice exams for physics, computer science and French.</p>
   <a class="hero-cta" href="review.html">Study with flashcards <span>→</span></a>
-  <div class="hero-stats"><span><b>3</b> courses</span><span><b>20</b> units</span><span><b>1,000+</b> French words</span><span><b>Timed</b> practice exams</span></div>
+  <div class="hero-stats"><span><b>4</b> courses</span><span><b>28</b> units</span><span><b>1,000+</b> French words</span><span><b>Timed</b> practice exams</span></div>
 </div>
 
 <main class="portals">
   <section class="portal space" aria-labelledby="p-phys">
     <canvas id="portalStars" aria-hidden="true"></canvas>
-    <div class="pbar"><span>~/ap-physics-1</span><span class="sig">4 units ready</span></div>
+    <div class="pbar"><span>~/ap-physics-1</span><span class="sig">5 units ready</span></div>
     <div class="art" aria-hidden="true">
       <svg viewBox="0 0 520 230" preserveAspectRatio="xMidYMid meet">
         <defs>
@@ -106,6 +106,16 @@
     <p>Start with your first bonjour, finish with the subjunctive and essay writing. Audio for every word and labs for every rule.</p>
     <div class="units" id="units-fr"></div>
   </section>
+  <section class="portal grid" aria-labelledby="p-math">
+    <div class="gbar"><span class="fx">ƒ(x)</span><span>Math: algebra → AP Precalc</span><span class="sig">Interactive graphs</span></div>
+    <div class="art" aria-hidden="true">
+      <svg viewBox="0 0 360 236" id="mathArt"></svg>
+    </div>
+    <span class="tag">Course 04 · Math</span>
+    <h2 id="p-math">AP <span>Precalculus</span></h2>
+    <p>Start with the algebra you need to know, then the AP Precalc units. Drag sliders on live graphs and watch every step of the algebra animate.</p>
+    <div class="units" id="units-math"></div>
+  </section>
 </main>
 
 <footer>Apogee · Not affiliated with the College Board.</footer>
@@ -117,6 +127,29 @@
   const C = window.SITE_COURSES || [];
   const find = id => (C.find ? C.find(c => c.id === id) : null);
   const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+
+  function mathArt() {
+    const sv = document.getElementById("mathArt"); if (!sv) return;
+    let g = "";
+    for (let x = 0; x <= 360; x += 20) g += `<line x1="${x}" y1="0" x2="${x}" y2="236" stroke="rgba(37,99,235,.13)"/>`;
+    for (let y = 0; y <= 236; y += 20) g += `<line x1="0" y1="${y}" x2="360" y2="${y}" stroke="rgba(37,99,235,.13)"/>`;
+    sv.innerHTML = g + `<line class="ax" x1="0" y1="140" x2="360" y2="140"/><line class="ax" x1="60" y1="0" x2="60" y2="236"/>
+      <path class="c3" d="M60 140L360 20"/><path class="c1" id="mA1"/><path class="c2" id="mA2"/>
+      <circle r="6.5" fill="#2563EB" stroke="#fff" stroke-width="2.5" id="mAd"/>
+      <text class="lbl" x="250" y="232" fill="#2563EB" id="mAt">y = a·sin x</text>`;
+    const p1 = sv.querySelector("#mA1"), p2 = sv.querySelector("#mA2"), d = sv.querySelector("#mAd"), t0 = performance.now();
+    function frame(now) {
+      const k = reduce ? 0 : (now - t0) / 1000, a = 45 + 30 * Math.sin(k * 0.9), c = 1.4 + 0.5 * Math.sin(k * 0.6);
+      let s1 = "", s2 = "";
+      for (let i = 0; i <= 90; i++) { const x = i * 4, y = 140 - a * Math.sin((x - 60) / 300 * 4 * Math.PI); s1 += (i ? "L" : "M") + x + " " + y.toFixed(1); }
+      for (let i = 0; i <= 60; i++) { const x = 60 + i * 5; const y = 140 - 10 * Math.pow(c, (x - 60) / 50); if (y < -10) break; s2 += (i ? "L" : "M") + x + " " + y.toFixed(1); }
+      p1.setAttribute("d", s1); p2.setAttribute("d", s2);
+      const dx = 60 + ((k * 40) % 300), dy = 140 - a * Math.sin((dx - 60) / 300 * 4 * Math.PI);
+      d.setAttribute("cx", dx); d.setAttribute("cy", dy);
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
   function units(id, el, term) {
     const c = find(id); if (!c) return;
     const groups = [];
@@ -134,6 +167,8 @@
   units("ap-physics-1", "units-phys", false);
   units("ap-csa", "units-cs", true);
   units("french-1", "units-fr", false);
+  units("math", "units-math", false);
+  mathArt();
 
   // stars inside the physics portal
   const cv = document.getElementById("portalStars"), ctx = cv.getContext("2d");

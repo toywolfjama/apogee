@@ -50,6 +50,22 @@ window.SITE_COURSES = [
       { id: "college-4", group: "Level 2 · College French", name: "Unit 4: Le subjonctif", path: "courses/french-1/college-4.html", ready: true },
       { id: "college-5", group: "Level 2 · College French", name: "Unit 5: Le style", path: "courses/french-1/college-5.html", ready: true }
     ]
+  },
+  {
+    id: "math",
+    name: "Math: AP Precalculus",
+    blurb: "The algebra you need first, then AP Precalculus: polynomials, exponentials and logs, trig and polar.",
+    units: [
+      { id: "pre-1", group: "Before Precalc · What to know first", name: "Unit 1: Algebra toolkit", path: "courses/math/pre-1.html", ready: true },
+      { id: "pre-2", group: "Before Precalc · What to know first", name: "Unit 2: Linear equations and lines", path: "courses/math/pre-2.html", ready: true },
+      { id: "pre-3", group: "Before Precalc · What to know first", name: "Unit 3: Quadratics", path: "courses/math/pre-3.html", ready: true },
+      { id: "pre-4", group: "Before Precalc · What to know first", name: "Unit 4: Functions", path: "courses/math/pre-4.html", ready: true },
+      { id: "pre-5", group: "Before Precalc · What to know first", name: "Unit 5: Geometry and right-triangle trig", path: "courses/math/pre-5.html", ready: true },
+      { id: "precalc-1", group: "AP Precalculus", name: "Unit 1: Polynomial and Rational Functions", path: "courses/math/precalc-1.html", ready: true },
+      { id: "precalc-2", group: "AP Precalculus", name: "Unit 2: Exponential and Logarithmic Functions", path: "courses/math/precalc-2.html", ready: true },
+      { id: "precalc-3", group: "AP Precalculus", name: "Unit 3: Trigonometric and Polar Functions", path: "courses/math/precalc-3.html", ready: true },
+      { id: "precalc-4", group: "AP Precalculus", name: "Unit 4: Functions with Parameters, Vectors and Matrices" }
+    ]
   }
   // Example for later:
   // { id: "ap-chemistry", name: "AP Chemistry", blurb: "...", units: [ { id: "unit-1", name: "Unit 1: Atomic Structure" } ] }

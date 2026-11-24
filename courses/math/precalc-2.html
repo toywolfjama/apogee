@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP Precalculus Unit 2: Exponential and Logarithmic Functions | Apogee</title>
+<meta name="description" content="AP Precalculus Unit 2: exponential and logarithmic functions with interactive labs and an AP-style practice exam.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid" data-root="../../" data-course="math" data-unit="precalc-2">
+
+<div class="hero">
+  <span class="kicker">AP Precalculus · Unit 2</span>
+  <h1>Exponentials and <span class="hl">logarithms</span></h1>
+  <p>Sequences, exponential growth and decay, inverses, logarithms, log equations and semi-log plots.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-seq" data-title="Sequences" data-short="Sequences">
+<section class="topic" id="sequences">
+  <h2><span class="pill c">2.1</span>Arithmetic and geometric sequences (2.1–2.2)</h2>
+  
+  
+<div class="grid2"><div class="mini"><h4>Arithmetic</h4>Add the same <b>common difference</b> <span class="mx">d</span>: <span class="mx">a</span>ₙ = <span class="mx">a</span>₀ + <span class="mx">d</span><span class="mx">n</span>. Like a linear function on whole numbers.</div><div class="mini"><h4>Geometric</h4>Multiply by the same <b>common ratio</b> <span class="mx">r</span>: <span class="mx">g</span>ₙ = <span class="mx">g</span>₀·<span class="mx">r</span>ⁿ. Like an exponential function on whole numbers.</div></div>
+<p>Linear functions change by <b>equal differences</b> over equal input steps. Exponential functions change by <b>equal ratios</b>. That one sentence decides most modeling questions.</p>
+<div class="mlab" data-lab='{"title": "Linear vs exponential", "sub": "Both start at 2. Which wins? Push the rate and watch the table.", "x": [0, 10], "y": [0, 60], "gx": 1, "gy": 10, "params": {"r": [1.05, 2, 0.05, 1.5, "r"], "d": [0.5, 6, 0.5, 3, "d"]}, "fns": [{"e": "2+d*x", "label": "linear: 2 + d·x"}, {"e": "2*r^x", "label": "exponential: 2·rˣ"}], "table": {"x": [0, 1, 2, 3, 4, 5], "rows": [["2·rˣ", "2*r^x"], ["2 + d·x", "2+d*x"]], "diff": "ratio"}, "type": "graph"}'></div>
+<p>The orange row shows the ratio of consecutive exponential outputs: always <span class="mx">r</span>. Eventually any increasing exponential beats any linear function.</p>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-exp" data-title="Exponential Functions" data-short="Exponential">
+<section class="topic" id="exp-fns">
+  <h2><span class="pill g">2.3</span>Exponential functions (2.3–2.6)</h2>
+  
+  
+<p><span class="mx">f</span>(<span class="mx">x</span>) = <span class="mx">a</span>·<span class="mx">b</span>ˣ with <span class="mx">a</span> ≠ 0, <span class="mx">b</span> &gt; 0, <span class="mx">b</span> ≠ 1. <span class="mx">a</span> is the initial value; <span class="mx">b</span> is the growth factor.</p>
+<div class="tblwrap"><table><tr><th></th><th>b > 1</th><th>0 < b < 1</th></tr><tr><td>Behavior</td><td>growth</td><td>decay</td></tr><tr><td>End behavior</td><td>→ 0 as x → −∞, → ∞ as x → ∞</td><td>→ ∞ as x → −∞, → 0 as x → ∞</td></tr><tr><td>Asymptote</td><td>y = 0</td><td>y = 0</td></tr><tr><td>Concavity (a > 0)</td><td>always up</td><td>always up</td></tr></table></div>
+<div class="mlab" data-lab='{"title": "Exponential lab", "sub": "y = a·bˣ + k. The horizontal asymptote is y = k.", "x": [-5, 5], "y": [-4, 12], "gx": 1, "gy": 2, "params": {"b": [0.2, 3, 0.05, 2, "b"], "a": [-3, 3, 0.25, 1, "a"], "k": [-3, 3, 0.5, 0, "k"]}, "fns": [{"e": "a*b^x+k", "label": "y = a·bˣ + k"}], "hasym": ["k"], "dots": [["0", "a+k", "(0, {a+k})", "#EA580C"]], "type": "graph"}'></div>
+<div class="tblwrap"><table><tr><th>Context</th><th>Model</th></tr><tr><td>grows 6% per year</td><td><span class="mx">P</span> = <span class="mx">P</span>₀(1.06)<sup><span class="mx">t</span></sup></td></tr><tr><td>loses 15% per year</td><td><span class="mx">V</span> = <span class="mx">V</span>₀(0.85)<sup><span class="mx">t</span></sup></td></tr><tr><td>doubles every 5 hours</td><td><span class="mx">N</span> = <span class="mx">N</span>₀·2<sup><span class="mx">t</span>/5</sup></td></tr><tr><td>half-life 30 years</td><td><span class="mx">A</span> = <span class="mx">A</span>₀(½)<sup><span class="mx">t</span>/30</sup></td></tr><tr><td>compounded n times a year</td><td><span class="mx">A</span> = <span class="mx">P</span>(1 + <span class="mx">r</span>/<span class="mx">n</span>)<sup><span class="mx">nt</span></sup></td></tr><tr><td>continuous</td><td><span class="mx">A</span> = <span class="mx">P</span><span class="mx">e</span><sup><span class="mx">rt</span></sup></td></tr></table></div>
+<div class="box tip"><b class="lbl">Rewriting exponentials</b>Exponent rules let you change the time unit. 2<sup><span class="mx">t</span>/5</sup> = (2<sup>1/5</sup>)<sup><span class="mx">t</span></sup> ≈ 1.149<sup><span class="mx">t</span></sup>: about 14.9% growth per hour.</div>
+
+  
+</section>
+<section class="topic" id="inverses">
+  <h2><span class="pill c">2.7</span>Composition and inverses (2.7–2.8)</h2>
+  
+  
+<p><span class="mx">f</span> and <span class="mx">g</span> are inverses when <span class="mx">f</span>(<span class="mx">g</span>(<span class="mx">x</span>)) = <span class="mx">x</span> and <span class="mx">g</span>(<span class="mx">f</span>(<span class="mx">x</span>)) = <span class="mx">x</span>. The input-output pairs swap, so the graphs reflect over <span class="mx">y</span> = <span class="mx">x</span>.</p>
+<div class="mlab" data-lab='{"title": "bˣ and its inverse", "sub": "The inverse of y = bˣ is y = log_b x. Slide b.", "x": [-4, 8], "y": [-4, 8], "gx": 1, "gy": 1, "params": {"b": [1.2, 4, 0.1, 2, "b"]}, "fns": [{"e": "b^x", "label": "y = bˣ"}, {"e": "ln(x)/ln(b)", "label": "y = log_b x"}, {"e": "x", "label": "y = x", "c": "#94A3B8", "dash": true}], "dots": [["0", "1", "(0, 1)", "#2563EB"], ["1", "0", "(1, 0)", "#EA580C"], ["1", "b", "(1, b)", "#2563EB"], ["b", "1", "(b, 1)", "#EA580C"]], "type": "graph"}'></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-log" data-title="Logarithms" data-short="Logs">
+<section class="topic" id="logs">
+  <h2><span class="pill p">2.9</span>Logarithms (2.9–2.12)</h2>
+  
+  
+<p>A logarithm answers "what exponent?": log<sub><span class="mx">b</span></sub> <span class="mx">c</span> = <span class="mx">a</span> means <span class="mx">b</span><sup><span class="mx">a</span></sup> = <span class="mx">c</span>. So log₂ 8 = 3 because 2³ = 8. ln means log base <span class="mx">e</span>; log with no base means base 10.</p>
+<div class="msteps" data-w='{"title": "Rewrite log₃ 81 = x", "frames": [{"t": ["a|log₃|s", "b|81|v", "c|=", "d|x|e"], "note": "The base of the log becomes the base of the power."}, {"t": ["a|3|s", "d|ˣ|e", "c|=", "b|81|v"], "note": "3ˣ = 81."}, {"t": ["a|3|s", "d|ˣ|e", "c|=", "e|3⁴|v"], "note": "81 = 3⁴."}, {"t": ["f|x = 4|g"], "note": "Same base, so the exponents match."}]}'></div>
+<div class="tblwrap"><table><tr><th>Property</th><th>Rule</th><th>Mirror of</th></tr><tr><td>Product</td><td>log_b(MN) = log_b M + log_b N</td><td>bᵐbⁿ = bᵐ⁺ⁿ</td></tr><tr><td>Quotient</td><td>log_b(M/N) = log_b M − log_b N</td><td>bᵐ/bⁿ = bᵐ⁻ⁿ</td></tr><tr><td>Power</td><td>log_b(Mᵏ) = k·log_b M</td><td>(bᵐ)ᵏ = bᵐᵏ</td></tr><tr><td>Change of base</td><td>log_b M = ln M / ln b</td><td></td></tr><tr><td>Inverse</td><td>log_b(bˣ) = x, b^(log_b x) = x</td><td></td></tr></table></div>
+<p><b>Log functions</b> <span class="mx">f</span>(<span class="mx">x</span>) = <span class="mx">a</span>·log<sub><span class="mx">b</span></sub><span class="mx">x</span>: domain <span class="mx">x</span> &gt; 0, vertical asymptote <span class="mx">x</span> = 0, range all reals. With <span class="mx">b</span> &gt; 1 they increase and are concave down: output grows by equal amounts when input is multiplied by equal factors.</p>
+<div class="msteps" data-w='{"title": "Expand ln(x³√y / z)", "frames": [{"t": ["a|ln(x³√y / z)|e"], "note": "Quotient first: top minus bottom."}, {"t": ["b|ln(x³√y)|s", "c|−|n", "d|ln z|v"], "note": "Product: split the top."}, {"t": ["e|ln x³|s", "f|+|n", "g|ln √y|s", "c|−|n", "d|ln z|v"], "note": "Power rule: √y = y^(1/2)."}, {"t": ["h|3 ln x|g", "f|+|n", "i|½ ln y|g", "c|−|n", "d|ln z|g"], "note": "3 ln x + ½ ln y − ln z."}]}'></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-eq" data-title="Equations and Models" data-short="Equations">
+<section class="topic" id="log-eq">
+  <h2><span class="pill w">2.13</span>Equations, modeling and semi-log plots (2.13–2.15)</h2>
+  
+  
+<div class="msteps" data-w='{"title": "Solve 5·2ˣ = 60", "frames": [{"t": ["a|5|n", "b|·", "c|2ˣ|v", "d|=", "e|60|n"], "note": "Isolate the exponential first."}, {"t": ["c|2ˣ|v", "d|=", "f|12|n"], "note": "Divide by 5."}, {"t": ["g|x|v", "d|=", "h|log₂ 12|e"], "note": "Rewrite as a log."}, {"t": ["g|x|v", "d|=", "i|ln 12 / ln 2|e"], "note": "Change of base for the calculator."}, {"t": ["j|x ≈ 3.585|g"], "note": "Check: 2^3.585 ≈ 12 ✓"}]}'></div>
+<div class="msteps" data-w='{"title": "Solve log₂(x + 3) + log₂(x − 3) = 4", "frames": [{"t": ["a|log₂(x + 3)|s", "b|+", "c|log₂(x − 3)|s", "d|=", "e|4|n"], "note": "Combine with the product rule."}, {"t": ["f|log₂(x² − 9)|s", "d|=", "e|4|n"], "note": "(x + 3)(x − 3) = x² − 9."}, {"t": ["g|x² − 9|v", "d|=", "h|16|n"], "note": "Rewrite: 2⁴ = 16."}, {"t": ["i|x = ±5|e"], "note": "x² = 25."}, {"t": ["j|x = 5|g"], "note": "Check the domain: x = −5 makes log₂(−2), not allowed. Only x = 5."}]}'></div>
+<div class="box trap"><b class="lbl">Extraneous solutions</b>Always plug log solutions back in. The argument of every log must be positive.</div>
+<p><b>Semi-log plots</b> put ln <span class="mx">y</span> (or log <span class="mx">y</span>) on the vertical axis. Exponential data <span class="mx">y</span> = <span class="mx">a</span><span class="mx">b</span>ˣ become a straight line: ln <span class="mx">y</span> = ln <span class="mx">a</span> + <span class="mx">x</span>·ln <span class="mx">b</span>. Slope = ln <span class="mx">b</span>, intercept = ln <span class="mx">a</span>.</p>
+<div class="mlab" data-lab='{"title": "Semi-log view", "sub": "Blue: y = a·bˣ. Orange: ln y, which is a line with slope ln b.", "x": [0, 6], "y": [-2, 20], "gx": 1, "gy": 2, "params": {"b": [1.1, 2.5, 0.05, 1.6, "b"], "a": [0.5, 4, 0.25, 2, "a"]}, "fns": [{"e": "a*b^x", "label": "y = a·bˣ"}, {"e": "ln(a)+x*ln(b)", "label": "ln y = ln a + x·ln b"}], "read": [["slope ln b =", "ln(b)"], ["intercept ln a =", "ln(a)"]], "type": "graph"}'></div>
+
+  
+</section>
+<section class="topic" id="summary-pc2">
+  <h2>Unit summary</h2>
+  
+  <div class="grid2"><div class="mini"><h4>Linear vs exponential</h4>Equal differences vs equal ratios over equal steps.</div><div class="mini"><h4>Exponential</h4>a·bˣ: b > 1 growth, 0 < b < 1 decay; asymptote y = 0 (shifted by + k).</div><div class="mini"><h4>Logs</h4>log_b c = a ⇔ bᵃ = c. Product → sum, quotient → difference, power → coefficient.</div><div class="mini"><h4>Solving</h4>Isolate, rewrite, change of base. Check log arguments > 0. Semi-log: exponential → line.</div></div>
+  
+</section>
+</div>
+<div class="chapter" id="practice-precalc-2" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-precalc-2">
+  <h2>Practice questions</h2>
+  <p class="sub">15 questions on everything in this unit. Work each one on paper before you pick.</p>
+  <div class="quiz" data-src="quiz-precalc-2" data-tags='{"c": "Concept", "p": "Procedure", "g": "Graphs", "w": "Word problem"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-precalc-2" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-precalc-2">
+  <h2>Challenge questions</h2>
+  <p class="sub">Harder, multi-step questions in the style of the toughest exam items.</p>
+  <div class="quiz" data-src="quiz-challenge-precalc-2" data-tags='{"c": "Concept", "p": "Procedure", "g": "Graphs", "w": "Word problem"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-precalc-2" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-precalc-2"><h2>Practice exam</h2><p class="sub">14 multiple-choice questions (35 minutes) and 2 free-response questions (30 minutes). No feedback until you submit. Use a graphing calculator only where you'd be allowed one. Grade the free response with the rubric.</p><div class="exam" data-src="exam-precalc-2"></div></section>
+</div>
+</main>
+
+<footer>Apogee · AP Precalculus · Drag the sliders, then check yourself</footer>
+
+<script type="application/json" id="quiz-precalc-2">
+[
+ {
+  "t": "p",
+  "q": "Arithmetic: a₀ = 7, d = −3. a₁₀ = ?",
+  "o": [
+   "37",
+   "−26",
+   "−20",
+   "−23"
+  ],
+  "a": 3,
+  "x": "7 + 10(−3)."
+ },
+ {
+  "t": "p",
+  "q": "Geometric: g₀ = 3, r = 2. g₅ = ?",
+  "o": [
+   "13",
+   "96",
+   "30",
+   "48"
+  ],
+  "a": 1,
+  "x": "3·2⁵."
+ },
+ {
+  "t": "w",
+  "q": "x: 0,1,2,3; y: 5,15,45,135. Best model?",
+  "o": [
+   "Exponential",
+   "Logarithmic",
+   "Linear",
+   "Quadratic"
+  ],
+  "a": 0,
+  "x": "Constant ratio 3."
+ },
+ {
+  "t": "w",
+  "q": "A car worth $20,000 loses 12% per year. Model?",
+  "o": [
+   "V = 20000 − 0.12t",
+   "V = 20000(0.88)ᵗ",
+   "V = 20000(1.12)ᵗ",
+   "V = 20000(0.12)ᵗ"
+  ],
+  "a": 1,
+  "x": "Keep 88% each year."
+ },
+ {
+  "t": "g",
+  "q": "Horizontal asymptote of y = 3·2ˣ − 4?",
+  "o": [
+   "x = −4",
+   "y = −4",
+   "y = 3",
+   "y = 0"
+  ],
+  "a": 1,
+  "x": "Shifted down 4."
+ },
+ {
+  "t": "p",
+  "q": "log₅ 125 = ?",
+  "o": [
+   "3",
+   "1/3",
+   "5",
+   "25"
+  ],
+  "a": 0,
+  "x": "5³ = 125."
+ },
+ {
+  "t": "p",
+  "q": "log₂(1/8) = ?",
+  "o": [
+   "−1/3",
+   "1/3",
+   "−3",
+   "3"
+  ],
+  "a": 2,
+  "x": "2⁻³ = 1/8."
+ },
+ {
+  "t": "p",
+  "q": "ln(e⁷) = ?",
+  "o": [
+   "1",
+   "7",
+   "7e",
+   "e⁷"
+  ],
+  "a": 1,
+  "x": "Inverse functions."
+ },
+ {
+  "t": "p",
+  "q": "log 20 + log 5 = ?",
+  "o": [
+   "100",
+   "2",
+   "1",
+   "log 25"
+  ],
+  "a": 1,
+  "x": "log 100 = 2."
+ },
+ {
+  "t": "p",
+  "q": "3 log₂ x − log₂ y = ?",
+  "o": [
+   "log₂(3x − y)",
+   "3 log₂(x/y)",
+   "log₂(x³/y)",
+   "log₂(x³y)"
+  ],
+  "a": 2,
+  "x": "Power then quotient rule."
+ },
+ {
+  "t": "p",
+  "q": "Solve 3ˣ = 20.",
+  "o": [
+   "x = ln(20/3)",
+   "x = log₂₀ 3",
+   "x = 20/3",
+   "x = ln 20/ln 3"
+  ],
+  "a": 3,
+  "x": "Take ln of both sides."
+ },
+ {
+  "t": "c",
+  "q": "Domain of f(x) = ln(x − 2)?",
+  "o": [
+   "x > 0",
+   "x ≥ 2",
+   "All reals",
+   "x > 2"
+  ],
+  "a": 3,
+  "x": "Argument positive."
+ },
+ {
+  "t": "c",
+  "q": "Inverse of f(x) = 10ˣ?",
+  "o": [
+   "ln x",
+   "log x",
+   "1/10ˣ",
+   "x¹⁰"
+  ],
+  "a": 1,
+  "x": "Base 10."
+ },
+ {
+  "t": "g",
+  "q": "On a semi-log plot (ln y vs x), exponential data look…",
+  "o": [
+   "logarithmic",
+   "quadratic",
+   "linear",
+   "periodic"
+  ],
+  "a": 2,
+  "x": "ln y = ln a + x ln b."
+ },
+ {
+  "t": "w",
+  "q": "Bacteria double every 4 hours from 100. Model?",
+  "o": [
+   "N = 100·2^(4t)",
+   "N = 200t",
+   "N = 100·4^(t/2)",
+   "N = 100·2^(t/4)"
+  ],
+  "a": 3,
+  "x": "One doubling per 4 hours."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-precalc-2">
+[
+ {
+  "t": "p",
+  "q": "Solve log₃(x) + log₃(x − 8) = 2.",
+  "o": [
+   "x = 17",
+   "x = −1 or 9",
+   "x = 9",
+   "x = −1"
+  ],
+  "a": 2,
+  "x": "x² − 8x = 9 → (x − 9)(x + 1) = 0; reject −1."
+ },
+ {
+  "t": "p",
+  "q": "Solve e^(2x) − 5eˣ + 6 = 0.",
+  "o": [
+   "x = 2 or 3",
+   "x = ln 2 or ln 3",
+   "x = ln 6",
+   "No solution"
+  ],
+  "a": 1,
+  "x": "Let u = eˣ: u² − 5u + 6 = 0 → u = 2, 3."
+ },
+ {
+  "t": "w",
+  "q": "A half-life is 8 days. Fraction left after 20 days?",
+  "o": [
+   "0.25",
+   "0.4",
+   "(1/2)^0.4",
+   "(1/2)^2.5 ≈ 0.177"
+  ],
+  "a": 3,
+  "x": "20/8 = 2.5 half-lives."
+ },
+ {
+  "t": "p",
+  "q": "2^(t/5) written as bᵗ has b ≈",
+  "o": [
+   "0.4",
+   "2.5",
+   "1.149",
+   "1.4"
+  ],
+  "a": 2,
+  "x": "2^(1/5)."
+ },
+ {
+  "t": "c",
+  "q": "Semi-log line: ln y = 0.7 + 0.3x. Then y = ?",
+  "o": [
+   "e^(0.7x)",
+   "0.7·0.3ˣ",
+   "0.7 + e^(0.3x)",
+   "e^0.7 · (e^0.3)ˣ"
+  ],
+  "a": 3,
+  "x": "Exponentiate both sides."
+ },
+ {
+  "t": "w",
+  "q": "$1000 at 5% compounded monthly for 10 years ≈",
+  "o": [
+   "$1500",
+   "$1647",
+   "$1629",
+   "$1649"
+  ],
+  "a": 1,
+  "x": "1000(1 + 0.05/12)^120 ≈ 1647.01."
+ }
+]
+</script>
+<script type="application/json" id="exam-precalc-2">
+{
+ "title": "AP Precalculus Unit 2 Practice Exam: Exponential and Logarithmic Functions",
+ "mcqMinutes": 35,
+ "frqMinutes": 30,
+ "tags": {
+  "c": "Concept",
+  "p": "Procedure",
+  "g": "Graphs",
+  "w": "Word problem"
+ },
+ "mcq": [
+  {
+   "t": "p",
+   "q": "Common ratio of 2, 6, 18, 54?",
+   "o": [
+    "12",
+    "3",
+    "4",
+    "2"
+   ],
+   "a": 1,
+   "x": "Each ÷ previous."
+  },
+  {
+   "t": "c",
+   "q": "Which grows fastest for large x?",
+   "o": [
+    "1.01ˣ",
+    "100x",
+    "x²",
+    "log x"
+   ],
+   "a": 0,
+   "x": "Exponential growth eventually wins."
+  },
+  {
+   "t": "g",
+   "q": "y-intercept of y = 5(0.5)ˣ?",
+   "o": [
+    "2.5",
+    "5",
+    "0",
+    "0.5"
+   ],
+   "a": 1,
+   "x": "x = 0."
+  },
+  {
+   "t": "c",
+   "q": "Is y = 4(0.9)ˣ growth or decay?",
+   "o": [
+    "Neither",
+    "Growth",
+    "Both",
+    "Decay"
+   ],
+   "a": 3,
+   "x": "0 < b < 1."
+  },
+  {
+   "t": "p",
+   "q": "log₄ 64 = ?",
+   "o": [
+    "16",
+    "3",
+    "1/3",
+    "4"
+   ],
+   "a": 1,
+   "x": "4³."
+  },
+  {
+   "t": "c",
+   "q": "Rewrite 10³ = 1000 in log form.",
+   "o": [
+    "log 3 = 1000",
+    "log 1000 = 3",
+    "ln 1000 = 3",
+    "log₃ 1000 = 10"
+   ],
+   "a": 1,
+   "x": "Base 10."
+  },
+  {
+   "t": "p",
+   "q": "log₂ 12 − log₂ 3 = ?",
+   "o": [
+    "log₂ 9",
+    "3",
+    "4",
+    "2"
+   ],
+   "a": 3,
+   "x": "log₂ 4."
+  },
+  {
+   "t": "p",
+   "q": "Solve log x = 3.",
+   "o": [
+    "x = 30",
+    "x = 1000",
+    "x = 3",
+    "x = e³"
+   ],
+   "a": 1,
+   "x": "10³."
+  },
+  {
+   "t": "p",
+   "q": "Solve 2ˣ⁺¹ = 32.",
+   "o": [
+    "x = 3",
+    "x = 4",
+    "x = 16",
+    "x = 5"
+   ],
+   "a": 1,
+   "x": "x + 1 = 5."
+  },
+  {
+   "t": "g",
+   "q": "Vertical asymptote of y = log₂(x + 3)?",
+   "o": [
+    "y = −3",
+    "x = 0",
+    "x = 3",
+    "x = −3"
+   ],
+   "a": 3,
+   "x": "x + 3 = 0."
+  },
+  {
+   "t": "c",
+   "q": "ln 5 / ln 2 equals…",
+   "o": [
+    "log₅ 2",
+    "ln 3",
+    "ln 2.5",
+    "log₂ 5"
+   ],
+   "a": 3,
+   "x": "Change of base."
+  },
+  {
+   "t": "w",
+   "q": "A town grows 3% per year from 8000. Population after 10 years ≈",
+   "o": [
+    "10,400",
+    "8,240",
+    "10,751",
+    "24,000"
+   ],
+   "a": 2,
+   "x": "8000(1.03)^10."
+  },
+  {
+   "t": "c",
+   "q": "If f(x) = eˣ and g(x) = ln x, then f(g(5)) = ?",
+   "o": [
+    "1",
+    "5",
+    "ln 5",
+    "e⁵"
+   ],
+   "a": 1,
+   "x": "Inverses."
+  },
+  {
+   "t": "g",
+   "q": "Which is concave down for x > 0?",
+   "o": [
+    "y = x²",
+    "y = eˣ",
+    "y = 2ˣ",
+    "y = ln x"
+   ],
+   "a": 3,
+   "x": "Logs bend down."
+  }
+ ],
+ "frq": [
+  {
+   "q": "A cup of coffee cools. Its temperature above room temperature is modeled by D(t) = a·bᵗ. At t = 0 minutes D = 120°F; at t = 10, D = 75°F.",
+   "parts": [
+    {
+     "p": "(a) Find a and b.",
+     "rubric": [
+      [
+       "a = 120",
+       1
+      ],
+      [
+       "b¹⁰ = 75/120 = 0.625",
+       1
+      ],
+      [
+       "b ≈ 0.954",
+       1
+      ]
+     ],
+     "answer": "b = 0.625^(1/10) ≈ 0.9541."
+    },
+    {
+     "p": "(b) Find when D = 30°F. Show the log step.",
+     "rubric": [
+      [
+       "0.954ᵗ = 0.25",
+       1
+      ],
+      [
+       "t = ln 0.25 / ln b ≈ 29.5 min",
+       1
+      ]
+     ],
+     "answer": "t = ln 0.25/ln 0.9541 ≈ 29.5 minutes."
+    },
+    {
+     "p": "(c) Is D concave up or down? What does that mean for how fast it cools?",
+     "rubric": [
+      [
+       "Concave up (decreasing exponential)",
+       1
+      ],
+      [
+       "Cooling slows down over time",
+       1
+      ]
+     ],
+     "answer": "Concave up: it drops fast at first, then more slowly."
+    }
+   ]
+  },
+  {
+   "q": "Symbolic manipulation.",
+   "parts": [
+    {
+     "p": "(a) Solve log₄(x + 6) − log₄(x) = 1/2.",
+     "rubric": [
+      [
+       "log₄((x + 6)/x) = 1/2",
+       1
+      ],
+      [
+       "(x + 6)/x = 2",
+       1
+      ],
+      [
+       "x = 6, checked",
+       1
+      ]
+     ],
+     "answer": "4^(1/2) = 2, x + 6 = 2x, x = 6."
+    },
+    {
+     "p": "(b) Rewrite 9^(x/2) · 3^(1 − x) as a single number.",
+     "rubric": [
+      [
+       "9^(x/2) = 3ˣ",
+       1
+      ],
+      [
+       "3ˣ · 3^(1 − x) = 3",
+       1
+      ]
+     ],
+     "answer": "3."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Before Precalc Unit 3: Quadratics | Apogee</title>
+<meta name="description" content="Before Precalc unit 3: quadratics with interactive parabola labs and animated completing-the-square.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid" data-root="../../" data-course="math" data-unit="pre-3">
+
+<div class="hero">
+  <span class="kicker">Before Precalc · Unit 3</span>
+  <h1>Parabolas and <span class="hl">quadratics</span></h1>
+  <p>Vertex form, factoring, completing the square, the quadratic formula and the discriminant.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-forms" data-title="Parabolas" data-short="Parabolas">
+<section class="topic" id="q-forms">
+  <h2><span class="pill c">3.1</span>Three forms of a quadratic</h2>
+  
+  
+<p>A quadratic makes a U-shaped <b>parabola</b>. Each form shows you something different at a glance.</p>
+<div class="tblwrap"><table><tr><th>Form</th><th>Equation</th><th>Read off</th></tr><tr><td>Standard</td><td><span class="mx">y</span> = <span class="mx">a</span><span class="mx">x</span>² + <span class="mx">bx</span> + <span class="mx">c</span></td><td>y-intercept <span class="mx">c</span>; axis <span class="mx">x</span> = −<span class="mx">b</span>/(2<span class="mx">a</span>)</td></tr><tr><td>Vertex</td><td><span class="mx">y</span> = <span class="mx">a</span>(<span class="mx">x</span> − <span class="mx">h</span>)² + <span class="mx">k</span></td><td>vertex (<span class="mx">h</span>, <span class="mx">k</span>)</td></tr><tr><td>Factored</td><td><span class="mx">y</span> = <span class="mx">a</span>(<span class="mx">x</span> − <span class="mx">r</span>)(<span class="mx">x</span> − <span class="mx">s</span>)</td><td>x-intercepts <span class="mx">r</span> and <span class="mx">s</span></td></tr></table></div>
+<p>The sign of <span class="mx">a</span> decides the direction: <span class="mx">a</span> &gt; 0 opens up (minimum), <span class="mx">a</span> &lt; 0 opens down (maximum). Bigger |<span class="mx">a</span>| means narrower.</p>
+<div class="mlab" data-lab='{"title": "Vertex form lab", "sub": "y = a(x − h)² + k. Animate a to see the parabola flip.", "x": [-8, 8], "y": [-8, 10], "gx": 1, "gy": 1, "params": {"a": [-3, 3, 0.1, 1, "a"], "h": [-5, 5, 0.5, 1, "h"], "k": [-6, 6, 0.5, -3, "k"]}, "fns": [{"e": "a*(x-h)^2+k", "label": "y = a(x − h)² + k"}], "dots": [["h", "k", "vertex ({h}, {k})", "#EA580C"], ["h+sqrt(-k/a)", "0", "", "#059669"], ["h-sqrt(-k/a)", "0", "", "#059669"]], "read": [["zeros: h ± √(−k/a) =", "h-sqrt(-k/a)"], ["and", "h+sqrt(-k/a)"]], "type": "graph"}'></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-solve" data-title="Solving Quadratics" data-short="Solving">
+<section class="topic" id="q-solve">
+  <h2><span class="pill p">3.2</span>Solving quadratic equations</h2>
+  
+  
+<p>Four ways to solve <span class="mx">a</span><span class="mx">x</span>² + <span class="mx">bx</span> + <span class="mx">c</span> = 0. Pick the fastest:</p>
+<ol class="steps"><li><b>Factor</b> and use the zero-product rule: if AB = 0, then A = 0 or B = 0.</li>
+<li><b>Square roots</b> when there's no <span class="mx">x</span> term: <span class="mx">x</span>² = 49 → <span class="mx">x</span> = ±7.</li>
+<li><b>Complete the square</b> (this is how you get vertex form).</li>
+<li><b>Quadratic formula</b> always works: <span class="mx">x</span> = (−<span class="mx">b</span> ± √(<span class="mx">b</span>² − 4<span class="mx">ac</span>)) / (2<span class="mx">a</span>).</li></ol>
+<div class="msteps" data-w='{"title": "Complete the square: x² + 6x + 2 = 0", "frames": [{"t": ["a|x² + 6x|s", "b|+ 2|n", "c|= 0"], "note": "Move the constant to the other side."}, {"t": ["a|x² + 6x|s", "c|=", "d|−2|n"], "note": "Half of 6 is 3; 3² = 9. Add 9 to both sides."}, {"t": ["a|x² + 6x|s", "e|+ 9|e", "c|=", "d|−2|n", "f|+ 9|e"], "note": "Now the left side is a perfect square."}, {"t": ["g|(x + 3)²|v", "c|=", "h|7|n"], "note": "x² + 6x + 9 = (x + 3)²."}, {"t": ["i|x + 3|v", "c|=", "j|±√7|e"], "note": "Square root both sides. Don&#39;t forget ±."}, {"t": ["k|x|g", "c|=", "l|−3 ± √7|g"], "note": "x = −3 ± √7 ≈ −0.35 or −5.65."}]}'></div>
+<div class="big-eq">x = (−b ± √(b² − 4ac)) / 2a</div>
+<div class="worked"><div class="q">Worked example: Solve 2<span class="mx">x</span>² − 3<span class="mx">x</span> − 5 = 0.</div><div class="a"><span class="mx">a</span> = 2, <span class="mx">b</span> = −3, <span class="mx">c</span> = −5. Discriminant 9 + 40 = 49. <span class="mx">x</span> = (3 ± 7)/4 → <span class="mx">x</span> = 5/2 or <span class="mx">x</span> = −1.</div></div>
+
+  
+</section>
+<section class="topic" id="discriminant">
+  <h2><span class="pill c">3.3</span>The discriminant</h2>
+  
+  
+<p>The part under the root, <span class="mx">D</span> = <span class="mx">b</span>² − 4<span class="mx">ac</span>, tells you how many real solutions there are before you solve.</p>
+<div class="tblwrap"><table><tr><th>D</th><th>Real solutions</th><th>Graph</th></tr><tr><td>D &gt; 0</td><td>2</td><td>crosses the x-axis twice</td></tr><tr><td>D = 0</td><td>1 (double)</td><td>touches the x-axis at the vertex</td></tr><tr><td>D &lt; 0</td><td>0 (two complex)</td><td>misses the x-axis</td></tr></table></div>
+<div class="mlab" data-lab='{"title": "Slide c and watch D", "sub": "y = x² + bx + c. When D hits 0 the parabola just kisses the axis.", "x": [-8, 8], "y": [-8, 10], "gx": 1, "gy": 1, "params": {"c": [-6, 8, 0.25, 2, "c"], "b": [-6, 6, 0.5, -3, "b"]}, "fns": [{"e": "x^2+b*x+c", "label": "y = x² + bx + c"}], "read": [["D = b² − 4c =", "b^2-4*c"]], "dots": [["(-b+sqrt(b^2-4*c))/2", "0", "", "#059669"], ["(-b-sqrt(b^2-4*c))/2", "0", "", "#059669"]], "type": "graph"}'></div>
+<div class="box tip"><b class="lbl">Complex numbers</b>When D &lt; 0 the solutions use <span class="mx">i</span> = √−1. For example <span class="mx">x</span>² + 4 = 0 → <span class="mx">x</span> = ±2<span class="mx">i</span>. You'll see these again in precalc.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-apps" data-title="Applications" data-short="Applications">
+<section class="topic" id="q-apps">
+  <h2><span class="pill w">3.4</span>Quadratics in the real world</h2>
+  
+  
+<p>Projectile height: <span class="mx">h</span>(<span class="mx">t</span>) = −16<span class="mx">t</span>² + <span class="mx">v</span>₀<span class="mx">t</span> + <span class="mx">h</span>₀ (feet), or −4.9<span class="mx">t</span>² + … in meters. The vertex is the max height; the positive zero is when it lands.</p>
+<div class="mlab" data-lab='{"title": "Launch a ball", "sub": "h(t) = −16t² + v·t + h₀ in feet.", "x": [0, 6], "y": [0, 160], "gx": 0.5, "gy": 20, "params": {"v": [16, 96, 4, 64, "v₀"], "h0": [0, 60, 4, 20, "h₀"]}, "fns": [{"e": "-16*x^2+v*x+h0", "label": "h(t)", "dom": ["0", "(v+sqrt(v^2+64*h0))/32"]}], "dots": [["v/32", "-16*(v/32)^2+v*v/32+h0", "max {-16*(v/32)^2+v*v/32+h0} ft", "#EA580C"], ["(v+sqrt(v^2+64*h0))/32", "0", "lands t={(v+sqrt(v^2+64*h0))/32}", "#059669"]], "type": "graph"}'></div>
+<div class="worked"><div class="q">Worked example: A ball is thrown up at 64 ft/s from 20 ft. Max height?</div><div class="a">Vertex at <span class="mx">t</span> = −64/(2·−16) = 2 s. <span class="mx">h</span>(2) = −64 + 128 + 20 = 84 ft.</div></div>
+
+  
+</section>
+<section class="topic" id="summary-pre3">
+  <h2>Unit summary</h2>
+  
+  <div class="grid2"><div class="mini"><h4>Forms</h4>Standard (c, axis −b/2a), vertex (h, k), factored (zeros).</div><div class="mini"><h4>Solve</h4>Factor · square roots · complete the square · quadratic formula.</div><div class="mini"><h4>Discriminant</h4>b² − 4ac: positive → 2, zero → 1, negative → 0 real solutions.</div><div class="mini"><h4>Vertex</h4>x = −b/(2a). Plug back in for the max or min value.</div></div>
+  
+</section>
+</div>
+<div class="chapter" id="practice-pre-3" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-pre-3">
+  <h2>Practice questions</h2>
+  <p class="sub">14 questions on everything in this unit. Work each one on paper before you pick.</p>
+  <div class="quiz" data-src="quiz-pre-3" data-tags='{"c": "Concept", "p": "Procedure", "g": "Graphs", "w": "Word problem"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-pre-3" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-pre-3">
+  <h2>Challenge questions</h2>
+  <p class="sub">Harder, multi-step questions in the style of the toughest exam items.</p>
+  <div class="quiz" data-src="quiz-challenge-pre-3" data-tags='{"c": "Concept", "p": "Procedure", "g": "Graphs", "w": "Word problem"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-pre-3" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-pre-3"><h2>Practice exam</h2><p class="sub">12 multiple-choice questions (30 minutes) and 2 free-response questions (25 minutes). No feedback until you submit. Grade the free response with the rubric.</p><div class="exam" data-src="exam-pre-3"></div></section>
+</div>
+</main>
+
+<footer>Apogee · Before Precalc · Drag the sliders, then check yourself</footer>
+
+<script type="application/json" id="quiz-pre-3">
+[
+ {
+  "t": "g",
+  "q": "Vertex of y = (x − 4)² + 1?",
+  "o": [
+   "(−4, 1)",
+   "(4, −1)",
+   "(4, 1)",
+   "(1, 4)"
+  ],
+  "a": 2,
+  "x": "Vertex form a(x − h)² + k."
+ },
+ {
+  "t": "g",
+  "q": "Does y = −2x² + 3 open up or down?",
+  "o": [
+   "Down",
+   "Sideways",
+   "Can't tell",
+   "Up"
+  ],
+  "a": 0,
+  "x": "a = −2 < 0."
+ },
+ {
+  "t": "p",
+  "q": "Axis of symmetry of y = x² − 8x + 3?",
+  "o": [
+   "x = 4",
+   "x = 8",
+   "x = 3",
+   "x = −4"
+  ],
+  "a": 0,
+  "x": "−b/(2a) = 8/2."
+ },
+ {
+  "t": "p",
+  "q": "Solve x² − 7x + 10 = 0.",
+  "o": [
+   "x = −2 or −5",
+   "x = 2 or 5",
+   "x = 10 or 1",
+   "x = 7"
+  ],
+  "a": 1,
+  "x": "(x − 2)(x − 5) = 0."
+ },
+ {
+  "t": "p",
+  "q": "Solve x² = 81.",
+  "o": [
+   "x = 40.5",
+   "x = 9",
+   "x = ±9",
+   "x = ±81"
+  ],
+  "a": 2,
+  "x": "Two square roots."
+ },
+ {
+  "t": "p",
+  "q": "Solve (x − 3)² = 16.",
+  "o": [
+   "x = ±4",
+   "x = 7 or −1",
+   "x = 7",
+   "x = 19"
+  ],
+  "a": 1,
+  "x": "x − 3 = ±4."
+ },
+ {
+  "t": "p",
+  "q": "Discriminant of x² + 2x + 5?",
+  "o": [
+   "−4",
+   "4",
+   "24",
+   "−16"
+  ],
+  "a": 3,
+  "x": "4 − 20."
+ },
+ {
+  "t": "c",
+  "q": "How many real solutions does 4x² − 12x + 9 = 0 have?",
+  "o": [
+   "1",
+   "Infinitely many",
+   "0",
+   "2"
+  ],
+  "a": 0,
+  "x": "D = 144 − 144 = 0."
+ },
+ {
+  "t": "p",
+  "q": "To complete the square on x² + 10x, add…",
+  "o": [
+   "10",
+   "25",
+   "5",
+   "100"
+  ],
+  "a": 1,
+  "x": "(10/2)² = 25."
+ },
+ {
+  "t": "p",
+  "q": "Solve 2x² + x − 6 = 0.",
+  "o": [
+   "x = −3/2 or 2",
+   "x = 3/2 or −2",
+   "x = 3 or −2",
+   "x = 6 or −1"
+  ],
+  "a": 1,
+  "x": "(2x − 3)(x + 2) = 0."
+ },
+ {
+  "t": "p",
+  "q": "Write y = x² + 6x + 1 in vertex form.",
+  "o": [
+   "y = (x + 3)² − 8",
+   "y = (x + 3)² + 1",
+   "y = (x − 3)² − 8",
+   "y = (x + 6)² − 35"
+  ],
+  "a": 0,
+  "x": "x² + 6x + 9 − 9 + 1."
+ },
+ {
+  "t": "g",
+  "q": "Zeros of y = 3(x + 1)(x − 6)?",
+  "o": [
+   "x = −3",
+   "x = −1 and 6",
+   "x = 1 and −6",
+   "x = 3, −1, 6"
+  ],
+  "a": 1,
+  "x": "Factored form shows zeros."
+ },
+ {
+  "t": "w",
+  "q": "h(t) = −16t² + 32t. When does it reach max height?",
+  "o": [
+   "t = 2",
+   "t = 1",
+   "t = 16",
+   "t = 0.5"
+  ],
+  "a": 1,
+  "x": "−32/(2·−16) = 1."
+ },
+ {
+  "t": "c",
+  "q": "A parabola touches the x-axis exactly once. Its discriminant is…",
+  "o": [
+   "positive",
+   "0",
+   "negative",
+   "1"
+  ],
+  "a": 1,
+  "x": "One repeated root."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-pre-3">
+[
+ {
+  "t": "c",
+  "q": "For which k does x² + kx + 9 = 0 have exactly one solution?",
+  "o": [
+   "k = 9",
+   "k = ±3",
+   "k = ±6",
+   "k = 6 only"
+  ],
+  "a": 2,
+  "x": "k² − 36 = 0."
+ },
+ {
+  "t": "p",
+  "q": "Parabola with vertex (2, −3) through (0, 5)?",
+  "o": [
+   "y = 2(x + 2)² − 3",
+   "y = 2(x − 2)² − 3",
+   "y = −2(x − 2)² − 3",
+   "y = (x − 2)² − 3"
+  ],
+  "a": 1,
+  "x": "5 = a(4) − 3 → a = 2."
+ },
+ {
+  "t": "w",
+  "q": "A rectangle has perimeter 40. Its largest possible area is…",
+  "o": [
+   "400",
+   "100",
+   "80",
+   "96"
+  ],
+  "a": 1,
+  "x": "A = x(20 − x), vertex at x = 10, A = 100."
+ },
+ {
+  "t": "p",
+  "q": "Solve x² − 4x + 13 = 0.",
+  "o": [
+   "x = 2 ± 3i",
+   "No solution at all",
+   "x = −2 ± 3i",
+   "x = 2 ± 3"
+  ],
+  "a": 0,
+  "x": "D = 16 − 52 = −36: (4 ± 6i)/2."
+ },
+ {
+  "t": "c",
+  "q": "Sum of the roots of 3x² − 12x + 5 = 0?",
+  "o": [
+   "5/3",
+   "−4",
+   "12",
+   "4"
+  ],
+  "a": 3,
+  "x": "Sum of roots = −b/a = 12/3."
+ },
+ {
+  "t": "w",
+  "q": "h(t) = −4.9t² + 19.6t + 2 (m). Max height?",
+  "o": [
+   "19.6 m",
+   "2 m",
+   "21.6 m",
+   "41.2 m"
+  ],
+  "a": 2,
+  "x": "t = 2: −19.6 + 39.2 + 2 = 21.6."
+ }
+]
+</script>
+<script type="application/json" id="exam-pre-3">
+{
+ "title": "Before Precalc Unit 3 Practice Exam: Quadratics",
+ "mcqMinutes": 30,
+ "frqMinutes": 25,
+ "tags": {
+  "c": "Concept",
+  "p": "Procedure",
+  "g": "Graphs",
+  "w": "Word problem"
+ },
+ "mcq": [
+  {
+   "t": "g",
+   "q": "Vertex of y = −(x + 2)² + 7?",
+   "o": [
+    "(−2, −7)",
+    "(−2, 7)",
+    "(7, −2)",
+    "(2, 7)"
+   ],
+   "a": 1,
+   "x": "h = −2, k = 7."
+  },
+  {
+   "t": "g",
+   "q": "y-intercept of y = 2x² − 5x + 4?",
+   "o": [
+    "0",
+    "4",
+    "−5",
+    "2"
+   ],
+   "a": 1,
+   "x": "Set x = 0."
+  },
+  {
+   "t": "p",
+   "q": "Solve x² + x − 12 = 0.",
+   "o": [
+    "x = 6 or −2",
+    "x = 3 or −4",
+    "x = −3 or 4",
+    "x = 12 or −1"
+   ],
+   "a": 1,
+   "x": "(x + 4)(x − 3)."
+  },
+  {
+   "t": "p",
+   "q": "Solve x² − 5 = 0.",
+   "o": [
+    "x = ±√5",
+    "x = 5",
+    "x = ±5",
+    "x = √5"
+   ],
+   "a": 0,
+   "x": "x² = 5."
+  },
+  {
+   "t": "p",
+   "q": "Discriminant of 3x² − 4x + 2?",
+   "o": [
+    "−20",
+    "−8",
+    "8",
+    "40"
+   ],
+   "a": 1,
+   "x": "16 − 24."
+  },
+  {
+   "t": "p",
+   "q": "Solutions of x² − 6x + 4 = 0?",
+   "o": [
+    "3 ± √13",
+    "3 ± √5",
+    "6 ± √5",
+    "−3 ± √5"
+   ],
+   "a": 1,
+   "x": "(6 ± √20)/2 = 3 ± √5."
+  },
+  {
+   "t": "g",
+   "q": "Which parabola is narrowest?",
+   "o": [
+    "y = 0.5x²",
+    "y = −5x²",
+    "y = 2x²",
+    "y = x² + 9"
+   ],
+   "a": 1,
+   "x": "Largest |a|."
+  },
+  {
+   "t": "p",
+   "q": "Minimum value of y = x² − 4x + 1?",
+   "o": [
+    "−4",
+    "1",
+    "2",
+    "−3"
+   ],
+   "a": 3,
+   "x": "x = 2: 4 − 8 + 1."
+  },
+  {
+   "t": "g",
+   "q": "How many x-intercepts does y = x² + 3 have?",
+   "o": [
+    "0",
+    "1",
+    "3",
+    "2"
+   ],
+   "a": 0,
+   "x": "It sits above the axis."
+  },
+  {
+   "t": "c",
+   "q": "Which equation has roots 4 and −1?",
+   "o": [
+    "(x − 4)(x − 1) = 0",
+    "(x + 4)(x − 1) = 0",
+    "(x − 4)(x + 1) = 0",
+    "x² + 3x − 4 = 0"
+   ],
+   "a": 2,
+   "x": "Each root r gives a factor (x − r)."
+  },
+  {
+   "t": "w",
+   "q": "A ball's height is h = −16t² + 48t. When does it land?",
+   "o": [
+    "t = 48",
+    "t = 3",
+    "t = 16",
+    "t = 1.5"
+   ],
+   "a": 1,
+   "x": "−16t(t − 3) = 0."
+  },
+  {
+   "t": "g",
+   "q": "y = x² shifted 3 right and 2 down is…",
+   "o": [
+    "y = (x − 2)² − 3",
+    "y = (x + 3)² − 2",
+    "y = (x − 3)² − 2",
+    "y = x² − 3x − 2"
+   ],
+   "a": 2,
+   "x": "Right is x − 3."
+  }
+ ],
+ "frq": [
+  {
+   "q": "Let f(x) = 2x² − 8x + 6.",
+   "parts": [
+    {
+     "p": "(a) Write f in vertex form and state the vertex.",
+     "rubric": [
+      [
+       "Factors out 2 and completes the square",
+       1
+      ],
+      [
+       "f(x) = 2(x − 2)² − 2",
+       1
+      ],
+      [
+       "Vertex (2, −2)",
+       1
+      ]
+     ],
+     "answer": "2(x² − 4x + 4) − 8 + 6 = 2(x − 2)² − 2."
+    },
+    {
+     "p": "(b) Find the zeros.",
+     "rubric": [
+      [
+       "2(x − 1)(x − 3) or formula",
+       1
+      ],
+      [
+       "x = 1 and x = 3",
+       1
+      ]
+     ],
+     "answer": "x = 1, 3."
+    },
+    {
+     "p": "(c) For what x is f(x) < 0?",
+     "rubric": [
+      [
+       "Between the zeros since it opens up",
+       1
+      ],
+      [
+       "1 < x < 3",
+       1
+      ]
+     ],
+     "answer": "1 < x < 3."
+    }
+   ]
+  },
+  {
+   "q": "A farmer has 120 m of fence to make a rectangular pen against a barn (the barn wall needs no fence).",
+   "parts": [
+    {
+     "p": "(a) If the sides perpendicular to the barn are x, write the area A(x).",
+     "rubric": [
+      [
+       "Other side is 120 − 2x",
+       1
+      ],
+      [
+       "A(x) = x(120 − 2x)",
+       1
+      ]
+     ],
+     "answer": "A = x(120 − 2x)."
+    },
+    {
+     "p": "(b) Find the dimensions that maximize the area and the max area.",
+     "rubric": [
+      [
+       "Vertex x = 30",
+       1
+      ],
+      [
+       "30 by 60",
+       1
+      ],
+      [
+       "1800 m²",
+       1
+      ]
+     ],
+     "answer": "x = 30, other side 60, A = 1800 m²."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>
