@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAT: Math: Advanced Math | Apogee</title>
+<meta name="description" content="SAT Math Advanced Math domain: quadratics, exponentials, equivalent expressions and nonlinear functions with interactive graphs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-exam" data-root="../../" data-course="sat" data-unit="sat-5">
+
+<div class="hero">
+  <span class="kicker">SAT · Part 5</span>
+  <h1>Advanced math, <span class="hl">simplified</span></h1>
+  <p>Quadratics, exponential growth and decay, equivalent expressions, radicals and nonlinear systems.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-quad" data-title="Quadratics" data-short="Quadratics">
+<section class="topic" id="quad">
+  <h2><span class="pill q">5.1</span>Quadratics</h2>
+  
+  
+<p>Three forms, three jobs. Know which feature each one shows instantly.</p>
+<div class="tblwrap"><table><tr><th>Form</th><th>Shows</th></tr><tr><td>y = a(x − h)² + k</td><td>vertex (h, k): the max or min</td></tr><tr><td>y = a(x − r)(x − s)</td><td>x-intercepts r and s; vertex x is halfway: (r + s)/2</td></tr><tr><td>y = ax² + bx + c</td><td>y-intercept c; vertex x = −b/(2a); sum of roots −b/a; product c/a</td></tr></table></div>
+<div class="mlab" data-lab='{"title": "Quadratic lab", "sub": "y = a(x − r)(x − s). The vertex sits halfway between the zeros.", "x": [-6, 8], "y": [-12, 12], "gx": 1, "gy": 2, "params": {"a": [-2, 2, 0.25, 1, "a"], "r": [-5, 5, 0.5, -1, "r"], "s": [-5, 7, 0.5, 4, "s"]}, "fns": [{"e": "a*(x-r)*(x-s)", "label": "y = a(x − r)(x − s)"}], "dots": [["(r+s)/2", "a*((r+s)/2-r)*((r+s)/2-s)", "vertex", "#EA580C"], ["r", "0", "r", "#059669"], ["s", "0", "s", "#059669"]], "read": [["vertex x = ", "(r+s)/2"], ["c (y-intercept) = ", "a*r*s"]], "type": "graph"}'></div>
+<div class="grid2"><div class="mini"><h4>Discriminant</h4>b² − 4ac &gt; 0: two real solutions; = 0: one; &lt; 0: none. Questions like "for what c does the equation have exactly one solution" are discriminant questions.</div><div class="mini"><h4>Desmos move</h4>Graph the quadratic and click the vertex and zeros. Graph y = (your expression) and y = (other side) to solve any equation.</div></div>
+<div class="worked"><div class="q">Worked example: x² − 6x + c = 0 has exactly one real solution. Find c.</div><div class="a">b² − 4ac = 36 − 4c = 0 → c = 9.</div></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-expo" data-title="Exponentials" data-short="Exponentials">
+<section class="topic" id="expo">
+  <h2><span class="pill e">5.2</span>Exponential functions</h2>
+  
+  
+<p>f(x) = a·bˣ: a is the starting value; b is the growth factor. Growth by r%: b = 1 + r/100. Decay by r%: b = 1 − r/100.</p>
+<div class="mlab" data-lab='{"title": "Growth vs decay", "sub": "y = a·bˣ. b > 1 grows, 0 < b < 1 decays.", "x": [0, 10], "y": [0, 200], "gx": 1, "gy": 20, "params": {"b": [0.5, 1.6, 0.02, 1.2, "b"], "a": [10, 100, 5, 30, "a"]}, "fns": [{"e": "a*b^x", "label": "y = a·bˣ"}], "read": [["percent change per step: ", "(b-1)*100"]], "table": {"x": [0, 1, 2, 3, 4], "rows": [["y", "a*b^x"]], "diff": "ratio"}, "type": "graph"}'></div>
+<div class="tblwrap"><table><tr><th>Statement</th><th>Model</th></tr><tr><td>increases 8% per year</td><td>P(t) = P₀(1.08)ᵗ</td></tr><tr><td>decreases 30% per year</td><td>V(t) = V₀(0.7)ᵗ</td></tr><tr><td>doubles every 6 hours</td><td>N(t) = N₀·2^(t/6)</td></tr><tr><td>halves every 3 days</td><td>A(t) = A₀(½)^(t/3)</td></tr></table></div>
+<div class="box trap"><b class="lbl">Linear vs exponential</b>"Increases by 5 each year" is linear (add). "Increases by 5% each year" is exponential (multiply).</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-expr" data-title="Expressions and Functions" data-short="Expressions">
+<section class="topic" id="expr">
+  <h2><span class="pill x">5.3</span>Equivalent expressions and polynomials</h2>
+  
+  
+<div class="msteps" data-w='{"title": "Which is equivalent to (2x − 3)² − 4x?", "frames": [{"t": ["a|(2x − 3)²|v", "b|− 4x|s"], "note": "Expand the square: (a − b)² = a² − 2ab + b²."}, {"t": ["c|4x² − 12x + 9|v", "b|− 4x|s"], "note": "(2x)² − 2(2x)(3) + 3²."}, {"t": ["d|4x² − 16x + 9|g"], "note": "Combine −12x − 4x."}]}'></div>
+<div class="grid2"><div class="mini"><h4>Fast check</h4>Plug x = 2 into the original and each choice. Equivalent expressions give the same number.</div><div class="mini"><h4>Factor patterns</h4>a² − b² = (a − b)(a + b); a² ± 2ab + b² = (a ± b)².</div></div>
+<p><b>Rational expressions & radicals:</b> x^(1/2) = √x, x^(m/n) = (ⁿ√x)^m, x^(−n) = 1/xⁿ. To solve √(x + 3) = x − 3, square both sides, then <b>check</b> for extraneous solutions.</p>
+<div class="msteps" data-w='{"title": "Solve √(x + 3) = x − 3", "frames": [{"t": ["a|√(x + 3)|v", "b|=", "c|x − 3|s"], "note": "Square both sides."}, {"t": ["d|x + 3|v", "b|=", "e|x² − 6x + 9|s"], "note": "(x − 3)² = x² − 6x + 9."}, {"t": ["f|0 = x² − 7x + 6|e"], "note": "Move everything to one side."}, {"t": ["g|0 = (x − 1)(x − 6)|e"], "note": "Factor."}, {"t": ["h|x = 6|g", "i|x = 1 ✗|x"], "note": "Check: x = 1 gives √4 = −2, false. Only x = 6."}]}'></div>
+
+  
+</section>
+<section class="topic" id="nonlinear">
+  <h2><span class="pill n">5.4</span>Function notation, transformations and nonlinear systems</h2>
+  
+  
+<p>f(x + 2) shifts the graph <b>left</b> 2; f(x) + 2 shifts it <b>up</b> 2. For f(g(x)), work from the inside out.</p>
+<div class="mlab" data-lab='{"title": "Line meets parabola", "sub": "A nonlinear system: y = x² − 2 and y = m·x + b. Count the intersections.", "x": [-5, 5], "y": [-4, 10], "gx": 1, "gy": 1, "params": {"m": [-4, 4, 0.5, 1, "m"], "b": [-5, 6, 0.5, 0, "b"]}, "fns": [{"e": "x^2-2", "label": "y = x² − 2"}, {"e": "m*x+b", "label": "y = mx + b"}], "read": [["discriminant m² + 4(b + 2) = ", "m^2+4*(b+2)"]], "type": "graph"}'></div>
+<p>Setting x² − 2 = mx + b gives x² − mx − (b + 2) = 0. Positive discriminant → 2 crossing points, zero → tangent (1), negative → none.</p>
+
+  
+</section>
+</div>
+<div class="chapter" id="practice-sat-5" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-sat-5">
+  <h2>Practice questions</h2>
+  <p class="sub">14 questions with instant explanations. Filter by skill with the buttons.</p>
+  <div class="quiz" data-src="quiz-sat-5" data-tags='{"q": "Quadratics", "e": "Exponentials", "x": "Expressions", "n": "Nonlinear functions"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-sat-5" data-title="Hard Questions" data-short="Hard" data-hard="1">
+<section class="topic" id="challenge-quiz-sat-5">
+  <h2>Hard questions</h2>
+  <p class="sub">The kind you'll see in the harder second module. Take your time.</p>
+  <div class="quiz" data-src="quiz-challenge-sat-5" data-tags='{"q": "Quadratics", "e": "Exponentials", "x": "Expressions", "n": "Nonlinear functions"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-sat-5" data-title="Timed Set" data-short="Timed set">
+<section class="topic" id="exam-box-sat-5"><h2>SAT Math: Advanced Math: timed set</h2><p class="sub">15 questions in 20 minutes. No feedback until you submit.</p><div class="exam" data-src="exam-sat-5"></div></section>
+</div>
+</main>
+
+<footer>Apogee · SAT prep · Not affiliated with College Board or ACT</footer>
+
+<script type="application/json" id="quiz-sat-5">
+[
+ {
+  "t": "q",
+  "q": "Vertex of y = 2(x − 3)² + 5?",
+  "o": [
+   "(3, 5)",
+   "(3, −5)",
+   "(2, 5)",
+   "(−3, 5)"
+  ],
+  "a": 0,
+  "x": "Vertex form."
+ },
+ {
+  "t": "q",
+  "q": "The zeros of y = (x − 2)(x + 8) are 2 and −8. What is the x-coordinate of the vertex?",
+  "g": [
+   "-3"
+  ],
+  "x": "Halfway: (2 + (−8))/2."
+ },
+ {
+  "t": "q",
+  "q": "How many real solutions does x² + 4x + 7 = 0 have?",
+  "o": [
+   "1",
+   "2",
+   "Infinitely many",
+   "0"
+  ],
+  "a": 3,
+  "x": "16 − 28 < 0."
+ },
+ {
+  "t": "q",
+  "q": "x² − 10x + c = 0 has exactly one solution. c = ?",
+  "g": [
+   "25"
+  ],
+  "x": "100 − 4c = 0."
+ },
+ {
+  "t": "e",
+  "q": "A town's population is 12,000 and grows 3% per year. Which models it after t years?",
+  "o": [
+   "12000(1.03)ᵗ",
+   "12000(1.3)ᵗ",
+   "12000(0.03)ᵗ",
+   "12000 + 0.03t"
+  ],
+  "a": 0,
+  "x": "Growth factor 1.03."
+ },
+ {
+  "t": "e",
+  "q": "A car worth $25,000 loses 15% of its value each year. Value after 2 years?",
+  "o": [
+   "$18,750",
+   "$17,500",
+   "$21,250",
+   "$18,062.50"
+  ],
+  "a": 3,
+  "x": "25000 × 0.85²."
+ },
+ {
+  "t": "e",
+  "q": "f(x) = 5(2)ˣ. What is f(3)?",
+  "o": [
+   "40",
+   "15",
+   "30",
+   "1000"
+  ],
+  "a": 0,
+  "x": "5 × 8."
+ },
+ {
+  "t": "x",
+  "q": "Which is equivalent to (x + 4)(x − 4)?",
+  "o": [
+   "x² − 16",
+   "x² − 8x − 16",
+   "x² + 16",
+   "x² − 8"
+  ],
+  "a": 0,
+  "x": "Difference of squares."
+ },
+ {
+  "t": "x",
+  "q": "Which is equivalent to x^(3/2)?",
+  "o": [
+   "x³/√x²",
+   "√(x³)/x",
+   "3√x/2",
+   "x√x"
+  ],
+  "a": 3,
+  "x": "x · x^(1/2)."
+ },
+ {
+  "t": "x",
+  "q": "Which is equivalent to (3x² − 12)/(x − 2), for x ≠ 2?",
+  "o": [
+   "3(x + 2)",
+   "3(x − 2)",
+   "3x² − 6",
+   "3x + 2"
+  ],
+  "a": 0,
+  "x": "3(x − 2)(x + 2)/(x − 2)."
+ },
+ {
+  "t": "n",
+  "q": "f(x) = x² − 3x. What is f(−2)?",
+  "g": [
+   "10"
+  ],
+  "x": "4 + 6."
+ },
+ {
+  "t": "n",
+  "q": "The graph of y = f(x − 3) is the graph of f shifted…",
+  "o": [
+   "down 3",
+   "left 3",
+   "right 3",
+   "up 3"
+  ],
+  "a": 2,
+  "x": "Inside is opposite."
+ },
+ {
+  "t": "n",
+  "q": "How many points do y = x² and y = 4 intersect at?",
+  "o": [
+   "1",
+   "2",
+   "0",
+   "4"
+  ],
+  "a": 1,
+  "x": "x = ±2."
+ },
+ {
+  "t": "q",
+  "q": "Solve for the positive solution: 2x² = 50.",
+  "g": [
+   "5"
+  ],
+  "x": "x² = 25."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-sat-5">
+[
+ {
+  "t": "n",
+  "q": "y = x² − 4x + k and y = 2x − 5 intersect at exactly one point. What is k?",
+  "g": [
+   "4"
+  ],
+  "x": "x² − 6x + (k + 5) = 0 needs 36 − 4(k + 5) = 0 → k = 4."
+ },
+ {
+  "t": "q",
+  "q": "f(x) = a(x − 1)(x − 7) has a maximum value of 18. What is a?",
+  "o": [
+   "−2",
+   "−18",
+   "−1/2",
+   "2"
+  ],
+  "a": 0,
+  "x": "Vertex at x = 4: a(3)(−3) = −9a = 18 → a = −2."
+ },
+ {
+  "t": "e",
+  "q": "A bacteria count doubles every 20 minutes from 500. Which gives the count after h hours?",
+  "o": [
+   "500·2^(h/20)",
+   "500·3^(2h)",
+   "500·2^(3h)",
+   "500·2^(20h)"
+  ],
+  "a": 2,
+  "x": "3 doublings per hour."
+ },
+ {
+  "t": "q",
+  "q": "If x > 0 and x² − 5x − 14 = 0, what is x?",
+  "g": [
+   "7"
+  ],
+  "x": "(x − 7)(x + 2) = 0."
+ },
+ {
+  "t": "x",
+  "q": "Which expression is equivalent to 9x⁴ − 25?",
+  "o": [
+   "(9x² − 5)(x² + 5)",
+   "(3x² − 5)²",
+   "(3x² − 5)(3x² + 5)",
+   "(3x − 5)²(3x + 5)²"
+  ],
+  "a": 2,
+  "x": "Difference of squares with (3x²)²."
+ },
+ {
+  "t": "e",
+  "q": "The function p(t) = 800(0.9)^(t/4) models a quantity t years from now. Which is true?",
+  "o": [
+   "It decreases by 10% every 4 years",
+   "It decreases by 10% each year",
+   "It decreases by 90% each year",
+   "It increases by 10% every 4 years"
+  ],
+  "a": 0,
+  "x": "The exponent t/4 means one factor of 0.9 per 4 years."
+ }
+]
+</script>
+<script type="application/json" id="exam-sat-5">
+{
+ "title": "SAT Math: Advanced Math: timed set",
+ "mcqMinutes": 20,
+ "frqMinutes": 0,
+ "tags": {
+  "q": "Quadratics",
+  "e": "Exponentials",
+  "x": "Expressions",
+  "n": "Nonlinear functions"
+ },
+ "mcq": [
+  {
+   "t": "q",
+   "q": "Solutions of x² − 5x + 6 = 0?",
+   "o": [
+    "2 and 3",
+    "1 and 6",
+    "−1 and 6",
+    "−2 and −3"
+   ],
+   "a": 0,
+   "x": "(x − 2)(x − 3)."
+  },
+  {
+   "t": "q",
+   "q": "What is the y-intercept of y = 3x² − 2x + 7?",
+   "g": [
+    "7"
+   ],
+   "x": "x = 0."
+  },
+  {
+   "t": "q",
+   "q": "Minimum value of y = (x + 1)² − 9?",
+   "o": [
+    "−1",
+    "1",
+    "9",
+    "−9"
+   ],
+   "a": 3,
+   "x": "Vertex y."
+  },
+  {
+   "t": "q",
+   "q": "Which equation has no real solutions?",
+   "o": [
+    "x² + 9 = 0",
+    "x² = 9x",
+    "x² − 9 = 0",
+    "x² − 9x = 0"
+   ],
+   "a": 0,
+   "x": "x² = −9."
+  },
+  {
+   "t": "e",
+   "q": "An investment of $1,000 earns 5% compounded yearly. Value after 3 years?",
+   "o": [
+    "$1,500.00",
+    "$1,150.00",
+    "$1,050.00",
+    "$1,157.63"
+   ],
+   "a": 3,
+   "x": "1000 × 1.05³."
+  },
+  {
+   "t": "e",
+   "q": "Which describes y = 300(0.95)ˣ?",
+   "o": [
+    "Decreases 5% per unit of x",
+    "Increases 5% per unit",
+    "Increases 95% per unit",
+    "Decreases 95% per unit"
+   ],
+   "a": 0,
+   "x": "0.95 = 1 − 0.05."
+  },
+  {
+   "t": "e",
+   "q": "f(x) = 2ˣ + 1. What is f(4)?",
+   "g": [
+    "17"
+   ],
+   "x": "16 + 1."
+  },
+  {
+   "t": "x",
+   "q": "Which is equivalent to (2x + 1)²?",
+   "o": [
+    "4x² + 4x + 1",
+    "2x² + 4x + 1",
+    "4x² + 1",
+    "4x² + 2x + 1"
+   ],
+   "a": 0,
+   "x": "Square the binomial."
+  },
+  {
+   "t": "x",
+   "q": "Which is equivalent to 1/x⁻³?",
+   "o": [
+    "3x",
+    "−x³",
+    "1/x³",
+    "x³"
+   ],
+   "a": 3,
+   "x": "Negative exponent flips."
+  },
+  {
+   "t": "x",
+   "q": "If x > 0 and √(2x + 1) = 5, what is x?",
+   "g": [
+    "12"
+   ],
+   "x": "2x + 1 = 25."
+  },
+  {
+   "t": "n",
+   "q": "If f(x) = x + 3 and g(x) = x², f(g(2)) = ?",
+   "o": [
+    "7",
+    "10",
+    "8",
+    "25"
+   ],
+   "a": 0,
+   "x": "g(2) = 4, f(4) = 7."
+  },
+  {
+   "t": "n",
+   "q": "Graph of y = −f(x) is f reflected over the…",
+   "o": [
+    "origin",
+    "y-axis",
+    "x-axis",
+    "line y = x"
+   ],
+   "a": 2,
+   "x": "Outputs flip sign."
+  },
+  {
+   "t": "n",
+   "q": "y = x² + 1 and y = 1. How many intersection points?",
+   "o": [
+    "0",
+    "1",
+    "2",
+    "3"
+   ],
+   "a": 1,
+   "x": "x² = 0."
+  },
+  {
+   "t": "q",
+   "q": "The product of the solutions of 2x² − 7x − 15 = 0 is…",
+   "g": [
+    "-7.5",
+    "-15/2"
+   ],
+   "x": "c/a = −15/2."
+  },
+  {
+   "t": "q",
+   "q": "Which equation could represent a parabola that opens down with vertex (2, 4)?",
+   "o": [
+    "y = −(x − 4)² + 2",
+    "y = −(x − 2)² + 4",
+    "y = (x − 2)² + 4",
+    "y = −(x + 2)² + 4"
+   ],
+   "a": 1,
+   "x": "a < 0, h = 2, k = 4."
+  }
+ ],
+ "frq": [],
+ "mcqName": "Advanced Math set",
+ "mcqKind": "questions",
+ "rules": [
+  "No feedback until you submit. Flag questions and come back to them.",
+  "No penalty for wrong answers: never leave one blank."
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/tp.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+from tp_common import q, g, psg as T
+NC = "NO CHANGE"
+def u(before, under, after=""): return T(f"{before}<u>{under}</u>{after}")
+EN = [
+ q(u("The first public aquarium opened in London ", "in 1853 it", " was called the Fish House."), [NC, "in 1853; it", "in 1853, it", "in 1853 and, it"], 1, "Two sentences → semicolon.", "p"),
+ q(u("Visitors who had never seen a living ", "fish, outside a market", " were amazed."), [NC, "fish outside a market", "fish outside, a market", "fish; outside a market"], 1, "No commas inside the essential phrase.", "p"),
+ q(u("The tanks ", "was lit", " by sunlight through a glass roof."), [NC, "were lit", "is lit", "lighting"], 1, "Plural subject.", "u"),
+ q(u("Keeping the water clean, ", "however, were", " a constant problem."), [NC, "however, was", "however were", "however; was"], 1, "Subject: keeping (singular).", "u"),
+ q(u("Staff members carried fresh seawater from the coast ", "every single day, daily,", " by cart."), [NC, "every day", "each and every day daily", "daily, every day,"], 1, "Redundant.", "r"),
+ q(u("The aquarium's popularity ", "inspired", " cities across Europe to build their own."), [NC, "inspiring", "having inspired,", "to inspire"], 0, "Correct main verb.", "u"),
+ q(u("By 1900, more than twenty aquariums had opened. ", "However,", " the idea had spread quickly."), [NC, "Clearly,", "For instance,", "Instead,"], 1, "The second sentence draws a conclusion, not a contrast.", "r"),
+ q(u("Modern aquariums focus on ", "conservation; breeding", " endangered species and teaching visitors about ocean health."), [NC, "conservation: breeding", "conservation, breeding,", "conservation breeding;"], 1, "Colon introduces the explanation.", "p"),
+ q(u("The Monterey Bay Aquarium, ", "which opened in 1984", " helped return sea otters to the wild."), [NC, "which opened in 1984,", "that opened in 1984,", "which opened, in 1984"], 1, "Close the commas.", "p"),
+ q(u("Its scientists raised orphaned pups and ", "they released", " them along the coast."), [NC, "released", "releasing", "had been releasing"], 1, "Parallel verbs: raised and released.", "s"),
+ q(T("The writer wants to add a sentence showing the success of the otter program. Which is best?") , ["Since then, the local otter population has more than doubled.", "Otters are members of the weasel family.", "The aquarium has a gift shop.", "Many people like otters."], 0, "Shows success.", "r"),
+ q(u("Walking past the giant kelp tank, ", "the fish seemed to follow us.", ""), [NC, "we felt as if the fish were following us.", "the fish followed, it seemed, us.", "following us were the fish."], 1, "We walked, so \"we\" comes after the comma.", "s"),
+ q(u("My sister and ", "me", " stayed until closing time."), [NC, "I", "myself", "mine"], 1, "Subject pronoun.", "u"),
+ q(u("Community gardens have grown in popularity in ", "recent years. Especially", " in cities with little green space."), [NC, "recent years, especially", "recent years; especially", "recent years especially,"], 1, "Fix the fragment.", "s"),
+ q(u("A garden on a vacant lot can provide fresh vegetables, a place to ", "meet neighbors, and exercising", "."), [NC, "meet neighbors, and exercise", "meet neighbors and to exercising", "meeting neighbors, and exercise"], 1, "Parallel: provide vegetables, a place to meet and (to) exercise.", "s"),
+ q(u("In Detroit, residents have turned ", "hundreds of empty lots, into", " farms."), [NC, "hundreds of empty lots into", "hundreds, of empty lots into", "hundreds of empty lots; into"], 1, "No comma before the preposition.", "p"),
+ q(u("One gardener, Mrs. Lewis, ", "she grows", " enough tomatoes to share with her whole block."), [NC, "grows", "growing", "who grows"], 1, "Subject already given; just the verb.", "u"),
+ q(u("The city now gives gardeners free ", "water, which", " has helped more lots stay green."), [NC, "water; which", "water, who", "water which,"], 0, "Correct.", "p"),
+ q(u("Gardens also cool their ", "neighborhoods; because", " plants release water vapor."), [NC, "neighborhoods because", "neighborhoods, because,", "neighborhoods. Because"], 1, "Dependent clause attaches without a semicolon.", "p"),
+ q(u("Some critics argue that the land should be used for housing ", "instead", "."), [NC, "instead of gardens", "rather instead", "as an alternative instead"], 0, "Clear and concise.", "r"),
+ q(u("The debate ", "continue", " at city council meetings."), [NC, "continues", "continuing", "have continued"], 1, "Singular subject.", "u"),
+ q(T("The writer considers deleting the sentence about Mrs. Lewis. What would be lost?"), ["A specific example of a garden's benefits", "The essay's thesis", "A transition between paragraphs", "Nothing important"], 0, "It's a concrete example.", "r"),
+ q(u("Each ", "gardener's", " plot is about ten feet square."), [NC, "gardeners", "gardeners'", "gardeners's"], 0, "Each gardener's (singular possessive) is correct.", "p"),
+ q(u("Gardening teaches patience; ", "you cannot", " rush a pumpkin."), [NC, "one cannot hurriedly", "you are unable to be able to", "a person cannot ever"], 0, "Concise and matches tone.", "r"),
+ q(T("Suppose the writer's goal was to explain how community gardens benefit cities. Does the essay achieve this?"), ["Yes, because it describes food, community, cooling and examples", "No, because it focuses on one gardener", "No, because it only discusses critics", "Yes, because it argues gardens should replace housing"], 0, "Covers several benefits.", "r"),
+]
+MA = [
+ q("If 7x − 4 = 31, x = ?", ["5", "3", "27/7", "6"], 0, "7x = 35.", "a"),
+ q("What is 18% of 250?", ["45", "4.5", "18", "450"], 0, "0.18 × 250.", "n"),
+ q("Slope of the line through (2, 3) and (6, 11)?", ["2", "1/2", "4", "8"], 0, "8/4.", "a"),
+ q("Simplify 3x(2x − 5).", ["6x² − 15x", "6x − 15", "5x² − 15x", "6x² − 5"], 0, "Distribute.", "a"),
+ q("A triangle's angles are x, 2x and 3x. The largest angle?", ["90°", "60°", "120°", "30°"], 0, "6x = 180.", "g"),
+ q("Mean of 12, 15, 18, 21, 24?", ["18", "15", "21", "17"], 0, "90/5.", "s"),
+ q("(x + 5)² = ?", ["x² + 10x + 25", "x² + 25", "x² + 5x + 25", "2x + 10"], 0, "Square of a binomial.", "a"),
+ q("Circle with diameter 14. Area?", ["49π", "14π", "196π", "28π"], 0, "r = 7.", "g"),
+ q("f(x) = x² − 4x. f(5) = ?", ["5", "45", "−5", "9"], 0, "25 − 20.", "f"),
+ q("Solve x² − x − 12 = 0. Positive solution?", ["4", "3", "6", "12"], 0, "(x − 4)(x + 3).", "a"),
+ q("A shirt's price drops from $40 to $34. Percent decrease?", ["15%", "6%", "17.6%", "85%"], 0, "6/40.", "n"),
+ q("sin θ = 0.6 and θ is acute. cos θ = ?", ["0.8", "0.4", "0.6", "1.6"], 0, "sin² + cos² = 1.", "t"),
+ q("Two dice are rolled. P(sum = 7)?", ["1/6", "1/12", "7/36", "1/36"], 0, "6 of 36.", "s"),
+ q("log₃ 81 = ?", ["4", "27", "3", "9"], 0, "3⁴.", "f"),
+ q("(3 + i)(3 − i) = ?", ["10", "8", "9 − i", "9 + i²"], 0, "9 − i² = 10.", "n"),
+ q("Distance between (−2, −1) and (4, 7)?", ["10", "14", "8", "√40"], 0, "√(36 + 64).", "g"),
+ q("Which line is perpendicular to y = 4x − 1?", ["y = −(1/4)x + 3", "y = 4x + 2", "y = −4x", "y = (1/4)x"], 0, "Negative reciprocal.", "a"),
+ q("Arithmetic sequence: a₁ = 5, d = 3. a₁₅ = ?", ["47", "50", "45", "48"], 0, "5 + 14·3.", "f"),
+ q("Determinant of [[3, 2], [5, 4]]?", ["2", "22", "−2", "7"], 0, "12 − 10.", "h"),
+ q("How many ways can 4 books be arranged on a shelf?", ["24", "16", "4", "12"], 0, "4!.", "s"),
+ q("Period of y = cos(4x)?", ["π/2", "4π", "2π", "π/4"], 0, "2π/4.", "t"),
+ q("Solve 2^(x−1) = 32.", ["6", "5", "4", "16"], 0, "x − 1 = 5.", "f"),
+]
+def rp(title, kind, paras):
+    body = "".join(f'<p><span class="ln">{i + 1}</span>{p}</p>' for i, p in enumerate(paras))
+    return f'<details class="qpass" open><summary>Show / hide passage</summary><div class="passage"><p><b>{kind}:</b> {title}</p>{body}</div></details>'
+R1 = rp("The Map Room", "Literary Narrative", [
+ "Lena's father kept his maps in a narrow room at the back of the house, rolled and stacked like firewood. As a child she was allowed in only when he was there, and only to watch. He unrolled them slowly, weighting the corners with whatever was nearby: a coffee mug, a stapler, her own small hands.",
+ "He had never been to most of the places on the maps. That was the part she didn't understand until much later. He loved them not as plans but as possibilities; each one was a country he could travel through at the kitchen table, tracing rivers with a pencil eraser.",
+ "When he died, her brothers wanted to sell the collection. Lena surprised herself by refusing. She did not know where she would keep them, only that she could not let strangers carry away the corners her hands had once held down.",
+])
+QR1 = [
+ q(R1 + "The passage is mainly about…", ["Lena's memories of her father's maps and why she keeps them", "how maps are made", "a family trip abroad", "a dispute over money"], 0, "Memories → decision.", "m"),
+ q(R1 + "According to the passage, Lena was allowed in the map room only when…", ["her father was there", "her brothers were away", "she finished homework", "the maps were rolled"], 0, "Paragraph 1.", "d"),
+ q(R1 + "The comparison of the maps to firewood in paragraph 1 mainly emphasizes…", ["how many there were and how they were stacked", "that they would be burned", "that they were dirty", "their bright colors"], 0, "Rolled and stacked.", "p"),
+ q(R1 + "The phrase \"not as plans but as possibilities\" suggests that the father…", ["enjoyed imagining places rather than planning real trips", "planned many trips", "disliked travel", "sold maps for a living"], 0, "He hadn't been to the places.", "i"),
+ q(R1 + "Lena's refusal to sell the maps is described as…", ["surprising even to herself", "planned for years", "a joke", "her brothers' idea"], 0, "\"Lena surprised herself.\"", "d"),
+ q(R1 + "The \"corners her hands had once held down\" refers to…", ["her childhood memories of helping her father", "a broken table", "a map of her town", "a painting"], 0, "She weighted the corners as a child.", "i"),
+ q(R1 + "As used in paragraph 2, \"tracing\" most nearly means…", ["following the line of", "copying exactly", "finding the origin of", "erasing"], 0, "Running the eraser along rivers.", "w"),
+ q(R1 + "Which best describes the tone of the passage?", ["Reflective and tender", "Angry and bitter", "Humorous", "Detached and technical"], 0, "Gentle memory.", "p"),
+ q(R1 + "Lena didn't understand the father's love of maps until much later because…", ["she didn't realize he had never visited most of the places", "he hid the maps", "she couldn't read", "he told her not to ask"], 0, "Paragraph 2.", "i"),
+]
+R2 = rp("Sleep and Memory", "Natural Science", [
+ "For centuries, sleep was thought of as a pause: the brain switching off to rest. Studies beginning in the 1950s overturned that idea. Recordings of brain activity showed that the sleeping brain cycles through distinct stages, some nearly as active as waking.",
+ "One stage, slow-wave sleep, appears especially important for memory. During it, the hippocampus, a region that briefly stores new experiences, \"replays\" the day's activity, and that information is gradually transferred to the cortex for long-term storage. In experiments with rats learning mazes, the same patterns of neurons that fired during learning fired again during slow-wave sleep.",
+ "In humans, people who sleep after learning a list of word pairs typically remember more the next day than people who stay awake for the same number of hours. Researchers caution, though, that sleep doesn't strengthen every memory equally; it seems to favor information that people expect to need later.",
+])
+QR2 = [
+ q(R2 + "The main purpose of the passage is to…", ["explain how research changed views of sleep's role in memory", "argue that people should sleep less", "describe the anatomy of rats", "compare dreams to memories"], 0, "Old view → new findings.", "m"),
+ q(R2 + "According to the passage, the hippocampus…", ["briefly stores new experiences", "permanently stores all memories", "is active only while awake", "controls dreaming"], 0, "Paragraph 2.", "d"),
+ q(R2 + "The rat experiments are mentioned as evidence that…", ["brain activity from learning is repeated during slow-wave sleep", "rats sleep more than humans", "mazes are hard to learn", "sleep is a pause"], 0, "Same neurons fired again.", "p"),
+ q(R2 + "As used in paragraph 1, \"overturned\" most nearly means…", ["reversed", "tipped over", "examined", "supported"], 0, "Proved wrong.", "w"),
+ q(R2 + "The researchers' caution in paragraph 3 suggests that…", ["sleep strengthens some memories more than others", "sleep has no effect on memory", "word pairs are easy", "people should never stay awake"], 0, "Favors expected-to-be-needed info.", "i"),
+ q(R2 + "Which statement would the author most likely agree with?", ["The sleeping brain is far from inactive", "Sleep is just rest", "Only rats replay memories", "Memory is stored only in the hippocampus"], 0, "Paragraph 1.", "i"),
+ q(R2 + "According to the passage, studies of brain activity during sleep began in the…", ["1950s", "1850s", "1990s", "2010s"], 0, "Paragraph 1.", "d"),
+ q(R2 + "The word \"replays\" is in quotation marks most likely because…", ["it's a comparison, not a literal recording", "it's a technical measurement", "a scientist said it once", "it's a mistake"], 0, "Figurative use.", "p"),
+ q(R2 + "Compared with people who stay awake, people who sleep after learning word pairs typically…", ["remember more the next day", "remember less", "learn faster while awake", "forget all of them"], 0, "Paragraph 3.", "d"),
+]
+S1 = T("Depth (m) | Water temp (°C) | Dissolved O₂ (mg/L)", "0 | 22 | 8.9", "5 | 20 | 8.1", "10 | 12 | 6.0", "15 | 8 | 3.2", "20 | 7 | 1.4")
+SC = [
+ q(S1 + "As depth increases, dissolved oxygen…", ["decreases", "increases", "stays the same", "increases then decreases"], 0, "8.9 → 1.4.", "d"),
+ q(S1 + "The largest drop in temperature occurs between…", ["5 and 10 m", "0 and 5 m", "15 and 20 m", "10 and 15 m"], 0, "20 → 12 (8°C).", "d"),
+ q(S1 + "At 12 m, oxygen would most likely be about…", ["4.9 mg/L", "6.0 mg/L", "3.2 mg/L", "8.1 mg/L"], 0, "Between 6.0 and 3.2.", "d"),
+ q(S1 + "A fish needs at least 4 mg/L of oxygen. Its maximum depth is about…", ["between 10 and 15 m", "20 m", "5 m", "0 m"], 0, "Drops below 4 between 10 and 15.", "d"),
+ q(S1 + "Based on the table, colder water in this lake had…", ["less dissolved oxygen", "more dissolved oxygen", "the same oxygen", "no oxygen"], 0, "Colder (deeper) → lower O₂ here.", "d"),
+ q(T("<b>Experiment:</b> A student tested how the angle of a ramp affects how far a toy car rolls on the floor. Angles: 10°, 20°, 30°. Distances: 1.2 m, 2.3 m, 3.1 m. The same car and ramp length were used each time.") + "The dependent variable was…", ["distance rolled", "ramp angle", "car mass", "ramp length"], 0, "What was measured.", "e"),
+ q(T("<b>Experiment:</b> ramp angles 10°, 20°, 30° gave distances 1.2 m, 2.3 m, 3.1 m. Same car and ramp length.") + "Which variable was controlled?", ["Ramp length", "Distance", "Angle", "Floor type was changed"], 0, "Kept the same.", "e"),
+ q(T("<b>Experiment:</b> ramp angles 10°, 20°, 30° gave distances 1.2 m, 2.3 m, 3.1 m.") + "At 25°, the car would most likely roll about…", ["2.7 m", "3.5 m", "2.0 m", "1.2 m"], 0, "Between 2.3 and 3.1.", "d"),
+ q(T("<b>Experiment:</b> ramp angles 10°, 20°, 30° gave distances 1.2 m, 2.3 m, 3.1 m.") + "To make the results more reliable, the student should…", ["repeat each trial several times and average", "use a different car each time", "test only one angle", "change the floor each time"], 0, "Repeated trials.", "e"),
+ q(T("<b>Student 1:</b> Ice floats because it is less dense than liquid water: water molecules form an open crystal when they freeze.", "<b>Student 2:</b> Ice floats because air bubbles get trapped inside it as it freezes.") + "Which observation would weaken Student 2's view?", ["Bubble-free, perfectly clear ice still floats", "Some ice has bubbles", "Ice melts at 0°C", "Snow is white"], 0, "No bubbles, still floats.", "v"),
+ q(T("<b>Student 1:</b> less dense crystal structure.", "<b>Student 2:</b> trapped air bubbles.") + "Both students agree that…", ["ice floats on water", "ice contains bubbles", "ice is denser than water", "water doesn't freeze"], 0, "Both explain floating.", "v"),
+ q(T("<b>Student 1:</b> less dense crystal structure.", "<b>Student 2:</b> trapped air bubbles.") + "Measuring which quantity would best test Student 1's idea?", ["The density of bubble-free ice vs liquid water", "The color of ice", "How fast ice melts", "The temperature of the room"], 0, "Density is the claim.", "e"),
+ q(T("Battery design | Capacity (mAh) | Mass (g) | Charge time (min)", "A | 3000 | 45 | 90", "B | 4000 | 60 | 120", "C | 3500 | 40 | 150", "D | 2500 | 30 | 60") + "A phone needs at least 3000 mAh and a charge time under 2 hours. Which designs qualify?", ["A only", "A and B", "B and C", "A, B and C"], 0, "B is exactly 120 (not under), C 150.", "g"),
+ q(T("Battery design | Capacity (mAh) | Mass (g)", "A | 3000 | 45", "B | 4000 | 60", "C | 3500 | 40", "D | 2500 | 30") + "Which has the most capacity per gram?", ["C", "B", "A", "D"], 0, "C: 87.5; D 83.3; B 66.7; A 66.7.", "g"),
+ q(S1 + "If a scientist measured at 25 m, oxygen would most likely be…", ["below 1.4 mg/L", "about 8 mg/L", "about 3.2 mg/L", "above 6 mg/L"], 0, "Continue the downward trend.", "d"),
+ q(T("<b>Experiment:</b> seeds soaked in salt solutions: 0%, 1%, 2%, 4% salt. Germination: 92%, 75%, 40%, 5%.") + "Which conclusion is best supported?", ["Higher salt concentrations reduce germination", "Salt helps seeds sprout", "Salt has no effect", "4% salt is ideal"], 0, "Clear negative trend.", "e"),
+ q(T("<b>Experiment:</b> salt 0%, 1%, 2%, 4% → germination 92%, 75%, 40%, 5%.") + "Which was the control group?", ["The 0% salt seeds", "The 4% salt seeds", "All groups", "The 2% salt seeds"], 0, "No treatment.", "e"),
+ q(T("<b>Experiment:</b> salt 0%, 1%, 2%, 4% → germination 92%, 75%, 40%, 5%.") + "At 3% salt, germination would most likely be…", ["between 5% and 40%", "above 75%", "exactly 40%", "0%"], 0, "Between 2% and 4% results.", "d"),
+]

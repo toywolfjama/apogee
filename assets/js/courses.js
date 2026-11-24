@@ -66,6 +66,35 @@ window.SITE_COURSES = [
       { id: "precalc-3", group: "AP Precalculus", name: "Unit 3: Trigonometric and Polar Functions", path: "courses/math/precalc-3.html", ready: true },
       { id: "precalc-4", group: "AP Precalculus", name: "Unit 4: Functions with Parameters, Vectors and Matrices" }
     ]
+  },
+  {
+    id: "sat",
+    name: "SAT",
+    blurb: "The digital SAT: strategy, Reading and Writing, Math, and a full-length practice test.",
+    units: [
+      { id: "sat-1", name: "Format and strategy", path: "courses/sat/sat-1.html", ready: true },
+      { id: "sat-2", name: "Reading: ideas, evidence and craft", path: "courses/sat/sat-2.html", ready: true },
+      { id: "sat-3", name: "Writing: grammar and expression", path: "courses/sat/sat-3.html", ready: true },
+      { id: "sat-4", name: "Math: algebra", path: "courses/sat/sat-4.html", ready: true },
+      { id: "sat-5", name: "Math: advanced math", path: "courses/sat/sat-5.html", ready: true },
+      { id: "sat-6", name: "Math: data, geometry and trig", path: "courses/sat/sat-6.html", ready: true },
+      { id: "sat-test", name: "Full-length practice test", path: "courses/sat/sat-test.html", ready: true }
+    ]
+  },
+  {
+    id: "act",
+    name: "ACT",
+    blurb: "The enhanced ACT: English, Math, Reading, optional Science and Writing, and a practice test.",
+    units: [
+      { id: "act-1", name: "Format and strategy", path: "courses/act/act-1.html", ready: true },
+      { id: "act-2", name: "English", path: "courses/act/act-2.html", ready: true },
+      { id: "act-3", name: "Math: numbers, algebra and functions", path: "courses/act/act-3.html", ready: true },
+      { id: "act-4", name: "Math: geometry, trig and statistics", path: "courses/act/act-4.html", ready: true },
+      { id: "act-5", name: "Reading", path: "courses/act/act-5.html", ready: true },
+      { id: "act-6", name: "Science (optional)", path: "courses/act/act-6.html", ready: true },
+      { id: "act-7", name: "Writing (optional essay)", path: "courses/act/act-7.html", ready: true },
+      { id: "act-test", name: "Half-length practice test", path: "courses/act/act-test.html", ready: true }
+    ]
   }
   // Example for later:
   // { id: "ap-chemistry", name: "AP Chemistry", blurb: "...", units: [ { id: "unit-1", name: "Unit 1: Atomic Structure" } ] }

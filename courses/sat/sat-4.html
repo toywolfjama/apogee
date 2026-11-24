@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAT: Math: Algebra | Apogee</title>
+<meta name="description" content="SAT Math Algebra domain: linear equations, functions, systems and inequalities with interactive graphs and practice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-exam" data-root="../../" data-course="sat" data-unit="sat-4">
+
+<div class="hero">
+  <span class="kicker">SAT · Part 4</span>
+  <h1>Algebra, <span class="hl">the fast way</span></h1>
+  <p>Linear equations, linear functions in context, systems and inequalities, with Desmos shortcuts and grid-ins.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-eq" data-title="Equations" data-short="Equations">
+<section class="topic" id="lin-eq">
+  <h2><span class="pill l">4.1</span>Linear equations in one variable</h2>
+  
+  
+<p>Isolate the variable. But on the SAT, often you don't need the variable at all: look for the expression they ask about.</p>
+<div class="msteps" data-w='{"title": "If 4x − 6 = 18, what is 2x − 3?", "frames": [{"t": ["a|4x − 6|v", "b|=", "c|18|n"], "note": "Notice 4x − 6 is exactly 2 × (2x − 3)."}, {"t": ["d|2(2x − 3)|v", "b|=", "c|18|n"], "note": "Factor out the 2."}, {"t": ["e|2x − 3|g", "b|=", "f|9|g"], "note": "Divide by 2. Done, without ever finding x."}]}'></div>
+<div class="grid2"><div class="mini"><h4>No solution</h4>Same x-coefficient, different constants: 3x + 2 = 3x + 5 is impossible.</div><div class="mini"><h4>Infinitely many</h4>Both sides identical after simplifying: 2(x + 1) = 2x + 2.</div></div>
+<div class="worked"><div class="q">Worked example: For what value of k does 5x + k = 5x − 2 have infinitely many solutions? For what values does it have none?</div><div class="a">Infinitely many when k = −2 (sides identical). No solution for any other k.</div></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-fn" data-title="Functions" data-short="Functions">
+<section class="topic" id="lin-fn">
+  <h2><span class="pill f">4.2</span>Linear functions and graphs</h2>
+  
+  
+<p>f(x) = mx + b: m is the rate of change (slope), b is the starting value (y-intercept). Word problems love asking what m or b <b>means in context</b>.</p>
+<div class="mlab" data-lab='{"title": "Context lab: phone plan", "sub": "C(m) = r·m + f: monthly fee f plus r dollars per GB of data m.", "x": [0, 20], "y": [0, 120], "gx": 2, "gy": 10, "params": {"r": [0, 6, 0.5, 3.5, "r ($/GB)"], "f": [0, 60, 5, 25, "f ($)"]}, "fns": [{"e": "r*x+f", "label": "C(m) = r·m + f"}], "dots": [["0", "f", "fee ${f}", "#EA580C"], ["10", "r*10+f", "10 GB: ${r*10+f}", "#2563EB"]], "read": [["slope = ", "r"], ["intercept = ", "f"]], "type": "graph"}'></div>
+<div class="worked"><div class="q">Worked example: C(m) = 3.5m + 25. What does 3.5 mean?</div><div class="a">Each additional gigabyte of data adds $3.50 to the monthly cost. (25 is the cost with zero data.)</div></div>
+<p>From two points: slope = Δy/Δx. Parallel lines share a slope; perpendicular slopes multiply to −1. From a table: check the slope between any two rows.</p>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-sys" data-title="Systems and Inequalities" data-short="Systems">
+<section class="topic" id="systems">
+  <h2><span class="pill s">4.3</span>Systems of linear equations</h2>
+  
+  
+<div class="msteps" data-w='{"title": "Solve: 2x + 3y = 12 and x − y = 1", "frames": [{"t": ["a|2x + 3y = 12|s", "b|x − y = 1|v"], "note": "Multiply the second equation by 3 so the y&#39;s cancel."}, {"t": ["a|2x + 3y = 12|s", "c|3x − 3y = 3|v"], "note": "Now add the equations."}, {"t": ["d|5x = 15|e"], "note": "y&#39;s are gone."}, {"t": ["e|x = 3|g", "f|y = 2|g"], "note": "Then 3 − y = 1 → y = 2. Desmos check: graph both lines and click the crossing point."}]}'></div>
+<div class="mlab" data-lab='{"title": "How many solutions?", "sub": "Line 1: y = 2x + 1. Line 2: y = m·x + b. Make them parallel (no solution) or identical (infinite).", "x": [-6, 6], "y": [-8, 10], "gx": 1, "gy": 2, "params": {"m": [-3, 3, 0.5, -1, "m"], "b": [-4, 4, 0.5, 4, "b"]}, "fns": [{"e": "2*x+1", "label": "y = 2x + 1"}, {"e": "m*x+b", "label": "y = mx + b"}], "read": [["slopes equal?", "m-2"]], "type": "graph"}'></div>
+<div class="tblwrap"><table><tr><th>Equations look like…</th><th>Solutions</th></tr><tr><td>different slopes</td><td>exactly one</td></tr><tr><td>same slope, different intercept</td><td>none (parallel)</td></tr><tr><td>one is a multiple of the other</td><td>infinitely many (same line)</td></tr></table></div>
+<div class="worked"><div class="q">Worked example: For what value of c does the system 3x + 2y = 7 and 6x + cy = 10 have no solution?</div><div class="a">No solution means parallel: the left sides must be proportional, 6/3 = c/2 → c = 4 (and 10 ≠ 14, so not the same line).</div></div>
+
+  
+</section>
+<section class="topic" id="ineq">
+  <h2><span class="pill q">4.4</span>Inequalities and linear models</h2>
+  
+  
+<p>Same moves as equations, but <b>flip the sign</b> when you multiply or divide by a negative. Word cues: "at least" ≥, "at most" / "no more than" ≤, "more than" &gt;.</p>
+<div class="worked"><div class="q">Worked example: A van can carry at most 1,200 kg. The driver weighs 80 kg and each box weighs 35 kg. What's the most boxes it can carry?</div><div class="a">80 + 35b ≤ 1200 → 35b ≤ 1120 → b ≤ 32. So 32 boxes.</div></div>
+<div class="mlab" data-lab='{"title": "Inequality region", "sub": "y ≤ m·x + b is everything on or below the line. Is the orange point a solution?", "x": [-6, 6], "y": [-6, 6], "gx": 1, "gy": 1, "params": {"m": [-3, 3, 0.5, 0.5, "m"], "b": [-4, 4, 0.5, 1, "b"]}, "fns": [{"e": "m*x+b", "label": "y = mx + b"}], "dots": [["2", "1", "(2, 1)", "#EA580C"]], "read": [["is (2, 1) a solution? m·2 + b − 1 =", "m*2+b-1"]], "type": "graph"}'></div>
+<p>If that readout is ≥ 0, the point (2, 1) satisfies y ≤ mx + b.</p>
+
+  
+</section>
+</div>
+<div class="chapter" id="practice-sat-4" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-sat-4">
+  <h2>Practice questions</h2>
+  <p class="sub">14 questions with instant explanations. Filter by skill with the buttons.</p>
+  <div class="quiz" data-src="quiz-sat-4" data-tags='{"l": "Linear equations", "f": "Linear functions", "s": "Systems", "q": "Inequalities & models"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-sat-4" data-title="Hard Questions" data-short="Hard" data-hard="1">
+<section class="topic" id="challenge-quiz-sat-4">
+  <h2>Hard questions</h2>
+  <p class="sub">The kind you'll see in the harder second module. Take your time.</p>
+  <div class="quiz" data-src="quiz-challenge-sat-4" data-tags='{"l": "Linear equations", "f": "Linear functions", "s": "Systems", "q": "Inequalities & models"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-sat-4" data-title="Timed Set" data-short="Timed set">
+<section class="topic" id="exam-box-sat-4"><h2>SAT Math: Algebra: timed set</h2><p class="sub">15 questions in 20 minutes. No feedback until you submit.</p><div class="exam" data-src="exam-sat-4"></div></section>
+</div>
+</main>
+
+<footer>Apogee · SAT prep · Not affiliated with College Board or ACT</footer>
+
+<script type="application/json" id="quiz-sat-4">
+[
+ {
+  "t": "l",
+  "q": "If 3(x − 2) = 15, what is x?",
+  "o": [
+   "5",
+   "3",
+   "7",
+   "9"
+  ],
+  "a": 2,
+  "x": "x − 2 = 5."
+ },
+ {
+  "t": "l",
+  "q": "If 6y + 9 = 45, what is 2y + 3?",
+  "g": [
+   "15"
+  ],
+  "x": "Divide everything by 3."
+ },
+ {
+  "t": "l",
+  "q": "How many solutions does 4(x + 1) = 4x + 7 have?",
+  "o": [
+   "One",
+   "Infinitely many",
+   "None",
+   "Two"
+  ],
+  "a": 2,
+  "x": "4x + 4 = 4x + 7 is impossible."
+ },
+ {
+  "t": "f",
+  "q": "The line through (1, 4) and (3, 10) has slope…",
+  "o": [
+   "3",
+   "2",
+   "1/3",
+   "6"
+  ],
+  "a": 0,
+  "x": "6/2."
+ },
+ {
+  "t": "f",
+  "q": "A taxi charges F(m) = 2.5m + 4 dollars for m miles. What does 4 represent?",
+  "o": [
+   "The charge per mile",
+   "The charge before any miles are driven",
+   "The total for 4 miles",
+   "The number of miles"
+  ],
+  "a": 1,
+  "x": "The intercept is the starting fee."
+ },
+ {
+  "t": "f",
+  "q": "Which line is parallel to y = −3x + 2?",
+  "o": [
+   "y = −3x − 5",
+   "y = (1/3)x",
+   "y = −(1/3)x + 2",
+   "y = 3x + 2"
+  ],
+  "a": 0,
+  "x": "Same slope."
+ },
+ {
+  "t": "f",
+  "q": "f(x) = 7x − 4. What is f(3)?",
+  "g": [
+   "17"
+  ],
+  "x": "21 − 4."
+ },
+ {
+  "t": "s",
+  "q": "Solve: x + y = 10, x − y = 2. What is x?",
+  "o": [
+   "4",
+   "5",
+   "8",
+   "6"
+  ],
+  "a": 3,
+  "x": "Add: 2x = 12."
+ },
+ {
+  "t": "s",
+  "q": "If 2x + y = 11 and x + y = 7, what is x?",
+  "g": [
+   "4"
+  ],
+  "x": "Subtract: x = 4."
+ },
+ {
+  "t": "s",
+  "q": "For what value of k does 2x + 5y = 3 and 4x + ky = 9 have no solution?",
+  "o": [
+   "2.5",
+   "5",
+   "6",
+   "10"
+  ],
+  "a": 3,
+  "x": "4/2 = k/5 → k = 10; constants 3·2 ≠ 9 so not identical."
+ },
+ {
+  "t": "q",
+  "q": "Which describes the solutions of −2x + 5 > 11?",
+  "o": [
+   "x < 3",
+   "x > −3",
+   "x < −3",
+   "x > 8"
+  ],
+  "a": 2,
+  "x": "−2x > 6, flip: x < −3.",
+  "h": 1
+ },
+ {
+  "t": "q",
+  "q": "Tickets cost $12 for adults and $7 for students. A group spends at most $150 with 6 adults. What's the max number of students?",
+  "o": [
+   "21",
+   "11",
+   "12",
+   "10"
+  ],
+  "a": 1,
+  "x": "72 + 7s ≤ 150 → s ≤ 11.14."
+ },
+ {
+  "t": "q",
+  "q": "A plant is 5 cm tall and grows 1.5 cm per week. Which gives its height after w weeks?",
+  "o": [
+   "h = 1.5w + 5",
+   "h = 6.5w",
+   "h = 5w + 1.5",
+   "h = 1.5(w + 5)"
+  ],
+  "a": 0,
+  "x": "Start + rate × time."
+ },
+ {
+  "t": "f",
+  "q": "Line ℓ is perpendicular to y = (2/5)x − 1. What is the slope of ℓ?",
+  "g": [
+   "-5/2",
+   "-2.5"
+  ],
+  "x": "Negative reciprocal."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-sat-4">
+[
+ {
+  "t": "s",
+  "q": "The system ax + 3y = 12 and 2x + y = 4 has infinitely many solutions. What is a?",
+  "g": [
+   "6"
+  ],
+  "x": "Multiply the second equation by 3: 6x + 3y = 12. For the same line, a must be 6."
+ },
+ {
+  "t": "q",
+  "q": "A gym charges a joining fee plus a monthly fee. After 4 months a member has paid $210; after 10 months, $435. What is the joining fee?",
+  "o": [
+   "$60",
+   "$22.50",
+   "$90",
+   "$37.50"
+  ],
+  "a": 0,
+  "x": "Monthly = 225/6 = 37.5. Fee = 210 − 150 = 60."
+ },
+ {
+  "t": "s",
+  "q": "If 3a − 2b = 7 and a + 2b = 9, what is a + b?",
+  "g": [
+   "6.5",
+   "13/2"
+  ],
+  "x": "Add the equations: 4a = 16, so a = 4. Then 4 + 2b = 9 → b = 2.5. a + b = 6.5."
+ },
+ {
+  "t": "f",
+  "q": "The graph of y = f(x) is a line with f(2) = 5 and f(6) = −3. What is f(0)?",
+  "o": [
+   "1",
+   "7",
+   "−7",
+   "9"
+  ],
+  "a": 3,
+  "x": "Slope −2; f(0) = 5 + 4 = 9."
+ },
+ {
+  "t": "q",
+  "q": "Which point satisfies both y > 2x − 1 and y < −x + 5?",
+  "o": [
+   "(1, 2)",
+   "(2, 4)",
+   "(3, 1)",
+   "(0, −2)"
+  ],
+  "a": 0,
+  "x": "(1, 2): 2 > 1 ✓ and 2 < 4 ✓."
+ },
+ {
+  "t": "l",
+  "q": "In the equation (x/3) + (x/6) = 5, what is x?",
+  "g": [
+   "10"
+  ],
+  "x": "Multiply by 6: 2x + x = 30."
+ }
+]
+</script>
+<script type="application/json" id="exam-sat-4">
+{
+ "title": "SAT Math: Algebra: timed set",
+ "mcqMinutes": 20,
+ "frqMinutes": 0,
+ "tags": {
+  "l": "Linear equations",
+  "f": "Linear functions",
+  "s": "Systems",
+  "q": "Inequalities & models"
+ },
+ "mcq": [
+  {
+   "t": "l",
+   "q": "If 5x − 8 = 2x + 7, what is x?",
+   "o": [
+    "−5",
+    "1/3",
+    "5",
+    "3"
+   ],
+   "a": 2,
+   "x": "3x = 15."
+  },
+  {
+   "t": "l",
+   "q": "If x/2 + 4 = 10, what is x?",
+   "g": [
+    "12"
+   ],
+   "x": "x/2 = 6."
+  },
+  {
+   "t": "f",
+   "q": "Slope of the line 3x − 4y = 8?",
+   "o": [
+    "−3/4",
+    "−2",
+    "3/4",
+    "4/3"
+   ],
+   "a": 2,
+   "x": "y = (3/4)x − 2."
+  },
+  {
+   "t": "q",
+   "q": "A pool has 800 L and drains 25 L per minute. Which models the volume V after t minutes?",
+   "o": [
+    "V = 800 − 25t",
+    "V = 775t",
+    "V = 800t − 25",
+    "V = 25t − 800"
+   ],
+   "a": 0,
+   "x": "Starting amount minus rate × time."
+  },
+  {
+   "t": "f",
+   "q": "f(x) = −2x + 9. For what x is f(x) = 1?",
+   "g": [
+    "4"
+   ],
+   "x": "−2x = −8."
+  },
+  {
+   "t": "s",
+   "q": "Solve: y = 3x and 2x + y = 20. What is y?",
+   "o": [
+    "4",
+    "12",
+    "6",
+    "15"
+   ],
+   "a": 1,
+   "x": "5x = 20, x = 4, y = 12."
+  },
+  {
+   "t": "s",
+   "q": "Which system has no solution?",
+   "o": [
+    "y = 2x + 1, y = 2x − 3",
+    "y = x, y = 2x",
+    "y = 3, x = 3",
+    "y = 2x + 1, y = −2x + 1"
+   ],
+   "a": 0,
+   "x": "Parallel lines."
+  },
+  {
+   "t": "q",
+   "q": "x ≥ 4 and x < 9 for integers x. How many integers?",
+   "o": [
+    "4",
+    "9",
+    "6",
+    "5"
+   ],
+   "a": 3,
+   "x": "4, 5, 6, 7, 8."
+  },
+  {
+   "t": "f",
+   "q": "The line y = mx + 3 passes through (2, 11). What is m?",
+   "o": [
+    "3",
+    "7",
+    "5.5",
+    "4"
+   ],
+   "a": 3,
+   "x": "11 = 2m + 3."
+  },
+  {
+   "t": "f",
+   "q": "A line has slope 2 and passes through (3, 1). What is its y-intercept?",
+   "g": [
+    "-5"
+   ],
+   "x": "1 = 6 + b."
+  },
+  {
+   "t": "q",
+   "q": "Mia earns $15/hour and $40 in tips per shift. She wants at least $160 from one shift. Minimum hours?",
+   "o": [
+    "11",
+    "10",
+    "8",
+    "12"
+   ],
+   "a": 2,
+   "x": "15h + 40 ≥ 160 → h ≥ 8."
+  },
+  {
+   "t": "l",
+   "q": "If 2(3x + 1) = 6x + k has infinitely many solutions, k = ?",
+   "o": [
+    "0",
+    "2",
+    "1",
+    "6"
+   ],
+   "a": 1,
+   "x": "6x + 2 = 6x + k."
+  },
+  {
+   "t": "l",
+   "q": "Solve 0.4x + 1.2 = 3.6.",
+   "g": [
+    "6"
+   ],
+   "x": "0.4x = 2.4."
+  },
+  {
+   "t": "f",
+   "q": "Which equation describes a line with x-intercept 4 and y-intercept −2?",
+   "o": [
+    "y = (1/2)x − 2",
+    "y = 2x − 4",
+    "y = −(1/2)x + 4",
+    "y = −2x + 4"
+   ],
+   "a": 0,
+   "x": "Slope (0 − (−2))/(4 − 0) = 1/2."
+  },
+  {
+   "t": "s",
+   "q": "Pens cost $2 and notebooks $5. Jo buys 8 items for $25. How many notebooks?",
+   "o": [
+    "4",
+    "2",
+    "5",
+    "3"
+   ],
+   "a": 3,
+   "x": "p + n = 8, 2p + 5n = 25 → 16 + 3n = 25."
+  }
+ ],
+ "frq": [],
+ "mcqName": "Algebra set",
+ "mcqKind": "questions",
+ "rules": [
+  "No feedback until you submit. Flag questions and come back to them.",
+  "No penalty for wrong answers: never leave one blank."
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/tp.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

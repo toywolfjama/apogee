@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ACT: Math: Geometry, Trig and Statistics | Apogee</title>
+<meta name="description" content="ACT Math: geometry, trigonometry, statistics, probability, matrices and vectors with interactive labs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-exam th-act" data-root="../../" data-course="act" data-unit="act-4">
+
+<div class="hero">
+  <span class="kicker">ACT · Part 4</span>
+  <h1>Math part 2: <span class="hl">shapes & stats</span></h1>
+  <p>Plane and coordinate geometry (no formula sheet!), trig, statistics, probability, counting, matrices and vectors.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-geo" data-title="Geometry" data-short="Geometry">
+<section class="topic" id="geometry">
+  <h2><span class="pill g">4.1</span>Plane and coordinate geometry</h2>
+  
+  
+<p>The ACT gives <b>no formula sheet</b>. Memorize these.</p>
+<div class="tblwrap"><table><tr><th>Shape</th><th>Formulas</th></tr><tr><td>Triangle</td><td>A = ½bh; angles sum to 180°</td></tr><tr><td>Rectangle / parallelogram</td><td>A = bh</td></tr><tr><td>Trapezoid</td><td>A = ½(b₁ + b₂)h</td></tr><tr><td>Circle</td><td>A = πr², C = 2πr; arc = (θ/360)·2πr</td></tr><tr><td>Polygon interior angles</td><td>(n − 2)·180°</td></tr><tr><td>Box / cylinder</td><td>V = lwh, V = πr²h</td></tr><tr><td>Coordinate</td><td>distance √(Δx² + Δy²), midpoint = averages, slope Δy/Δx</td></tr></table></div>
+<div class="mlab" data-lab='{"title": "Circle in the plane", "sub": "(x − h)² + (y − k)² = r²", "h": 540, "x": [-8, 8], "y": [-6, 6], "gx": 1, "gy": 1, "params": {"r": [1, 5, 0.5, 3, "r"], "h": [-4, 4, 0.5, 1, "h"], "k": [-3, 3, 0.5, -1, "k"]}, "fns": [{"e": "k+sqrt(r^2-(x-h)^2)", "label": "(x − h)² + (y − k)² = r²"}, {"e": "k-sqrt(r^2-(x-h)^2)", "c": "#2563EB", "hide": true}], "dots": [["h", "k", "center", "#EA580C"]], "read": [["area: ", "pi*r^2"]], "type": "graph"}'></div>
+<div class="worked"><div class="q">Worked example: A regular hexagon: each interior angle?</div><div class="a">(6 − 2)·180 = 720; 720/6 = 120°.</div></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-trig" data-title="Trigonometry" data-short="Trig">
+<section class="topic" id="trig">
+  <h2><span class="pill t">4.2</span>Trigonometry</h2>
+  
+  
+<div class="grid2"><div class="mini"><h4>SOH-CAH-TOA</h4>Right triangles only.</div><div class="mini"><h4>Unit circle</h4>(cos θ, sin θ). Know 30°, 45°, 60° exact values and the quadrant signs.</div><div class="mini"><h4>Identities</h4>sin²θ + cos²θ = 1; tan θ = sin θ/cos θ.</div><div class="mini"><h4>Law of Sines / Cosines</h4>Non-right triangles: a/sin A = b/sin B; c² = a² + b² − 2ab cos C. The ACT usually prints these in the question if needed.</div></div>
+<div class="mlab" data-lab='{"type": "circle", "deg": 135}'></div>
+<div class="mlab" data-lab='{"title": "Sinusoid", "sub": "y = a·sin(b·x) + d: amplitude |a|, period 2π/b, midline d.", "x": [0, 12.566], "y": [-5, 5], "gx": 1.5708, "gy": 1, "xpi": true, "params": {"a": [-4, 4, 0.5, 2, "a"], "b": [0.5, 3, 0.5, 1, "b"], "d": [-2, 2, 0.5, 0, "d"]}, "fns": [{"e": "a*sin(b*x)+d", "label": "y = a·sin(bx) + d"}], "read": [["period: ", "2*pi/b"]], "type": "graph"}'></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-stat" data-title="Statistics, Probability, Higher Topics" data-short="Stats & more">
+<section class="topic" id="stats">
+  <h2><span class="pill s">4.3</span>Statistics and probability</h2>
+  
+  
+<div class="grid2"><div class="mini"><h4>Center</h4>Mean, median, mode. Adding a constant to every value shifts all three; multiplying scales them.</div><div class="mini"><h4>Spread</h4>Range, standard deviation. Adding a constant doesn't change spread.</div><div class="mini"><h4>Counting</h4>Multiply choices: 3 shirts × 4 pants = 12 outfits. Order matters → permutations; order doesn't → combinations: C(n, k) = n!/(k!(n − k)!).</div><div class="mini"><h4>Probability</h4>P(A and B) = P(A)·P(B) if independent. P(not A) = 1 − P(A). Expected value = Σ value × probability.</div></div>
+<div class="msteps" data-w='{"title": "How many ways to choose 3 of 5 students for a committee?", "frames": [{"t": ["a|C(5, 3)|e"], "note": "Order doesn&#39;t matter: combination."}, {"t": ["b|5! / (3! · 2!)|s"], "note": "n!/(k!(n − k)!)."}, {"t": ["c|120 / (6 · 2)|s"], "note": "5! = 120, 3! = 6, 2! = 2."}, {"t": ["d|10|g"], "note": "10 committees."}]}'></div>
+
+  
+</section>
+<section class="topic" id="higher">
+  <h2><span class="pill h">4.4</span>Matrices, vectors and other higher topics</h2>
+  
+  
+<div class="grid2"><div class="mini"><h4>Matrices</h4>Add entry by entry (same size). Multiply rows × columns: (m×n)(n×p) gives m×p. Determinant of [[a, b], [c, d]] = ad − bc.</div><div class="mini"><h4>Vectors</h4>⟨a, b⟩ + ⟨c, d⟩ = ⟨a + c, b + d⟩. Magnitude √(a² + b²).</div><div class="mini"><h4>Logs and exponentials</h4>Solve 3ˣ = 20 with x = log 20 / log 3.</div><div class="mini"><h4>Ellipses & parabolas</h4>x²/a² + y²/b² = 1 is an ellipse centered at the origin with x-intercepts ±a.</div></div>
+<div class="msteps" data-w='{"title": "Multiply [[1, 2], [3, 4]] · [[5], [6]]", "frames": [{"t": ["a|[1 2]·[5 6]|s", "b|[3 4]·[5 6]|v"], "note": "Each row times the column."}, {"t": ["c|1·5 + 2·6|s", "d|3·5 + 4·6|v"], "note": "Multiply matching entries and add."}, {"t": ["e|17|g", "f|39|g"], "note": "Result: the column [17, 39]."}]}'></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="practice-act-4" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-act-4">
+  <h2>Practice questions</h2>
+  <p class="sub">14 questions with instant explanations. Filter by skill with the buttons.</p>
+  <div class="quiz" data-src="quiz-act-4" data-tags='{"g": "Geometry", "t": "Trigonometry", "s": "Statistics & probability", "h": "Higher topics"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-act-4" data-title="Hard Questions" data-short="Hard" data-hard="1">
+<section class="topic" id="challenge-quiz-act-4">
+  <h2>Hard questions</h2>
+  <p class="sub">The kind you'll see in the harder second module. Take your time.</p>
+  <div class="quiz" data-src="quiz-challenge-act-4" data-tags='{"g": "Geometry", "t": "Trigonometry", "s": "Statistics & probability", "h": "Higher topics"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-act-4" data-title="Timed Set" data-short="Timed set">
+<section class="topic" id="exam-box-act-4"><h2>ACT Math: Geometry, Trig and Statistics: timed set</h2><p class="sub">15 questions in 17 minutes. No feedback until you submit.</p><div class="exam" data-src="exam-act-4"></div></section>
+</div>
+</main>
+
+<footer>Apogee · ACT prep · Not affiliated with College Board or ACT</footer>
+
+<script type="application/json" id="quiz-act-4">
+[
+ {
+  "t": "g",
+  "q": "Area of a triangle with base 10 and height 7?",
+  "o": [
+   "17",
+   "70",
+   "35",
+   "140"
+  ],
+  "a": 2,
+  "x": "½ · 70."
+ },
+ {
+  "t": "g",
+  "q": "Sum of interior angles of a pentagon?",
+  "o": [
+   "720°",
+   "900°",
+   "360°",
+   "540°"
+  ],
+  "a": 3,
+  "x": "3 · 180."
+ },
+ {
+  "t": "g",
+  "q": "Distance between (−1, 2) and (5, 10)?",
+  "o": [
+   "√52",
+   "14",
+   "8",
+   "10"
+  ],
+  "a": 3,
+  "x": "√(36 + 64)."
+ },
+ {
+  "t": "g",
+  "q": "Circle with radius 6. Length of a 60° arc?",
+  "o": [
+   "π",
+   "12π",
+   "2π",
+   "6π"
+  ],
+  "a": 2,
+  "x": "(60/360)·12π."
+ },
+ {
+  "t": "g",
+  "q": "Volume of a box 3 × 4 × 5?",
+  "o": [
+   "94",
+   "60",
+   "12",
+   "47"
+  ],
+  "a": 1,
+  "x": "lwh."
+ },
+ {
+  "t": "t",
+  "q": "sin 30° = ?",
+  "o": [
+   "1/2",
+   "1",
+   "√2/2",
+   "√3/2"
+  ],
+  "a": 0,
+  "x": "Special triangle."
+ },
+ {
+  "t": "t",
+  "q": "cos θ = 5/13 in a right triangle. tan θ = ?",
+  "o": [
+   "5/12",
+   "13/12",
+   "12/13",
+   "12/5"
+  ],
+  "a": 3,
+  "x": "Opposite 12."
+ },
+ {
+  "t": "t",
+  "q": "Period of y = 3 sin(2x)?",
+  "o": [
+   "2π",
+   "4π",
+   "π",
+   "3"
+  ],
+  "a": 2,
+  "x": "2π/2."
+ },
+ {
+  "t": "t",
+  "q": "In which quadrant are both sin and cos negative?",
+  "o": [
+   "I",
+   "II",
+   "III",
+   "IV"
+  ],
+  "a": 2,
+  "x": "ASTC."
+ },
+ {
+  "t": "s",
+  "q": "Mean of 4, 7, 9, 12, 18?",
+  "o": [
+   "9",
+   "11",
+   "10",
+   "12"
+  ],
+  "a": 2,
+  "x": "50/5."
+ },
+ {
+  "t": "s",
+  "q": "A coin is flipped 3 times. P(all heads)?",
+  "o": [
+   "1/8",
+   "1/6",
+   "1/2",
+   "3/8"
+  ],
+  "a": 0,
+  "x": "(1/2)³."
+ },
+ {
+  "t": "s",
+  "q": "How many 4-digit PINs use digits 0–9 with repeats allowed?",
+  "o": [
+   "10,000",
+   "40",
+   "9,999",
+   "5,040"
+  ],
+  "a": 0,
+  "x": "10⁴."
+ },
+ {
+  "t": "h",
+  "q": "Determinant of [[2, 3], [1, 4]]?",
+  "o": [
+   "8",
+   "11",
+   "5",
+   "−5"
+  ],
+  "a": 2,
+  "x": "8 − 3."
+ },
+ {
+  "t": "h",
+  "q": "Magnitude of the vector ⟨6, −8⟩?",
+  "o": [
+   "100",
+   "10",
+   "2",
+   "14"
+  ],
+  "a": 1,
+  "x": "√(36 + 64)."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-act-4">
+[
+ {
+  "t": "t",
+  "q": "A triangle has sides 7 and 10 with a 60° angle between them. Third side? (c² = a² + b² − 2ab cos C)",
+  "o": [
+   "√79",
+   "13",
+   "√51",
+   "√149"
+  ],
+  "a": 0,
+  "x": "49 + 100 − 140·½ = 79."
+ },
+ {
+  "t": "s",
+  "q": "How many ways can 5 runners finish 1st, 2nd and 3rd?",
+  "o": [
+   "120",
+   "10",
+   "125",
+   "60"
+  ],
+  "a": 3,
+  "x": "5 · 4 · 3."
+ },
+ {
+  "t": "s",
+  "q": "A game pays $10 with probability 0.2 and $0 otherwise. Costs $3 to play. Expected net?",
+  "o": [
+   "−$3",
+   "$7",
+   "$2",
+   "−$1"
+  ],
+  "a": 3,
+  "x": "0.2 · 10 − 3."
+ },
+ {
+  "t": "h",
+  "q": "[[1, 0], [2, 1]] · [[3, 1], [0, 2]] = ?",
+  "o": [
+   "[[4, 1], [2, 3]]",
+   "[[3, 1], [2, 3]]",
+   "[[3, 1], [6, 4]]",
+   "[[3, 0], [0, 2]]"
+  ],
+  "a": 2,
+  "x": "Row 2: [2·3 + 1·0, 2·1 + 1·2] = [6, 4]."
+ },
+ {
+  "t": "t",
+  "q": "sin²(40°) + cos²(40°) = ?",
+  "o": [
+   "2 sin 40°",
+   "1",
+   "Can't tell",
+   "0"
+  ],
+  "a": 1,
+  "x": "Pythagorean identity."
+ },
+ {
+  "t": "g",
+  "q": "Two similar triangles have areas 16 and 36. Ratio of perimeters?",
+  "o": [
+   "4:6",
+   "4:9",
+   "2:3",
+   "16:36"
+  ],
+  "a": 2,
+  "x": "√(16/36) = 2/3."
+ }
+]
+</script>
+<script type="application/json" id="exam-act-4">
+{
+ "title": "ACT Math: Geometry, Trig and Statistics: timed set",
+ "mcqMinutes": 17,
+ "frqMinutes": 0,
+ "tags": {
+  "g": "Geometry",
+  "t": "Trigonometry",
+  "s": "Statistics & probability",
+  "h": "Higher topics"
+ },
+ "mcq": [
+  {
+   "t": "g",
+   "q": "Area of a trapezoid with bases 6 and 10 and height 4?",
+   "o": [
+    "40",
+    "64",
+    "32",
+    "24"
+   ],
+   "a": 2,
+   "x": "½ · 16 · 4."
+  },
+  {
+   "t": "g",
+   "q": "Midpoint of (2, 8) and (6, −2)?",
+   "o": [
+    "(8, 6)",
+    "(2, 5)",
+    "(4, 5)",
+    "(4, 3)"
+   ],
+   "a": 3,
+   "x": "Averages."
+  },
+  {
+   "t": "g",
+   "q": "Each interior angle of a regular octagon?",
+   "o": [
+    "108°",
+    "120°",
+    "144°",
+    "135°"
+   ],
+   "a": 3,
+   "x": "1080/8."
+  },
+  {
+   "t": "g",
+   "q": "Circumference of a circle with area 49π?",
+   "o": [
+    "49π",
+    "28π",
+    "14π",
+    "7π"
+   ],
+   "a": 2,
+   "x": "r = 7."
+  },
+  {
+   "t": "g",
+   "q": "Slope of a line perpendicular to 2x + 3y = 6?",
+   "o": [
+    "−3/2",
+    "3/2",
+    "2/3",
+    "−2/3"
+   ],
+   "a": 1,
+   "x": "Given slope −2/3."
+  },
+  {
+   "t": "t",
+   "q": "tan 45° = ?",
+   "o": [
+    "1",
+    "√3",
+    "√2",
+    "0"
+   ],
+   "a": 0,
+   "x": "Equal legs."
+  },
+  {
+   "t": "g",
+   "q": "A ladder 13 ft long reaches 12 ft up a wall. Distance from the wall at the base?",
+   "o": [
+    "1 ft",
+    "√313 ft",
+    "25 ft",
+    "5 ft"
+   ],
+   "a": 3,
+   "x": "5-12-13."
+  },
+  {
+   "t": "t",
+   "q": "cos 120° = ?",
+   "o": [
+    "1/2",
+    "√3/2",
+    "−1/2",
+    "−√3/2"
+   ],
+   "a": 2,
+   "x": "QII, reference 60°."
+  },
+  {
+   "t": "t",
+   "q": "Amplitude of y = −5 cos x + 2?",
+   "o": [
+    "7",
+    "−5",
+    "5",
+    "2"
+   ],
+   "a": 2,
+   "x": "|a|."
+  },
+  {
+   "t": "s",
+   "q": "Median of 3, 9, 4, 12, 7, 8?",
+   "o": [
+    "7",
+    "8",
+    "7.5",
+    "6.5"
+   ],
+   "a": 2,
+   "x": "Sorted: 3, 4, 7, 8, 9, 12."
+  },
+  {
+   "t": "s",
+   "q": "A bag has 3 red, 5 blue and 2 green. P(not blue)?",
+   "o": [
+    "1/2",
+    "1/5",
+    "1/3",
+    "3/10"
+   ],
+   "a": 0,
+   "x": "5/10."
+  },
+  {
+   "t": "s",
+   "q": "Each data value is increased by 4. What happens to the standard deviation?",
+   "o": [
+    "Stays the same",
+    "Doubles",
+    "Decreases by 4",
+    "Increases by 4"
+   ],
+   "a": 0,
+   "x": "Shifting doesn't change spread."
+  },
+  {
+   "t": "s",
+   "q": "C(6, 2) = ?",
+   "o": [
+    "12",
+    "30",
+    "15",
+    "36"
+   ],
+   "a": 2,
+   "x": "6·5/2."
+  },
+  {
+   "t": "h",
+   "q": "⟨2, 5⟩ + ⟨−3, 1⟩ = ?",
+   "o": [
+    "⟨−1, 4⟩",
+    "⟨−1, 6⟩",
+    "⟨−6, 5⟩",
+    "⟨5, 6⟩"
+   ],
+   "a": 1,
+   "x": "Add components."
+  },
+  {
+   "t": "h",
+   "q": "Solve 2ˣ = 10 (nearest hundredth).",
+   "o": [
+    "2.30",
+    "3.32",
+    "3.16",
+    "5.00"
+   ],
+   "a": 1,
+   "x": "log 10/log 2."
+  }
+ ],
+ "frq": [],
+ "mcqName": "Practice set",
+ "mcqKind": "questions",
+ "rules": [
+  "15 questions in 17 minutes (ACT pace).",
+  "Calculator allowed. No formula sheet, just like the real ACT.",
+  "No penalty for guessing."
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/tp.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

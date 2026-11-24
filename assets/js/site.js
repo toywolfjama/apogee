@@ -158,6 +158,11 @@
 
   /* ---------- quizzes ---------- */
   function buildQuizzes() {
+    if (!window.GridCheck) {
+      const num = v => { v = String(v).replace(/\s+/g, "").replace(/−/g, "-"); const f = v.match(/^(-?\d*\.?\d+)\/(-?\d*\.?\d+)$/); return f ? +f[1] / +f[2] : (v === "" ? NaN : +v); };
+      const gridOk = (v, g) => v !== undefined && v !== null && String(v).trim() !== "" && g.some(x => String(x).replace(/\s+/g, "") === String(v).replace(/\s+/g, "") || (isFinite(num(v)) && Math.abs(num(v) - num(x)) < 1e-3 * Math.max(1, Math.abs(num(x)))));
+      window.GridCheck = { gridOk, isOk: (q, a) => q.g ? gridOk(a, q.g) : a === q.a };
+    }
     document.querySelectorAll(".quiz[data-src]").forEach(box => {
       let Q;
       try { Q = JSON.parse(document.getElementById(box.dataset.src).textContent); } catch (e) { return; }
@@ -172,18 +177,24 @@
       const letter = j => String.fromCharCode(65 + j);
       function score() {
         const n = Object.keys(answered).length;
-        const r = Object.entries(answered).filter(([i, j]) => Q[i].a === j).length;
+        const ok = (i, j) => window.GridCheck ? window.GridCheck.isOk(Q[i], j) : Q[i].a === j;
+        const r = Object.entries(answered).filter(([i, j]) => ok(i, j)).length;
         box.querySelector(".st").textContent = `${r} correct · ${n} of ${Q.length} answered`;
         box.querySelector(".bar i").style.width = (r / Q.length) * 100 + "%";
       }
       function paint(i, card) {
         const it = Q[i], j = answered[i];
+        const good = window.GridCheck ? window.GridCheck.isOk(it, j) : j === it.a;
+        if (it.g) {
+          const inp = card.querySelector(".grid-in input"); if (inp) { inp.disabled = true; inp.value = j; inp.classList.add(good ? "right" : "wrong"); }
+          const bt = card.querySelector(".grid-in button"); if (bt) bt.remove();
+        }
         card.querySelectorAll(".opt").forEach((b, k) => {
           b.disabled = true;
           if (k === it.a) b.classList.add("right"); else if (k === j) b.classList.add("wrong");
         });
         const ex = card.querySelector(".expl");
-        ex.innerHTML = (j === it.a ? '<b style="color:var(--good)">Correct.</b> ' : `<b style="color:var(--bad)">Incorrect.</b> The answer is ${letter(it.a)}. `) + it.x;
+        ex.innerHTML = (good ? '<b style="color:var(--good)">Correct.</b> ' : `<b style="color:var(--bad)">Incorrect.</b> The answer is ${it.g ? it.g[0] : letter(it.a)}. `) + it.x;
         ex.classList.add("show");
         if (card._sim) card._sim.reveal();
       }
@@ -196,7 +207,14 @@
           const tagName = tags && tags[it.t] ? `<span class="pill ${it.t}">${tags[it.t].toUpperCase()}</span>` : "";
           card.innerHTML = `<div class="qh"><span>Question ${i + 1}</span>${tagName}</div><div class="qt">${it.q}</div>${it.sim ? '<div class="qsim"></div>' : ""}<div class="opts"></div><div class="expl"></div>`;
           if (it.sim && window.Sims) card._sim = window.Sims.mount(card.querySelector(".qsim"), it.sim);
-          it.o.forEach((o, j) => {
+          if (it.g) {
+            const gi = document.createElement("div"); gi.className = "grid-in";
+            gi.innerHTML = `<label>Your answer <input type="text" inputmode="decimal" autocomplete="off" aria-label="Your answer"></label><button class="btn">Check</button><span>Type a number or fraction like 3/4.</span>`;
+            const inp = gi.querySelector("input"), go = () => { const v = inp.value.trim(); if (!v || answered[i] !== undefined) return; answered[i] = v; paint(i, card); score(); card.classList.add(window.GridCheck && window.GridCheck.isOk(it, v) ? "got-it" : "missed"); };
+            gi.querySelector("button").onclick = go; inp.onkeydown = e => { if (e.key === "Enter") go(); };
+            card.querySelector(".opts").appendChild(gi);
+          }
+          (it.o || []).forEach((o, j) => {
             const b = document.createElement("button");
             b.className = "opt";
             if (it.h) b.innerHTML = `${letter(j)}. ${o}`; else b.textContent = `${letter(j)}. ${o}`;
@@ -386,7 +404,7 @@
   }
 
   function gridHero() {
-    const hero = document.querySelector("body.th-grid .hero");
+    const hero = document.querySelector("body.th-grid:not(.th-exam) .hero");
     if (!hero || hero.querySelector(".grid-art")) return;
     const a = document.createElement("div"); a.className = "grid-art"; a.setAttribute("aria-hidden", "true");
     let gl = ""; for (let i = 0; i <= 12; i++) { gl += `<line class="gl" x1="${i * 25}" y1="0" x2="${i * 25}" y2="240"/>`; if (i <= 9.6) gl += `<line class="gl" x1="0" y1="${i * 25}" x2="300" y2="${i * 25}"/>`; }
@@ -465,7 +483,7 @@
 
     // page-to-page transitions
     function styleFor(href) {
-      if (/french|\/math\//.test(href)) return "paris";
+      if (/french|\/math\/|\/sat\/|\/act\//.test(href)) return "paris";
       if (/ap-csa/.test(href)) return "term";
       if (/ap-physics|calculator/.test(href)) return "space";
       return TERM ? "term" : "space";

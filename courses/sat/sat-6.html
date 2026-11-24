@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAT: Math: Data, Geometry and Trig | Apogee</title>
+<meta name="description" content="SAT Math Problem-Solving and Data Analysis plus Geometry and Trigonometry with interactive labs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-exam" data-root="../../" data-course="sat" data-unit="sat-6">
+
+<div class="hero">
+  <span class="kicker">SAT · Part 6</span>
+  <h1>Data, shapes and <span class="hl">trig</span></h1>
+  <p>Percents, rates and units, statistics and sampling, probability, geometry and right-triangle trig.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-psda" data-title="Problem-Solving and Data" data-short="Data">
+<section class="topic" id="rates">
+  <h2><span class="pill r">6.1</span>Ratios, rates, percents and units</h2>
+  
+  
+<div class="grid2"><div class="mini"><h4>Percent change</h4>(new − old)/old × 100. From 40 to 50 is +25%; from 50 to 40 is −20%.</div><div class="mini"><h4>Percent of a percent</h4>Two changes multiply: +20% then −20% gives 1.2 × 0.8 = 0.96, a 4% drop.</div><div class="mini"><h4>Unit conversions</h4>Multiply by fractions equal to 1 so units cancel: 90 km/h × (1000 m/1 km) × (1 h/3600 s) = 25 m/s.</div><div class="mini"><h4>Proportions</h4>Set up equal ratios and cross-multiply. Keep units in the same places.</div></div>
+<div class="msteps" data-w='{"title": "Convert 72 km/h to m/s", "frames": [{"t": ["a|72 km/h|v"], "note": "Multiply by 1000 m per km."}, {"t": ["a|72 km/h|v", "b|× 1000 m/km|s"], "note": "km cancels."}, {"t": ["c|72,000 m/h|v", "d|× 1 h/3600 s|s"], "note": "Now hours cancel."}, {"t": ["e|20 m/s|g"], "note": "72000 / 3600 = 20."}]}'></div>
+
+  
+</section>
+<section class="topic" id="stats">
+  <h2><span class="pill d">6.2</span>Statistics and data</h2>
+  
+  
+<p><b>Mean</b> = sum/count. <b>Median</b> = middle value. <b>Range</b> = max − min. <b>Standard deviation</b> measures spread: data bunched near the mean → small SD.</p>
+<div class="box tip"><b class="lbl">Outliers</b>Adding a very large value raises the mean a lot but the median only a little. That's why income is usually described by the median.</div>
+<div class="mlab" data-lab='{"title": "Line of best fit", "sub": "Scatterplot trend: y ≈ m·x + b. The slope is the predicted change in y per 1 unit of x.", "x": [0, 10], "y": [0, 100], "gx": 1, "gy": 10, "params": {"m": [2, 12, 0.5, 7, "m"], "b": [0, 40, 1, 20, "b"]}, "fns": [{"e": "m*x+b", "label": "y = mx + b"}], "dots": [["1", "28", "", "#EA580C"], ["2", "31", "", "#EA580C"], ["3", "42", "", "#EA580C"], ["4", "46", "", "#EA580C"], ["5", "53", "", "#EA580C"], ["6", "62", "", "#EA580C"], ["7", "66", "", "#EA580C"], ["8", "78", "", "#EA580C"], ["9", "82", "", "#EA580C"]], "read": [["prediction at x = 12: ", "m*12+b"]], "type": "graph"}'></div>
+<p>Try to get the line through the middle of the dots (about m = 7, b = 20). Hours studied vs score: each extra hour ≈ +7 points.</p>
+<div class="grid2"><div class="mini"><h4>Sampling</h4>Results from a <b>random sample</b> can be generalized to the population it was drawn from, and no further.</div><div class="mini"><h4>Cause vs association</h4>Only a <b>randomized experiment</b> (random assignment to treatments) supports cause-and-effect conclusions.</div><div class="mini"><h4>Margin of error</h4>An estimate of 42% ± 3% means the true value is plausibly between 39% and 45%. Bigger samples → smaller margin.</div></div>
+
+  
+</section>
+<section class="topic" id="prob">
+  <h2><span class="pill p">6.3</span>Probability from tables</h2>
+  
+  
+<p>P(event) = favorable / total. In a two-way table, the hard part is picking the right <b>total</b>: "given that" means restrict to that row or column.</p>
+<div class="passage"><table class="dt"><tr><th></th><th>Likes hiking</th><th>Doesn't</th><th>Total</th></tr><tr><th>Grade 11</th><td>30</td><td>50</td><td>80</td></tr><tr><th>Grade 12</th><td>45</td><td>25</td><td>70</td></tr><tr><th>Total</th><td>75</td><td>75</td><td>150</td></tr></table></div>
+<div class="worked"><div class="q">Worked example: If a Grade 12 student is chosen at random, what's the probability they like hiking?</div><div class="a">Restrict to the Grade 12 row: 45/70 = 9/14 ≈ 0.643. <br>(Of all 150 students, P(Grade 12 and likes hiking) = 45/150 = 0.3: a different question.)</div></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-geo" data-title="Geometry and Trig" data-short="Geometry">
+<section class="topic" id="geo">
+  <h2><span class="pill g">6.4</span>Geometry: angles, triangles, area and volume</h2>
+  
+  
+<p>A reference sheet in the app gives area and volume formulas, the special right triangles, and that a circle has 360° (2π radians). You still need to know <b>when</b> to use them.</p>
+<div class="grid2"><div class="mini"><h4>Angles</h4>Straight line 180°. Triangle angles sum to 180°. Parallel lines cut by a transversal: alternate interior angles are equal.</div><div class="mini"><h4>Similar triangles</h4>Same angles → sides in the same ratio. If sides scale by k, area scales by k² and volume by k³.</div><div class="mini"><h4>Right triangles</h4>a² + b² = c². 30-60-90: x, x√3, 2x. 45-45-90: x, x, x√2.</div><div class="mini"><h4>Volume</h4>Prism/cylinder: base area × height. Cone/pyramid: ⅓ of that. Sphere: ⁴⁄₃πr³.</div></div>
+<div class="worked"><div class="q">Worked example: Two similar triangles have corresponding sides 4 and 10. The smaller has area 12. Area of the larger?</div><div class="a">Scale factor 10/4 = 2.5; area scales by 2.5² = 6.25. 12 × 6.25 = 75.</div></div>
+
+  
+</section>
+<section class="topic" id="trig">
+  <h2><span class="pill t">6.5</span>Right-triangle trig and circles</h2>
+  
+  
+<div class="mlab" data-lab='{"type": "circle", "deg": 30}'></div>
+<div class="grid2"><div class="mini"><h4>SOH-CAH-TOA</h4>sin = opp/hyp, cos = adj/hyp, tan = opp/adj. Favorite SAT fact: sin x° = cos(90 − x)°.</div><div class="mini"><h4>Radians</h4>180° = π radians. Arc length = rθ (θ in radians). Sector area = ½r²θ.</div><div class="mini"><h4>Circle equation</h4>(x − h)² + (y − k)² = r². If it's expanded, complete the square in x and in y to find the center and radius.</div></div>
+<div class="msteps" data-w='{"title": "Find the center and radius of x² + 6x + y² − 4y = 12", "frames": [{"t": ["a|x² + 6x|v", "b|+", "c|y² − 4y|s", "d|= 12|n"], "note": "Complete the square in x: add (6/2)² = 9. In y: add (−4/2)² = 4. Add both to the right side too."}, {"t": ["e|(x + 3)²|v", "b|+", "f|(y − 2)²|s", "g|= 25|n"], "note": "12 + 9 + 4 = 25."}, {"t": ["h|center (−3, 2)|g", "i|r = 5|g"], "note": "Signs flip for the center; r = √25."}]}'></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="practice-sat-6" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-sat-6">
+  <h2>Practice questions</h2>
+  <p class="sub">14 questions with instant explanations. Filter by skill with the buttons.</p>
+  <div class="quiz" data-src="quiz-sat-6" data-tags='{"r": "Ratios & percents", "d": "Data & statistics", "p": "Probability", "g": "Geometry", "t": "Trig & circles"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-sat-6" data-title="Hard Questions" data-short="Hard" data-hard="1">
+<section class="topic" id="challenge-quiz-sat-6">
+  <h2>Hard questions</h2>
+  <p class="sub">The kind you'll see in the harder second module. Take your time.</p>
+  <div class="quiz" data-src="quiz-challenge-sat-6" data-tags='{"r": "Ratios & percents", "d": "Data & statistics", "p": "Probability", "g": "Geometry", "t": "Trig & circles"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-sat-6" data-title="Timed Set" data-short="Timed set">
+<section class="topic" id="exam-box-sat-6"><h2>SAT Math: Data, Geometry and Trig: timed set</h2><p class="sub">15 questions in 20 minutes. No feedback until you submit.</p><div class="exam" data-src="exam-sat-6"></div></section>
+</div>
+</main>
+
+<footer>Apogee · SAT prep · Not affiliated with College Board or ACT</footer>
+
+<script type="application/json" id="quiz-sat-6">
+[
+ {
+  "t": "r",
+  "q": "A price rises from $80 to $92. Percent increase?",
+  "o": [
+   "15%",
+   "8%",
+   "13%",
+   "12%"
+  ],
+  "a": 0,
+  "x": "12/80."
+ },
+ {
+  "t": "r",
+  "q": "A car travels 150 miles in 2.5 hours. Average speed in mph?",
+  "g": [
+   "60"
+  ],
+  "x": "150/2.5."
+ },
+ {
+  "t": "r",
+  "q": "A map scale is 1 cm : 4 km. Two towns are 6.5 cm apart. Real distance?",
+  "o": [
+   "24 km",
+   "16 km",
+   "26 km",
+   "10.5 km"
+  ],
+  "a": 2,
+  "x": "6.5 × 4."
+ },
+ {
+  "t": "r",
+  "q": "What is 30% of 30% of 200?",
+  "g": [
+   "18"
+  ],
+  "x": "0.3 × 0.3 × 200."
+ },
+ {
+  "t": "d",
+  "q": "Data: 3, 5, 5, 8, 9. What happens to the mean if 30 is added?",
+  "o": [
+   "It stays the same",
+   "It increases slightly",
+   "It increases a lot",
+   "It decreases"
+  ],
+  "a": 2,
+  "x": "Outlier pulls the mean up."
+ },
+ {
+  "t": "d",
+  "q": "Median of 7, 2, 9, 4, 6, 10?",
+  "g": [
+   "6.5",
+   "13/2"
+  ],
+  "x": "Sorted: 2, 4, 6, 7, 9, 10 → (6 + 7)/2."
+ },
+ {
+  "t": "d",
+  "q": "Set A: 10, 10, 10, 10. Set B: 1, 5, 15, 19. Which has the larger standard deviation?",
+  "o": [
+   "B",
+   "Same",
+   "A",
+   "Can't tell"
+  ],
+  "a": 0,
+  "x": "A has no spread."
+ },
+ {
+  "t": "d",
+  "q": "A random sample of 500 voters in Ohio shows 54% support a bill. To which group can this be generalized?",
+  "o": [
+   "Voters in Ohio",
+   "Ohio residents under 18",
+   "All U.S. voters",
+   "Only the 500 people"
+  ],
+  "a": 0,
+  "x": "Only the population sampled."
+ },
+ {
+  "t": "p",
+  "q": "<div class=\"passage\"><table class=\"dt\"><tr><th>Grade<\/th><th>Likes hiking<\/th><th>Doesn't<\/th><th>Total<\/th><\/tr><tr><td>Grade 11<\/td><td>30<\/td><td>50<\/td><td>80<\/td><\/tr><tr><td>Grade 12<\/td><td>45<\/td><td>25<\/td><td>70<\/td><\/tr><tr><td>Total<\/td><td>75<\/td><td>75<\/td><td>150<\/td><\/tr><\/table><\/div>A student is chosen at random from all 150. P(Grade 11 and doesn't like hiking)?",
+  "o": [
+   "2/3",
+   "5/15",
+   "5/8",
+   "1/3"
+  ],
+  "a": 3,
+  "x": "50/150."
+ },
+ {
+  "t": "p",
+  "q": "A bag has 4 red and 6 blue marbles. Probability of drawing red?",
+  "g": [
+   "0.4",
+   "2/5",
+   "4/10"
+  ],
+  "x": "4/10."
+ },
+ {
+  "t": "g",
+  "q": "Two angles of a triangle are 48° and 67°. The third?",
+  "o": [
+   "75°",
+   "65°",
+   "55°",
+   "115°"
+  ],
+  "a": 1,
+  "x": "180 − 115."
+ },
+ {
+  "t": "g",
+  "q": "Volume of a cylinder with radius 3 and height 4, divided by π?",
+  "g": [
+   "36"
+  ],
+  "x": "π·9·4 = 36π."
+ },
+ {
+  "t": "t",
+  "q": "In a right triangle, sin A = 3/5. What is cos A?",
+  "o": [
+   "3/4",
+   "4/5",
+   "5/3",
+   "3/5"
+  ],
+  "a": 1,
+  "x": "3-4-5 triangle."
+ },
+ {
+  "t": "t",
+  "q": "If sin(x°) = cos(40°), x could be…",
+  "o": [
+   "50",
+   "90",
+   "40",
+   "140"
+  ],
+  "a": 0,
+  "x": "Complementary angles: x = 90 − 40."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-sat-6">
+[
+ {
+  "t": "r",
+  "q": "Population: 12,500 in 2020, then up 8%, then down 8%. Final?",
+  "o": [
+   "11,500",
+   "12,500",
+   "12,420",
+   "12,580"
+  ],
+  "a": 2,
+  "x": "12500 × 1.08 × 0.92 = 12,420."
+ },
+ {
+  "t": "t",
+  "q": "A circle has equation x² − 8x + y² + 2y = 8. What is its radius?",
+  "g": [
+   "5"
+  ],
+  "x": "(x − 4)² + (y + 1)² = 8 + 16 + 1 = 25."
+ },
+ {
+  "t": "t",
+  "q": "A sector has radius 6 and central angle 2π/3 radians. Arc length?",
+  "o": [
+   "6π",
+   "2π",
+   "12π",
+   "4π"
+  ],
+  "a": 3,
+  "x": "rθ = 6 · 2π/3."
+ },
+ {
+  "t": "d",
+  "q": "A survey's estimate is 63% with margin of error 4%. Which is supported?",
+  "o": [
+   "Exactly 63% agree",
+   "The true value is plausibly between 59% and 67%",
+   "4% of people lied",
+   "The true value is definitely above 60%"
+  ],
+  "a": 1,
+  "x": "Plausible interval only."
+ },
+ {
+  "t": "g",
+  "q": "Two similar cones have heights 3 and 6. The small one holds 20 mL. How much does the large one hold?",
+  "g": [
+   "160"
+  ],
+  "x": "Scale 2, volume ×8."
+ },
+ {
+  "t": "d",
+  "q": "Researchers randomly assigned 200 volunteers to drink tea or water daily. The tea group had lower blood pressure. What can be concluded?",
+  "o": [
+   "Water raises blood pressure",
+   "Tea likely caused lower blood pressure for people like the volunteers",
+   "Tea lowers blood pressure for everyone",
+   "Nothing, because it was an experiment"
+  ],
+  "a": 1,
+  "x": "Random assignment → cause, but only for the volunteer population."
+ }
+]
+</script>
+<script type="application/json" id="exam-sat-6">
+{
+ "title": "SAT Math: Data, Geometry and Trig: timed set",
+ "mcqMinutes": 20,
+ "frqMinutes": 0,
+ "tags": {
+  "r": "Ratios & percents",
+  "d": "Data & statistics",
+  "p": "Probability",
+  "g": "Geometry",
+  "t": "Trig & circles"
+ },
+ "mcq": [
+  {
+   "t": "r",
+   "q": "A shirt is $45 after a 25% discount. Original price?",
+   "o": [
+    "$60",
+    "$70",
+    "$33.75",
+    "$56.25"
+   ],
+   "a": 0,
+   "x": "0.75p = 45."
+  },
+  {
+   "t": "r",
+   "q": "Convert 3 hours 15 minutes to minutes.",
+   "g": [
+    "195"
+   ],
+   "x": "180 + 15."
+  },
+  {
+   "t": "r",
+   "q": "Recipe: 2 cups sugar for 5 cups flour. Sugar for 12 cups flour?",
+   "o": [
+    "5 cups",
+    "6 cups",
+    "4.8 cups",
+    "4 cups"
+   ],
+   "a": 2,
+   "x": "2/5 × 12."
+  },
+  {
+   "t": "d",
+   "q": "Mean of 4, 8, 15, 16, 23?",
+   "g": [
+    "13.2"
+   ],
+   "x": "66/5."
+  },
+  {
+   "t": "r",
+   "q": "A store's sales grew from 200 to 260 units. Percent increase?",
+   "o": [
+    "60%",
+    "26%",
+    "30%",
+    "23%"
+   ],
+   "a": 2,
+   "x": "60/200."
+  },
+  {
+   "t": "d",
+   "q": "Which best describes a scatterplot whose points rise from left to right closely around a line?",
+   "o": [
+    "Strong positive linear association",
+    "No association",
+    "Weak negative",
+    "Strong negative"
+   ],
+   "a": 0,
+   "x": "Rising and tight."
+  },
+  {
+   "t": "d",
+   "q": "Line of best fit: y = 2.4x + 15 (x = hours, y = score). Interpret 2.4.",
+   "o": [
+    "Predicted increase in score per extra hour",
+    "Average score",
+    "Score with zero hours",
+    "Total hours"
+   ],
+   "a": 0,
+   "x": "Slope = rate."
+  },
+  {
+   "t": "p",
+   "q": "Spinner with 8 equal sections numbered 1–8. P(number > 6)?",
+   "g": [
+    "0.25",
+    "1/4",
+    "2/8"
+   ],
+   "x": "7 and 8."
+  },
+  {
+   "t": "p",
+   "q": "<div class=\"passage\"><table class=\"dt\"><tr><th>Grade<\/th><th>Likes hiking<\/th><th>Doesn't<\/th><th>Total<\/th><\/tr><tr><td>Grade 11<\/td><td>30<\/td><td>50<\/td><td>80<\/td><\/tr><tr><td>Grade 12<\/td><td>45<\/td><td>25<\/td><td>70<\/td><\/tr><tr><td>Total<\/td><td>75<\/td><td>75<\/td><td>150<\/td><\/tr><\/table><\/div>A student who likes hiking is chosen at random. P(the student is in Grade 11)?",
+   "o": [
+    "1/5",
+    "30/80",
+    "3/8",
+    "2/5"
+   ],
+   "a": 3,
+   "x": "30/75."
+  },
+  {
+   "t": "g",
+   "q": "Angles x and 3x form a straight line. x = ?",
+   "o": [
+    "60°",
+    "45°",
+    "30°",
+    "90°"
+   ],
+   "a": 1,
+   "x": "4x = 180."
+  },
+  {
+   "t": "g",
+   "q": "A right triangle has legs 9 and 12. Hypotenuse?",
+   "g": [
+    "15"
+   ],
+   "x": "3-4-5 × 3."
+  },
+  {
+   "t": "g",
+   "q": "Area of a circle with diameter 10?",
+   "o": [
+    "100π",
+    "25π",
+    "10π",
+    "20π"
+   ],
+   "a": 1,
+   "x": "r = 5."
+  },
+  {
+   "t": "t",
+   "q": "In a 30-60-90 triangle the short leg is 7. The hypotenuse?",
+   "o": [
+    "14",
+    "21",
+    "7√3",
+    "7√2"
+   ],
+   "a": 0,
+   "x": "2 × short leg."
+  },
+  {
+   "t": "t",
+   "q": "Convert 135° to radians.",
+   "o": [
+    "3π/2",
+    "5π/6",
+    "3π/4",
+    "2π/3"
+   ],
+   "a": 2,
+   "x": "135/180 = 3/4."
+  },
+  {
+   "t": "t",
+   "q": "Center of (x − 2)² + (y + 7)² = 16 is (2, k). k = ?",
+   "g": [
+    "-7"
+   ],
+   "x": "Sign flips."
+  }
+ ],
+ "frq": [],
+ "mcqName": "Data & Geometry set",
+ "mcqKind": "questions",
+ "rules": [
+  "No feedback until you submit. Flag questions and come back to them.",
+  "No penalty for wrong answers: never leave one blank."
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/tp.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>
