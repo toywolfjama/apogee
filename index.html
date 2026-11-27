@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Apogee | Free study guides with practice exams</title>
+<title>Margin | Free study guides with practice exams</title>
 <meta name="description" content="Free study guides for physics, computer science and French: explanations, animations, interactive labs and practice exams.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -13,25 +13,8 @@
 <body class="th-home" data-root="">
 
 <div class="home-hero">
-  <div class="hero-orbit" aria-hidden="true">
-    <svg viewBox="0 0 220 220">
-      <defs>
-        <linearGradient id="ho-o" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7CC4FF" stop-opacity=".25"/><stop offset="1" stop-color="#FFC857"/></linearGradient>
-        <radialGradient id="ho-p" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#BFE3FF"/><stop offset=".6" stop-color="#4C7DD8"/><stop offset="1" stop-color="#1A2A6B"/></radialGradient>
-        <radialGradient id="ho-g" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFE7A8"/><stop offset=".35" stop-color="#FFC857" stop-opacity=".85"/><stop offset="1" stop-color="#FFC857" stop-opacity="0"/></radialGradient>
-      </defs>
-      <g transform="rotate(-35 110 110)">
-        <ellipse cx="110" cy="110" rx="96" ry="60" fill="none" stroke="url(#ho-o)" stroke-width="3"/>
-        <ellipse cx="110" cy="110" rx="96" ry="60" fill="none" stroke="#FFC857" stroke-opacity=".15" stroke-width="10"/>
-      </g>
-      <circle cx="48.6" cy="153" r="20" fill="url(#ho-p)"/>
-      <g class="ho-sat">
-        <circle r="22" fill="url(#ho-g)"/><circle r="7" fill="#FFF6DA"/>
-        <animateMotion dur="9s" repeatCount="indefinite" calcMode="spline" keyPoints="0;0.5;1" keyTimes="0;0.5;1" keySplines=".45 0 1 .7;0 .3 .55 1"
-          path="M188.6 54.9 A96 60 -35 1 1 31.4 165.1 A96 60 -35 1 1 188.6 54.9"/>
-      </g>
-      <text x="196" y="34" class="ho-lab">apogee</text>
-    </svg>
+  <div class="hero-mark" aria-hidden="true">
+    <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#111827"/><path class="hm-m" d="M20 18 32 35 44 18V46" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" pathLength="100"/><path class="hm-l" d="M20 46V18" stroke="#F43F5E" stroke-width="7" stroke-linecap="round" pathLength="100"/></svg>
   </div>
   <h1>Pick a course.</h1>
   <a class="hero-cta" href="review.html">Study with flashcards <span>→</span></a>
@@ -70,7 +53,7 @@
   </section>
 
   <section class="portal term" aria-labelledby="p-cs">
-    <div class="titlebar"><span>student@apogee: ~/ap-csa</span><span class="wb" aria-hidden="true"><i></i><i></i><i></i></span></div>
+    <div class="titlebar"><span>student@margin: ~/ap-csa</span><span class="wb" aria-hidden="true"><i></i><i></i><i></i></span></div>
     <div class="typed" aria-hidden="true"><div id="typed"></div></div>
     <span class="tag">// course 02 · java</span>
     <h2 id="p-cs">AP Computer Science <span>A</span></h2>
@@ -132,7 +115,7 @@
   </section>
 </main>
 
-<footer>Apogee · Not affiliated with the College Board.</footer>
+<footer>Margin · Not affiliated with the College Board.</footer>
 <script src="assets/js/courses.js"></script>
 <script src="assets/js/site.js"></script>
 <script>
@@ -247,7 +230,7 @@
     ["out", "Hello, AP CSA!"],
     ["cmd", "ls units/"]];
   const el = document.getElementById("typed");
-  const ps1 = '<span class="u">student@apogee</span>:<span class="p">~/ap-csa</span>$ ';
+  const ps1 = '<span class="u">student@margin</span>:<span class="p">~/ap-csa</span>$ ';
   if (reduce) { el.innerHTML = lines.map(([k, t]) => (k === "cmd" ? ps1 + esc(t) : `<span class="o">${esc(t)}</span>`)).join("\n") + '<span class="cursor"></span>'; return; }
   let html = "", li = 0, ci = 0;
   function step() {

@@ -1,4 +1,4 @@
-/* ===== Apogee: computer science animations and interactive labs =====
+/* ===== Margin: computer science animations and interactive labs =====
    Animations (load after sims.js; they plug into the same runtime, so they get Play / Replay / Step / Slow motion):
      trace   {code:[...], steps:[[line, {var:val}, "output so far"]], ask:"out"|"vars"}  step through code line by line
      memory  {frames:[{note, vars:[[name,type,value or "@id"]], objs:[[id, cls, fields or "text"]]}], hide:[names]}

@@ -1,4 +1,4 @@
-/* ===== Apogee: shared styles ===== */
+/* ===== Margin: shared styles ===== */
 :root{
   --space:#0B0D10; --space-2:#101318; --panel:#13171D; --panel-2:#1B2028;
   --line:#262D38; --ink:#F0EDE6; --muted:#A7A39B;
@@ -625,7 +625,7 @@ body.th-term .navbtn.solid::before,body.th-term .navbtn.solid::after{color:var(-
 body.th-term .dd-menu{background:#161616;border-color:#3A3A3A;border-radius:2px}
 body.th-term .chapterbar{background:#8AE234;border-top:0}
 body.th-term .chapterbar .in{padding:0 12px;gap:0}
-body.th-term .chapterbar .in::before{content:"[apogee] ";white-space:pre;font:700 13px var(--mono);color:#0C0C0C;align-self:center;padding-right:6px}
+body.th-term .chapterbar .in::before{content:"[margin] ";white-space:pre;font:700 13px var(--mono);color:#0C0C0C;align-self:center;padding-right:6px}
 body.th-term .chip{border:0;border-radius:0;background:transparent;color:#0C0C0C;font-family:var(--mono);font-weight:500;font-size:13px;padding:5px 9px}
 body.th-term .chip .n{border:0;width:auto;height:auto;background:none;color:#0C0C0C;font-size:13px;font-weight:500}
 body.th-term .chip .n::after{content:":"}
@@ -1668,3 +1668,16 @@ details.dissect>*:not(summary){margin:12px 16px}
 .dx.why b{color:#4338CA}.dx.trap{background:rgba(220,38,38,.05);border-color:rgba(220,38,38,.3)}.dx.trap b{color:#B91C1C}
 .dx.fast b{color:#047857}.dx.dsm b{color:#16A34A}.dx.rule{background:#FEF3C7;border-color:#F5B700}.dx.rule b{color:#92400E}
 .quiz.single .score{display:none}
+/* home: Margin mark draws itself once */
+.hero-mark{width:112px;height:112px;margin:0 auto 14px}
+.hero-mark svg{width:100%;height:100%;display:block;filter:drop-shadow(0 14px 30px rgba(0,0,0,.35))}
+.hero-mark path{stroke-dasharray:100;stroke-dashoffset:100;animation:mdraw .9s cubic-bezier(.6,0,.2,1) forwards}
+.hero-mark .hm-l{animation-delay:.15s}
+.hero-mark .hm-m{animation-delay:.45s}
+@keyframes mdraw{to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.hero-mark path{animation:none;stroke-dashoffset:0}}
+/* Margin logo in every theme */
+.brand .mark{display:inline-flex!important;width:28px;height:28px;flex:none;border:0;background:none;margin:0;border-radius:7px;overflow:hidden}
+.brand .mark::after{display:none}
+.brand .mark img{width:100%;height:100%;display:block}
+body.th-space .brand .planet{display:none}

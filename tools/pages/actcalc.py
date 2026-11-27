@@ -41,7 +41,7 @@ TI = topic("ti84", "TI-84 Plus CE: the keystrokes that matter", f'''
  ("a|STAT|s  c|CALC|e  d|4:LinReg(ax+b)|v", "Arrow right to CALC, choose LinReg."),
  ("e|y = ax + b|g", "Press ENTER (twice on some screens). Read a (slope) and b (intercept)."),
 ])}
-<p>Apogee also has <a href="../../calculator.html">TI-84 programs</a> you can load onto your calculator.</p>
+<p>Margin also has <a href="../../calculator.html">TI-84 programs</a> you can load onto your calculator.</p>
 ''', pill=("t", "3"))
 
 CH = [chapter("ch-which", "Your Calculator", "Which one", [WHICH]), chapter("ch-desmos", "Desmos on the ACT", "Desmos", [DES]), chapter("ch-ti", "TI-84 Keystrokes", "TI-84", [TI])]

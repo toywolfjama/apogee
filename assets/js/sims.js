@@ -1,4 +1,4 @@
-/* ===== Apogee — 2D animated examples =====
+/* ===== Margin — 2D animated examples =====
    Usage in HTML:  <div class="sim" data-sim='{"type":"collide","m1":2,"v1":5,"m2":3,"v2":-2,"mode":"stick"}'></div>
    Quiz questions can carry a "sim" object; the answer values stay hidden until the question is answered.
    Add "reveal":true to a data-sim to show answer values from the start.

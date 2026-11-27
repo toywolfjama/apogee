@@ -1,4 +1,4 @@
-/* ===== Apogee: test-prep widgets (SAT / ACT) =====
+/* ===== Margin: test-prep widgets (SAT / ACT) =====
    .tp[data-hl]   evidence highlighter: click the sentence that proves the claim
    .tp[data-pace] pacing clock for a timed module
 */

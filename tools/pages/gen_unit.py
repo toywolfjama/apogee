@@ -45,14 +45,14 @@ def shuffle(qs, seed):
 def dump(o):
     return json.dumps(o, ensure_ascii=False, indent=1).replace("</", "<\\/")
 
-def page(unit_id, title_tag, kicker, h1, intro, desc, chapters, data_blocks, course="ap-physics-1", footer="Apogee · AP Physics 1 · g = 10 m/s²", extra_js=()):
+def page(unit_id, title_tag, kicker, h1, intro, desc, chapters, data_blocks, course="ap-physics-1", footer="Margin · AP Physics 1 · g = 10 m/s²", extra_js=()):
     scripts = "\n".join(f'<script type="application/json" id="{k}">\n{dump(v)}\n</script>' for k, v in data_blocks.items())
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title_tag} | Apogee</title>
+<title>{title_tag} | Margin</title>
 <meta name="description" content="{desc}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">

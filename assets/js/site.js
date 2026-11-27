@@ -1,4 +1,4 @@
-/* ===== Apogee — shared behaviour =====
+/* ===== Margin — shared behaviour =====
    Every page sets <body data-root="..."> (relative path to the site root),
    and optionally data-course / data-unit to highlight the current unit.
    Unit pages put each chapter in <div class="chapter" id="..." data-title="...">.
@@ -41,7 +41,7 @@
     });
     header.innerHTML = `
       <div class="in">
-        <a class="brand" href="${root}index.html"><span class="planet" aria-hidden="true"><i></i><b></b></span><span class="mark" aria-hidden="true"><img src="${root}assets/img/logo.svg" alt="" width="30" height="30"></span><span class="tt"><span class="u">student@apogee</span><span class="d">:</span><span class="p" id="tt-path">~/${termPath()}</span><span class="d">$</span></span><span class="word">Apogee</span></a>
+        <a class="brand" href="${root}index.html"><span class="planet" aria-hidden="true"><i></i><b></b></span><span class="mark" aria-hidden="true"><img src="${root}assets/img/logo.svg" alt="" width="30" height="30"></span><span class="tt"><span class="u">student@margin</span><span class="d">:</span><span class="p" id="tt-path">~/${termPath()}</span><span class="d">$</span></span><span class="word">Margin</span></a>
         <span class="spacer"></span>
         <a class="navbtn navlink${/review\.html$/.test(location.pathname) ? " on" : ""}" href="${root}review.html">Flashcards</a>
         <div class="dd">
@@ -421,7 +421,7 @@
   function termDecor() {
     if (!body.classList.contains("th-term")) return;
     const path = "~/" + termPath();
-    const ps = (p, cmd) => `<span class="pr"><span class="u">student@apogee</span>:<span class="p">${p}</span>$</span> <span class="c">${cmd}</span>`;
+    const ps = (p, cmd) => `<span class="pr"><span class="u">student@margin</span>:<span class="p">${p}</span>$</span> <span class="c">${cmd}</span>`;
     const hero = document.querySelector(".hero");
     if (hero && !hero.querySelector(".cmd")) {
       const d = document.createElement("div"); d.className = "cmd"; d.innerHTML = ps("~", `cd ${termPath()} && cat README.md`);
@@ -473,7 +473,7 @@
       setTimeout(() => ch.classList.remove(cls), 900);
       if (TERM) {
         const line = document.createElement("div"); line.className = "fx-cdline";
-        line.innerHTML = `<span class="u">student@apogee</span>:<span class="p">~/${termPath()}</span>$ <span class="t"></span>`;
+        line.innerHTML = `<span class="u">student@margin</span>:<span class="p">~/${termPath()}</span>$ <span class="t"></span>`;
         ch.prepend(line);
         const txt = "cd " + chSlug(ev.detail), t = line.querySelector(".t");
         let k = 0; (function type() { t.textContent = txt.slice(0, ++k); if (k < txt.length) setTimeout(type, 14); })();
@@ -516,7 +516,7 @@
       const lines = [["cmd", `cd ~/${path || ""}`], ["cmd", "cat README.md"], ["out", "loading..."]];
       o.innerHTML = '<pre></pre>'; body.appendChild(o);
       const pre = o.firstChild; let html = "", li = 0, ci = 0;
-      const pr = '<span class="u">student@apogee</span>:<span class="p">~</span>$ ';
+      const pr = '<span class="u">student@margin</span>:<span class="p">~</span>$ ';
       (function step() {
         if (li >= lines.length) { pre.innerHTML = html + '<span class="cur"></span>'; setTimeout(() => { o.classList.add("off"); setTimeout(() => location.href = url.href, 180); }, 120); return; }
         const [k, t] = lines[li];

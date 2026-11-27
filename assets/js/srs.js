@@ -217,7 +217,7 @@
     if (act === "delcard") { const c = S.custom.splice(+a.dataset.i, 1)[0]; if (c) delete S.cards["mine::" + c.id]; save(); renderDecks(); }
     if (act === "export") {
       const blob = new Blob([JSON.stringify(S)], { type: "application/json" });
-      const u = URL.createObjectURL(blob), l = document.createElement("a"); l.href = u; l.download = "apogee-flashcards-" + dayKey() + ".json"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000);
+      const u = URL.createObjectURL(blob), l = document.createElement("a"); l.href = u; l.download = "margin-flashcards-" + dayKey() + ".json"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000);
     }
   });
   function confirmReset(a) {
@@ -229,7 +229,7 @@
     if (e.target.matches('[data-act="import"]')) {
       const f = e.target.files[0]; if (!f) return;
       f.text().then(t => { const d = JSON.parse(t); if (!d || typeof d.cards !== "object") throw 0; localStorage.setItem(KEY, JSON.stringify(d)); load(); renderDecks(); panel("<p>Progress imported.</p>"); })
-        .catch(() => panel("<p>That file isn't an Apogee flashcards export.</p>"));
+        .catch(() => panel("<p>That file isn't an Margin flashcards export.</p>"));
     }
   });
   document.addEventListener("keydown", e => {
