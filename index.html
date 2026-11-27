@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Margin | Free study guides with practice exams</title>
-<meta name="description" content="Free study guides for physics, computer science and French: explanations, animations, interactive labs and practice exams.">
+<meta name="description" content="Free study guides for physics, computer science, computer engineering, machine learning, French, math, SAT and ACT: explanations, interactive labs and practice exams.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
@@ -18,7 +18,7 @@
   </div>
   <h1>Pick a course.</h1>
   <a class="hero-cta" href="review.html">Study with flashcards <span>→</span></a>
-  <div class="hero-stats"><span><b>6</b> courses</span><span><b>50</b> units</span><span><b>1,000+</b> French words</span><span><b>Timed</b> practice exams</span></div>
+  <div class="hero-stats"><span><b>8</b> courses</span><span><b>62</b> units</span><span><b>1,000+</b> French words</span><span><b>Timed</b> practice exams</span></div>
 </div>
 
 <main class="portals">
@@ -96,6 +96,22 @@
     <h2 id="p-math">AP <span>Precalculus</span></h2>
     <p>Start with the algebra you need to know, then the AP Precalc units. Drag sliders on live graphs and watch every step of the algebra animate.</p>
     <div class="units" id="units-math"></div>
+  </section>
+  <section class="portal pcb" aria-labelledby="p-ce">
+    <div class="cbar"><span class="gnd">⏚</span><span>Computer Engineering</span><span class="sig">transistors → CPU</span></div>
+    <div class="art" aria-hidden="true"><svg viewBox="0 0 360 236" id="ceArt"></svg></div>
+    <span class="tag">Course 05 · Hardware</span>
+    <h2 id="p-ce">Intro to <span>Computer Engineering</span></h2>
+    <p>From a single transistor to a working processor: binary, logic gates, adders, flip-flops, assembly and caches, with circuits you can click.</p>
+    <div class="units" id="units-ce"></div>
+  </section>
+  <section class="portal neuro" aria-labelledby="p-ml">
+    <div class="nbar"><span class="nab">∇</span><span>Machine Learning</span><span class="sig" id="mlSig">epoch 0 · loss 0.69</span></div>
+    <div class="art" aria-hidden="true"><svg viewBox="0 0 360 236" id="mlArt"></svg></div>
+    <span class="tag">Course 06 · AI</span>
+    <h2 id="p-ml">Machine <span>Learning</span></h2>
+    <p>Regression, classification, neural networks and transformers, built up from first principles with models you can train in the page.</p>
+    <div class="units" id="units-ml"></div>
   </section>
   <section class="portal tprep sat" aria-labelledby="p-sat">
     <div class="xbar"><span class="pen">✎</span><span>SAT · Digital</span><span class="sig">98 questions · 2 h 14 min</span></div>
@@ -181,6 +197,45 @@
     }
     requestAnimationFrame(frame);
   }
+  function ceArt() {
+    const sv = document.getElementById("ceArt"); if (!sv) return;
+    const on = "#4ADE80", off = "#3F6B5C", cu = "#C08A3E";
+    let k = 0;
+    function draw() {
+      const A = (k >> 1) & 1, B = k & 1, S = A ^ B, C = A & B, w = v => v ? on : off;
+      sv.innerHTML = `${Array.from({ length: 90 }, (_, i) => `<circle cx="${10 + (i % 18) * 20}" cy="${10 + Math.floor(i / 18) * 54}" r="1.5" fill="rgba(255,255,255,.1)"/>`).join("")}
+        <g font-family="JetBrains Mono, monospace" font-weight="800">
+        <rect x="22" y="44" width="58" height="40" rx="9" fill="${A ? on : "#0B2E24"}" stroke="${A ? on : cu}" stroke-width="2"/><text x="51" y="70" text-anchor="middle" font-size="17" fill="${A ? "#0B2E24" : "#E7F5EE"}">A=${A}</text>
+        <rect x="22" y="150" width="58" height="40" rx="9" fill="${B ? on : "#0B2E24"}" stroke="${B ? on : cu}" stroke-width="2"/><text x="51" y="176" text-anchor="middle" font-size="17" fill="${B ? "#0B2E24" : "#E7F5EE"}">B=${B}</text>
+        <path d="M80 64H108V76H156M108 64V140H156" fill="none" stroke="${w(A)}" stroke-width="3.5" stroke-linejoin="round"/><circle cx="108" cy="64" r="4" fill="${w(A)}"/>
+        <path d="M80 170H132V96H156M132 170V160H156" fill="none" stroke="${w(B)}" stroke-width="3.5" stroke-linejoin="round"/><circle cx="132" cy="170" r="4" fill="${w(B)}"/>
+        <g transform="translate(156 66)"><path d="M-6 0Q8 20 -6 40" fill="none" stroke="#E7F5EE" stroke-width="2.5"/><path d="M0 0Q14 20 0 40Q32 40 50 20Q32 0 0 0Z" fill="#0B2E24" stroke="#E7F5EE" stroke-width="2.5"/></g>
+        <g transform="translate(156 130)"><path d="M0 0H26A20 20 0 0 1 26 40H0Z" fill="#0B2E24" stroke="#E7F5EE" stroke-width="2.5"/></g>
+        <text x="182" y="124" text-anchor="middle" font-size="10" fill="#9CC7B5">XOR</text><text x="180" y="188" text-anchor="middle" font-size="10" fill="#9CC7B5">AND</text>
+        <path d="M206 86H262" stroke="${w(S)}" stroke-width="3.5"/><path d="M202 150H262" stroke="${w(C)}" stroke-width="3.5"/>
+        <circle cx="282" cy="86" r="20" fill="${S ? on : "#0B2E24"}" stroke="${S ? on : cu}" stroke-width="2"/><text x="282" y="92" text-anchor="middle" font-size="17" fill="${S ? "#0B2E24" : "#E7F5EE"}">${S}</text><text x="316" y="91" font-size="12" fill="#9CC7B5">sum</text>
+        <circle cx="282" cy="150" r="20" fill="${C ? on : "#0B2E24"}" stroke="${C ? on : cu}" stroke-width="2"/><text x="282" y="156" text-anchor="middle" font-size="17" fill="${C ? "#0B2E24" : "#E7F5EE"}">${C}</text><text x="310" y="155" font-size="12" fill="#9CC7B5">carry</text>
+        <text x="180" y="226" text-anchor="middle" font-size="13" fill="#E7F5EE">${A} + ${B} = ${C}${S}₂</text></g>`;
+    }
+    draw(); if (!reduce) setInterval(() => { k = (k + 1) % 4; draw(); }, 1300);
+  }
+  function mlArt() {
+    const sv = document.getElementById("mlArt"), sig = document.getElementById("mlSig"); if (!sv) return;
+    let seed = 4; const r = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    const pts = Array.from({ length: 46 }, (_, i) => { const y = i % 2, ang = r() * 6.283, rad = y ? r() * 52 : 70 + r() * 30; return [180 + rad * Math.cos(ang) * 1.5, 118 + rad * Math.sin(ang) * .95, y]; }).filter(p => p[0] > 12 && p[0] < 348 && p[1] > 10 && p[1] < 226);
+    const t0 = performance.now();
+    function frame(now) {
+      const T = reduce ? 1 : ((now - t0) / 7000) % 1.15, f = Math.min(1, T), e = 1 - Math.pow(1 - f, 3);
+      const rx = 20 + e * 70, ry = 150 - e * 92, cx = 180 + (1 - e) * 120, cy = 118 - (1 - e) * 60;
+      let wrong = 0; let dots = "";
+      pts.forEach(([x, y, c]) => { const inside = ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 < 1; const ok = (inside ? 1 : 0) === c; if (!ok) wrong++;
+        dots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${c ? "#EA580C" : "#6D28D9"}" stroke="${ok ? "#fff" : "#111"}" stroke-width="${ok ? 1.4 : 2.2}"/>`; });
+      sv.innerHTML = `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="rgba(234,88,12,.12)" stroke="#1E1B4B" stroke-width="2.5" stroke-dasharray="7 5"/>${dots}`;
+      if (sig) sig.textContent = `epoch ${Math.round(e * 200)} · accuracy ${Math.round((1 - wrong / pts.length) * 100)}%`;
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
   function units(id, el, term) {
     const c = find(id); if (!c) return;
     const groups = [];
@@ -199,9 +254,11 @@
   units("ap-csa", "units-cs", true);
   units("french-1", "units-fr", false);
   units("math", "units-math", false);
+  units("comp-eng", "units-ce", false);
+  units("ml", "units-ml", false);
   units("sat", "units-sat", false);
   units("act", "units-act", false);
-  mathArt(); testArt();
+  mathArt(); testArt(); ceArt(); mlArt();
 
   // stars inside the physics portal
   const cv = document.getElementById("portalStars"), ctx = cv.getContext("2d");

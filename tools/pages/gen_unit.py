@@ -59,7 +59,7 @@ def page(unit_id, title_tag, kicker, h1, intro, desc, chapters, data_blocks, cou
 <link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../assets/css/site.css">
 </head>
-<body class="{ {"ap-csa": "th-term", "french-1": "th-paris", "ap-precalc": "th-grid", "pre-precalc": "th-grid", "math": "th-grid", "sat": "th-grid th-exam", "act": "th-grid th-exam th-act"}.get(course, "th-space") }" data-root="../../" data-course="{course}" data-unit="{unit_id}">
+<body class="{ {"ap-csa": "th-term", "french-1": "th-paris", "ap-precalc": "th-grid", "pre-precalc": "th-grid", "math": "th-grid", "sat": "th-grid th-exam", "act": "th-grid th-exam th-act", "comp-eng": "th-grid th-ce", "ml": "th-grid th-ml"}.get(course, "th-space") }" data-root="../../" data-course="{course}" data-unit="{unit_id}">
 
 <div class="hero">
   <span class="kicker">{kicker}</span>

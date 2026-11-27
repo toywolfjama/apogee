@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Learning Unit 2: Linear Regression and Gradient Descent | Margin</title>
+<meta name="description" content="Machine learning unit 2: linear regression, mean squared error, R², least squares, gradient descent, learning rates, SGD and feature engineering.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-ml" data-root="../../" data-course="ml" data-unit="ml-2">
+
+<div class="hero">
+  <span class="kicker">Machine Learning · Unit 2</span>
+  <h1>Learning a <span class="hl">line</span></h1>
+  <p>Models, loss functions, least squares and gradient descent: the core loop of machine learning, worked out on the simplest model there is.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-lin" data-title="The Linear Model" data-short="Linear model">
+<section class="topic" id="linear">
+  <h2><span class="pill m">2.1</span>The linear model</h2>
+  
+  
+<p>Linear regression is the "hello world" of machine learning, and the ideas in it (a model with parameters, a loss function, and an optimizer that lowers the loss) are exactly the ideas behind giant neural networks.</p>
+<div class="big-eq">ŷ = w·x + b</div>
+<p>With one feature this is the equation of a line: <b>w</b> (the <b>weight</b>) is the slope and <b>b</b> (the <b>bias</b>) is the intercept. Learning means finding the w and b that make ŷ as close as possible to the true y across the training data.</p>
+<p>With d features each one gets its own weight:</p>
+<div class="big-eq">ŷ = w₁x₁ + w₂x₂ + … + w_dx_d + b = <b>w</b> · <b>x</b> + b</div>
+<p>The <b>dot product</b> <b>w</b> · <b>x</b> multiplies matching entries and adds them up. Each weight says how much the prediction changes when that feature goes up by 1, holding the others fixed.</p>
+<div class="worked"><div class="q">Worked example: A house-price model is ŷ = 0.15·(sq ft) + 12·(bedrooms) − 1.1·(age) + 40, in $k. Predict a 1,600 sq ft, 3-bedroom, 10-year-old house.</div><div class="a">ŷ = 0.15(1600) + 12(3) − 1.1(10) + 40 = 240 + 36 − 11 + 40 = 305, so about $305k. Each extra square foot adds $150, all else equal.</div></div>
+
+  
+</section>
+<section class="topic" id="loss">
+  <h2><span class="pill e">2.2</span>Measuring error: the loss function</h2>
+  
+  
+<p>For each example the <b>residual</b> is the error y − ŷ. We need one number that summarizes how wrong the model is over the whole training set. The standard choice for regression is the <b>mean squared error</b>:</p>
+<div class="big-eq">MSE = (1/n) Σ (ŷᵢ − yᵢ)²</div>
+<p>Squaring makes every error positive and punishes big misses much more than small ones (an error of 4 costs 16, an error of 1 costs 1).</p>
+<div class="xlab" data-lab='{"title": "Fit a line by hand, then let gradient descent do it", "sub": "Drag w and b to lower the MSE. Red segments are residuals. Then try the gradient-step buttons.", "type": "regress"}'></div>
+<div class="tblwrap"><table><tr><th>Metric</th><th>Formula</th><th>Notes</th></tr><tr><td>MSE</td><td>average of squared errors</td><td>the usual training loss; units are squared</td></tr><tr><td>RMSE</td><td>√MSE</td><td>same units as y ("typically off by about RMSE")</td></tr><tr><td>MAE</td><td>average of |errors|</td><td>less sensitive to outliers</td></tr><tr><td>R²</td><td>1 − (SS_residual / SS_total)</td><td>fraction of the variance in y the model explains: 1 is perfect, 0 is no better than predicting the mean</td></tr></table></div>
+<div class="worked"><div class="q">Worked example: Predictions 3, 5, 9 for true values 2, 5, 12. Find MSE, RMSE and MAE.</div><div class="a">Errors 1, 0, −3. MSE = (1 + 0 + 9)/3 = 10/3 ≈ 3.33. RMSE ≈ 1.83. MAE = (1 + 0 + 3)/3 ≈ 1.33.</div></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-fit" data-title="Fitting the Line" data-short="Fitting">
+<section class="topic" id="closed">
+  <h2><span class="pill p">2.3</span>The best line, in one step</h2>
+  
+  
+<p>For simple linear regression calculus gives the exact minimizer of the MSE, called <b>ordinary least squares</b>:</p>
+<div class="big-eq">w = Σ(xᵢ − x̄)(yᵢ − ȳ) / Σ(xᵢ − x̄)² &nbsp;&nbsp;&nbsp;&nbsp; b = ȳ − w·x̄</div>
+<div class="msteps" data-w='{"title": "Least squares for points (1, 2), (2, 3), (3, 5), (4, 6)", "frames": [{"t": ["a|x̄ = 2.5|e", "b|ȳ = 4|e"], "note": "Means of x and of y."}, {"t": ["c|x − x̄: −1.5 −0.5 0.5 1.5|v", "d|y − ȳ: −2 −1 1 2|v"], "note": "Deviations from the means."}, {"t": ["e|Σ products = 3 + 0.5 + 0.5 + 3 = 7|e", "f|Σ (x − x̄)² = 5|e"], "note": "Multiply matching deviations; square the x deviations."}, {"t": ["g|w = 7 / 5 = 1.4|g", "h|b = 4 − 1.4(2.5) = 0.5|g"], "note": "The best line is ŷ = 1.4x + 0.5. The line always passes through (x̄, ȳ)."}]}'></div>
+<p>With many features the same idea becomes the matrix formula <b>w</b> = (XᵀX)⁻¹Xᵀ<b>y</b>. It's exact, but inverting a matrix gets very expensive with lots of features, and most models (logistic regression, neural networks) have no closed-form answer at all. For those we need an algorithm that improves step by step.</p>
+
+  
+</section>
+<section class="topic" id="gd">
+  <h2><span class="pill m">2.4</span>Gradient descent</h2>
+  
+  
+<p>Picture the loss as a landscape over every possible setting of the parameters. Gradient descent starts somewhere and repeatedly takes a small step <b>downhill</b>. The <b>gradient</b> (the vector of partial derivatives) points uphill, so we step against it:</p>
+<div class="big-eq">w ← w − α · ∂L/∂w &nbsp;&nbsp;&nbsp;&nbsp; b ← b − α · ∂L/∂b</div>
+<p>α is the <b>learning rate</b>, the size of each step. For MSE on a line the derivatives are</p>
+<div class="big-eq">∂L/∂w = (2/n) Σ (ŷᵢ − yᵢ)·xᵢ &nbsp;&nbsp;&nbsp;&nbsp; ∂L/∂b = (2/n) Σ (ŷᵢ − yᵢ)</div>
+<div class="xlab" data-lab='{"type": "gd"}'></div>
+<div class="grid2"><div class="mini"><h4>α too small</h4>Tiny steps: it gets there, but takes forever.</div><div class="mini"><h4>α too large</h4>Each step overshoots the bottom. The loss bounces around or blows up (diverges).</div><div class="mini"><h4>Local minima</h4>On a bumpy loss, gradient descent can settle in a valley that isn't the lowest. Linear regression's MSE is a perfect bowl (convex), so there's only one minimum; neural networks aren't.</div><div class="mini"><h4>Stochastic GD</h4>Computing the gradient over millions of examples is slow. <b>Mini-batch SGD</b> estimates it from a small random batch (say 32 examples) per step. Noisier, but far faster, and the noise even helps escape bad spots. One pass over the whole training set is an <b>epoch</b>.</div></div>
+<div class="worked"><div class="q">Worked example: One example (x = 2, y = 7). Start w = 1, b = 0, α = 0.1. Do one gradient step.</div><div class="a">ŷ = 2, error ŷ − y = −5. ∂L/∂w = 2(−5)(2) = −20, ∂L/∂b = 2(−5) = −10. New w = 1 − 0.1(−20) = 3, new b = 0 − 0.1(−10) = 1. Now ŷ = 3(2) + 1 = 7: perfect for this point.</div></div>
+<pre class="code"><code>w, b, lr = <span class="n">0.0</span>, <span class="n">0.0</span>, <span class="n">0.01</span>
+<span class="k">for</span> epoch <span class="k">in</span> <span class="k">range</span>(<span class="n">1000</span>):
+    pred = w * x + b                    <span class="c"># x, y are NumPy arrays</span>
+    err = pred - y
+    w -= lr * <span class="n">2</span> * (err * x).mean()      <span class="c"># step against the gradient</span>
+    b -= lr * <span class="n">2</span> * err.mean()</code></pre>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Where the derivatives come from</summary><div class="deep-body"><p>L = (1/n) Σ (wxᵢ + b − yᵢ)². By the chain rule, the derivative of (stuff)² is 2·(stuff)·(derivative of stuff). The derivative of (wxᵢ + b − yᵢ) with respect to w is xᵢ, and with respect to b it's 1. So ∂L/∂w = (2/n) Σ (ŷᵢ − yᵢ)xᵢ and ∂L/∂b = (2/n) Σ (ŷᵢ − yᵢ).</p></div></details>
+</section>
+</div>
+<div class="chapter" id="ch-feat" data-title="Features" data-short="Features">
+<section class="topic" id="features">
+  <h2><span class="pill m">2.5</span>Beyond straight lines</h2>
+  
+  
+<p>"Linear" means linear in the <b>weights</b>, not necessarily in the original inputs. Add new features made from old ones and a linear model can fit curves:</p>
+<div class="grid2"><div class="mini"><h4>Polynomial features</h4>Use x, x², x³ as three features: ŷ = w₁x + w₂x² + w₃x³ + b. Still linear regression, but the fit is a cubic curve.</div><div class="mini"><h4>Interactions</h4>x₁·x₂ lets the effect of one feature depend on another (sunshine helps ice cream sales more when it's also hot).</div><div class="mini"><h4>Logs</h4>log(income) when doubling matters more than adding a fixed amount.</div><div class="mini"><h4>Domain knowledge</h4>Distance from the city center may predict rent better than raw latitude and longitude.</div></div>
+<div class="mlab" data-lab='{"title": "Same data, more features", "sub": "A cubic in x is still a linear model in its weights. Slide the weights.", "x": [-3, 3], "y": [-6, 6], "gx": 1, "gy": 1, "params": {"a": [-1, 1, 0.05, 0.3, "w₃"], "c": [-3, 3, 0.1, -1.5, "w₁"]}, "fns": [{"e": "a*x^3 + c*x", "label": "ŷ = w₃x³ + w₁x"}], "type": "graph"}'></div>
+<div class="box trap"><b class="lbl">Correlation is not causation</b>A model can predict well from a feature that doesn't cause the outcome. Ice cream sales predict drownings (both go up in summer). A predictive model answers 'what will happen', not 'what should we change'.</div>
+
+  
+</section>
+<section class="topic" id="summary-ml2">
+  <h2>Unit summary</h2>
+  
+  <div class="grid2"><div class="mini"><h4>Model</h4>ŷ = w · x + b. Each weight = change in ŷ per unit of that feature, holding others fixed.</div><div class="mini"><h4>Loss</h4>MSE = mean of (ŷ − y)². RMSE in y's units, MAE robust to outliers, R² = share of variance explained.</div><div class="mini"><h4>Least squares</h4>w = Σ(x − x̄)(y − ȳ) / Σ(x − x̄)², b = ȳ − w x̄. Line passes through (x̄, ȳ).</div><div class="mini"><h4>Gradient descent</h4>w ← w − α ∂L/∂w. α too small = slow, too big = diverges. Mini-batch SGD; epochs. Feature engineering bends a linear model.</div></div>
+  
+</section>
+</div>
+<div class="chapter" id="practice-ml-2" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-ml-2">
+  <h2>Practice questions</h2>
+  <p class="sub">15 questions on everything in this unit. Work each one out before you pick.</p>
+  <div class="quiz" data-src="quiz-ml-2" data-tags='{"c": "Concept", "p": "Calculation", "m": "Modeling", "e": "Evaluation"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-ml-2" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-ml-2">
+  <h2>Challenge questions</h2>
+  <p class="sub">Harder, multi-step questions in the style of a college exam.</p>
+  <div class="quiz" data-src="quiz-challenge-ml-2" data-tags='{"c": "Concept", "p": "Calculation", "m": "Modeling", "e": "Evaluation"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-ml-2" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-ml-2"><h2>Practice exam</h2><p class="sub">12 multiple-choice questions (30 minutes) and 2 free-response questions (25 minutes). No feedback until you submit. Grade the free response with the rubric.</p><div class="exam" data-src="exam-ml-2"></div></section>
+</div>
+</main>
+
+<footer>Margin · Machine Learning · Click, drag and break things in the labs</footer>
+
+<script type="application/json" id="quiz-ml-2">
+[
+ {
+  "t": "c",
+  "q": "In ŷ = wx + b, what does b represent for a single feature?",
+  "o": [
+   "The intercept: the prediction when x = 0",
+   "The error",
+   "The learning rate",
+   "The slope"
+  ],
+  "a": 0,
+  "x": "b shifts the line up or down."
+ },
+ {
+  "t": "p",
+  "q": "ŷ = 3x₁ − 2x₂ + 5. Predict for x₁ = 4, x₂ = 1.",
+  "o": [
+   "13",
+   "10",
+   "19",
+   "15"
+  ],
+  "a": 3,
+  "x": "12 − 2 + 5."
+ },
+ {
+  "t": "p",
+  "q": "Compute the dot product (2, −1, 3) · (4, 5, 1).",
+  "o": [
+   "12",
+   "16",
+   "6",
+   "−3"
+  ],
+  "a": 2,
+  "x": "8 − 5 + 3 = 6."
+ },
+ {
+  "t": "p",
+  "q": "True values 4, 6; predictions 5, 3. MSE?",
+  "o": [
+   "5",
+   "2",
+   "10",
+   "3.16"
+  ],
+  "a": 0,
+  "x": "Errors 1, −3 → (1 + 9)/2 = 5."
+ },
+ {
+  "t": "c",
+  "q": "Why does MSE square the errors?",
+  "o": [
+   "Because errors are always small",
+   "To make outliers matter less",
+   "To make the math impossible",
+   "To make them positive and penalize big errors more"
+  ],
+  "a": 3,
+  "x": "Squaring grows fast with error size."
+ },
+ {
+  "t": "e",
+  "q": "Which metric is in the same units as the target?",
+  "o": [
+   "R²",
+   "Variance",
+   "RMSE",
+   "MSE"
+  ],
+  "a": 2,
+  "x": "Square root undoes the squaring."
+ },
+ {
+  "t": "e",
+  "q": "A model has R² = 0. It is…",
+  "o": [
+   "perfect",
+   "no better than always predicting the mean",
+   "impossible",
+   "explaining 100% of the variance"
+  ],
+  "a": 1,
+  "x": "R² compares to the mean baseline."
+ },
+ {
+  "t": "c",
+  "q": "The least-squares line always passes through…",
+  "o": [
+   "the first data point",
+   "(x̄, ȳ)",
+   "the largest y value",
+   "the origin"
+  ],
+  "a": 1,
+  "x": "b = ȳ − w x̄."
+ },
+ {
+  "t": "c",
+  "q": "In gradient descent, we move the parameters…",
+  "o": [
+   "opposite to the gradient",
+   "toward zero only",
+   "in the direction of the gradient",
+   "randomly"
+  ],
+  "a": 0,
+  "x": "The gradient points uphill."
+ },
+ {
+  "t": "c",
+  "q": "The learning rate is far too large. What usually happens?",
+  "o": [
+   "Nothing changes",
+   "The model underfits slightly",
+   "The loss bounces or explodes (diverges)",
+   "Training is very slow but stable"
+  ],
+  "a": 2,
+  "x": "Steps overshoot the minimum."
+ },
+ {
+  "t": "p",
+  "q": "w = 2, ∂L/∂w = 5, α = 0.1. After one step, w =",
+  "o": [
+   "2.5",
+   "−3",
+   "1.5",
+   "1.9"
+  ],
+  "a": 2,
+  "x": "2 − 0.1 × 5."
+ },
+ {
+  "t": "c",
+  "q": "One epoch means…",
+  "o": [
+   "one example",
+   "one gradient step",
+   "one hour of training",
+   "one full pass over the training data"
+  ],
+  "a": 3,
+  "x": "In mini-batch SGD an epoch is many steps."
+ },
+ {
+  "t": "c",
+  "q": "Linear regression's MSE loss has how many minima?",
+  "o": [
+   "One (it's convex)",
+   "Two",
+   "None",
+   "Many"
+  ],
+  "a": 0,
+  "x": "A bowl shape."
+ },
+ {
+  "t": "m",
+  "q": "Using x and x² as features in linear regression lets the model fit…",
+  "o": [
+   "a parabola",
+   "only horizontal lines",
+   "categories",
+   "only straight lines"
+  ],
+  "a": 0,
+  "x": "Linear in weights, curved in x."
+ },
+ {
+  "t": "m",
+  "q": "Ice cream sales predict sunburn cases very well. Banning ice cream would…",
+  "o": [
+   "prove the model wrong",
+   "probably not reduce sunburn: correlation isn't causation",
+   "increase sunburn",
+   "reduce sunburn"
+  ],
+  "a": 1,
+  "x": "Both are caused by sunny weather."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-ml-2">
+[
+ {
+  "t": "p",
+  "q": "Least squares for (0, 1), (1, 3), (2, 5). Find w and b.",
+  "o": [
+   "w = 2, b = 1",
+   "w = 3, b = 1",
+   "w = 1.5, b = 1.5",
+   "w = 2, b = 0"
+  ],
+  "a": 0,
+  "x": "The points are exactly on y = 2x + 1."
+ },
+ {
+  "t": "p",
+  "q": "Data (1, 1), (2, 2), (3, 6). Least-squares slope w?",
+  "o": [
+   "2",
+   "3",
+   "2.5",
+   "1.5"
+  ],
+  "a": 2,
+  "x": "x̄ = 2, ȳ = 3. Σ(x − x̄)(y − ȳ) = (−1)(−2) + 0 + (1)(3) = 5. Σ(x − x̄)² = 2. w = 2.5."
+ },
+ {
+  "t": "p",
+  "q": "Single example x = 3, y = 10. Start w = 1, b = 1, α = 0.05, loss (ŷ − y)². After one step, w = ?",
+  "o": [
+   "4.6",
+   "−0.8",
+   "2.8",
+   "1.7"
+  ],
+  "a": 2,
+  "x": "ŷ = 4, error ŷ − y = −6. ∂L/∂w = 2(−6)(3) = −36. w = 1 − 0.05(−36) = 2.8."
+ },
+ {
+  "t": "e",
+  "q": "Predictions explain y with SS_residual = 20 and SS_total = 80. R²?",
+  "o": [
+   "0.25",
+   "60",
+   "0.75",
+   "4"
+  ],
+  "a": 2,
+  "x": "1 − 20/80."
+ },
+ {
+  "t": "p",
+  "q": "Loss L(w) = (w − 4)². Start w = 0, α = 1.0. What happens?",
+  "o": [
+   "w alternates 0, 8, 0, 8, … and never converges",
+   "Converges slowly to 4",
+   "Converges to 4 in one step",
+   "Diverges to infinity"
+  ],
+  "a": 0,
+  "x": "Gradient = 2(w − 4). From 0: 0 − 1(−8) = 8. From 8: 8 − 1(8) = 0. It bounces forever. (α = 0.5 would land on 4 in one step.)"
+ },
+ {
+  "t": "m",
+  "q": "A feature is measured in millimetres instead of metres (values 1000× larger). In the least-squares model its weight becomes…",
+  "o": [
+   "1000× larger",
+   "1000× smaller",
+   "unchanged",
+   "zero"
+  ],
+  "a": 1,
+  "x": "ŷ stays the same, so w must shrink by the same factor. That's why weights can't be compared across features unless the features are scaled."
+ }
+]
+</script>
+<script type="application/json" id="exam-ml-2">
+{
+ "title": "Machine Learning Unit 2 Practice Exam: Linear Regression and Gradient Descent",
+ "mcqMinutes": 30,
+ "frqMinutes": 25,
+ "tags": {
+  "c": "Concept",
+  "p": "Calculation",
+  "m": "Modeling",
+  "e": "Evaluation"
+ },
+ "mcq": [
+  {
+   "t": "c",
+   "q": "Linear regression predicts…",
+   "o": [
+    "a cluster",
+    "a number",
+    "a probability only",
+    "a category"
+   ],
+   "a": 1,
+   "x": "Regression = numeric output."
+  },
+  {
+   "t": "p",
+   "q": "ŷ = 0.5x + 2 at x = 10 gives…",
+   "o": [
+    "5.2",
+    "20",
+    "7",
+    "12"
+   ],
+   "a": 2,
+   "x": "5 + 2."
+  },
+  {
+   "t": "p",
+   "q": "Errors 2, −2, 0, 4. MAE?",
+   "o": [
+    "1",
+    "2",
+    "3",
+    "6"
+   ],
+   "a": 1,
+   "x": "(2 + 2 + 0 + 4)/4."
+  },
+  {
+   "t": "p",
+   "q": "Errors 2, −2, 0, 4. MSE?",
+   "o": [
+    "6",
+    "2",
+    "24",
+    "4"
+   ],
+   "a": 0,
+   "x": "(4 + 4 + 0 + 16)/4."
+  },
+  {
+   "t": "e",
+   "q": "Which loss is least affected by a single huge outlier?",
+   "o": [
+    "MSE",
+    "They're identical",
+    "RMSE",
+    "MAE"
+   ],
+   "a": 3,
+   "x": "MAE grows linearly with error, not quadratically."
+  },
+  {
+   "t": "c",
+   "q": "The gradient of a function points…",
+   "o": [
+    "sideways",
+    "toward zero",
+    "in the direction of steepest increase",
+    "toward the minimum"
+   ],
+   "a": 2,
+   "x": "So we step the other way."
+  },
+  {
+   "t": "c",
+   "q": "The update rule of gradient descent is…",
+   "o": [
+    "θ ← α θ",
+    "θ ← θ + α ∇L",
+    "θ ← ∇L",
+    "θ ← θ − α ∇L"
+   ],
+   "a": 3,
+   "x": "Subtract the scaled gradient."
+  },
+  {
+   "t": "c",
+   "q": "Mini-batch SGD computes each step's gradient from…",
+   "o": [
+    "the entire dataset",
+    "a single feature",
+    "the test set",
+    "a small random subset of the data"
+   ],
+   "a": 3,
+   "x": "Faster, noisier steps."
+  },
+  {
+   "t": "m",
+   "q": "If the training loss decreases very slowly but steadily, you might…",
+   "o": [
+    "increase the learning rate a bit",
+    "stop using a loss",
+    "decrease the learning rate",
+    "delete the bias"
+   ],
+   "a": 0,
+   "x": "Steps are too small."
+  },
+  {
+   "t": "e",
+   "q": "R² of 0.9 means…",
+   "o": [
+    "the model explains 90% of the variance in y",
+    "the slope is 0.9",
+    "the error is 0.9",
+    "90% of predictions are exactly right"
+   ],
+   "a": 0,
+   "x": "Fraction of variance explained."
+  },
+  {
+   "t": "p",
+   "q": "Least squares w for points with Σ(x − x̄)(y − ȳ) = 12 and Σ(x − x̄)² = 4?",
+   "o": [
+    "3",
+    "48",
+    "1/3",
+    "16"
+   ],
+   "a": 0,
+   "x": "12/4."
+  },
+  {
+   "t": "m",
+   "q": "Adding x² as a feature to linear regression makes the model…",
+   "o": [
+    "a classifier",
+    "able to fit a curve while staying linear in its weights",
+    "unable to train",
+    "nonlinear in its weights"
+   ],
+   "a": 1,
+   "x": "Feature engineering."
+  }
+ ],
+ "frq": [
+  {
+   "q": "Hours studied (x) vs score (y): (1, 60), (2, 70), (3, 75), (4, 85), (5, 90).",
+   "parts": [
+    {
+     "p": "(a) Find the least-squares line.",
+     "rubric": [
+      [
+       "x̄ = 3, ȳ = 76",
+       1
+      ],
+      [
+       "w = 75/10 = 7.5",
+       1
+      ],
+      [
+       "b = 76 − 22.5 = 53.5",
+       1
+      ]
+     ],
+     "answer": "Deviations x: −2…2; y: −16, −6, −1, 9, 14. Σ products = 32 + 6 + 0 + 9 + 28 = 75. Σ(x − x̄)² = 10. w = 7.5, b = 76 − 7.5·3 = 53.5. ŷ = 7.5x + 53.5."
+    },
+    {
+     "p": "(b) Predict the score for 3.5 hours and interpret the slope.",
+     "rubric": [
+      [
+       "ŷ = 79.75",
+       1
+      ],
+      [
+       "Each extra hour is associated with about 7.5 more points",
+       1
+      ]
+     ],
+     "answer": "7.5(3.5) + 53.5 = 79.75. Each extra hour studied goes with about 7.5 more points (an association, not proof of cause)."
+    },
+    {
+     "p": "(c) Would you trust a prediction for 20 hours? Explain.",
+     "rubric": [
+      [
+       "No: extrapolation beyond the data range",
+       1
+      ],
+      [
+       "Scores cap at 100; the line would predict 203.5",
+       1
+      ]
+     ],
+     "answer": "No. 20 hours is far outside the training range (1–5). The line predicts 203.5, impossible on a 100-point test."
+    }
+   ]
+  },
+  {
+   "q": "Gradient descent by hand. Data: (x, y) = (1, 3) and (2, 5). Model ŷ = wx + b, loss = MSE. Start w = 0, b = 0, α = 0.1.",
+   "parts": [
+    {
+     "p": "(a) Compute the gradients ∂L/∂w and ∂L/∂b at the start.",
+     "rubric": [
+      [
+       "Errors ŷ − y = −3, −5",
+       1
+      ],
+      [
+       "∂L/∂w = (2/2)(−3·1 + −5·2) = −13; ∂L/∂b = −8",
+       2
+      ]
+     ],
+     "answer": "Errors −3 and −5. ∂L/∂w = (2/2)(−3 − 10) = −13. ∂L/∂b = (2/2)(−3 − 5) = −8."
+    },
+    {
+     "p": "(b) Do one update and compute the new MSE.",
+     "rubric": [
+      [
+       "w = 1.3, b = 0.8",
+       1
+      ],
+      [
+       "Predictions 2.1, 3.4 → MSE = (0.81 + 2.56)/2 = 1.685",
+       1
+      ]
+     ],
+     "answer": "w = 0 + 1.3 = 1.3, b = 0.8. ŷ = 2.1 and 3.4. MSE = (0.9² + 1.6²)/2 = 1.685 (down from 17)."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/labs.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

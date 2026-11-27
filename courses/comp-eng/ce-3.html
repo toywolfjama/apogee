@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Computer Engineering Unit 3: Boolean Logic and Gates | Margin</title>
+<meta name="description" content="Intro to computer engineering unit 3: logic gates, truth tables, Boolean algebra, De Morgan's laws, sum of products and Karnaugh maps with interactive labs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-ce" data-root="../../" data-course="comp-eng" data-unit="ce-3">
+
+<div class="hero">
+  <span class="kicker">Computer Engineering · Unit 3</span>
+  <h1>Boolean <span class="hl">logic</span></h1>
+  <p>Gates, truth tables, Boolean algebra, De Morgan's laws and Karnaugh maps: how to design the smallest circuit for any rule.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-gates" data-title="Gates and Truth Tables" data-short="Gates">
+<section class="topic" id="gates">
+  <h2><span class="pill c">3.1</span>Logic gates</h2>
+  
+  
+<p>A <b>logic gate</b> takes one or more bits in and produces one bit out. Gates are built from a handful of transistors (unit 1), and every digital circuit, including a whole CPU, is gates wired together.</p>
+<div class="xlab" data-lab='{"type": "gate"}'></div>
+<div class="tblwrap"><table><tr><th>Gate</th><th>Boolean expression</th><th>Output is 1 when…</th><th>Spoken</th></tr><tr><td>NOT</td><td>Y = A′ (or Ā, ¬A)</td><td>A is 0</td><td>not A</td></tr><tr><td>AND</td><td>Y = A · B (or AB)</td><td>both inputs are 1</td><td>A and B</td></tr><tr><td>OR</td><td>Y = A + B</td><td>at least one input is 1</td><td>A or B</td></tr><tr><td>NAND</td><td>Y = (AB)′</td><td>not both are 1</td><td></td></tr><tr><td>NOR</td><td>Y = (A + B)′</td><td>both are 0</td><td></td></tr><tr><td>XOR</td><td>Y = A ⊕ B = A′B + AB′</td><td>the inputs differ</td><td>exclusive or</td></tr><tr><td>XNOR</td><td>Y = (A ⊕ B)′</td><td>the inputs are equal</td><td>equivalence</td></tr></table></div>
+<div class="box trap"><b class="lbl">+ is not addition</b>In Boolean algebra, + means OR, so 1 + 1 = 1. And · means AND. Read A + B as "A or B".</div>
+<p>A <b>truth table</b> lists the output for every combination of inputs. With n inputs there are 2ⁿ rows. Write the rows in binary counting order (000, 001, 010, …) so you never miss one.</p>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-alg" data-title="Boolean Algebra" data-short="Algebra">
+<section class="topic" id="algebra">
+  <h2><span class="pill p">3.2</span>Boolean algebra</h2>
+  
+  
+<p>Boolean algebra lets you simplify a circuit on paper before you build it. Fewer gates means a cheaper, faster, cooler chip.</p>
+<div class="tblwrap"><table><tr><th>Law</th><th>AND form</th><th>OR form</th></tr><tr><td>Identity</td><td>A · 1 = A</td><td>A + 0 = A</td></tr><tr><td>Null (domination)</td><td>A · 0 = 0</td><td>A + 1 = 1</td></tr><tr><td>Idempotent</td><td>A · A = A</td><td>A + A = A</td></tr><tr><td>Complement</td><td>A · A′ = 0</td><td>A + A′ = 1</td></tr><tr><td>Double negation</td><td>(A′)′ = A</td><td></td></tr><tr><td>Commutative</td><td>AB = BA</td><td>A + B = B + A</td></tr><tr><td>Associative</td><td>(AB)C = A(BC)</td><td>(A + B) + C = A + (B + C)</td></tr><tr><td>Distributive</td><td>A(B + C) = AB + AC</td><td>A + BC = (A + B)(A + C)</td></tr><tr><td>Absorption</td><td>A(A + B) = A</td><td>A + AB = A</td></tr><tr><td>De Morgan</td><td>(AB)′ = A′ + B′</td><td>(A + B)′ = A′B′</td></tr></table></div>
+<p><b>De Morgan's laws</b> are the most important: to push a NOT through a group, <b>flip AND ↔ OR and complement each variable</b>. "Not (raining and cold)" is the same as "not raining or not cold".</p>
+<div class="msteps" data-w='{"title": "Simplify Y = AB + AB′ + A′B", "frames": [{"t": ["a|AB + AB′|e", "b|+ A′B|n"], "note": "Group the first two terms."}, {"t": ["c|A(B + B′)|e", "b|+ A′B|n"], "note": "Factor out A (distributive law)."}, {"t": ["d|A · 1|e", "b|+ A′B|n"], "note": "B + B′ = 1 (complement law)."}, {"t": ["e|A + A′B|e"], "note": "A · 1 = A."}, {"t": ["f|A + B|g"], "note": "A + A′B = A + B. (If A is 1 the result is 1; if A is 0 it&#39;s just B.) Three gates → one OR gate."}]}'></div>
+<div class="msteps" data-w='{"title": "Use De Morgan on Y = (A′ + BC)′", "frames": [{"t": ["a|(A′ + BC)′|e"], "note": "A NOT over an OR."}, {"t": ["b|(A′)′ · (BC)′|e"], "note": "De Morgan: OR becomes AND, complement each piece."}, {"t": ["c|A · (B′ + C′)|e"], "note": "Double negation, and De Morgan again on (BC)′."}, {"t": ["d|AB′ + AC′|g"], "note": "Distribute if you want sum-of-products form."}]}'></div>
+<div class="box tip"><b class="lbl">Check with a truth table</b>Any two Boolean expressions are equal if and only if their truth tables match on every row. When in doubt, build both tables.</div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Proving A + A′B = A + B</summary><div class="deep-body"><p>A + A′B = (A + A′)(A + B) by the OR-distributive law = 1 · (A + B) = A + B. Or check all four rows: (0,0) → 0 and 0; (0,1) → 1 and 1; (1,0) → 1 and 1; (1,1) → 1 and 1. ✓</p></div></details>
+</section>
+<section class="topic" id="sop">
+  <h2><span class="pill d">3.3</span>From truth table to circuit</h2>
+  
+  
+<p>Any truth table can be turned into a circuit with this recipe, called <b>sum of products (SOP)</b>:</p>
+<ol class="steps"><li>Find every row where the output is 1. Each one is a <b>minterm</b>.</li>
+<li>Write an AND term for that row: use the variable if it's 1 in that row, its complement if it's 0.</li>
+<li>OR all the terms together.</li></ol>
+<div class="worked"><div class="q">Worked example: Build the majority function M(A, B, C): output 1 when at least two inputs are 1.</div><div class="a">Rows with output 1: 011, 101, 110, 111 (minterms 3, 5, 6, 7). SOP: M = A′BC + AB′C + ABC′ + ABC. Simplified (see K-maps below): M = AB + AC + BC.</div></div>
+<div class="xlab" data-lab='{"title": "Majority vote circuit", "inputs": ["A", "B", "C"], "gates": [{"id": "g1", "t": "AND", "in": ["A", "B"]}, {"id": "g2", "t": "AND", "in": ["A", "C"]}, {"id": "g3", "t": "AND", "in": ["B", "C"]}, {"id": "g4", "t": "OR", "in": ["g1", "g2", "g3"]}], "outputs": {"M": "g4"}, "note": "M = AB + AC + BC. This is used in fault-tolerant systems: three computers vote, and a single faulty one is outvoted.", "type": "circuit"}'></div>
+<p>The dual recipe, <b>product of sums (POS)</b>, uses the rows where the output is 0 (<b>maxterms</b>): write an OR term that is 0 on that row (the variable if it's 0, its complement if it's 1), then AND them. POS is shorter when the output has fewer 0s than 1s.</p>
+<p>Shorthand: F(A, B, C) = Σm(3, 5, 6, 7) lists the minterms, and F = ΠM(0, 1, 2, 4) lists the maxterms. They describe the same function.</p>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-kmap" data-title="Karnaugh Maps" data-short="K-maps">
+<section class="topic" id="kmaps">
+  <h2><span class="pill d">3.4</span>Karnaugh maps</h2>
+  
+  
+<p>A <b>K-map</b> is a truth table folded into a grid so that neighbouring cells differ in exactly one variable. The columns are in <b>Gray code order</b> (00, 01, 11, 10), not counting order. That way, any two adjacent 1s can be merged and one variable disappears.</p>
+<div class="xlab" data-lab='{"vars": ["A", "B", "C", "D"], "ones": [0, 2, 5, 7, 8, 10, 13, 15], "title": "4-variable K-map", "sub": "Click cells to change the function: 0 → 1 → X (don&#39;t care) → 0. The four corners and the middle form two groups of four.", "type": "kmap"}'></div>
+<ol class="steps"><li>Circle groups of 1s. Each group must be a rectangle with <b>1, 2, 4, 8 or 16</b> cells.</li>
+<li>Make groups <b>as large as possible</b>; bigger groups mean fewer variables.</li>
+<li>Groups may <b>overlap</b>, and they <b>wrap around</b> the edges (the left and right columns are neighbours, so are the top and bottom rows, and so are the four corners).</li>
+<li>Use as <b>few groups</b> as possible while covering every 1.</li>
+<li>For each group, keep only the variables that stay the same across the whole group.</li></ol>
+<p>A group of 2ᵏ cells eliminates k variables. In a 4-variable map: a pair gives a 3-literal term, a quad gives 2 literals, an octet gives 1.</p>
+<div class="xlab" data-lab='{"vars": ["A", "B", "C"], "ones": [3, 5, 6, 7], "title": "Majority function on a 3-variable map", "sub": "Three overlapping pairs give AB + AC + BC.", "type": "kmap"}'></div>
+<div class="box tip"><b class="lbl">Don't-care conditions</b>Sometimes an input combination can never happen, like the codes 10–15 in a circuit that only receives decimal digits 0–9. Mark those cells X and treat each one as a 1 if it helps you make a bigger group, or a 0 if it doesn't.</div>
+
+  
+</section>
+<section class="topic" id="universal">
+  <h2><span class="pill d">3.5</span>Universal gates</h2>
+  
+  
+<p>NAND by itself can build <b>any</b> logic function, and so can NOR. That's why they're called universal. Chips are often built almost entirely from NAND gates because a NAND is the cheapest CMOS gate.</p>
+<div class="tblwrap"><table><tr><th>Build</th><th>From NAND only</th></tr><tr><td>NOT A</td><td>A NAND A</td></tr><tr><td>A AND B</td><td>(A NAND B) NAND (A NAND B)</td></tr><tr><td>A OR B</td><td>(A NAND A) NAND (B NAND B)  — De Morgan: (A′B′)′ = A + B</td></tr></table></div>
+<div class="xlab" data-lab='{"title": "XOR from four NAND gates", "inputs": ["A", "B"], "gates": [{"id": "n1", "t": "NAND", "in": ["A", "B"]}, {"id": "n2", "t": "NAND", "in": ["A", "n1"]}, {"id": "n3", "t": "NAND", "in": ["B", "n1"]}, {"id": "n4", "t": "NAND", "in": ["n2", "n3"]}], "outputs": {"A⊕B": "n4"}, "note": "The classic 4-NAND XOR. Click the truth table rows to set the inputs.", "type": "circuit"}'></div>
+<p><b>Bubble pushing:</b> by De Morgan, a NAND gate is the same as an OR gate with inverted inputs, and a NOR is an AND with inverted inputs. A two-level AND-OR circuit can therefore be redrawn as NAND-NAND with no change in behaviour.</p>
+
+  
+</section>
+<section class="topic" id="summary-ce3">
+  <h2>Unit summary</h2>
+  
+  <div class="grid2"><div class="mini"><h4>Gates</h4>AND · OR + NOT ′, plus NAND, NOR, XOR (inputs differ), XNOR (inputs equal). n inputs → 2ⁿ truth-table rows.</div><div class="mini"><h4>Algebra</h4>A + A′ = 1, A·A′ = 0, A + AB = A, A + A′B = A + B. De Morgan: (AB)′ = A′ + B′, (A + B)′ = A′B′.</div><div class="mini"><h4>SOP / POS</h4>SOP: OR together an AND term for every 1 row. POS: AND together an OR term for every 0 row. Σm(…) and ΠM(…) shorthand.</div><div class="mini"><h4>K-maps</h4>Gray-code order. Groups of 1, 2, 4, 8; as big as possible; may wrap and overlap. Keep the variables that don't change. NAND and NOR are universal.</div></div>
+  
+</section>
+</div>
+<div class="chapter" id="practice-ce-3" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-ce-3">
+  <h2>Practice questions</h2>
+  <p class="sub">16 questions on everything in this unit. Work each one out before you pick.</p>
+  <div class="quiz" data-src="quiz-ce-3" data-tags='{"c": "Concept", "p": "Calculation", "d": "Design", "r": "Reading circuits"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-ce-3" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-ce-3">
+  <h2>Challenge questions</h2>
+  <p class="sub">Harder, multi-step questions in the style of a college exam.</p>
+  <div class="quiz" data-src="quiz-challenge-ce-3" data-tags='{"c": "Concept", "p": "Calculation", "d": "Design", "r": "Reading circuits"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-ce-3" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-ce-3"><h2>Practice exam</h2><p class="sub">12 multiple-choice questions (30 minutes) and 2 free-response questions (25 minutes). No feedback until you submit. Grade the free response with the rubric.</p><div class="exam" data-src="exam-ce-3"></div></section>
+</div>
+</main>
+
+<footer>Margin · Computer Engineering · Click, drag and break things in the labs</footer>
+
+<script type="application/json" id="quiz-ce-3">
+[
+ {
+  "t": "c",
+  "q": "What is the output of an XOR gate with inputs 1 and 1?",
+  "o": [
+   "undefined",
+   "2",
+   "1",
+   "0"
+  ],
+  "a": 3,
+  "x": "XOR is 1 only when the inputs differ."
+ },
+ {
+  "t": "c",
+  "q": "Which gate outputs 0 only when all its inputs are 1?",
+  "o": [
+   "XNOR",
+   "NOR",
+   "AND",
+   "NAND"
+  ],
+  "a": 3,
+  "x": "NAND = NOT(AND)."
+ },
+ {
+  "t": "c",
+  "q": "A truth table for a 4-input function has how many rows?",
+  "o": [
+   "32",
+   "4",
+   "16",
+   "8"
+  ],
+  "a": 2,
+  "x": "2⁴ = 16."
+ },
+ {
+  "t": "c",
+  "q": "In Boolean algebra, 1 + 1 equals…",
+  "o": [
+   "2",
+   "1",
+   "10",
+   "0"
+  ],
+  "a": 1,
+  "x": "+ is OR."
+ },
+ {
+  "t": "p",
+  "q": "Simplify A + AB.",
+  "o": [
+   "AB",
+   "A + B",
+   "A",
+   "B"
+  ],
+  "a": 2,
+  "x": "Absorption law: if A is 1 the result is 1; if A is 0 both terms are 0."
+ },
+ {
+  "t": "p",
+  "q": "Simplify A · A′.",
+  "o": [
+   "1",
+   "A′",
+   "0",
+   "A"
+  ],
+  "a": 2,
+  "x": "Complement law."
+ },
+ {
+  "t": "p",
+  "q": "By De Morgan, (A + B)′ equals…",
+  "o": [
+   "A′ + B′",
+   "AB",
+   "(AB)′",
+   "A′B′"
+  ],
+  "a": 3,
+  "x": "Flip OR to AND and complement each variable."
+ },
+ {
+  "t": "p",
+  "q": "By De Morgan, (ABC)′ equals…",
+  "o": [
+   "A′ + B′ + C′",
+   "A + B + C",
+   "A′B′C′",
+   "(A + B + C)′"
+  ],
+  "a": 0,
+  "x": "Flip AND to OR and complement each variable."
+ },
+ {
+  "t": "p",
+  "q": "Simplify A′B + AB.",
+  "o": [
+   "B",
+   "1",
+   "A + B",
+   "A"
+  ],
+  "a": 0,
+  "x": "B(A′ + A) = B · 1 = B."
+ },
+ {
+  "t": "d",
+  "q": "F has 1s only in rows 001 and 110 (inputs A B C). Its SOP form is…",
+  "o": [
+   "A ⊕ B ⊕ C",
+   "A′B′C′ + ABC",
+   "A′B′C + ABC′",
+   "(A + B + C′)(A′ + B′ + C)"
+  ],
+  "a": 2,
+  "x": "001 → A′B′C; 110 → ABC′."
+ },
+ {
+  "t": "c",
+  "q": "Why are K-map columns ordered 00, 01, 11, 10?",
+  "o": [
+   "So adjacent cells differ in exactly one variable",
+   "It is binary counting order",
+   "It is alphabetical",
+   "To put the 1s on the right"
+  ],
+  "a": 0,
+  "x": "Gray code: neighbours differ by one bit, so they can be merged."
+ },
+ {
+  "t": "c",
+  "q": "In a 4-variable K-map, a group of 4 cells produces a term with how many literals?",
+  "o": [
+   "2",
+   "4",
+   "1",
+   "3"
+  ],
+  "a": 0,
+  "x": "A group of 2ᵏ removes k variables: 4 − 2 = 2."
+ },
+ {
+  "t": "c",
+  "q": "Which of these is a valid K-map group size?",
+  "o": [
+   "5",
+   "6",
+   "8",
+   "3"
+  ],
+  "a": 2,
+  "x": "Only powers of 2."
+ },
+ {
+  "t": "c",
+  "q": "Which single gate type can build any logic function on its own?",
+  "o": [
+   "OR",
+   "AND",
+   "XOR",
+   "NAND"
+  ],
+  "a": 3,
+  "x": "NAND (and NOR) are universal."
+ },
+ {
+  "t": "d",
+  "q": "How do you make a NOT gate from one NAND gate?",
+  "o": [
+   "Connect one input to 0",
+   "Use the output twice",
+   "It's impossible",
+   "Connect both inputs to A"
+  ],
+  "a": 3,
+  "x": "A NAND A = (AA)′ = A′."
+ },
+ {
+  "t": "d",
+  "q": "Expression for: \"the alarm sounds (Y) if the door is open (D) and the system is armed (S), or if the panic button (P) is pressed.\"",
+  "o": [
+   "Y = (D + S)P",
+   "Y = D + S + P",
+   "Y = D(S + P)",
+   "Y = DS + P"
+  ],
+  "a": 3,
+  "x": "AND for 'and', OR for 'or'."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-ce-3">
+[
+ {
+  "t": "p",
+  "q": "Simplify (A + B)(A + B′).",
+  "o": [
+   "A",
+   "B",
+   "1",
+   "A + B"
+  ],
+  "a": 0,
+  "x": "Distributive (OR form): A + BB′ = A + 0 = A."
+ },
+ {
+  "t": "d",
+  "q": "A 4-variable K-map has 1s in the four corner cells only (m0, m2, m8, m10). The simplified expression is…",
+  "o": [
+   "A′B′C′D′",
+   "A′C′",
+   "BD",
+   "B′D′"
+  ],
+  "a": 3,
+  "x": "The corners form one group of 4 that wraps both ways. A and C change across it; B = 0 and D = 0 stay fixed."
+ },
+ {
+  "t": "d",
+  "q": "Simplify F(A, B, C) = Σm(0, 1, 2, 3, 7).",
+  "o": [
+   "A′B′ + BC",
+   "A′ + B",
+   "AB + C",
+   "A′ + BC"
+  ],
+  "a": 3,
+  "x": "Rows 0–3 are the whole A = 0 half: A′. m7 pairs with m3 to give BC."
+ },
+ {
+  "t": "d",
+  "q": "F = Σm(1, 3, 5) + d(7) for inputs A B C. Simplest SOP?",
+  "o": [
+   "A′B′C + A′BC + AB′C",
+   "A′C + B′C",
+   "B′C",
+   "C"
+  ],
+  "a": 3,
+  "x": "Treat m7 as 1: m1, m3, m5, m7 is the whole C = 1 half → F = C."
+ },
+ {
+  "t": "d",
+  "q": "How many 2-input NAND gates do you need to build A OR B?",
+  "o": [
+   "3",
+   "1",
+   "2",
+   "4"
+  ],
+  "a": 0,
+  "x": "Invert A (1 NAND), invert B (1 NAND), then NAND the results: (A′B′)′ = A + B."
+ },
+ {
+  "t": "c",
+  "q": "Which expression equals A ⊕ B ⊕ C?",
+  "o": [
+   "1 when an odd number of inputs are 1",
+   "1 when exactly two inputs are 1",
+   "1 when all three inputs are 1",
+   "(A + B + C)′"
+  ],
+  "a": 0,
+  "x": "XOR chains compute parity, used in error-detecting codes."
+ }
+]
+</script>
+<script type="application/json" id="exam-ce-3">
+{
+ "title": "Computer Engineering Unit 3 Practice Exam: Boolean Logic and Gates",
+ "mcqMinutes": 30,
+ "frqMinutes": 25,
+ "tags": {
+  "c": "Concept",
+  "p": "Calculation",
+  "d": "Design",
+  "r": "Reading circuits"
+ },
+ "mcq": [
+  {
+   "t": "c",
+   "q": "An AND gate has inputs 1 and 0. Output?",
+   "o": [
+    "undefined",
+    "0",
+    "10",
+    "1"
+   ],
+   "a": 1,
+   "x": "Both must be 1."
+  },
+  {
+   "t": "c",
+   "q": "A NOR gate outputs 1 when…",
+   "o": [
+    "all inputs are 0",
+    "inputs differ",
+    "all inputs are 1",
+    "any input is 1"
+   ],
+   "a": 0,
+   "x": "NOR = NOT(OR)."
+  },
+  {
+   "t": "p",
+   "q": "A′ + A equals…",
+   "o": [
+    "A",
+    "1",
+    "0",
+    "A′"
+   ],
+   "a": 1,
+   "x": "Complement law."
+  },
+  {
+   "t": "p",
+   "q": "(A′)′ equals…",
+   "o": [
+    "A",
+    "1",
+    "A′",
+    "0"
+   ],
+   "a": 0,
+   "x": "Double negation."
+  },
+  {
+   "t": "p",
+   "q": "A(A + B) simplifies to…",
+   "o": [
+    "A + B",
+    "B",
+    "A",
+    "AB"
+   ],
+   "a": 2,
+   "x": "Absorption."
+  },
+  {
+   "t": "p",
+   "q": "(A′B)′ equals…",
+   "o": [
+    "A + B′",
+    "AB′",
+    "A′ + B",
+    "A′B′"
+   ],
+   "a": 0,
+   "x": "De Morgan: (A′)′ + B′ = A + B′."
+  },
+  {
+   "t": "c",
+   "q": "A 3-input function has how many possible minterms?",
+   "o": [
+    "3",
+    "6",
+    "9",
+    "8"
+   ],
+   "a": 3,
+   "x": "2³."
+  },
+  {
+   "t": "d",
+   "q": "The minterm for row A=1, B=0, C=1 is…",
+   "o": [
+    "ABC",
+    "AB′C",
+    "A + B′ + C",
+    "A′BC′"
+   ],
+   "a": 1,
+   "x": "Use the variable for 1, its complement for 0."
+  },
+  {
+   "t": "c",
+   "q": "XNOR outputs 1 when…",
+   "o": [
+    "both are 0 only",
+    "the inputs are equal",
+    "the inputs differ",
+    "both are 1 only"
+   ],
+   "a": 1,
+   "x": "XNOR is an equality detector."
+  },
+  {
+   "t": "c",
+   "q": "In a K-map, groups may…",
+   "o": [
+    "contain 0s",
+    "overlap and wrap around the edges",
+    "have 3 cells",
+    "be any shape"
+   ],
+   "a": 1,
+   "x": "Rectangles of 1, 2, 4, 8 … that may overlap and wrap."
+  },
+  {
+   "t": "p",
+   "q": "Simplify AB + AB′.",
+   "o": [
+    "A",
+    "AB",
+    "B",
+    "1"
+   ],
+   "a": 0,
+   "x": "A(B + B′) = A."
+  },
+  {
+   "t": "c",
+   "q": "Which pair are both universal gates?",
+   "o": [
+    "AND and NOT",
+    "XOR and XNOR",
+    "NAND and NOR",
+    "AND and OR"
+   ],
+   "a": 2,
+   "x": "Either one alone can build anything."
+  }
+ ],
+ "frq": [
+  {
+   "q": "A security light L turns on when it's dark (D = 1) and motion is sensed (M = 1), or when the manual switch S is on — but never when the maintenance lock K is on.",
+   "parts": [
+    {
+     "p": "(a) Write a Boolean expression for L.",
+     "rubric": [
+      [
+       "(DM + S)",
+       1
+      ],
+      [
+       "ANDed with K′",
+       1
+      ]
+     ],
+     "answer": "L = (DM + S)K′ = DMK′ + SK′."
+    },
+    {
+     "p": "(b) How many rows are in the truth table, and how many rows have L = 1?",
+     "rubric": [
+      [
+       "16 rows",
+       1
+      ],
+      [
+       "5 rows: K = 0 and (S = 1 or D = M = 1): S=1 gives 4 rows, plus D=M=1,S=0 gives 1",
+       1
+      ]
+     ],
+     "answer": "2⁴ = 16 rows. With K = 0: S = 1 gives 4 rows (any D, M), S = 0 needs D = M = 1 (1 row). Total 5."
+    },
+    {
+     "p": "(c) Draw or describe a circuit using AND, OR and NOT gates.",
+     "rubric": [
+      [
+       "AND(D, M)",
+       1
+      ],
+      [
+       "OR with S, then AND with NOT K",
+       1
+      ]
+     ],
+     "answer": "AND gate on D and M → OR gate with S → AND gate with the output of a NOT gate on K."
+    }
+   ]
+  },
+  {
+   "q": "Simplify F(A, B, C, D) = Σm(0, 1, 2, 3, 8, 9, 10, 11, 14, 15).",
+   "parts": [
+    {
+     "p": "(a) Fill in a K-map and identify the groups.",
+     "rubric": [
+      [
+       "Octet: m0–3 and m8–11 (B = 0)",
+       1
+      ],
+      [
+       "Quad m10, m11, m14, m15 (A = 1, C = 1)",
+       1
+      ]
+     ],
+     "answer": "B = 0 is 8 cells (rows 00 and 10). m10, m11, m14, m15 form a quad with A = 1, C = 1."
+    },
+    {
+     "p": "(b) Write the simplified SOP.",
+     "rubric": [
+      [
+       "F = B′ + AC",
+       2
+      ]
+     ],
+     "answer": "F = B′ + AC."
+    },
+    {
+     "p": "(c) Rewrite your answer using only NAND gates (describe the gates).",
+     "rubric": [
+      [
+       "B′ = B NAND B",
+       1
+      ],
+      [
+       "F = (B · (AC)′)′ = B NAND (A NAND C)",
+       1
+      ]
+     ],
+     "answer": "By De Morgan, B′ + AC = (B · (AC)′)′. So F = B NAND (A NAND C): two NAND gates."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/labs.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

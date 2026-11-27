@@ -404,7 +404,7 @@
   }
 
   function gridHero() {
-    const hero = document.querySelector("body.th-grid:not(.th-exam) .hero");
+    const hero = document.querySelector("body.th-grid:not(.th-exam):not(.th-ce):not(.th-ml) .hero");
     if (!hero || hero.querySelector(".grid-art")) return;
     const a = document.createElement("div"); a.className = "grid-art"; a.setAttribute("aria-hidden", "true");
     let gl = ""; for (let i = 0; i <= 12; i++) { gl += `<line class="gl" x1="${i * 25}" y1="0" x2="${i * 25}" y2="240"/>`; if (i <= 9.6) gl += `<line class="gl" x1="0" y1="${i * 25}" x2="300" y2="${i * 25}"/>`; }

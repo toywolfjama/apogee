@@ -68,6 +68,32 @@ window.SITE_COURSES = [
     ]
   },
   {
+    id: "comp-eng",
+    name: "Intro to Computer Engineering",
+    blurb: "Circuits and transistors, binary, logic gates, adders, flip-flops, state machines, processors and memory.",
+    units: [
+      { id: "ce-1", name: "Unit 1: Circuits and Transistors", path: "courses/comp-eng/ce-1.html", ready: true },
+      { id: "ce-2", name: "Unit 2: Number Systems and Data", path: "courses/comp-eng/ce-2.html", ready: true },
+      { id: "ce-3", name: "Unit 3: Boolean Logic and Gates", path: "courses/comp-eng/ce-3.html", ready: true },
+      { id: "ce-4", name: "Unit 4: Combinational Circuits", path: "courses/comp-eng/ce-4.html", ready: true },
+      { id: "ce-5", name: "Unit 5: Sequential Logic and State Machines", path: "courses/comp-eng/ce-5.html", ready: true },
+      { id: "ce-6", name: "Unit 6: Processors and Memory", path: "courses/comp-eng/ce-6.html", ready: true }
+    ]
+  },
+  {
+    id: "ml",
+    name: "Machine Learning",
+    blurb: "Data and models, regression, classification, generalization, neural networks, clustering and transformers.",
+    units: [
+      { id: "ml-1", name: "Unit 1: Foundations and Data", path: "courses/ml/ml-1.html", ready: true },
+      { id: "ml-2", name: "Unit 2: Linear Regression and Gradient Descent", path: "courses/ml/ml-2.html", ready: true },
+      { id: "ml-3", name: "Unit 3: Classification", path: "courses/ml/ml-3.html", ready: true },
+      { id: "ml-4", name: "Unit 4: Generalization", path: "courses/ml/ml-4.html", ready: true },
+      { id: "ml-5", name: "Unit 5: Neural Networks", path: "courses/ml/ml-5.html", ready: true },
+      { id: "ml-6", name: "Unit 6: Unsupervised Learning and Modern AI", path: "courses/ml/ml-6.html", ready: true }
+    ]
+  },
+  {
     id: "sat",
     name: "SAT",
     blurb: "The digital SAT: strategy, Reading and Writing, Math, and a full-length practice test.",

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Computer Engineering Unit 6: Processors and Memory | Margin</title>
+<meta name="description" content="Intro to computer engineering unit 6: von Neumann architecture, fetch-decode-execute, assembly language, RISC vs CISC, CPU performance, Amdahl's law, pipelining, caches and virtual memory.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-ce" data-root="../../" data-course="comp-eng" data-unit="ce-6">
+
+<div class="hero">
+  <span class="kicker">Computer Engineering · Unit 6</span>
+  <h1>Inside the <span class="hl">processor</span></h1>
+  <p>Fetch–decode–execute, instruction sets and assembly, performance, pipelining and the memory hierarchy, with a CPU you can step through by hand.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-cpu" data-title="The Processor" data-short="CPU">
+<section class="topic" id="architecture">
+  <h2><span class="pill c">6.1</span>Inside a computer</h2>
+  
+  
+<p>Nearly every computer follows the <b>von Neumann architecture</b> (1945): the program and its data live together in the same memory, and a processor fetches instructions from it one at a time. That's the <b>stored-program</b> idea: to run different software you just load different bits into memory.</p>
+<div class="grid2"><div class="mini"><h4>CPU</h4>The processor. The <b>control unit</b> decodes instructions and sends control signals; the <b>ALU</b> does arithmetic and logic; <b>registers</b> hold the values being worked on.</div><div class="mini"><h4>Memory (RAM)</h4>A big array of numbered bytes. Each location has an <b>address</b>. It holds both instructions and data.</div><div class="mini"><h4>Buses</h4>Wires connecting the parts: the address bus says where, the data bus carries the value, the control bus says read or write.</div><div class="mini"><h4>I/O</h4>Keyboard, screen, network, storage. Devices signal the CPU with <b>interrupts</b> so it doesn't have to keep checking them.</div></div>
+<div class="tblwrap"><table><tr><th>Special register</th><th>Holds</th></tr><tr><td>PC (program counter)</td><td>the address of the next instruction</td></tr><tr><td>IR (instruction register)</td><td>the instruction being executed</td></tr><tr><td>MAR (memory address register)</td><td>the address being read or written</td></tr><tr><td>MDR (memory data register)</td><td>the value going to or coming from memory</td></tr><tr><td>ACC / general registers</td><td>data being worked on</td></tr></table></div>
+
+  
+</section>
+<section class="topic" id="cycle">
+  <h2><span class="pill r">6.2</span>The fetch–decode–execute cycle</h2>
+  
+  
+<p>A CPU does the same thing billions of times per second:</p>
+<ol class="steps"><li><b>Fetch:</b> copy the PC into the MAR, read that memory location into the IR, and add 1 to the PC.</li>
+<li><b>Decode:</b> the control unit splits the instruction into its <b>opcode</b> (what to do) and <b>operand</b> (what to do it to).</li>
+<li><b>Execute:</b> the ALU computes, memory is read or written, or the PC is changed by a jump.</li></ol>
+<p>Our toy CPU has 8-bit instructions: the top 4 bits are the opcode, the bottom 4 bits are a memory address (0–15).</p>
+<div class="tblwrap"><table><tr><th>Opcode</th><th>Bits</th><th>Meaning</th></tr><tr><td>HALT</td><td>0000</td><td>stop</td></tr><tr><td>LOAD a</td><td>0001</td><td>ACC ← memory[a]</td></tr><tr><td>STORE a</td><td>0010</td><td>memory[a] ← ACC</td></tr><tr><td>ADD a</td><td>0011</td><td>ACC ← ACC + memory[a]</td></tr><tr><td>SUB a</td><td>0100</td><td>ACC ← ACC − memory[a]</td></tr><tr><td>JMP a</td><td>0101</td><td>PC ← a</td></tr><tr><td>JZ a</td><td>0110</td><td>if ACC = 0 then PC ← a</td></tr><tr><td>OUT</td><td>0111</td><td>output ACC</td></tr></table></div>
+<div class="xlab" data-lab='{"progs": [{"name": "Add two numbers", "desc": "Adds memory[13] and memory[14], stores the sum in memory[15] and outputs it.", "code": [["LOAD", 13], ["ADD", 14], ["STORE", 15], ["OUT"], ["HALT"]], "data": {"13": 5, "14": 7}}, {"name": "Countdown loop", "desc": "Outputs 3, 2, 1, 0 using SUB, a conditional jump (JZ) and an unconditional jump (JMP).", "code": [["LOAD", 14], ["OUT"], ["SUB", 15], ["JZ", 5], ["JMP", 1], ["OUT"], ["HALT"]], "data": {"14": 3, "15": 1}}, {"name": "Multiply 4 × 3", "desc": "There&#39;s no multiply instruction, so it adds 4 three times. Watch memory[14] count down and memory[12] build up.", "code": [["LOAD", 14], ["JZ", 9], ["SUB", 15], ["STORE", 14], ["LOAD", 12], ["ADD", 13], ["STORE", 12], ["JMP", 0], ["HALT"], ["LOAD", 12], ["OUT"], ["HALT"]], "data": {"12": 0, "13": 4, "14": 3, "15": 1}}], "type": "cpu"}'></div>
+<div class="box tip"><b class="lbl">Loops and ifs are just jumps</b>There's no 'while' in hardware. A loop is a conditional jump backwards; an if statement is a conditional jump over the code you want to skip. Compilers turn every high-level control structure into jumps.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-isa" data-title="Instructions and Performance" data-short="ISA & speed">
+<section class="topic" id="isa">
+  <h2><span class="pill r">6.3</span>Instruction sets and assembly</h2>
+  
+  
+<p>The <b>instruction set architecture (ISA)</b> is the contract between software and hardware: the list of instructions, registers and addressing modes a processor understands. x86-64 (Intel, AMD), ARM (phones, Apple Silicon) and RISC-V (open source) are the big ones today.</p>
+<div class="tblwrap"><table><tr><th></th><th>RISC (reduced)</th><th>CISC (complex)</th></tr><tr><td>Examples</td><td>ARM, RISC-V, MIPS</td><td>x86</td></tr><tr><td>Instructions</td><td>few, simple, fixed length (32 bits)</td><td>many, some very powerful, variable length (1–15 bytes)</td></tr><tr><td>Memory access</td><td>only load and store touch memory</td><td>many instructions can use memory operands</td></tr><tr><td>Design goal</td><td>one instruction per cycle, easy to pipeline</td><td>fewer instructions per program</td></tr></table></div>
+<p><b>Assembly language</b> is the human-readable form of machine code: one line per instruction. Here is a C statement and the RISC-V assembly a compiler might produce, with a, b, c in registers x10, x11, x12:</p>
+<pre class="code"><code><span class="c"># C:  a = b + c - 5;</span>
+add  x10, x11, x12    <span class="c"># x10 = b + c</span>
+addi x10, x10, -<span class="n">5</span>     <span class="c"># x10 = x10 - 5</span>
+
+<span class="c"># C:  if (a == 0) b = 1;</span>
+bne  x10, x0, skip    <span class="c"># x0 is always 0: branch if a != 0</span>
+addi x11, x0, <span class="n">1</span>       <span class="c"># b = 1</span>
+skip:</code></pre>
+<p>An <b>assembler</b> translates assembly into binary machine code. A <b>compiler</b> translates a high-level language (C, Rust) into assembly. An <b>interpreter</b> (Python) runs a program by executing it statement by statement inside another program.</p>
+
+  
+</section>
+<section class="topic" id="performance">
+  <h2><span class="pill p">6.4</span>Measuring performance</h2>
+  
+  
+<p>How long a program takes depends on three things:</p>
+<div class="big-eq">CPU time = instruction count × CPI × clock period = (IC × CPI) / f</div>
+<p><b>CPI</b> is the average number of clock cycles per instruction. A compiler lowers IC, the microarchitecture lowers CPI, and the circuit and process technology raise f. Speeding up any one of them helps.</p>
+<div class="worked"><div class="q">Worked example: A program runs 2 × 10⁹ instructions with an average CPI of 1.5 on a 3 GHz CPU. How long does it take?</div><div class="a">Time = (2 × 10⁹ × 1.5) / (3 × 10⁹) = 1.0 s.</div></div>
+<h3>Amdahl's law</h3>
+<p>Speeding up part of a program only helps that part. If a fraction p of the time is improved by a factor s:</p>
+<div class="big-eq">Overall speedup = 1 / ((1 − p) + p / s)</div>
+<div class="worked"><div class="q">Worked example: 80% of a program can run on many cores. With 8 cores, what is the speedup? With infinitely many?</div><div class="a">8 cores: 1 / (0.2 + 0.8/8) = 1 / 0.3 ≈ 3.33×. Infinite cores: 1 / 0.2 = 5×. The 20% that stays serial caps the gain.</div></div>
+
+  
+</section>
+<section class="topic" id="pipelining">
+  <h2><span class="pill c">6.5</span>Pipelining</h2>
+  
+  
+<p>A laundry analogy: wash, dry, fold. You don't wait for load 1 to be folded before washing load 2. A <b>pipelined</b> CPU splits each instruction into stages and works on several instructions at once, one per stage. The classic RISC pipeline has five:</p>
+<div class="tblwrap"><table><tr><th>Stage</th><th>What happens</th></tr><tr><td>IF</td><td>Instruction fetch</td></tr><tr><td>ID</td><td>Instruction decode and register read</td></tr><tr><td>EX</td><td>Execute in the ALU</td></tr><tr><td>MEM</td><td>Memory access (loads and stores)</td></tr><tr><td>WB</td><td>Write back the result to a register</td></tr></table></div>
+<div class="xlab" data-lab='{"ins": [{"t": "add x1, x2, x3"}, {"t": "sub x4, x1, x5", "dep": true}, {"t": "lw  x6, 0(x7)", "load": true}, {"t": "add x8, x6, x9", "dep": true}, {"t": "or  x10, x2, x3"}], "title": "5-stage pipeline", "sub": "Instruction 2 needs x1 from instruction 1, and instruction 4 needs x6 loaded by instruction 3.", "type": "pipeline"}'></div>
+<p>Ideally a pipeline finishes one instruction per cycle (CPI ≈ 1), even though each one takes 5 cycles from start to finish. <b>Hazards</b> break the ideal:</p>
+<div class="grid2"><div class="mini"><h4>Data hazard</h4>An instruction needs a result that isn't written yet. Fixes: stall (insert bubbles) or forward the result straight from the ALU output.</div><div class="mini"><h4>Control hazard</h4>After a branch, the CPU doesn't know which instruction comes next. Modern CPUs predict the branch direction (often >95% correctly) and throw away the work if they guessed wrong.</div><div class="mini"><h4>Structural hazard</h4>Two instructions need the same hardware in the same cycle, such as one memory port. Fixed by duplicating hardware (separate instruction and data caches).</div></div>
+<div class="worked"><div class="q">Worked example: A 5-stage pipeline runs 100 instructions with no stalls. How many cycles? What's the speedup over a non-pipelined CPU that takes 5 cycles per instruction?</div><div class="a">Pipelined: 5 + (100 − 1) = 104 cycles. Non-pipelined: 500. Speedup ≈ 4.8×, approaching 5× for long programs.</div></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-mem" data-title="Memory" data-short="Memory">
+<section class="topic" id="memory">
+  <h2><span class="pill p">6.6</span>The memory hierarchy and caches</h2>
+  
+  
+<p>Fast memory is small and expensive; big memory is slow. Computers stack them:</p>
+<div class="tblwrap"><table><tr><th>Level</th><th>Typical size</th><th>Typical access time</th></tr><tr><td>Registers</td><td>~1 KB</td><td>< 1 ns</td></tr><tr><td>L1 cache</td><td>32–64 KB per core</td><td>~1 ns</td></tr><tr><td>L2 cache</td><td>0.5–2 MB</td><td>~4 ns</td></tr><tr><td>L3 cache</td><td>8–64 MB shared</td><td>~10–20 ns</td></tr><tr><td>Main memory (DRAM)</td><td>8–64 GB</td><td>~60–100 ns</td></tr><tr><td>SSD</td><td>0.5–4 TB</td><td>~50–100 µs</td></tr><tr><td>Hard disk</td><td>1–20 TB</td><td>~5–10 ms</td></tr></table></div>
+<p>This works because programs have <b>locality</b>. <b>Temporal locality</b>: data used now will probably be used again soon (a loop counter). <b>Spatial locality</b>: data near what's used now will probably be used soon (the next element of an array). A cache keeps recently used data and loads it in <b>blocks</b> (lines) to exploit both.</p>
+<div class="xlab" data-lab='{"addrBits": 6, "lines": 4, "block": 1, "ways": 1, "seqs": [{"name": "array walk", "a": [0, 1, 2, 3, 0, 1, 2, 3]}, {"name": "conflict 0, 4, 0, 4", "a": [0, 4, 0, 4, 0, 4, 1, 5]}, {"name": "loop with reuse", "a": [8, 9, 10, 11, 8, 9, 10, 11, 12, 13]}], "type": "cache"}'></div>
+<p>An address is split into <b>tag | index | offset</b>. The offset picks a byte inside the block, the index picks which set to look in, and the tag is compared to check that it's the right block. In a <b>direct-mapped</b> cache each block has exactly one possible place, so two hot blocks with the same index keep kicking each other out (try the conflict sequence, then switch to 2-way). Bigger blocks help spatial locality (try 2- and 4-byte blocks on the array walk).</p>
+<div class="big-eq">Average memory access time = hit time + miss rate × miss penalty</div>
+<div class="worked"><div class="q">Worked example: L1 hits take 1 ns, the miss rate is 5%, and a miss costs 80 ns. AMAT?</div><div class="a">1 + 0.05 × 80 = 5 ns. Cutting the miss rate to 2% gives 1 + 1.6 = 2.6 ns, nearly twice as fast.</div></div>
+<div class="box tip"><b class="lbl">Virtual memory</b>Each program sees its own private address space. The operating system and a hardware unit (the MMU) translate these virtual addresses into physical RAM addresses in 4 KB pages, using a page table. A small cache of recent translations, the TLB, keeps this fast. Pages that don't fit in RAM can be swapped to disk.</div>
+
+  
+</section>
+<section class="topic" id="summary-ce6">
+  <h2>Unit summary</h2>
+  
+  <div class="grid2"><div class="mini"><h4>Architecture</h4>Von Neumann: program and data share memory. CPU = control unit + ALU + registers. PC points at the next instruction.</div><div class="mini"><h4>Cycle</h4>Fetch (MAR ← PC, IR ← M[MAR], PC++), decode (opcode + operand), execute. Loops and ifs are jumps.</div><div class="mini"><h4>Performance</h4>Time = IC × CPI / f. Amdahl: 1/((1 − p) + p/s). Pipelining → CPI ≈ 1; hazards cause stalls; forwarding and prediction help.</div><div class="mini"><h4>Memory</h4>Registers → caches → DRAM → SSD. Locality makes caches work. Address = tag | index | offset. AMAT = hit + miss rate × penalty.</div></div>
+  
+</section>
+</div>
+<div class="chapter" id="practice-ce-6" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-ce-6">
+  <h2>Practice questions</h2>
+  <p class="sub">16 questions on everything in this unit. Work each one out before you pick.</p>
+  <div class="quiz" data-src="quiz-ce-6" data-tags='{"c": "Concept", "p": "Calculation", "d": "Design", "r": "Reading code"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-ce-6" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-ce-6">
+  <h2>Challenge questions</h2>
+  <p class="sub">Harder, multi-step questions in the style of a college exam.</p>
+  <div class="quiz" data-src="quiz-challenge-ce-6" data-tags='{"c": "Concept", "p": "Calculation", "d": "Design", "r": "Reading code"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-ce-6" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-ce-6"><h2>Practice exam</h2><p class="sub">12 multiple-choice questions (30 minutes) and 2 free-response questions (25 minutes). No feedback until you submit. Grade the free response with the rubric.</p><div class="exam" data-src="exam-ce-6"></div></section>
+</div>
+</main>
+
+<footer>Margin · Computer Engineering · Click, drag and break things in the labs</footer>
+
+<script type="application/json" id="quiz-ce-6">
+[
+ {
+  "t": "c",
+  "q": "What does the program counter (PC) hold?",
+  "o": [
+   "The current instruction",
+   "The address of the next instruction",
+   "The number of instructions run",
+   "The result of the last calculation"
+  ],
+  "a": 1,
+  "x": "The PC points into memory at what to fetch next."
+ },
+ {
+  "t": "c",
+  "q": "In the von Neumann architecture, instructions and data are stored…",
+  "o": [
+   "on the hard drive only",
+   "only in registers",
+   "in separate memories",
+   "in the same memory"
+  ],
+  "a": 3,
+  "x": "The stored-program concept."
+ },
+ {
+  "t": "c",
+  "q": "During fetch, after the instruction is read, the PC is…",
+  "o": [
+   "cleared",
+   "incremented to point at the next instruction",
+   "left alone",
+   "copied into the ACC"
+  ],
+  "a": 1,
+  "x": "So the next fetch gets the following instruction (unless a jump changes it)."
+ },
+ {
+  "t": "r",
+  "q": "The toy instruction 0011 1110 means…",
+  "o": [
+   "STORE 3",
+   "LOAD 14",
+   "SUB 14",
+   "ADD 14"
+  ],
+  "a": 3,
+  "x": "Opcode 0011 = ADD, address 1110 = 14."
+ },
+ {
+  "t": "r",
+  "q": "ACC = 9 and memory[6] = 4. After SUB 6, ACC =",
+  "o": [
+   "5",
+   "13",
+   "4",
+   "−5"
+  ],
+  "a": 0,
+  "x": "9 − 4."
+ },
+ {
+  "t": "c",
+  "q": "Which instruction makes a loop possible?",
+  "o": [
+   "A jump back to an earlier address",
+   "OUT",
+   "STORE",
+   "LOAD"
+  ],
+  "a": 0,
+  "x": "Jumps change the PC."
+ },
+ {
+  "t": "c",
+  "q": "In RISC ISAs, which instructions access memory?",
+  "o": [
+   "Only loads and stores",
+   "Only branches",
+   "None",
+   "Every instruction"
+  ],
+  "a": 0,
+  "x": "Load/store architecture."
+ },
+ {
+  "t": "p",
+  "q": "A program has 5 × 10⁸ instructions, CPI 2, clock 2 GHz. Run time?",
+  "o": [
+   "0.25 s",
+   "5 s",
+   "0.5 s",
+   "2 s"
+  ],
+  "a": 2,
+  "x": "5e8 × 2 / 2e9 = 0.5 s."
+ },
+ {
+  "t": "p",
+  "q": "50% of a program is sped up 4×. Overall speedup?",
+  "o": [
+   "2×",
+   "4×",
+   "2.5×",
+   "1.6×"
+  ],
+  "a": 3,
+  "x": "1 / (0.5 + 0.5/4) = 1 / 0.625 = 1.6."
+ },
+ {
+  "t": "c",
+  "q": "Ideal CPI of a pipelined processor is about…",
+  "o": [
+   "the number of stages",
+   "0.2",
+   "1",
+   "5"
+  ],
+  "a": 2,
+  "x": "One instruction completes per cycle once the pipeline is full."
+ },
+ {
+  "t": "c",
+  "q": "A data hazard happens when…",
+  "o": [
+   "an instruction needs a result that hasn't been written yet",
+   "two programs share memory",
+   "the clock is too slow",
+   "the cache is full"
+  ],
+  "a": 0,
+  "x": "Read-after-write dependence."
+ },
+ {
+  "t": "c",
+  "q": "What is forwarding (bypassing)?",
+  "o": [
+   "Skipping an instruction",
+   "Predicting a branch",
+   "Sending an ALU result directly to a later instruction without waiting for write-back",
+   "Sending data to the hard drive"
+  ],
+  "a": 2,
+  "x": "It removes most data-hazard stalls."
+ },
+ {
+  "t": "c",
+  "q": "Looping over an array element by element mainly benefits from…",
+  "o": [
+   "spatial locality",
+   "temporal locality only",
+   "branch prediction",
+   "virtual memory"
+  ],
+  "a": 0,
+  "x": "Neighbouring addresses come in the same cache block."
+ },
+ {
+  "t": "p",
+  "q": "Hit time 2 ns, miss rate 10%, miss penalty 50 ns. AMAT?",
+  "o": [
+   "5 ns",
+   "52 ns",
+   "12 ns",
+   "7 ns"
+  ],
+  "a": 3,
+  "x": "2 + 0.1 × 50 = 7 ns."
+ },
+ {
+  "t": "c",
+  "q": "Which is fastest?",
+  "o": [
+   "SSD",
+   "L2 cache",
+   "Registers",
+   "DRAM"
+  ],
+  "a": 2,
+  "x": "Closest to the ALU, and tiny."
+ },
+ {
+  "t": "p",
+  "q": "A 64-byte cache block with byte addresses needs how many offset bits?",
+  "o": [
+   "64",
+   "8",
+   "4",
+   "6"
+  ],
+  "a": 3,
+  "x": "2⁶ = 64."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-ce-6">
+[
+ {
+  "t": "r",
+  "q": "Trace the countdown program (LOAD 14; OUT; SUB 15; JZ 5; JMP 1; OUT; HALT with M[14] = 3, M[15] = 1). How many times is OUT executed?",
+  "o": [
+   "2",
+   "4",
+   "3",
+   "5"
+  ],
+  "a": 1,
+  "x": "Outputs 3, 2, 1 inside the loop, then 0 at address 5."
+ },
+ {
+  "t": "p",
+  "q": "Machine A: 3 GHz, CPI 2.0. Machine B: 2 GHz, CPI 1.2. Same instructions. Which is faster, and by how much?",
+  "o": [
+   "B, about 1.11× faster",
+   "A, about 1.11× faster",
+   "A, 1.5× faster",
+   "They are equal"
+  ],
+  "a": 0,
+  "x": "Time per instruction: A = 2.0/3 GHz = 0.667 ns, B = 1.2/2 GHz = 0.6 ns. B is faster by 0.667/0.6 ≈ 1.11×. Higher clock speed alone doesn't decide it."
+ },
+ {
+  "t": "p",
+  "q": "A cache has 8 lines, direct-mapped, 4-byte blocks, 10-bit addresses. How many tag bits?",
+  "o": [
+   "7",
+   "2",
+   "5",
+   "3"
+  ],
+  "a": 2,
+  "x": "Offset 2 bits, index 3 bits, tag 10 − 5 = 5."
+ },
+ {
+  "t": "p",
+  "q": "With 90% of work parallelizable, what's the maximum speedup on any number of cores?",
+  "o": [
+   "10×",
+   "9×",
+   "90×",
+   "Infinite"
+  ],
+  "a": 0,
+  "x": "1 / 0.1."
+ },
+ {
+  "t": "c",
+  "q": "A 5-stage pipeline (no forwarding, register file writes in the first half of a cycle and reads in the second) runs add x1,… then sub …,x1. How many stall cycles?",
+  "o": [
+   "3",
+   "2",
+   "0",
+   "1"
+  ],
+  "a": 1,
+  "x": "sub's ID must line up with add's WB (cycle 5); it would normally be in ID at cycle 3, so it waits 2 cycles."
+ },
+ {
+  "t": "p",
+  "q": "Direct-mapped cache with 4 one-byte lines. Access sequence 0, 4, 8, 0, 4, 8. Hit rate?",
+  "o": [
+   "50%",
+   "100%",
+   "33%",
+   "0%"
+  ],
+  "a": 3,
+  "x": "All three map to index 0, so each access evicts the previous one. Every access misses."
+ }
+]
+</script>
+<script type="application/json" id="exam-ce-6">
+{
+ "title": "Computer Engineering Unit 6 Practice Exam: Processors and Memory",
+ "mcqMinutes": 30,
+ "frqMinutes": 25,
+ "tags": {
+  "c": "Concept",
+  "p": "Calculation",
+  "d": "Design",
+  "r": "Reading code"
+ },
+ "mcq": [
+  {
+   "t": "c",
+   "q": "Which unit decodes instructions and controls the other parts?",
+   "o": [
+    "Control unit",
+    "ALU",
+    "Cache",
+    "Bus"
+   ],
+   "a": 0,
+   "x": "The ALU computes; the control unit directs."
+  },
+  {
+   "t": "c",
+   "q": "MAR stands for…",
+   "o": [
+    "Main arithmetic register",
+    "Memory address register",
+    "Machine accumulator register",
+    "Memory array row"
+   ],
+   "a": 1,
+   "x": "It holds the address being accessed."
+  },
+  {
+   "t": "r",
+   "q": "ACC = 3. Instructions: ADD 9 (M[9] = 4), STORE 10. Now M[10] =",
+   "o": [
+    "4",
+    "10",
+    "7",
+    "3"
+   ],
+   "a": 2,
+   "x": "3 + 4 = 7, then store."
+  },
+  {
+   "t": "r",
+   "q": "JZ 8 with ACC = 5 does what?",
+   "o": [
+    "Sets ACC to 0",
+    "Halts",
+    "Nothing; execution continues with the next instruction",
+    "Jumps to 8"
+   ],
+   "a": 2,
+   "x": "Only jumps if ACC is zero."
+  },
+  {
+   "t": "c",
+   "q": "A compiler translates…",
+   "o": [
+    "machine code into English",
+    "data into instructions at run time only",
+    "a high-level language into assembly or machine code",
+    "assembly into a high-level language"
+   ],
+   "a": 2,
+   "x": "Then an assembler makes the binary."
+  },
+  {
+   "t": "c",
+   "q": "CPU time equals…",
+   "o": [
+    "instruction count × CPI × clock period",
+    "clock rate × CPI",
+    "CPI × clock rate / instruction count",
+    "instruction count / CPI"
+   ],
+   "a": 0,
+   "x": "IC × CPI × T."
+  },
+  {
+   "t": "c",
+   "q": "Amdahl's law shows that…",
+   "o": [
+    "clock speed doubles every two years",
+    "more cores always give linear speedup",
+    "the part you can't speed up limits the total speedup",
+    "caches remove all memory delay"
+   ],
+   "a": 2,
+   "x": "Serial fraction caps the gain."
+  },
+  {
+   "t": "p",
+   "q": "How many cycles does a 5-stage pipeline need for 20 instructions with no stalls?",
+   "o": [
+    "100",
+    "20",
+    "25",
+    "24"
+   ],
+   "a": 3,
+   "x": "5 + 19."
+  },
+  {
+   "t": "c",
+   "q": "Branch prediction addresses which hazard?",
+   "o": [
+    "Structural hazards",
+    "Control hazards",
+    "Data hazards",
+    "Cache misses"
+   ],
+   "a": 1,
+   "x": "It guesses which way a branch goes."
+  },
+  {
+   "t": "c",
+   "q": "A loop counter that's used every iteration shows…",
+   "o": [
+    "spatial locality",
+    "a structural hazard",
+    "temporal locality",
+    "no locality"
+   ],
+   "a": 2,
+   "x": "Same data reused soon."
+  },
+  {
+   "t": "c",
+   "q": "In a cache address, the index bits choose…",
+   "o": [
+    "which byte in the block",
+    "the tag",
+    "which set to look in",
+    "whether it's valid"
+   ],
+   "a": 2,
+   "x": "Tag | index | offset."
+  },
+  {
+   "t": "c",
+   "q": "Virtual memory translates…",
+   "o": [
+    "cache tags into indexes",
+    "assembly into machine code",
+    "virtual addresses into physical addresses",
+    "floats into integers"
+   ],
+   "a": 2,
+   "x": "Via page tables and the TLB."
+  }
+ ],
+ "frq": [
+  {
+   "q": "Use the toy CPU (LOAD, STORE, ADD, SUB, JMP, JZ, OUT, HALT; 16 addresses).",
+   "parts": [
+    {
+     "p": "(a) Write a program that outputs M[12] + M[13] − M[14].",
+     "rubric": [
+      [
+       "LOAD 12, ADD 13, SUB 14",
+       1
+      ],
+      [
+       "OUT then HALT",
+       1
+      ]
+     ],
+     "answer": "0: LOAD 12; 1: ADD 13; 2: SUB 14; 3: OUT; 4: HALT."
+    },
+    {
+     "p": "(b) Give the 8-bit machine code for your first two instructions.",
+     "rubric": [
+      [
+       "LOAD 12 = 0001 1100",
+       1
+      ],
+      [
+       "ADD 13 = 0011 1101",
+       1
+      ]
+     ],
+     "answer": "LOAD 12 = 0001 1100; ADD 13 = 0011 1101."
+    },
+    {
+     "p": "(c) Describe the register changes during the fetch of the instruction at address 1.",
+     "rubric": [
+      [
+       "MAR ← PC (1)",
+       1
+      ],
+      [
+       "IR ← M[1], PC ← 2",
+       1
+      ]
+     ],
+     "answer": "MAR ← 1; MDR/IR ← memory[1] (ADD 13); PC ← 2. Then decode: opcode ADD, operand 13."
+    }
+   ]
+  },
+  {
+   "q": "Performance and memory.",
+   "parts": [
+    {
+     "p": "(a) A program executes 4 × 10⁹ instructions: 50% ALU (CPI 1), 30% loads/stores (CPI 3), 20% branches (CPI 2). Find the average CPI and the time on a 2.5 GHz CPU.",
+     "rubric": [
+      [
+       "CPI = 0.5 + 0.9 + 0.4 = 1.8",
+       1
+      ],
+      [
+       "Time = 4e9 × 1.8 / 2.5e9 = 2.88 s",
+       1
+      ]
+     ],
+     "answer": "CPI = 0.5(1) + 0.3(3) + 0.2(2) = 1.8. Time = 4 × 10⁹ × 1.8 / 2.5 × 10⁹ = 2.88 s."
+    },
+    {
+     "p": "(b) A better cache cuts the load/store CPI from 3 to 2. What is the new time and the speedup?",
+     "rubric": [
+      [
+       "New CPI 1.5, time 2.4 s",
+       1
+      ],
+      [
+       "Speedup 1.2×",
+       1
+      ]
+     ],
+     "answer": "CPI = 0.5 + 0.6 + 0.4 = 1.5 → 2.4 s. Speedup = 2.88/2.4 = 1.2×."
+    },
+    {
+     "p": "(c) A direct-mapped cache has 16 lines and 16-byte blocks with 32-bit addresses. Give the number of offset, index and tag bits.",
+     "rubric": [
+      [
+       "Offset 4, index 4",
+       1
+      ],
+      [
+       "Tag 24",
+       1
+      ]
+     ],
+     "answer": "Offset = log₂16 = 4, index = log₂16 = 4, tag = 32 − 8 = 24."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/labs.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

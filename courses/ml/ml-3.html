@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Learning Unit 3: Classification | Margin</title>
+<meta name="description" content="Machine learning unit 3: logistic regression, sigmoid, cross-entropy, decision trees, Gini impurity, softmax, confusion matrix, precision, recall, F1, ROC and AUC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-ml" data-root="../../" data-course="ml" data-unit="ml-3">
+
+<div class="hero">
+  <span class="kicker">Machine Learning · Unit 3</span>
+  <h1>Sorting into <span class="hl">classes</span></h1>
+  <p>Logistic regression, decision trees, softmax and how to judge a classifier: confusion matrices, precision, recall, F1 and ROC curves.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-log" data-title="Logistic Regression" data-short="Logistic">
+<section class="topic" id="logistic">
+  <h2><span class="pill m">3.1</span>Logistic regression</h2>
+  
+  
+<p>For a yes/no question we want a <b>probability</b> between 0 and 1, not any real number. Logistic regression takes the linear score z = <b>w</b> · <b>x</b> + b and squashes it with the <b>sigmoid</b> function:</p>
+<div class="big-eq">σ(z) = 1 / (1 + e<sup>−z</sup>) &nbsp;&nbsp;&nbsp;&nbsp; P(y = 1 | x) = σ(w · x + b)</div>
+<div class="mlab" data-lab='{"title": "The sigmoid", "sub": "z = wx + b. Bigger w makes the switch from 0 to 1 sharper; b slides it left and right.", "x": [-8, 8], "y": [-0.2, 1.2], "gx": 1, "gy": 0.25, "params": {"w": [-3, 3, 0.1, 1, "w"], "b": [-5, 5, 0.1, 0, "b"]}, "fns": [{"e": "1/(1+exp(-(w*x+b)))", "label": "σ(wx + b)"}, {"e": "0.5", "label": "0.5", "dash": true}], "read": [["Crosses 0.5 at x =", "-b/w"]], "type": "graph"}'></div>
+<div class="grid2"><div class="mini"><h4>Reading the output</h4>σ(z) = 0.83 means the model thinks there's an 83% chance this example is positive. To make a decision, compare with a <b>threshold</b> (usually 0.5).</div><div class="mini"><h4>Decision boundary</h4>σ(z) = 0.5 exactly when z = 0, so the boundary is the set where w · x + b = 0: a straight line in 2D, a flat plane in higher dimensions.</div><div class="mini"><h4>Log-odds</h4>z itself is the log of the odds: z = ln(p / (1 − p)). Each unit of a feature changes the log-odds by its weight.</div><div class="mini"><h4>Key values</h4>σ(0) = 0.5, σ(2) ≈ 0.88, σ(−2) ≈ 0.12, σ(4) ≈ 0.98.</div></div>
+<h3>The loss: cross-entropy</h3>
+<p>MSE works poorly with probabilities. Instead logistic regression minimizes <b>binary cross-entropy</b> (log loss):</p>
+<div class="big-eq">L = −[ y · ln(p) + (1 − y) · ln(1 − p) ]</div>
+<p>If the true label is 1 and the model says p = 0.9, the loss is −ln 0.9 ≈ 0.105. If it confidently says p = 0.01, the loss is −ln 0.01 ≈ 4.6. Confident wrong answers are punished hard. Training uses gradient descent, and the gradient has a beautifully simple form: ∂L/∂w = (p − y)·x.</p>
+<div class="xlab" data-lab='{"methods": ["logreg", "knn"], "method": "logreg", "title": "Logistic regression vs k-NN", "sub": "Train logistic regression on each data set. Then add squared features and train again on Circle.", "type": "classify"}'></div>
+<div class="worked"><div class="q">Worked example: A spam model has w = (1.2, 0.8) for features (number of links, number of ALL-CAPS words) and b = −4. An email has 2 links and 1 all-caps word. Probability it's spam?</div><div class="a">z = 1.2(2) + 0.8(1) − 4 = −0.8. p = 1/(1 + e^0.8) = 1/(1 + 2.23) ≈ 0.31. Below 0.5, so it's classified not spam.</div></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-tree" data-title="Trees and Many Classes" data-short="Trees">
+<section class="topic" id="trees">
+  <h2><span class="pill m">3.2</span>Decision trees</h2>
+  
+  
+<p>A decision tree is a flowchart of yes/no questions: <i>Is income &gt; $50k? → Is debt &lt; $10k? → approve</i>. Each internal node tests one feature against a threshold, and each leaf gives a prediction. Trees are easy to read and explain, need no feature scaling, and handle mixed feature types.</p>
+<p>To grow a tree, at each node try every feature and every threshold, and pick the split that makes the two children <b>purest</b>. Two common impurity measures, for class proportions p₁, p₂, …:</p>
+<div class="big-eq">Gini = 1 − Σ pₖ² &nbsp;&nbsp;&nbsp;&nbsp; Entropy = − Σ pₖ log₂ pₖ</div>
+<div class="xlab" data-lab='{"type": "treesplit"}'></div>
+<div class="msteps" data-w='{"title": "Gini of a node with 6 A&#39;s and 2 B&#39;s", "frames": [{"t": ["a|p_A = 6/8 = 0.75|e", "b|p_B = 0.25|e"], "note": "Class proportions."}, {"t": ["c|Gini = 1 − 0.75² − 0.25²|e"], "note": "Plug into the formula."}, {"t": ["d|= 1 − 0.5625 − 0.0625 = 0.375|g"], "note": "0 would be perfectly pure; 0.5 is the worst for two classes."}]}'></div>
+<p>The <b>information gain</b> of a split is the parent's impurity minus the weighted average impurity of the children. Repeat recursively until the leaves are pure or a stopping rule kicks in.</p>
+<div class="box trap"><b class="lbl">Trees overfit easily</b>Grown all the way, a tree can give every training example its own leaf: 100% training accuracy, poor test accuracy. Limit the maximum depth or the minimum number of examples per leaf, or prune the tree afterwards. Unit 4 shows how forests of trees fix this.</div>
+
+  
+</section>
+<section class="topic" id="multiclass">
+  <h2><span class="pill p">3.3</span>More than two classes</h2>
+  
+  
+<p>For K classes (digits 0–9, or cat / dog / bird) a model outputs K scores called <b>logits</b>, one per class, and the <b>softmax</b> function turns them into probabilities that add up to 1:</p>
+<div class="big-eq">pₖ = e<sup>zₖ</sup> / Σⱼ e<sup>zⱼ</sup></div>
+<div class="xlab" data-lab='{"classes": ["cat", "dog", "bird"], "z": [2.0, 1.0, 0.1], "type": "softmax"}'></div>
+<p>The loss is <b>categorical cross-entropy</b>: −ln(p of the correct class). Another approach is <b>one-vs-rest</b>: train K separate binary classifiers ("cat or not?", "dog or not?") and pick the most confident.</p>
+<div class="worked"><div class="q">Worked example: Logits (2, 1, 0) for (cat, dog, bird). Softmax probabilities?</div><div class="a">e² ≈ 7.39, e¹ ≈ 2.72, e⁰ = 1. Total ≈ 11.11. p = (0.665, 0.245, 0.090). If the photo really is a dog, the loss is −ln 0.245 ≈ 1.41.</div></div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-eval" data-title="Evaluation" data-short="Metrics">
+<section class="topic" id="metrics">
+  <h2><span class="pill e">3.4</span>Evaluating a classifier</h2>
+  
+  
+<p>Accuracy alone hides what kind of mistakes a model makes. The <b>confusion matrix</b> counts all four outcomes:</p>
+<div class="tblwrap"><table><tr><th></th><th>Predicted positive</th><th>Predicted negative</th></tr><tr><td><b>Actually positive</b></td><td>True positive (TP)</td><td>False negative (FN) — a miss</td></tr><tr><td><b>Actually negative</b></td><td>False positive (FP) — a false alarm</td><td>True negative (TN)</td></tr></table></div>
+<div class="big-eq">Precision = TP / (TP + FP) &nbsp;&nbsp; Recall = TP / (TP + FN) &nbsp;&nbsp; F1 = 2·P·R / (P + R)</div>
+<div class="grid2"><div class="mini"><h4>Precision</h4>Of everything flagged positive, how much really was? High precision = few false alarms. Matters for spam filters (don't lose real email).</div><div class="mini"><h4>Recall (sensitivity)</h4>Of all the real positives, how many did we catch? High recall = few misses. Matters for cancer screening and fraud.</div><div class="mini"><h4>F1</h4>The harmonic mean of precision and recall; it's high only if both are high.</div><div class="mini"><h4>Trade-off</h4>Lower the threshold → more positives flagged → recall up, precision down. Raise it → the opposite.</div></div>
+<div class="xlab" data-lab='{"type": "threshold"}'></div>
+<p>The <b>ROC curve</b> plots the true positive rate (recall) against the false positive rate FP / (FP + TN) for every possible threshold. The <b>AUC</b> (area under it) is the probability that a random positive gets a higher score than a random negative: 1.0 is perfect, 0.5 is coin-flipping.</p>
+<div class="worked"><div class="q">Worked example: A disease test on 1,000 people: 50 are sick. It flags 60 people, of whom 45 are sick. Find precision, recall and accuracy.</div><div class="a">TP = 45, FP = 15, FN = 5, TN = 935. Precision = 45/60 = 0.75. Recall = 45/50 = 0.90. Accuracy = (45 + 935)/1000 = 0.98.</div></div>
+
+  
+</section>
+<section class="topic" id="summary-ml3">
+  <h2>Unit summary</h2>
+  
+  <div class="grid2"><div class="mini"><h4>Logistic regression</h4>p = σ(w·x + b), σ(z) = 1/(1 + e⁻ᶻ). Boundary w·x + b = 0. Loss = cross-entropy; gradient (p − y)x.</div><div class="mini"><h4>Trees</h4>Split on the feature/threshold that most reduces impurity. Gini = 1 − Σp², entropy = −Σp log₂ p. Limit depth to avoid overfitting.</div><div class="mini"><h4>Many classes</h4>Softmax: pₖ = e^zₖ / Σ e^zⱼ. Loss −ln p(correct).</div><div class="mini"><h4>Metrics</h4>Precision = TP/(TP + FP), recall = TP/(TP + FN), F1 = harmonic mean. Threshold trades them off. ROC/AUC summarize all thresholds.</div></div>
+  
+</section>
+</div>
+<div class="chapter" id="practice-ml-3" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-ml-3">
+  <h2>Practice questions</h2>
+  <p class="sub">16 questions on everything in this unit. Work each one out before you pick.</p>
+  <div class="quiz" data-src="quiz-ml-3" data-tags='{"c": "Concept", "p": "Calculation", "m": "Modeling", "e": "Evaluation"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-ml-3" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-ml-3">
+  <h2>Challenge questions</h2>
+  <p class="sub">Harder, multi-step questions in the style of a college exam.</p>
+  <div class="quiz" data-src="quiz-challenge-ml-3" data-tags='{"c": "Concept", "p": "Calculation", "m": "Modeling", "e": "Evaluation"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-ml-3" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-ml-3"><h2>Practice exam</h2><p class="sub">12 multiple-choice questions (30 minutes) and 2 free-response questions (25 minutes). No feedback until you submit. Grade the free response with the rubric.</p><div class="exam" data-src="exam-ml-3"></div></section>
+</div>
+</main>
+
+<footer>Margin · Machine Learning · Click, drag and break things in the labs</footer>
+
+<script type="application/json" id="quiz-ml-3">
+[
+ {
+  "t": "c",
+  "q": "What does the sigmoid function output?",
+  "o": [
+   "A number between 0 and 1",
+   "A number between −1 and 1",
+   "Only 0 or 1",
+   "Any real number"
+  ],
+  "a": 0,
+  "x": "σ squashes everything into (0, 1)."
+ },
+ {
+  "t": "p",
+  "q": "σ(0) equals…",
+  "o": [
+   "0",
+   "1",
+   "0.5",
+   "e"
+  ],
+  "a": 2,
+  "x": "1/(1 + 1)."
+ },
+ {
+  "t": "p",
+  "q": "A logistic model gives z = 3 for an email. Approximately what probability of spam?",
+  "o": [
+   "0.5",
+   "3",
+   "0.95",
+   "0.75"
+  ],
+  "a": 2,
+  "x": "σ(3) = 1/(1 + e⁻³) ≈ 0.953."
+ },
+ {
+  "t": "c",
+  "q": "Logistic regression's decision boundary (threshold 0.5) is where…",
+  "o": [
+   "w · x + b = 0.5",
+   "x = 0",
+   "w · x + b = 0",
+   "σ(z) = 1"
+  ],
+  "a": 2,
+  "x": "σ(z) = 0.5 ⇔ z = 0."
+ },
+ {
+  "t": "p",
+  "q": "True label 1, predicted probability 0.25. Cross-entropy loss?",
+  "o": [
+   "≈ 1.39",
+   "0.75",
+   "≈ 0.29",
+   "0.25"
+  ],
+  "a": 0,
+  "x": "−ln 0.25 ≈ 1.386."
+ },
+ {
+  "t": "m",
+  "q": "Why can't plain logistic regression (features x₁, x₂ only) separate points inside a circle from points outside it?",
+  "o": [
+   "It needs more data",
+   "Its decision boundary is a straight line",
+   "The learning rate is wrong",
+   "It only handles regression"
+  ],
+  "a": 1,
+  "x": "Add x₁², x₂² features to make curved boundaries."
+ },
+ {
+  "t": "p",
+  "q": "Gini impurity of a node with 5 A and 5 B?",
+  "o": [
+   "0",
+   "0.25",
+   "0.5",
+   "1"
+  ],
+  "a": 2,
+  "x": "1 − 0.25 − 0.25."
+ },
+ {
+  "t": "p",
+  "q": "Gini impurity of a node with 10 A and 0 B?",
+  "o": [
+   "0.5",
+   "10",
+   "1",
+   "0"
+  ],
+  "a": 3,
+  "x": "Pure node."
+ },
+ {
+  "t": "p",
+  "q": "Entropy of a 50/50 binary node?",
+  "o": [
+   "0.5",
+   "0",
+   "1 bit",
+   "2 bits"
+  ],
+  "a": 2,
+  "x": "−0.5 log₂ 0.5 × 2 = 1."
+ },
+ {
+  "t": "m",
+  "q": "A decision tree with no depth limit tends to…",
+  "o": [
+   "need feature scaling",
+   "output probabilities above 1",
+   "overfit",
+   "underfit"
+  ],
+  "a": 2,
+  "x": "Leaves can memorize individual examples."
+ },
+ {
+  "t": "c",
+  "q": "Softmax outputs for 4 classes always…",
+  "o": [
+   "add up to 1",
+   "add up to 4",
+   "are 0 or 1",
+   "are negative"
+  ],
+  "a": 0,
+  "x": "They're a probability distribution."
+ },
+ {
+  "t": "e",
+  "q": "TP = 30, FP = 10, FN = 20. Precision?",
+  "o": [
+   "0.6",
+   "0.4",
+   "0.5",
+   "0.75"
+  ],
+  "a": 3,
+  "x": "30/(30 + 10)."
+ },
+ {
+  "t": "e",
+  "q": "TP = 30, FP = 10, FN = 20. Recall?",
+  "o": [
+   "0.33",
+   "0.6",
+   "0.75",
+   "0.5"
+  ],
+  "a": 1,
+  "x": "30/(30 + 20)."
+ },
+ {
+  "t": "e",
+  "q": "For a cancer screening test, which metric matters most?",
+  "o": [
+   "Training loss",
+   "Recall: missing a real case is very costly",
+   "Accuracy only",
+   "Precision only"
+  ],
+  "a": 1,
+  "x": "False negatives are the dangerous error."
+ },
+ {
+  "t": "e",
+  "q": "Lowering the classification threshold from 0.5 to 0.2 usually…",
+  "o": [
+   "changes nothing",
+   "raises recall and lowers precision",
+   "raises both",
+   "raises precision and lowers recall"
+  ],
+  "a": 1,
+  "x": "More things get flagged positive."
+ },
+ {
+  "t": "e",
+  "q": "An AUC of 0.5 means the model…",
+  "o": [
+   "has 50% accuracy at every threshold",
+   "ranks positives no better than random",
+   "is perfect",
+   "always predicts positive"
+  ],
+  "a": 1,
+  "x": "The diagonal of the ROC plot."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-ml-3">
+[
+ {
+  "t": "p",
+  "q": "A node has 8 examples: 6 A, 2 B. A split gives left (4 A, 0 B) and right (2 A, 2 B). Gini gain?",
+  "o": [
+   "0.25",
+   "0.125",
+   "0",
+   "0.375"
+  ],
+  "a": 1,
+  "x": "Parent 0.375. Left 0, right 0.5; weighted = (4/8)(0) + (4/8)(0.5) = 0.25. Gain = 0.125."
+ },
+ {
+  "t": "p",
+  "q": "Logits (1, 1, 1, 1). Softmax probability of class 1?",
+  "o": [
+   "0.5",
+   "e/4",
+   "0.25",
+   "1"
+  ],
+  "a": 2,
+  "x": "Equal logits give equal probabilities."
+ },
+ {
+  "t": "c",
+  "q": "Adding the same constant c to every logit changes softmax probabilities by…",
+  "o": [
+   "adding c",
+   "nothing",
+   "making them sum to c",
+   "multiplying them by e^c"
+  ],
+  "a": 1,
+  "x": "e^(z + c) = e^c·e^z; the e^c cancels top and bottom. (Libraries subtract the max logit for numerical stability.)"
+ },
+ {
+  "t": "p",
+  "q": "A logistic model: z = 2x₁ − x₂ − 1. Which point is on the decision boundary?",
+  "o": [
+   "(1, 1)",
+   "(0, 0)",
+   "(1, 0)",
+   "(2, 1)"
+  ],
+  "a": 0,
+  "x": "2 − 1 − 1 = 0."
+ },
+ {
+  "t": "e",
+  "q": "Precision 0.8, recall 0.5. F1?",
+  "o": [
+   "0.65",
+   "0.8",
+   "0.4",
+   "≈ 0.615"
+  ],
+  "a": 3,
+  "x": "2(0.8)(0.5)/(1.3) = 0.8/1.3."
+ },
+ {
+  "t": "e",
+  "q": "A fraud model on 10,000 transactions (100 fraudulent) flags 200; 80 of those are fraud. Which statement is right?",
+  "o": [
+   "Accuracy 0.8",
+   "Precision 0.8, recall 0.8",
+   "Precision 0.4, recall 0.8",
+   "Precision 0.8, recall 0.4"
+  ],
+  "a": 2,
+  "x": "TP = 80, FP = 120, FN = 20. P = 80/200, R = 80/100."
+ }
+]
+</script>
+<script type="application/json" id="exam-ml-3">
+{
+ "title": "Machine Learning Unit 3 Practice Exam: Classification",
+ "mcqMinutes": 30,
+ "frqMinutes": 25,
+ "tags": {
+  "c": "Concept",
+  "p": "Calculation",
+  "m": "Modeling",
+  "e": "Evaluation"
+ },
+ "mcq": [
+  {
+   "t": "c",
+   "q": "Logistic regression is used for…",
+   "o": [
+    "classification",
+    "clustering",
+    "regression of prices",
+    "dimensionality reduction"
+   ],
+   "a": 0,
+   "x": "Despite the name."
+  },
+  {
+   "t": "c",
+   "q": "σ(z) is above 0.5 exactly when…",
+   "o": [
+    "z = 1",
+    "z < 0",
+    "z > 0",
+    "z > 0.5"
+   ],
+   "a": 2,
+   "x": "σ is increasing and σ(0) = 0.5."
+  },
+  {
+   "t": "c",
+   "q": "Cross-entropy punishes most heavily…",
+   "o": [
+    "unconfident right predictions",
+    "correct predictions",
+    "predictions of exactly 0.5",
+    "confident wrong predictions"
+   ],
+   "a": 3,
+   "x": "−ln p blows up as p → 0."
+  },
+  {
+   "t": "m",
+   "q": "A decision tree split is chosen to…",
+   "o": [
+    "balance the number of leaves",
+    "make the tree deeper",
+    "make the child nodes as pure as possible",
+    "use every feature"
+   ],
+   "a": 2,
+   "x": "Largest impurity decrease."
+  },
+  {
+   "t": "p",
+   "q": "Gini impurity of a node with 3 A and 1 B?",
+   "o": [
+    "0.25",
+    "0.75",
+    "0.5",
+    "0.375"
+   ],
+   "a": 3,
+   "x": "1 − 0.5625 − 0.0625."
+  },
+  {
+   "t": "m",
+   "q": "Which model needs no feature scaling?",
+   "o": [
+    "k-NN",
+    "Neural network",
+    "Logistic regression with gradient descent",
+    "Decision tree"
+   ],
+   "a": 3,
+   "x": "A threshold split doesn't care about units."
+  },
+  {
+   "t": "p",
+   "q": "The softmax of logits (0, ln 3) is…",
+   "o": [
+    "(0.33, 0.67)",
+    "(0.25, 0.75)",
+    "(0, 1)",
+    "(0.5, 0.5)"
+   ],
+   "a": 1,
+   "x": "e⁰ = 1, e^ln3 = 3 → 1/4, 3/4."
+  },
+  {
+   "t": "e",
+   "q": "Recall is also called…",
+   "o": [
+    "sensitivity / true positive rate",
+    "specificity",
+    "accuracy",
+    "precision"
+   ],
+   "a": 0,
+   "x": "TP/(TP + FN)."
+  },
+  {
+   "t": "e",
+   "q": "A spam filter that wrongly blocks a real email made a…",
+   "o": [
+    "true negative",
+    "true positive",
+    "false negative",
+    "false positive"
+   ],
+   "a": 3,
+   "x": "Predicted spam (positive), actually not."
+  },
+  {
+   "t": "e",
+   "q": "F1 is high only when…",
+   "o": [
+    "recall is high",
+    "the threshold is 0.5",
+    "accuracy is high",
+    "both precision and recall are high"
+   ],
+   "a": 3,
+   "x": "Harmonic mean punishes imbalance."
+  },
+  {
+   "t": "e",
+   "q": "The ROC curve plots…",
+   "o": [
+    "accuracy vs threshold",
+    "precision vs recall",
+    "loss vs epochs",
+    "true positive rate vs false positive rate"
+   ],
+   "a": 3,
+   "x": "One point per threshold."
+  },
+  {
+   "t": "e",
+   "q": "TP = 40, TN = 50, FP = 5, FN = 5. Accuracy?",
+   "o": [
+    "0.5",
+    "0.95",
+    "0.9",
+    "0.8"
+   ],
+   "a": 2,
+   "x": "90/100."
+  }
+ ],
+ "frq": [
+  {
+   "q": "A model predicts whether a loan defaults (1) or not (0): z = 0.04·(debt in $k) − 0.5·(years employed) − 1.",
+   "parts": [
+    {
+     "p": "(a) Find the default probability for someone with $50k of debt employed 2 years.",
+     "rubric": [
+      [
+       "z = 2 − 1 − 1 = 0",
+       1
+      ],
+      [
+       "p = 0.5",
+       1
+      ]
+     ],
+     "answer": "z = 0.04(50) − 0.5(2) − 1 = 0 → σ(0) = 0.5."
+    },
+    {
+     "p": "(b) Interpret the weight −0.5.",
+     "rubric": [
+      [
+       "Each extra year employed lowers the log-odds of default by 0.5",
+       1
+      ],
+      [
+       "i.e. multiplies the odds by e^(−0.5) ≈ 0.61",
+       1
+      ]
+     ],
+     "answer": "Each additional year employed lowers the log-odds of default by 0.5, multiplying the odds by about 0.61 (holding debt fixed)."
+    },
+    {
+     "p": "(c) The bank loses far more from a missed default than from rejecting a good customer. Should it raise or lower the threshold? Which metric improves?",
+     "rubric": [
+      [
+       "Lower the threshold",
+       1
+      ],
+      [
+       "Recall of defaults improves (at the cost of precision)",
+       1
+      ]
+     ],
+     "answer": "Lower it (say to 0.3) so more risky applicants are flagged: recall on defaults goes up, precision goes down."
+    }
+   ]
+  },
+  {
+   "q": "A classifier is tested on 200 emails (60 spam). It marks 50 as spam, 45 of them correctly.",
+   "parts": [
+    {
+     "p": "(a) Fill in the confusion matrix.",
+     "rubric": [
+      [
+       "TP 45, FP 5",
+       1
+      ],
+      [
+       "FN 15, TN 135",
+       1
+      ]
+     ],
+     "answer": "TP = 45, FP = 5, FN = 15, TN = 135."
+    },
+    {
+     "p": "(b) Compute accuracy, precision, recall and F1.",
+     "rubric": [
+      [
+       "Accuracy 0.9, precision 0.9",
+       1
+      ],
+      [
+       "Recall 0.75, F1 ≈ 0.818",
+       1
+      ]
+     ],
+     "answer": "Accuracy = 180/200 = 0.9. Precision = 45/50 = 0.9. Recall = 45/60 = 0.75. F1 = 2(0.9)(0.75)/1.65 ≈ 0.818."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/labs.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>

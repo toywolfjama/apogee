@@ -6,7 +6,9 @@ Free AP review pages: explanations, detailed explanations of each idea, worked e
 
 ## Current content
 
-- **AP Physics 1 – Unit 3: Work, Energy & Power (+ Momentum)** — `courses/ap-physics-1/unit-3.html`
+- AP Physics 1, AP Computer Science A, French, AP Precalculus, SAT and ACT
+- **Intro to Computer Engineering** (6 units) — `courses/comp-eng/`
+- **Machine Learning** (6 units) — `courses/ml/`
 
 ## Structure
 
@@ -17,6 +19,7 @@ assets/js/courses.js           Course registry: every course and unit
 assets/js/site.js              Header, course menu, chapter menu, quizzes, site animations
 assets/js/sims.js              2D animated physics examples (add new types here)
 assets/js/exam.js              Timed practice exam engine (MCQ + FRQ with rubric)
+assets/js/labs.js              Interactive labs for computer engineering and machine learning
 courses/<course>/<unit>.html   One page per unit
 templates/unit-template.html   Starting point for new units
 ```

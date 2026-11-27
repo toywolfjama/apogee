@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Learning Unit 5: Neural Networks | Margin</title>
+<meta name="description" content="Machine learning unit 5: artificial neurons, activation functions, multilayer perceptrons, forward pass, backpropagation, optimizers, vanishing gradients and convolutional neural networks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-ml" data-root="../../" data-course="ml" data-unit="ml-5">
+
+<div class="hero">
+  <span class="kicker">Machine Learning · Unit 5</span>
+  <h1>Neural <span class="hl">networks</span></h1>
+  <p>Neurons, activations, layers, backpropagation and convolutional networks, with a playground where you can watch a network learn.</p>
+</div>
+
+<main class="page">
+<div class="chapter" id="ch-neuron" data-title="Neurons" data-short="Neurons">
+<section class="topic" id="neuron">
+  <h2><span class="pill c">5.1</span>The artificial neuron</h2>
+  
+  
+<p>An artificial neuron is logistic regression wearing a different hat: it multiplies each input by a weight, adds them up with a bias, and passes the total through an <b>activation function</b>.</p>
+<div class="big-eq">a = f(w₁x₁ + w₂x₂ + … + b) = f(w · x + b)</div>
+<div class="xlab" data-lab='{"type": "neuron"}'></div>
+<div class="tblwrap"><table><tr><th>Activation</th><th>Formula</th><th>Range</th><th>Notes</th></tr><tr><td>Sigmoid</td><td>1/(1 + e⁻ᶻ)</td><td>(0, 1)</td><td>good for a probability output; slow to train in hidden layers</td></tr><tr><td>tanh</td><td>(eᶻ − e⁻ᶻ)/(eᶻ + e⁻ᶻ)</td><td>(−1, 1)</td><td>centred at 0</td></tr><tr><td>ReLU</td><td>max(0, z)</td><td>[0, ∞)</td><td>the default for hidden layers: cheap, and gradients don't fade for z > 0</td></tr><tr><td>Step</td><td>1 if z ≥ 0 else 0</td><td>{0, 1}</td><td>the original 1958 perceptron; can't be trained by gradient descent</td></tr></table></div>
+<div class="box tip"><b class="lbl">Why we need nonlinear activations</b>Stack two linear layers and you get W₂(W₁x) = (W₂W₁)x: still just one linear layer. Without a nonlinear activation between layers, a 100-layer network is no more powerful than logistic regression.</div>
+
+  
+</section>
+</div>
+<div class="chapter" id="ch-net" data-title="Networks and Training" data-short="Networks">
+<section class="topic" id="networks">
+  <h2><span class="pill m">5.2</span>Layers and the forward pass</h2>
+  
+  
+<p>A <b>neural network</b> (multilayer perceptron) arranges neurons in layers. Every neuron in one layer feeds every neuron in the next (<b>fully connected</b> or <b>dense</b>). The layers between input and output are <b>hidden layers</b>; "deep" learning just means many of them.</p>
+<div class="big-eq">h = f(W₁x + b₁) &nbsp;&nbsp;&nbsp;&nbsp; ŷ = g(W₂h + b₂)</div>
+<p>Each layer is a matrix multiply, plus a bias vector, then an activation. A layer with 3 inputs and 4 outputs has a 4 × 3 weight matrix (12 weights) and 4 biases: 16 parameters.</p>
+<div class="msteps" data-w='{"title": "Forward pass: x = (1, 2), hidden ReLU layer with 2 neurons, linear output", "frames": [{"t": ["a|z₁ = 1·1 + (−1)·2 + 0.5 = −0.5|e"], "note": "Neuron 1 has weights (1, −1) and bias 0.5."}, {"t": ["b|z₂ = 0.5·1 + 1·2 − 1 = 1.5|e"], "note": "Neuron 2 has weights (0.5, 1) and bias −1."}, {"t": ["c|h = ReLU(−0.5, 1.5) = (0, 1.5)|v"], "note": "ReLU zeroes the negative one: neuron 1 is &#39;off&#39; for this input."}, {"t": ["d|ŷ = 2·0 + 3·1.5 + 0.1 = 4.6|g"], "note": "Output weights (2, 3), bias 0.1."}]}'></div>
+<div class="xlab" data-lab='{"type": "nnet"}'></div>
+<p>The <b>universal approximation theorem</b> says a network with one hidden layer and enough neurons can approximate any continuous function as closely as you like. In practice, deeper networks learn the same functions with far fewer neurons, building complex features out of simpler ones layer by layer.</p>
+
+  
+</section>
+<section class="topic" id="backprop">
+  <h2><span class="pill p">5.3</span>Training: backpropagation</h2>
+  
+  
+<p>Training a network is gradient descent again: compute the loss, compute the gradient of the loss with respect to every weight, step downhill. The trick is computing millions of gradients efficiently. <b>Backpropagation</b> does it with the chain rule, working backwards from the loss, reusing each layer's result for the layer before.</p>
+<div class="big-eq">∂L/∂w = ∂L/∂ŷ · ∂ŷ/∂z · ∂z/∂w</div>
+<div class="msteps" data-w='{"title": "Backprop through one neuron: x = 2, w = 0.5, b = 0, sigmoid, target y = 1, loss = (ŷ − y)²", "frames": [{"t": ["a|z = 0.5·2 + 0 = 1|e", "b|ŷ = σ(1) ≈ 0.731|e"], "note": "Forward pass."}, {"t": ["c|∂L/∂ŷ = 2(ŷ − y) = −0.538|v"], "note": "How the loss changes with the output."}, {"t": ["d|∂ŷ/∂z = ŷ(1 − ŷ) ≈ 0.197|v"], "note": "The derivative of the sigmoid."}, {"t": ["e|∂z/∂w = x = 2|v"], "note": "How z changes with w."}, {"t": ["f|∂L/∂w ≈ −0.538 × 0.197 × 2 ≈ −0.212|g"], "note": "Multiply along the chain. Negative: increasing w lowers the loss, so gradient descent will raise w."}]}'></div>
+<h3>The training loop</h3>
+<ol class="steps"><li>Take a mini-batch of examples.</li><li><b>Forward pass:</b> compute predictions and the loss.</li><li><b>Backward pass:</b> backpropagate to get every gradient.</li><li><b>Update:</b> the optimizer adjusts every weight.</li><li>Repeat for many epochs, watching the validation loss.</li></ol>
+<pre class="code"><code><span class="k">import</span> torch, torch.nn <span class="k">as</span> nn
+model = nn.Sequential(nn.Linear(<span class="n">2</span>, <span class="n">8</span>), nn.ReLU(), nn.Linear(<span class="n">8</span>, <span class="n">1</span>))
+opt = torch.optim.Adam(model.parameters(), lr=<span class="n">0.01</span>)
+loss_fn = nn.BCEWithLogitsLoss()
+<span class="k">for</span> epoch <span class="k">in</span> <span class="k">range</span>(<span class="n">200</span>):
+    <span class="k">for</span> xb, yb <span class="k">in</span> loader:              <span class="c"># mini-batches</span>
+        loss = loss_fn(model(xb), yb)  <span class="c"># forward pass</span>
+        opt.zero_grad()
+        loss.backward()                <span class="c"># backpropagation</span>
+        opt.step()                     <span class="c"># gradient descent update</span></code></pre>
+<div class="grid2"><div class="mini"><h4>Optimizers</h4>Plain SGD, SGD with momentum (keeps rolling in a consistent direction), and Adam (adapts the step size for each weight) are the common choices. Adam is the usual default.</div><div class="mini"><h4>Vanishing gradients</h4>Sigmoid's slope is at most 0.25, so multiplying many of them in a deep network shrinks gradients toward 0 and early layers stop learning. ReLU, careful weight initialization and residual connections fix this.</div><div class="mini"><h4>Initialization</h4>Weights start as small random numbers. If they all started equal, every neuron in a layer would compute the same thing and get the same update forever.</div><div class="mini"><h4>Hardware</h4>Training is mostly huge matrix multiplications, which GPUs and TPUs do thousands at a time in parallel.</div></div>
+
+  <details class="deep"><summary><span class="tag">Detailed explanation</span>Why backprop is efficient</summary><div class="deep-body"><p>Computing each weight's gradient separately would repeat the same work over and over. Backprop computes ∂L/∂(layer output) once per layer, then reuses it for all of that layer's weights and to pass the gradient further back. The backward pass costs about the same as roughly two forward passes, no matter how many weights there are.</p></div></details>
+</section>
+</div>
+<div class="chapter" id="ch-cnn" data-title="Convolutional Networks" data-short="CNNs">
+<section class="topic" id="cnn">
+  <h2><span class="pill m">5.4</span>Convolutional networks for images</h2>
+  
+  
+<p>A 1000 × 1000 color photo has 3 million inputs. A dense layer with 1000 neurons would need 3 billion weights, and it would have to learn "cat ear" separately for every position in the image. <b>Convolutional neural networks (CNNs)</b> solve both problems with small filters that slide across the image, sharing the same weights everywhere.</p>
+<div class="xlab" data-lab='{"type": "conv"}'></div>
+<div class="grid2"><div class="mini"><h4>Convolution layer</h4>Learns many small filters (3 × 3, 5 × 5). Early layers learn edges and colors; deeper layers combine them into textures, parts (eyes, wheels) and whole objects.</div><div class="mini"><h4>Pooling</h4>Max pooling keeps the largest value in each 2 × 2 patch, halving the width and height. It makes the network cheaper and less sensitive to small shifts.</div><div class="mini"><h4>Parameters</h4>A 3 × 3 filter on a 3-channel image has 3 × 3 × 3 = 27 weights + 1 bias, whatever the image size.</div><div class="mini"><h4>Output size</h4>An n × n image with an f × f filter (no padding, stride 1) gives an (n − f + 1) × (n − f + 1) feature map. Padding with zeros keeps the size the same.</div></div>
+<p>For sequences (text, audio, time series) the classic choice was the <b>recurrent neural network (RNN)</b> and its LSTM variant, which read one step at a time while carrying a memory. Since 2017 <b>transformers</b> (unit 6) have largely replaced them.</p>
+
+  
+</section>
+<section class="topic" id="summary-ml5">
+  <h2>Unit summary</h2>
+  
+  <div class="grid2"><div class="mini"><h4>Neuron</h4>a = f(w·x + b). ReLU = max(0, z) for hidden layers; sigmoid/softmax at the output. Nonlinearity is essential.</div><div class="mini"><h4>Network</h4>Layers of matrix multiply + bias + activation. Parameters per dense layer = in × out + out.</div><div class="mini"><h4>Training</h4>Forward pass → loss → backprop (chain rule) → optimizer step. Mini-batches, epochs, Adam. Beware vanishing gradients.</div><div class="mini"><h4>CNNs</h4>Small shared filters slide over images; pooling shrinks. Output size n − f + 1. Transformers now dominate sequences.</div></div>
+  
+</section>
+</div>
+<div class="chapter" id="practice-ml-5" data-title="Practice Questions" data-short="Practice">
+<section class="topic" id="practice-quiz-ml-5">
+  <h2>Practice questions</h2>
+  <p class="sub">15 questions on everything in this unit. Work each one out before you pick.</p>
+  <div class="quiz" data-src="quiz-ml-5" data-tags='{"c": "Concept", "p": "Calculation", "m": "Modeling", "e": "Evaluation"}'></div>
+</section>
+</div>
+<div class="chapter" id="challenge-ml-5" data-title="Challenge Questions" data-short="Challenge" data-hard="1">
+<section class="topic" id="challenge-quiz-ml-5">
+  <h2>Challenge questions</h2>
+  <p class="sub">Harder, multi-step questions in the style of a college exam.</p>
+  <div class="quiz" data-src="quiz-challenge-ml-5" data-tags='{"c": "Concept", "p": "Calculation", "m": "Modeling", "e": "Evaluation"}'></div>
+</section>
+</div>
+<div class="chapter" id="exam-ch-ml-5" data-title="Practice Exam" data-short="Practice Exam">
+<section class="topic" id="exam-box-ml-5"><h2>Practice exam</h2><p class="sub">12 multiple-choice questions (30 minutes) and 2 free-response questions (25 minutes). No feedback until you submit. Grade the free response with the rubric.</p><div class="exam" data-src="exam-ml-5"></div></section>
+</div>
+</main>
+
+<footer>Margin · Machine Learning · Click, drag and break things in the labs</footer>
+
+<script type="application/json" id="quiz-ml-5">
+[
+ {
+  "t": "p",
+  "q": "A neuron has weights (2, −1), bias 1, ReLU, inputs (1, 4). Output?",
+  "o": [
+   "0",
+   "−1",
+   "1",
+   "3"
+  ],
+  "a": 0,
+  "x": "z = 2 − 4 + 1 = −1 → ReLU(−1) = 0."
+ },
+ {
+  "t": "p",
+  "q": "Same neuron with inputs (3, 1)?",
+  "o": [
+   "0",
+   "5",
+   "6",
+   "7"
+  ],
+  "a": 2,
+  "x": "z = 6 − 1 + 1 = 6."
+ },
+ {
+  "t": "c",
+  "q": "Which activation is the usual default for hidden layers?",
+  "o": [
+   "Step",
+   "Sigmoid",
+   "Linear",
+   "ReLU"
+  ],
+  "a": 3,
+  "x": "Cheap and trains well."
+ },
+ {
+  "t": "c",
+  "q": "Why can't a network without nonlinear activations learn XOR?",
+  "o": [
+   "The learning rate is too small",
+   "It needs more data",
+   "Stacked linear layers collapse into a single linear function",
+   "XOR has no labels"
+  ],
+  "a": 2,
+  "x": "A linear boundary can't separate XOR."
+ },
+ {
+  "t": "p",
+  "q": "A dense layer from 10 inputs to 5 neurons has how many parameters?",
+  "o": [
+   "50",
+   "60",
+   "15",
+   "55"
+  ],
+  "a": 3,
+  "x": "10 × 5 weights + 5 biases."
+ },
+ {
+  "t": "p",
+  "q": "A network 4 → 8 → 3 (dense). Total parameters?",
+  "o": [
+   "56",
+   "35",
+   "44",
+   "67"
+  ],
+  "a": 3,
+  "x": "(4·8 + 8) + (8·3 + 3) = 40 + 27."
+ },
+ {
+  "t": "c",
+  "q": "Backpropagation is based on…",
+  "o": [
+   "random search",
+   "the chain rule of calculus",
+   "the Pythagorean theorem",
+   "k-means"
+  ],
+  "a": 1,
+  "x": "Gradients flow backwards layer by layer."
+ },
+ {
+  "t": "p",
+  "q": "σ(z) = 0.8. What is σ′(z)?",
+  "o": [
+   "0.16",
+   "0.8",
+   "0.64",
+   "0.2"
+  ],
+  "a": 0,
+  "x": "σ(1 − σ) = 0.8 × 0.2."
+ },
+ {
+  "t": "c",
+  "q": "The vanishing gradient problem is worst with…",
+  "o": [
+   "large learning rates",
+   "shallow networks",
+   "ReLU layers",
+   "many sigmoid layers"
+  ],
+  "a": 3,
+  "x": "Each sigmoid derivative is at most 0.25."
+ },
+ {
+  "t": "c",
+  "q": "Why are weights initialized randomly instead of all zeros?",
+  "o": [
+   "To make the loss bigger",
+   "Because zero is not allowed",
+   "To speed up the forward pass",
+   "So neurons in a layer learn different things"
+  ],
+  "a": 3,
+  "x": "Equal weights stay equal forever (symmetry)."
+ },
+ {
+  "t": "c",
+  "q": "Which step updates the weights in a training loop?",
+  "o": [
+   "Loading the batch",
+   "The forward pass",
+   "Computing the loss",
+   "The optimizer step"
+  ],
+  "a": 3,
+  "x": "Backward computes gradients; the optimizer applies them."
+ },
+ {
+  "t": "p",
+  "q": "A 28 × 28 image is convolved with a 5 × 5 filter (no padding, stride 1). Output size?",
+  "o": [
+   "5 × 5",
+   "23 × 23",
+   "24 × 24",
+   "28 × 28"
+  ],
+  "a": 2,
+  "x": "28 − 5 + 1."
+ },
+ {
+  "t": "p",
+  "q": "How many weights does one 3 × 3 filter have on an RGB image (3 channels), not counting bias?",
+  "o": [
+   "81",
+   "27",
+   "3",
+   "9"
+  ],
+  "a": 1,
+  "x": "3 × 3 × 3."
+ },
+ {
+  "t": "p",
+  "q": "Max pooling with a 2 × 2 window on a 16 × 16 feature map gives…",
+  "o": [
+   "14 × 14",
+   "16 × 16",
+   "4 × 4",
+   "8 × 8"
+  ],
+  "a": 3,
+  "x": "Halves each side."
+ },
+ {
+  "t": "c",
+  "q": "Why do CNNs use far fewer parameters than dense networks on images?",
+  "o": [
+   "They ignore color",
+   "They only look at the center",
+   "The same small filter is reused at every position",
+   "They use no biases"
+  ],
+  "a": 2,
+  "x": "Weight sharing."
+ }
+]
+</script>
+<script type="application/json" id="quiz-challenge-ml-5">
+[
+ {
+  "t": "p",
+  "q": "A neuron: ŷ = σ(wx), x = 1, w = 0, target y = 1, loss = −ln ŷ (cross-entropy). What is ∂L/∂w?",
+  "o": [
+   "−1",
+   "0.5",
+   "0",
+   "−0.5"
+  ],
+  "a": 3,
+  "x": "For sigmoid + cross-entropy, ∂L/∂z = ŷ − y = 0.5 − 1 = −0.5, and ∂z/∂w = x = 1."
+ },
+ {
+  "t": "p",
+  "q": "A network has 784 inputs, a 128-neuron hidden layer and 10 outputs (dense). Roughly how many parameters?",
+  "o": [
+   "≈ 922",
+   "≈ 7,840",
+   "≈ 1,000,000",
+   "≈ 101,770"
+  ],
+  "a": 3,
+  "x": "784·128 + 128 + 128·10 + 10 = 100,352 + 128 + 1,280 + 10 = 101,770."
+ },
+ {
+  "t": "m",
+  "q": "Which pair of weights and bias makes a single step-activation neuron compute AND of two 0/1 inputs?",
+  "o": [
+   "w = (1, −1), b = 0",
+   "w = (1, 1), b = −0.5",
+   "w = (1, 1), b = −1.5",
+   "w = (−1, −1), b = 1.5"
+  ],
+  "a": 2,
+  "x": "z ≥ 0 only when both inputs are 1: 1 + 1 − 1.5 = 0.5."
+ },
+ {
+  "t": "p",
+  "q": "A 32 × 32 × 3 image goes through a conv layer with 16 filters of size 5 × 5 (no padding). Output shape and parameter count?",
+  "o": [
+   "28 × 28 × 3, 75 parameters",
+   "27 × 27 × 16, 1,200 parameters",
+   "32 × 32 × 16, 400 parameters",
+   "28 × 28 × 16, 1,216 parameters"
+  ],
+  "a": 3,
+  "x": "Each filter: 5·5·3 + 1 = 76 parameters; × 16 = 1,216. Output 32 − 5 + 1 = 28."
+ },
+ {
+  "t": "e",
+  "q": "Training loss keeps falling but validation loss started rising at epoch 30. Best action?",
+  "o": [
+   "Remove the validation set",
+   "Raise the learning rate",
+   "Use the weights from about epoch 30 (early stopping) and add regularization",
+   "Train for many more epochs"
+  ],
+  "a": 2,
+  "x": "Classic overfitting."
+ },
+ {
+  "t": "p",
+  "q": "Ten sigmoid layers each contribute a derivative of at most 0.25 to the chain. The gradient reaching layer 1 is at most what fraction of the gradient at the output?",
+  "o": [
+   "≈ 0.1",
+   "0.25",
+   "≈ 1 × 10⁻⁶",
+   "2.5"
+  ],
+  "a": 2,
+  "x": "0.25¹⁰ ≈ 9.5 × 10⁻⁷: vanishing gradients."
+ }
+]
+</script>
+<script type="application/json" id="exam-ml-5">
+{
+ "title": "Machine Learning Unit 5 Practice Exam: Neural Networks",
+ "mcqMinutes": 30,
+ "frqMinutes": 25,
+ "tags": {
+  "c": "Concept",
+  "p": "Calculation",
+  "m": "Modeling",
+  "e": "Evaluation"
+ },
+ "mcq": [
+  {
+   "t": "c",
+   "q": "An artificial neuron computes…",
+   "o": [
+    "a decision tree split",
+    "the average of its inputs only",
+    "an activation of a weighted sum plus bias",
+    "a distance"
+   ],
+   "a": 2,
+   "x": "f(w·x + b)."
+  },
+  {
+   "t": "p",
+   "q": "ReLU(−3) =",
+   "o": [
+    "−3",
+    "3",
+    "0.05",
+    "0"
+   ],
+   "a": 3,
+   "x": "max(0, z)."
+  },
+  {
+   "t": "p",
+   "q": "ReLU(2.5) =",
+   "o": [
+    "2.5",
+    "0",
+    "1",
+    "0.92"
+   ],
+   "a": 0,
+   "x": "Positive values pass through."
+  },
+  {
+   "t": "c",
+   "q": "tanh outputs values between…",
+   "o": [
+    "−1 and 1",
+    "0 and 1",
+    "0 and ∞",
+    "−∞ and ∞"
+   ],
+   "a": 0,
+   "x": "Zero-centred."
+  },
+  {
+   "t": "p",
+   "q": "A layer 6 → 4 has how many weights (not biases)?",
+   "o": [
+    "24",
+    "6",
+    "10",
+    "28"
+   ],
+   "a": 0,
+   "x": "6 × 4."
+  },
+  {
+   "t": "c",
+   "q": "'Deep' learning refers to networks with…",
+   "o": [
+    "many layers",
+    "no hidden layers",
+    "huge learning rates",
+    "only convolution"
+   ],
+   "a": 0,
+   "x": "Depth = number of layers."
+  },
+  {
+   "t": "c",
+   "q": "The universal approximation theorem says one hidden layer can…",
+   "o": [
+    "never overfit",
+    "solve any problem quickly",
+    "replace all data",
+    "approximate any continuous function given enough neurons"
+   ],
+   "a": 3,
+   "x": "It says nothing about how easy training is."
+  },
+  {
+   "t": "c",
+   "q": "During backprop, gradients flow…",
+   "o": [
+    "only through the bias",
+    "from input to output",
+    "from the loss back toward the input layer",
+    "randomly"
+   ],
+   "a": 2,
+   "x": "Backward pass."
+  },
+  {
+   "t": "c",
+   "q": "Adam is…",
+   "o": [
+    "a type of layer",
+    "a loss function",
+    "an optimizer that adapts the step size per weight",
+    "an activation function"
+   ],
+   "a": 2,
+   "x": "A popular gradient descent variant."
+  },
+  {
+   "t": "c",
+   "q": "A conv layer's filters are…",
+   "o": [
+    "random forever",
+    "the input pixels",
+    "fixed by hand",
+    "learned during training"
+   ],
+   "a": 3,
+   "x": "Gradient descent learns them."
+  },
+  {
+   "t": "c",
+   "q": "Pooling layers mainly…",
+   "o": [
+    "add parameters",
+    "classify the image",
+    "shrink feature maps and add tolerance to small shifts",
+    "normalize the labels"
+   ],
+   "a": 2,
+   "x": "Downsampling."
+  },
+  {
+   "t": "p",
+   "q": "A 10 × 10 input and 3 × 3 filter, no padding, stride 1, gives…",
+   "o": [
+    "8 × 8",
+    "3 × 3",
+    "7 × 7",
+    "10 × 10"
+   ],
+   "a": 0,
+   "x": "10 − 3 + 1."
+  }
+ ],
+ "frq": [
+  {
+   "q": "A network has inputs x = (2, 1), one hidden layer of two ReLU neurons, and one sigmoid output. Hidden weights: neuron A (1, 1) bias −1; neuron B (−1, 2) bias 0. Output weights (0.5, −1), bias 0.",
+   "parts": [
+    {
+     "p": "(a) Compute the hidden activations.",
+     "rubric": [
+      [
+       "z_A = 2, h_A = 2",
+       1
+      ],
+      [
+       "z_B = 0, h_B = 0",
+       1
+      ]
+     ],
+     "answer": "z_A = 2 + 1 − 1 = 2 → 2. z_B = −2 + 2 + 0 = 0 → 0."
+    },
+    {
+     "p": "(b) Compute the output probability.",
+     "rubric": [
+      [
+       "z = 0.5·2 − 1·0 = 1",
+       1
+      ],
+      [
+       "σ(1) ≈ 0.731",
+       1
+      ]
+     ],
+     "answer": "z = 1 → σ(1) ≈ 0.731."
+    },
+    {
+     "p": "(c) How many parameters does this network have?",
+     "rubric": [
+      [
+       "Hidden 2·2 + 2 = 6",
+       1
+      ],
+      [
+       "Output 2 + 1 = 3; total 9",
+       1
+      ]
+     ],
+     "answer": "6 + 3 = 9."
+    }
+   ]
+  },
+  {
+   "q": "Training dynamics.",
+   "parts": [
+    {
+     "p": "(a) List the four steps of one training iteration.",
+     "rubric": [
+      [
+       "Forward pass and loss",
+       1
+      ],
+      [
+       "Backward pass (gradients) and optimizer update",
+       1
+      ]
+     ],
+     "answer": "Forward pass → compute loss → backpropagate gradients → optimizer updates weights."
+    },
+    {
+     "p": "(b) Explain why stacking linear layers without activations doesn't add power, using matrices.",
+     "rubric": [
+      [
+       "W₂(W₁x + b₁) + b₂ = (W₂W₁)x + (W₂b₁ + b₂)",
+       1
+      ],
+      [
+       "which is a single linear layer",
+       1
+      ]
+     ],
+     "answer": "W₂(W₁x + b₁) + b₂ = (W₂W₁)x + (W₂b₁ + b₂): one matrix and one bias, i.e. a single linear layer."
+    },
+    {
+     "p": "(c) Explain one cause of vanishing gradients and one fix.",
+     "rubric": [
+      [
+       "Cause: chains of small derivatives (sigmoid ≤ 0.25)",
+       1
+      ],
+      [
+       "Fix: ReLU, good initialization, residual connections or normalization",
+       1
+      ]
+     ],
+     "answer": "Backprop multiplies many sigmoid slopes (≤ 0.25), so gradients shrink exponentially. Use ReLU activations, careful initialization, residual connections."
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/labs.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="../../assets/js/exam.js"></script>
+</body>
+</html>
