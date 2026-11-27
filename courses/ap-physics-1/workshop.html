@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP Physics 1 Workshop | Margin</title>
+<meta name="description" content="Interactive AP Physics 1 workshop: hands-on missions with goals, hints and stars.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-space" data-root="../../" data-course="ap-physics-1" data-unit="workshop">
+
+<div class="hero">
+  <span class="kicker">AP Physics 1 · Workshop</span>
+  <h1>The <span class="hl">physics</span> workshop</h1>
+  <p>Launch projectiles at targets, smash carts together and race the clock. Predict with physics first and you'll hit it in one shot.</p>
+</div>
+<div class="ws-meter"></div>
+
+<main class="page">
+<div class="chapter" id="ws-ch1" data-title="Projectiles" data-short="Projectiles">
+<section class="topic mission" id="m-launch-1" data-m='{"type": "launch", "target": [28, 32], "angle": 45, "fixAngle": true, "v": 12, "vmin": 5, "vmax": 30, "id": "launch-1", "win": "At 45° the range is R = v²/g, so R = 30 m needs v = √(30 × 10) ≈ 17.3 m/s. Calculating first gets three stars.", "hints": ["The range of a projectile launched and landing at the same height is R = v² sin(2θ) / g.", "sin(90°) = 1, so R = v²/10. Solve for v with R = 30."]}'>
+  <h2><span class="pill">Mission 1</span>Hit the target</h2>
+  <p class="sub">The launcher is locked at 45°. Choose the launch speed that lands the ball in the green zone.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-launch-2" data-m='{"type": "launch", "target": [38, 42], "wall": {"x": 20, "h": 12}, "angle": 35, "v": 18, "vmin": 5, "vmax": 30, "id": "launch-2", "win": "A steeper launch trades distance for height. Around 60° and 21–22 m/s clears the wall and still reaches 40 m.", "hints": ["At low angles the ball is still low when it reaches the wall.", "Try an angle near 60°, then adjust the speed."]}'>
+  <h2><span class="pill">Mission 2</span>Over the wall</h2>
+  <p class="sub">A 12 m wall stands 20 m away. Clear it and land in the target 38–42 m away.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-launch-3" data-m='{"type": "launch", "target": [27.3, 28.5], "h0": 20, "v": 12, "fixSpeed": true, "angle": 45, "id": "launch-3", "win": "From a height, 45° is no longer the best angle: the ball already has extra fall time, so a flatter launch (about 25–30°) goes furthest.", "hints": ["Try 45° first and see where it lands.", "Lower the angle. The maximum range from a cliff is below 45°."]}'>
+  <h2><span class="pill">Mission 3</span>Off the cliff</h2>
+  <p class="sub">Now you're on a 20 m cliff and the speed is fixed at 12 m/s. Find an angle that lands in the 27.3–28.5 m zone.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+<div class="chapter" id="ws-ch2" data-title="Collisions" data-short="Collisions">
+<section class="topic mission" id="m-col-1" data-m='{"type": "collide", "init": {"m1": 2, "v1": 6, "m2": 1, "v2": 0}, "sliders": [{"k": "m2", "min": 1, "max": 10, "step": 1}], "kind": "stick", "goal": {"k": "vf", "value": 2, "tol": 0.01, "label": "Final speed"}, "id": "col-1", "win": "Momentum is conserved: 2 × 6 = (2 + m₂) × 2, so m₂ = 4 kg.", "hints": ["Total momentum before = total momentum after.", "12 kg·m/s = (2 + m₂) × 2."]}'>
+  <h2><span class="pill">Mission 4</span>Sticky carts</h2>
+  <p class="sub">Cart 1 (2 kg) moves at 6 m/s into a cart at rest; they stick. Choose the second cart's mass so they move off together at exactly 2 m/s.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-col-2" data-m='{"type": "collide", "init": {"m1": 3, "v1": 5, "m2": 1, "v2": 0}, "sliders": [{"k": "m2", "min": 1, "max": 8, "step": 0.5}], "kind": "elastic", "goal": {"k": "v1f", "value": 0, "tol": 0.01, "label": "Cart 1&#39;s final velocity"}, "id": "col-2", "win": "In an elastic head-on collision between equal masses, the carts swap velocities: cart 1 stops and cart 2 leaves at 5 m/s (Newton&#39;s cradle).", "hints": ["v₁ after = (m₁ − m₂) v₁ / (m₁ + m₂) when cart 2 starts at rest.", "That&#39;s zero when m₁ = m₂."]}'>
+  <h2><span class="pill">Mission 5</span>Stop dead</h2>
+  <p class="sub">An elastic collision: cart 1 (3 kg, 5 m/s) hits a cart at rest. Choose the second mass so cart 1 stops completely.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-col-3" data-m='{"type": "collide", "init": {"m1": 4, "v1": 5, "m2": 1, "v2": 0}, "sliders": [{"k": "m2", "min": 1, "max": 12, "step": 1}], "kind": "stick", "goal": {"k": "KElost", "value": 30, "tol": 0.3, "label": "KE lost"}, "id": "col-3", "win": "KE before = 50 J. Momentum 20 kg·m/s gives KE after = 20²/(2(4 + m₂)). Losing 30 J leaves 20 J, so 4 + m₂ = 10 and m₂ = 6 kg.", "hints": ["KE before = ½ × 4 × 5² = 50 J, so you want 20 J left afterwards.", "After sticking, KE = p²/(2M) with p = 20 kg·m/s."]}'>
+  <h2><span class="pill">Mission 6</span>Where did the energy go?</h2>
+  <p class="sub">Cart 1 (4 kg, 5 m/s) hits a cart at rest and they stick. Choose the second mass so exactly 30 J of kinetic energy is lost.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+<div class="chapter" id="ws-ch3" data-title="Predict and Solve" data-short="Solve">
+<section class="topic mission" id="m-phys-calc" data-m='{"type": "calc", "pass": 0.6, "qs": [{"q": "A ball is dropped from 45 m. How long until it hits the ground?", "a": 3, "unit": "s", "x": "h = ½gt² → t = √(2 × 45 / 10) = 3 s."}, {"q": "A car starts from rest and accelerates at 4 m/s² for 5 s. How far does it go?", "a": 50, "unit": "m", "x": "x = ½at² = ½ × 4 × 25 = 50 m."}, {"q": "A 5 kg box is pushed with 30 N against 10 N of friction. Acceleration?", "a": 4, "unit": "m/s²", "x": "Net force 20 N ÷ 5 kg = 4 m/s²."}, {"q": "Kinetic energy of a 2 kg ball moving at 6 m/s?", "a": 36, "unit": "J", "x": "½ × 2 × 36 = 36 J."}, {"q": "A ball is thrown straight up at 20 m/s. Maximum height?", "a": 20, "unit": "m", "x": "v² = 2gh → h = 400 / 20 = 20 m."}, {"q": "A spring with k = 200 N/m is compressed 0.1 m. Stored energy?", "a": 1, "unit": "J", "x": "½kx² = ½ × 200 × 0.01 = 1 J."}, {"q": "A 1500 kg car at 20 m/s brakes to a stop in 4 s. Average braking force (magnitude)?", "a": 7500, "unit": "N", "x": "Impulse: F = Δp/Δt = 30,000 / 4 = 7500 N."}], "id": "phys-calc", "win": "Kinematics, Newton&#39;s laws, energy and impulse: the four tools behind every AP Physics 1 problem."}'>
+  <h2><span class="pill">Mission 7</span>Quick calculations</h2>
+  <p class="sub">Seven numbers to find. Type the answer (fractions like 3/4 are fine). Use g = 10 m/s².</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-phys-sprint" data-m='{"type": "sprint", "time": 240, "pass": 0.75, "qs": [{"q": "At the top of a projectile&#39;s path, its acceleration is…", "o": ["zero", "10 m/s² downward", "10 m/s² upward", "equal to its horizontal speed"], "a": 1, "x": "Gravity never switches off."}, {"q": "A heavy truck and a small car collide head-on. Which feels the bigger force?", "o": ["the truck", "the car", "they feel equal forces", "it depends on speed"], "a": 2, "x": "Newton&#39;s third law: equal and opposite."}, {"q": "An object moves at constant velocity. The net force on it is…", "o": ["zero", "in the direction of motion", "opposite to the motion", "equal to its weight"], "a": 0, "x": "Newton&#39;s first law."}, {"q": "Doubling an object&#39;s speed multiplies its kinetic energy by…", "o": ["2", "4", "√2", "8"], "a": 1, "x": "KE ∝ v²."}, {"q": "In a perfectly inelastic collision, what is always conserved (no external forces)?", "o": ["kinetic energy", "momentum", "both", "neither"], "a": 1, "x": "Momentum is conserved; kinetic energy is lost."}, {"q": "A ball rolls off a table. Compared with a ball dropped at the same moment, it hits the floor…", "o": ["at the same time", "later", "earlier", "it depends on its speed"], "a": 0, "x": "Horizontal motion doesn&#39;t affect vertical fall."}, {"q": "A satellite in a circular orbit moves at constant speed. Its acceleration is…", "o": ["zero", "toward the center", "along its velocity", "outward"], "a": 1, "x": "Centripetal acceleration points to the center."}, {"q": "Friction does negative work on a sliding box. The box&#39;s mechanical energy…", "o": ["increases", "decreases", "stays the same", "becomes zero instantly"], "a": 1, "x": "It&#39;s turned into thermal energy."}], "id": "phys-sprint", "win": "Concepts first, then equations: most AP Physics 1 multiple-choice questions are decided by an idea, not a calculation."}'>
+  <h2><span class="pill">Mission 8</span>Concept sprint</h2>
+  <p class="sub">Eight conceptual questions against the clock. No calculator needed — think about the physics.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+</main>
+
+<footer>Margin · AP Physics 1 workshop · g = 10 m/s²</footer>
+
+
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/sims.js"></script>
+<script src="../../assets/js/workshop.js"></script>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

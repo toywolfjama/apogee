@@ -17,9 +17,30 @@
     <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#111827"/><path class="hm-m" d="M20 18 32 35 44 18V46" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" pathLength="100"/><path class="hm-l" d="M20 46V18" stroke="#F43F5E" stroke-width="7" stroke-linecap="round" pathLength="100"/></svg>
   </div>
   <h1>Pick a course.</h1>
+  <div class="home-tools">
+    <div class="home-search" role="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input id="homeQ" type="text" placeholder="Search every unit and workshop: kinematics, subjonctif, K-maps…" autocomplete="off" aria-label="Search units" aria-controls="homeRes">
+      <kbd aria-hidden="true">/</kbd>
+      <div class="home-res" id="homeRes" role="listbox"></div>
+    </div>
+    <div class="home-cont" id="homeCont"></div>
+  </div>
+  <div class="hero-stats"><span><b data-to="8">8</b> courses</span><span><b data-to="62">62</b> units</span><span><b data-to="63">63</b> workshop missions</span><span><b data-to="1000" data-plus="1">1,000+</b> French words</span></div>
   <a class="hero-cta" href="review.html">Study with flashcards <span>→</span></a>
-  <div class="hero-stats"><span><b>8</b> courses</span><span><b>62</b> units</span><span><b>1,000+</b> French words</span><span><b>Timed</b> practice exams</span></div>
 </div>
+
+<section class="home-sec" aria-labelledby="h-ws">
+  <h3 id="h-ws">Workshops</h3>
+  <p>Hands-on missions for every course: launch projectiles, wire logic gates, train a neural network, race the SAT clock. Earn up to three stars each.</p>
+  <div class="ws-grid" id="wsGrid"></div>
+</section>
+
+<section class="home-sec" aria-labelledby="h-daily">
+  <h3 id="h-daily">Today's challenge</h3>
+  <p>One question a day from a different course. Keep your streak going.</p>
+  <div class="daily" id="daily"></div>
+</section>
 
 <main class="portals">
   <section class="portal space" aria-labelledby="p-phys">
@@ -236,6 +257,86 @@
     }
     requestAnimationFrame(frame);
   }
+  /* ---------- workshops grid ---------- */
+  const WS = { "ap-physics-1": ["🚀", "#3B82F6", "Launch projectiles at targets and smash carts together."], "ap-csa": ["⌨️", "#65A30D", "Trace Java, count loops and assemble scrambled programs."],
+    "french-1": ["🎧", "#DC2626", "Memory match, dictée and conjugation sprints."], "math": ["📈", "#2563EB", "Drag sliders until your graph matches the target."],
+    "comp-eng": ["🔌", "#0F766E", "Flip bits, wire gates, program a CPU, fix a cache."], "ml": ["🧠", "#7C3AED", "Fit lines, tune learning rates, train a neural net."],
+    "sat": ["⏱️", "#4338CA", "Timed grid-ins and Reading and Writing sprints."], "act": ["📝", "#B91C1C", "English, Math, Reading and Science sprints."] };
+  (function wsGrid() {
+    const el = document.getElementById("wsGrid"); if (!el) return; let P = {}; try { P = JSON.parse(localStorage.getItem("margin-ws")) || {}; } catch (e) {}
+    el.innerHTML = C.map(c => { const u = c.units.find(x => x.id === "workshop"); if (!u) return ""; const d = WS[c.id] || ["★", "#F43F5E", ""], got = Object.keys(P[c.id] || {}).filter(k => k !== "_t").length, stars = Object.entries(P[c.id] || {}).filter(([k]) => k !== "_t").reduce((a, [, v]) => a + v, 0);
+      return `<a class="ws-tile" href="${u.path}" style="--c:${d[1]};--p:${Math.round(got / u.workshop * 100)}%"><span class="ic" aria-hidden="true">${d[0]}</span><b>${esc(c.name.replace(/^Math: /, ""))}</b><span>${d[2]}</span><span class="pr">${got ? `${got}/${u.workshop} · ${stars}★` : `${u.workshop} missions`}<i></i></span></a>`; }).join("");
+  })();
+
+  /* ---------- search ---------- */
+  (function search() {
+    const q = document.getElementById("homeQ"), res = document.getElementById("homeRes"); if (!q) return;
+    const items = []; C.forEach(c => c.units.forEach(u => { if (u.path && u.ready !== false) items.push({ t: u.name, c: c.name, g: u.group || "", p: u.path, k: (u.name + " " + c.name + " " + (u.group || "")).toLowerCase() }); }));
+    let sel = 0, shown = [];
+    const hl = (t, ws) => { let h = esc(t); ws.forEach(w => { if (w.length > 1) h = h.replace(new RegExp("(" + w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig"), "<mark>$1</mark>"); }); return h; };
+    function run() {
+      const v = q.value.trim().toLowerCase(); if (!v) { res.classList.remove("open"); return; }
+      const ws = v.split(/\s+/); shown = items.map(it => ({ it, s: ws.every(w => it.k.includes(w)) ? (it.t.toLowerCase().includes(v) ? 2 : 1) : 0 })).filter(x => x.s).sort((a, b) => b.s - a.s).slice(0, 9).map(x => x.it);
+      sel = 0; res.innerHTML = shown.length ? shown.map((it, i) => `<a href="${it.p}" role="option" class="${i === sel ? "sel" : ""}"><span>${hl(it.t, ws)}</span><small>${esc(it.c)}</small></a>`).join("") : `<div class="none">No units match “${esc(q.value)}”.</div>`;
+      res.classList.add("open");
+    }
+    q.addEventListener("input", run); q.addEventListener("focus", run);
+    q.addEventListener("keydown", e => { const a = [...res.querySelectorAll("a")]; if (!a.length) return;
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); sel = (sel + (e.key === "ArrowDown" ? 1 : -1) + a.length) % a.length; a.forEach((x, i) => x.classList.toggle("sel", i === sel)); a[sel].scrollIntoView({ block: "nearest" }); }
+      if (e.key === "Enter") { e.preventDefault(); location.href = a[sel].getAttribute("href"); } if (e.key === "Escape") { res.classList.remove("open"); q.blur(); } });
+    document.addEventListener("click", e => { if (!e.target.closest(".home-search")) res.classList.remove("open"); });
+    document.addEventListener("keydown", e => { if (e.key === "/" && document.activeElement !== q && !/input|textarea|select/i.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); } });
+    let rec = []; try { rec = JSON.parse(localStorage.getItem("margin-recent")) || []; } catch (e) {}
+    const cont = document.getElementById("homeCont");
+    if (cont && rec.length) cont.innerHTML = rec.slice(0, 3).map((r, i) => `<a href="${esc(r.p)}">${i ? "" : "Continue: "}<b>${esc(r.t.replace(/ Workshop$/, " workshop"))}</b>${i ? "" : ` <span>· ${ago(r.ts)}</span>`}</a>`).join("");
+    function ago(t) { const m = Math.round((Date.now() - t) / 60000); return m < 2 ? "just now" : m < 60 ? m + " min ago" : m < 1440 ? Math.round(m / 60) + " h ago" : Math.round(m / 1440) + " d ago"; }
+  })();
+
+  /* ---------- counters ---------- */
+  if (!reduce) document.querySelectorAll(".hero-stats b[data-to]").forEach((b, i) => { const to = +b.dataset.to, t0 = performance.now() + i * 120, fmt = n => n >= 1000 ? n.toLocaleString("en-US") : String(n);
+    const go = now => { const f = Math.max(0, Math.min(1, (now - t0) / 1100)), e = 1 - Math.pow(1 - f, 3); b.textContent = fmt(Math.round(to * e)) + (f >= 1 && b.dataset.plus ? "+" : ""); if (f < 1) requestAnimationFrame(go); }; b.textContent = "0"; requestAnimationFrame(go); });
+
+  /* ---------- daily challenge ---------- */
+  (function daily() {
+    const el = document.getElementById("daily"); if (!el) return;
+    const Q = [
+      ["AP Physics 1", "A ball is thrown horizontally off a cliff while another is dropped at the same instant. Which lands first?", ["The thrown ball", "The dropped ball", "They land together", "It depends on the throw speed"], 2, "Horizontal motion doesn't change the vertical fall time.", "courses/ap-physics-1/unit-1.html"],
+      ["Machine Learning", "A model scores 99% on training data and 62% on test data. What's most likely happening?", ["Underfitting", "Overfitting", "Data is perfectly balanced", "The learning rate is too small"], 1, "A big train–test gap means high variance.", "courses/ml/ml-4.html"],
+      ["Computer Engineering", "What is 1111 1111 in 8-bit two's complement?", ["255", "−1", "−127", "−128"], 1, "All ones is −1: invert to 0000 0000, add 1 → 1, so it's −1.", "courses/comp-eng/ce-2.html"],
+      ["French", "Choose the correct form: « Il faut que tu ___ (être) à l'heure. »", ["es", "seras", "sois", "étais"], 2, "il faut que + subjonctif: que tu sois.", "courses/french-1/college-4.html"],
+      ["AP CSA", "What does System.out.println(5 / 2 * 2.0); print?", ["5.0", "4.0", "4", "5"], 1, "5 / 2 is integer division (2), then 2 × 2.0 = 4.0.", "courses/ap-csa/unit-1.html"],
+      ["AP Precalculus", "What is log₃ 81?", ["3", "4", "27", "1/4"], 1, "3⁴ = 81.", "courses/math/precalc-2.html"],
+      ["SAT", "If 3x + 5 = 20, what is 6x + 10?", ["30", "40", "45", "35"], 1, "6x + 10 = 2(3x + 5) = 2 × 20.", "courses/sat/sat-4.html"],
+      ["ACT", "Which is correct? “The team ___ its best season ever.”", ["have had", "has had", "were having", "have"], 1, "Team is a singular collective noun.", "courses/act/act-2.html"],
+      ["Computer Engineering", "A K-map group of 4 cells in a 4-variable map leaves how many literals in its term?", ["1", "2", "3", "4"], 1, "A group of 2ᵏ cells removes k variables: 4 − 2 = 2.", "courses/comp-eng/ce-3.html"],
+      ["Machine Learning", "Softmax of the logits (0, 0, 0, 0) gives each class probability…", ["0", "0.25", "1", "0.5"], 1, "Equal logits → equal probabilities.", "courses/ml/ml-3.html"],
+      ["AP Physics 1", "Doubling a car's speed multiplies its braking distance by…", ["2", "4", "√2", "8"], 1, "Distance ∝ v² for the same braking force.", "courses/ap-physics-1/unit-3.html"],
+      ["French", "Which verb takes être in the passé composé?", ["manger", "faire", "partir", "voir"], 2, "Movement verbs like partir use être.", "courses/french-1/unit-5.html"],
+      ["AP CSA", "After list = [3, 6, 9] and list.add(1, 4), what is list?", ["[3, 4, 6, 9]", "[4, 3, 6, 9]", "[3, 6, 9, 4]", "[3, 4, 9]"], 0, "add(index, value) inserts and shifts the rest right.", "courses/ap-csa/unit-2.html"],
+      ["Computer Engineering", "Which gate outputs 1 only when its two inputs differ?", ["AND", "OR", "XOR", "NAND"], 2, "Exclusive OR.", "courses/comp-eng/ce-3.html"],
+      ["AP Precalculus", "The period of y = sin(3x) is…", ["3π", "2π/3", "π/3", "6π"], 1, "Period = 2π/B.", "courses/math/precalc-3.html"],
+      ["Machine Learning", "In gradient descent, a learning rate that's far too large usually makes the loss…", ["decrease slowly", "bounce or blow up", "stay exactly the same", "reach zero"], 1, "Steps overshoot the minimum.", "courses/ml/ml-2.html"],
+      ["SAT", "A shirt is 20% off its $45 price. What's the sale price?", ["$36", "$25", "$40", "$9"], 0, "45 × 0.8.", "courses/sat/sat-6.html"],
+      ["Computer Engineering", "A CPU runs 2 billion instructions at CPI 1.5 and 3 GHz. Time?", ["0.5 s", "1 s", "1.5 s", "2 s"], 1, "(2 × 10⁹ × 1.5) / (3 × 10⁹) = 1 s.", "courses/comp-eng/ce-6.html"],
+      ["French", "« Si j'avais de l'argent, je ___ un vélo. »", ["achète", "achèterai", "achèterais", "achetais"], 2, "si + imparfait → conditionnel.", "courses/french-1/college-3.html"],
+      ["ACT", "Data: at 10°C a gas occupies 2.0 L; at 20°C, 2.1 L; at 30°C, 2.2 L. Predict 40°C.", ["2.2 L", "2.3 L", "2.4 L", "3.0 L"], 1, "It grows 0.1 L per 10°C.", "courses/act/act-6.html"],
+      ["Machine Learning", "k-means with k = 1 puts the single center at…", ["a random point", "the mean of all the data", "the origin", "the farthest point"], 1, "The center minimizing squared distance is the mean.", "courses/ml/ml-6.html"],
+    ];
+    const day = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 86400000), q = Q[day % Q.length], key = "margin-daily";
+    let S = {}; try { S = JSON.parse(localStorage.getItem(key)) || {}; } catch (e) {}
+    const done = S.day === day;
+    function render(pick) {
+      const answered = pick != null;
+      el.innerHTML = `<div><div class="dtag">${esc(q[0])}</div><div class="dq">${esc(q[1])}</div><div class="dopts">${q[2].map((o, i) => `<button type="button" class="do ${answered ? (i === q[3] ? "ok" : i === pick ? "no" : "") : ""}" data-i="${i}" ${answered ? "disabled" : ""}>${esc(o)}</button>`).join("")}</div>
+        ${answered ? `<div class="dx">${pick === q[3] ? "✓ Correct. " : "✗ Not this time. "}${esc(q[4])} <a href="${q[5]}" style="color:#FB7185">Review the unit →</a></div>` : ""}</div>
+        <div class="streak"><b>${S.streak || 0}</b><small>day streak${S.best ? ` · best ${S.best}` : ""}</small></div>`;
+    }
+    el.addEventListener("click", e => { const b = e.target.closest("button.do"); if (!b || S.day === day) return; const pick = +b.dataset.i, ok = pick === q[3];
+      S.streak = ok ? (S.day === day - 1 ? (S.streak || 0) + 1 : 1) : 0; S.best = Math.max(S.best || 0, S.streak); S.day = day; S.pick = pick;
+      try { localStorage.setItem(key, JSON.stringify(S)); } catch (x) {} render(pick); });
+    if (S.day != null && S.day < day - 1) S.streak = 0;
+    render(done ? S.pick : null);
+  })();
   function units(id, el, term) {
     const c = find(id); if (!c) return;
     const groups = [];

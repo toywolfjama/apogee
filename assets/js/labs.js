@@ -9,6 +9,7 @@
     return { ink: css("--ink") || "#0F2A5F", a: css("--lab-a") || "#2563EB", b: css("--lab-b") || "#EA580C", c: css("--lab-c") || "#059669",
       on: css("--lab-on") || "#16A34A", off: "#CBD5E1", line: css("--line") || "#DCE3F0", muted: css("--muted") || "#4B5B7A", soft: css("--well") || "#F8FAFE" };
   }
+  const emit = (el, d) => el.dispatchEvent(new CustomEvent("labstate", { detail: d, bubbles: true }));
   const CL = ["#2563EB", "#EA580C", "#059669", "#9333EA", "#DB2777", "#CA8A04", "#0891B2", "#DC2626"];
   const fm = (x, d = 3) => { if (!isFinite(x)) return x > 0 ? "∞" : "−∞"; if (Math.abs(x) < 1e-12) return "0"; return (+x.toFixed(d)).toString().replace("-", "−"); };
   function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -80,6 +81,7 @@
       const sum = Array.from({ length: n }, (_, i) => n - 1 - i).filter(k => (v >> k) & 1).map(k => (k === n - 1 && p.signed !== false) ? "−" + (1 << k) : (1 << k));
       rd.innerHTML = `<span>Binary <b>${groups}</b></span><span>Unsigned <b>${v}</b></span>${p.signed !== false ? `<span>Signed (two's complement) <b>${signed}</b></span>` : ""}<span>Hex <b>0x${hex}</b></span>
         <span class="xl-sum">${sum.length ? sum.join(" + ").replace("+ −", "− ") + " = " + (p.signed !== false ? String(signed).replace("-", "−") : v) : "all bits 0 → 0"}</span>`;
+      emit(el, { value: v, signed });
       num.value = p.signed !== false && document.activeElement !== num ? (num.dataset.s === "1" ? signed : v) : num.value;
     }
     box.addEventListener("click", e => { const b = e.target.closest(".xl-bit"); if (!b) return; v ^= 1 << +b.dataset.k; draw(); });
@@ -270,8 +272,9 @@
       const ones = cells.map((c, i) => c === 1 ? i : -1).filter(i => i >= 0), dc = cells.map((c, i) => c === 2 ? i : -1).filter(i => i >= 0);
       ko.innerHTML = `<div class="xl-k1">F(${V.join(",")}) = Σm(${ones.join(", ") || "–"})${dc.length ? ` + d(${dc.join(", ")})` : ""}</div>
         <div class="xl-k2">Simplest: <b>F = ${s.expr}</b></div>
-        <ul class="xl-kg">${s.groups.map((g, gi) => `<li data-g="${gi}"><i style="background:${CL[gi % CL.length]}"></i><b>${g.t}</b> covers m${g.ms.join(", m")} <small>(group of ${g.ms.length})</small></li>`).join("")}</ul>`;
+        <ul class="xl-kg" data-e="${esc(s.expr)}">${s.groups.map((g, gi) => `<li data-g="${gi}"><i style="background:${CL[gi % CL.length]}"></i><b>${g.t}</b> covers m${g.ms.join(", m")} <small>(group of ${g.ms.length})</small></li>`).join("")}</ul>`;
     }
+    const _kd = draw; draw = function () { _kd(); emit(el, { expr: solve().expr, ones: cells.map((c, i) => c === 1 ? i : -1).filter(i => i >= 0) }); };
     km.addEventListener("click", e => { const td = e.target.closest("td[data-m]"); if (!td) return; const m = +td.dataset.m; cells[m] = (cells[m] + 1) % 3; draw(); });
     ko.addEventListener("mouseover", e => { const li = e.target.closest("[data-g]"); km.querySelectorAll("td").forEach(td => td.classList.remove("hi")); if (!li) return; const s = solve().groups[+li.dataset.g]; s && s.ms.forEach(m => { const td = km.querySelector(`td[data-m="${m}"]`); td && td.classList.add("hi"); }); });
     ko.addEventListener("mouseleave", () => km.querySelectorAll("td").forEach(td => td.classList.remove("hi")));
@@ -347,7 +350,7 @@
           ${st.out != null ? `<text x="${q.x}" y="${q.y + 15}" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="${on ? "#fff" : P.muted}">out ${esc(st.out)}</text>` : ""}`; });
       const st0 = pos[p.start || S[0].id], sa = (p.startAng ?? 225) * Math.PI / 180, sux = Math.cos(sa), suy = Math.sin(sa); s += `<path d="M${st0.x + sux * 70} ${st0.y + suy * 70}L${st0.x + sux * 31} ${st0.y + suy * 31}" stroke="${P.ink}" stroke-width="1.8" marker-end="url(#ah${el._id})"/><text x="${st0.x + sux * 72}" y="${st0.y + suy * 72 - 5}" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="${P.muted}">start</text>`;
       sv.setAttribute("viewBox", `0 0 ${W} ${H}`); sv.innerHTML = s;
-      const so = S.find(x => x.id === cur);
+      const so = S.find(x => x.id === cur); emit(el, { state: cur, ins: hist.map(h => h.i).join(""), outs: hist.map(h => h.o).join("") });
       hs.innerHTML = hist.length ? `<span>Inputs: <b>${hist.map(h => esc(h.i)).join(" ")}</b></span><span>Outputs: <b>${hist.map(h => esc(h.o)).join(" ")}</b></span>` : `<span>Current state <b>${esc(so.label || so.id)}</b>${so.out != null ? `, output <b>${esc(so.out)}</b>` : ""}</span>`;
     }
     el._id = Math.random().toString(36).slice(2, 7);
@@ -402,6 +405,7 @@
       ph.innerHTML = `<div class="xl-pills">${["Fetch 1", "Fetch 2", "Decode", "Execute"].map((n, i) => `<span class="${(phase + 3) % 4 === i && msg.indexOf("Press") < 0 ? "on" : ""}">${n}</span>`).join("")}</div><p>${msg}</p>`;
       ol.innerHTML = `Output: <b>${log.length ? log.join(", ") : "(nothing yet)"}</b>`;
       el.querySelectorAll("[data-p]").forEach(b => b.classList.toggle("on", +b.dataset.p === pi));
+      emit(el, { out: log.slice(), done, prog: pi });
     }
     function stop() { if (timer) { clearInterval(timer); timer = null; const b = el.querySelector('[data-act="run"]'); b && b.classList.remove("on"); } }
     el.querySelector(".mg-ctl").addEventListener("click", e => { const a = e.target.closest("[data-act]"); if (!a) return; const k = a.dataset.act;
@@ -442,6 +446,7 @@
       const tot = hits + miss;
       lg.innerHTML = `<div class="xl-hr"><span>Hits <b>${hits}</b></span><span>Misses <b>${miss}</b></span><span>Hit rate <b>${tot ? Math.round(hits / tot * 100) + "%" : "–"}</b></span></div><div class="xl-seq">${hist.slice(-28).map(h => `<span class="${h.hit ? "hit" : "miss"}">${h.a}</span>`).join("")}</div>`;
       el.querySelectorAll("[data-act^=w],[data-act^=b]").forEach(x => x.classList.toggle("on", x.dataset.act === "w" + ways || x.dataset.act === "b" + block));
+      emit(el, { hits, miss, total: tot, rate: tot ? hits / tot : 0, ways, block, seq: hist.map(h => h.a) });
     }
     let timer = null;
     el.addEventListener("click", e => { const x = e.target.closest("[data-act]"); if (!x) return; const k = x.dataset.act;
@@ -585,7 +590,7 @@
     el.innerHTML = head(p, "Fit a line", "Drag the sliders or click the plot to add points. Red segments are the errors (residuals).") +
       `<div class="mg-sl">${slider("w", "w (slope)", -2, 3, .01, p.w ?? .3)}${slider("b", "b (intercept)", -4, 8, .01, p.b ?? 1)}${slider("lr", "learning rate", .001, .05, .001, .01)}</div>`;
     const st = stage(el, 640, 380), m = plot(st, [0, 10], [0, 12]);
-    el.insertAdjacentHTML("beforeend", `<div class="mg-ctl">${B("gd", "1 gradient step", "solid")}${B("gd20", "20 steps")}${B("fit", "Jump to best fit")}${B("clear", "Clear points")}${B("reset", "Reset data")}<div class="mg-read xl-rr"></div></div><div class="xl-loss"></div>`);
+    el.insertAdjacentHTML("beforeend", `<div class="mg-ctl">${B("gd", "1 gradient step", "solid")}${B("gd20", "20 steps")}${p.noFit ? "" : B("fit", "Jump to best fit")}${B("clear", "Clear points")}${B("reset", "Reset data")}<div class="mg-read xl-rr"></div></div><div class="xl-loss"></div>`);
     const rr = el.querySelector(".xl-rr"), lh = el.querySelector(".xl-loss");
     const mse = (w, b) => pts.reduce((s, [x, y]) => s + (w * x + b - y) ** 2, 0) / Math.max(1, pts.length);
     function grad() { const n = Math.max(1, pts.length); let gw = 0, gb = 0; pts.forEach(([x, y]) => { const e = S.w * x + S.b - y; gw += 2 * e * x / n; gb += 2 * e / n; }); return [gw, gb]; }
@@ -597,6 +602,7 @@
       c.strokeStyle = P.a; c.lineWidth = 3.5; c.beginPath(); c.moveTo(m.X(0), m.Y(S.b)); c.lineTo(m.X(10), m.Y(S.w * 10 + S.b)); c.stroke();
       pts.forEach(([x, y]) => dot(c, m.X(x), m.Y(y), 6, "#fff", P.ink, 2.4)); c.restore();
       const [gw, gb] = grad();
+      emit(el, { mse: mse(S.w, S.b), w: S.w, b: S.b, steps: Math.max(0, hist.length - 1), n: pts.length });
       rr.innerHTML = `<span>MSE <b>${fm(mse(S.w, S.b), 3)}</b></span><span>∂L/∂w <b>${fm(gw, 3)}</b></span><span>∂L/∂b <b>${fm(gb, 3)}</b></span>`;
       if (hist.length > 1) { const mx = Math.max(...hist), W = 300, H = 50; lh.innerHTML = `<small>Loss after each step</small><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><polyline fill="none" stroke="${P.b}" stroke-width="2" points="${hist.map((v, i) => `${i / (hist.length - 1) * W},${H - 4 - (v / mx) * (H - 8)}`).join(" ")}"/></svg><small>${hist.length - 1} steps · now ${fm(hist[hist.length - 1], 3)}</small>`; } else lh.innerHTML = "";
     }
@@ -638,6 +644,7 @@
         path.length > 1 && Math.abs(sl) < .02 ? (keys[0] === "bumpy" || L === LOSS.bumpy) && L.f(w) > 1.6 ? "Stuck in a local minimum: the slope is 0 but this isn't the lowest valley. Try a different start." : "Converged: the slope is almost 0, so the steps become tiny." :
           `Next step: w − α·slope = ${fm(w, 3)} − ${fm(S.lr, 2)} × ${fm(sl, 3)} = ${fm(w - S.lr * sl, 3)}`;
       el.querySelectorAll("[data-c]").forEach(b => b.classList.toggle("on", LOSS[b.dataset.c] === L));
+      emit(el, { w, loss: L.f(w), slope: sl, steps: path.length - 1, diverged: div, lr: S.lr, curve: Object.keys(LOSS).find(k => LOSS[k] === L), start: path[0] });
     }
     function step() { const w = path[path.length - 1]; if (!isFinite(w) || Math.abs(w) > 1e3) return; path.push(w - S.lr * d(w)); draw(); }
     function stop() { if (timer) { clearInterval(timer); timer = null; } }
@@ -690,6 +697,7 @@
         c.fillStyle = shade(pr); c.fillRect(Math.floor(i * cw), Math.floor(j * cw), Math.ceil(cw) + 1, Math.ceil(cw) + 1); }
       let right = 0; data.forEach(([a, b, y]) => { const pr = predict(a, b) > .5 ? 1 : 0; if (pr === y) right++; dot(c, a * st.W, (1 - b) * st.H, 5.5, y ? CB : CA, pr === y ? "#fff" : "#111", pr === y ? 1.5 : 2.5); });
       c.strokeStyle = P.ink; c.lineWidth = 1.5; c.strokeRect(.75, .75, st.W - 1.5, st.H - 1.5);
+      emit(el, { acc: data.length ? right / data.length : 0, method, k: S.k, set, feats, steps: epochs, n: data.length });
       cr.innerHTML = `<span>Training accuracy <b>${data.length ? Math.round(right / data.length * 100) : 0}%</b></span>${method === "logreg" ? `<span>steps <b>${epochs}</b></span>` : ""}`;
       el.querySelector(".xl-knn").style.display = method === "knn" ? "" : "none"; el.querySelector(".xl-lr").style.display = method === "logreg" ? "" : "none";
       el.querySelector('[data-act="feat"]').textContent = feats === "lin" ? "Features: x₁, x₂ (linear)" : "Features: + x₁², x₂², x₁x₂";
@@ -711,8 +719,9 @@
 
   /* ---- k-means ---- */
   function kmeans(el, p) {
-    const S = {}; let pts = [], cents = [], asg = [], phase = "place", it = 0, seed = 3, timer = null;
-    function gen() { const r = rng(seed++ * 7919), K = 3 + Math.floor(r() * 2), base = [[.27, .28], [.73, .3], [.3, .74], [.72, .72]].sort(() => r() - .5).slice(0, K), ctr = base.map(([x, y]) => [x + (r() - .5) * .14, y + (r() - .5) * .14]); pts = Array.from({ length: 150 }, (_, i) => { const q = ctr[i % K]; return [Math.min(.98, Math.max(.02, q[0] + gauss(r) * .07)), Math.min(.98, Math.max(.02, q[1] + gauss(r) * .07))]; }); asg = pts.map(() => -1); cents = []; it = 0; phase = "place"; }
+    const S = {}; let pts = [], cents = [], asg = [], phase = "place", it = 0, seed = 3, timer = null, trueK = 4, ref = 1;
+    function gen() { const r = rng(seed++ * 7919), K = 3 + Math.floor(r() * 2), base = [[.27, .28], [.73, .3], [.3, .74], [.72, .72]].sort(() => r() - .5).slice(0, K), ctr = base.map(([x, y]) => [x + (r() - .5) * .14, y + (r() - .5) * .14]); pts = Array.from({ length: 150 }, (_, i) => { const q = ctr[i % K]; return [Math.min(.98, Math.max(.02, q[0] + gauss(r) * .07)), Math.min(.98, Math.max(.02, q[1] + gauss(r) * .07))]; }); asg = pts.map(() => -1); cents = []; it = 0; phase = "place"; trueK = K; ref = Infinity;
+      const rr = rng(77); for (let t = 0; t < 12; t++) { let C = Array.from({ length: K }, () => pts[Math.floor(rr() * pts.length)].slice()), A = []; for (let s2 = 0; s2 < 30; s2++) { A = pts.map(q => { let bi = 0; C.forEach((c2, j) => { if (d2(q, c2) < d2(q, C[bi])) bi = j; }); return bi; }); C = C.map((c2, j) => { const mine = pts.filter((_, i) => A[i] === j); return mine.length ? [mine.reduce((a, q) => a + q[0], 0) / mine.length, mine.reduce((a, q) => a + q[1], 0) / mine.length] : c2; }); } ref = Math.min(ref, pts.reduce((a, q, i) => a + d2(q, C[A[i]]), 0)); } }
     el.innerHTML = head(p, "k-means clustering", "No labels here: the algorithm groups points by itself. Alternate the two steps until nothing moves.") + `<div class="mg-sl">${slider("k", "k (clusters)", 2, 7, 1, p.k || 4)}</div>`;
     const st = stage(el, 420, 420);
     el.insertAdjacentHTML("beforeend", `<div class="mg-ctl">${B("place", "1. Drop k random centers")}${B("assign", "2. Assign each point")}${B("move", "3. Move centers to the mean")}${B("run", "Run to the end", "solid")}${B("new", "New data")}<div class="mg-read xl-kr"></div></div><p class="xl-note"></p>`);
@@ -720,7 +729,7 @@
     const d2 = (a, b) => (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2;
     function inertia() { return asg[0] < 0 ? NaN : pts.reduce((s, q, i) => s + d2(q, cents[asg[i]]), 0); }
     function place() { const r = rng(Date.now() & 0xffff); cents = Array.from({ length: S.k }, () => pts[Math.floor(r() * pts.length)].slice()); asg = pts.map(() => -1); it = 0; phase = "assign"; }
-    function assign() { if (!cents.length) place(); let ch = 0; pts.forEach((q, i) => { let bi = 0; cents.forEach((c, j) => { if (d2(q, c) < d2(q, cents[bi])) bi = j; }); if (asg[i] !== bi) ch++; asg[i] = bi; }); phase = "move"; return ch; }
+    function assign() { if (!cents.length) place(); let ch = 0; el._conv = false; pts.forEach((q, i) => { let bi = 0; cents.forEach((c, j) => { if (d2(q, c) < d2(q, cents[bi])) bi = j; }); if (asg[i] !== bi) ch++; asg[i] = bi; }); phase = "move"; if (!ch && it > 0) el._conv = true; return ch; }
     function move() { if (asg[0] < 0) assign(); let mv = 0; cents = cents.map((c, j) => { const mine = pts.filter((_, i) => asg[i] === j); if (!mine.length) return c; const n = [mine.reduce((s, q) => s + q[0], 0) / mine.length, mine.reduce((s, q) => s + q[1], 0) / mine.length]; mv += Math.sqrt(d2(n, c)); return n; }); it++; phase = "assign"; return mv; }
     function draw() {
       const c = st.c, P = PAL(); c.clearRect(0, 0, st.W, st.H); c.fillStyle = "#fff"; c.fillRect(0, 0, st.W, st.H);
@@ -728,7 +737,8 @@
       pts.forEach((q, i) => dot(c, q[0] * st.W, (1 - q[1]) * st.H, 4.5, asg[i] < 0 ? "#94A3B8" : CL[asg[i] % CL.length], "#fff", 1));
       cents.forEach((q, j) => { const x = q[0] * st.W, y = (1 - q[1]) * st.H; c.save(); c.translate(x, y); c.rotate(Math.PI / 4); c.fillStyle = CL[j % CL.length]; c.strokeStyle = "#111"; c.lineWidth = 2.5; c.fillRect(-9, -9, 18, 18); c.strokeRect(-9, -9, 18, 18); c.restore(); });
       c.strokeStyle = P.ink; c.lineWidth = 1.5; c.strokeRect(.75, .75, st.W - 1.5, st.H - 1.5);
-      const I = inertia(); kr.innerHTML = `<span>iterations <b>${it}</b></span><span>inertia (sum of squared distances) <b>${isNaN(I) ? "–" : fm(I, 3)}</b></span>`;
+      const I = inertia(); emit(el, { it, inertia: I, k: S.k, converged: el._conv || false, phase, trueK, ref });
+      kr.innerHTML = `<span>iterations <b>${it}</b></span><span>inertia (sum of squared distances) <b>${isNaN(I) ? "–" : fm(I, 3)}</b></span>`;
       note.textContent = !cents.length ? "Start by dropping k random centers (diamonds)." : phase === "move" ? "Each point now belongs to its closest center. Next: move every center to the average of its points." : "Centers moved. Re-assign the points: some may switch clusters. When no point switches, k-means has converged.";
     }
     bindSliders(el, S, () => { cents = []; asg = pts.map(() => -1); it = 0; phase = "place"; draw(); }, { k: v => String(v) });
@@ -769,6 +779,7 @@
       s += `<circle cx="${ox}" cy="150" r="19" fill="#fff" stroke="${P.ink}" stroke-width="2"/><text x="${ox}" y="155" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="12">ŷ</text>
         <text x="${ix}" y="280" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="${P.muted}">input</text><text x="${hx}" y="290" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="${P.muted}">hidden (${act})</text><text x="${ox}" y="280" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="${P.muted}">sigmoid</text>`;
       sv.innerHTML = s;
+      emit(el, { acc: right / data.length, epoch, loss, set, h: S.h, act });
       nr.innerHTML = `<span>epoch <b>${epoch}</b></span><span>loss <b>${isNaN(loss) ? "–" : fm(loss, 3)}</b></span><span>accuracy <b>${Math.round(right / data.length * 100)}%</b></span>`;
       note.textContent = S.h === 1 ? "With one hidden neuron the network can only draw one straight-ish boundary, just like logistic regression." : set === "xor" && S.h < 3 ? "XOR needs at least 2 hidden neurons — and 3 or 4 train far more reliably." : "Each hidden neuron makes one soft straight cut through the plane; the output neuron combines the cuts into a curved boundary.";
       el.querySelectorAll("[data-s]").forEach(b => b.classList.toggle("on", b.dataset.s === set)); el.querySelectorAll("[data-a]").forEach(b => b.classList.toggle("on", b.dataset.a === act));
@@ -806,6 +817,7 @@
       c2.strokeStyle = "rgba(100,116,139,.5)"; c2.setLineDash([4, 4]); c2.beginPath(); c2.moveTo(m2.X(0), m2.Y(0)); c2.lineTo(m2.X(1), m2.Y(1)); c2.stroke(); c2.setLineDash([]);
       c2.strokeStyle = P.a; c2.lineWidth = 3; c2.beginPath(); roc.forEach(([x, y], i) => i ? c2.lineTo(m2.X(x), m2.Y(y)) : c2.moveTo(m2.X(x), m2.Y(y))); c2.stroke();
       dot(c2, m2.X(fpr), m2.Y(rec), 7, P.b, "#fff", 2.5); c2.font = "700 11px \"JetBrains Mono\", monospace"; c2.fillStyle = P.ink; c2.fillText("AUC " + auc.toFixed(2), m2.X(.45), m2.Y(.12));
+      emit(el, { prec, rec, f1, acc, fpr, t: S.t, sep: S.sep, auc });
       cm.innerHTML = `<table class="xl-cmt"><tr><th></th><th>Predicted +</th><th>Predicted −</th></tr><tr><th>Actually +</th><td class="g">TP <b>${q.tp}</b></td><td class="r">FN <b>${q.fn}</b></td></tr><tr><th>Actually −</th><td class="r">FP <b>${q.fp}</b></td><td class="g">TN <b>${q.tn}</b></td></tr></table>
         <div class="xl-read"><span>Accuracy <b>${fm(acc, 3)}</b></span><span>Precision TP/(TP+FP) <b>${fm(prec, 3)}</b></span><span>Recall TP/(TP+FN) <b>${fm(rec, 3)}</b></span><span>F1 <b>${fm(f1, 3)}</b></span><span>False positive rate <b>${fm(fpr, 3)}</b></span></div>`;
     }
@@ -840,7 +852,7 @@
       [[0, P.ink, "train"], [1, P.b, "test"]].forEach(([k, col, nm]) => { c2.strokeStyle = col; c2.lineWidth = 2.6; c2.beginPath(); errs.forEach((e, d) => { const y = m2.Y(Math.min(1, e[k])); d ? c2.lineTo(m2.X(d), y) : c2.moveTo(m2.X(d), y); }); c2.stroke();
         c2.fillStyle = col; c2.font = "700 11px \"JetBrains Mono\", monospace"; c2.fillText(nm, m2.X(.3), m2.Y(k ? .9 : .78)); });
       c2.strokeStyle = P.a; c2.setLineDash([4, 3]); c2.beginPath(); c2.moveTo(m2.X(S.deg), m2.pad.t); c2.lineTo(m2.X(S.deg), m2.pad.t + m2.ph); c2.stroke(); c2.setLineDash([]);
-      const [etr, ete] = [mse(w, tr), mse(w, te)];
+      const [etr, ete] = [mse(w, tr), mse(w, te)]; emit(el, { deg: S.deg, lam: S.lam, etr, ete });
       rd.innerHTML = `<span>Training error <b>${fm(etr, 4)}</b></span><span>Test error <b>${fm(ete, 4)}</b></span><span>Weights <b>${w.length}</b>, biggest |w| <b>${fm(Math.max(...w.map(Math.abs)), 1)}</b></span>
         <span class="xl-sum">${S.deg <= 1 ? "Underfitting (high bias): too simple to follow the curve, so both errors are high." : ete > etr * 3 && S.deg >= 7 ? "Overfitting (high variance): the curve threads every training point but swings wildly between them, so test error shoots up." : "A good balance: low training error and low test error."}${S.lam > -4 ? " Regularization is shrinking the weights, which smooths the curve." : ""}</span>`;
     }
@@ -855,6 +867,7 @@
     const bars = el.querySelector(".xl-bars"), sr = el.querySelector(".xl-sr");
     function draw() {
       const z = names.map((_, i) => S["z" + i] / S.T), mx = Math.max(...z), e = z.map(v => Math.exp(v - mx)), sum = e.reduce((a, b) => a + b, 0), pr = e.map(v => v / sum);
+      emit(el, { probs: pr, truth, T: S.T, top: pr.indexOf(Math.max(...pr)) });
       bars.innerHTML = names.map((n, i) => `<div class="xl-bar ${i === truth ? "true" : ""}" data-i="${i}"><span>${esc(n)}</span><i style="width:${(pr[i] * 100).toFixed(1)}%;background:${CL[i % CL.length]}"></i><b>${(pr[i] * 100).toFixed(1)}%</b></div>`).join("");
       sr.innerHTML = `<span>Σ probabilities <b>${fm(pr.reduce((a, b) => a + b, 0), 3)}</b></span><span>Cross-entropy loss −ln p(${esc(names[truth])}) <b>${fm(-Math.log(pr[truth]), 3)}</b></span><span class="xl-sum">p<sub>i</sub> = e<sup>z<sub>i</sub>/T</sup> / Σ e<sup>z<sub>j</sub>/T</sup>. Low T makes the biggest logit win almost everything; high T flattens toward ${fm(1 / names.length * 100, 1)}% each.</span>`;
     }
@@ -897,6 +910,7 @@
       c.lineWidth = 1.5; c.strokeRect(.75, .75, st.W - 1.5, st.H - 1.5);
       const s = score(feat, t), root = gini(data.filter(q => !q[2]).length, data.filter(q => q[2]).length), nm = feat ? "x₂" : "x₁";
       const side = (lab, a, b, g) => `<div class="xl-node"><b>${lab}</b><span><i style="background:${CA}"></i>${a} A &nbsp; <i style="background:${CB}"></i>${b} B</span><span>Gini = 1 − (${a}/${a + b || 1})² − (${b}/${a + b || 1})² = <b>${fm(g, 3)}</b></span></div>`;
+      emit(el, { gain: root - s.w, feat, t, weighted: s.w });
       out.innerHTML = `<div class="xl-node root"><b>Is ${nm} &lt; ${t.toFixed(2)}?</b><span>Gini before the split: <b>${fm(root, 3)}</b></span></div><div class="xl-kids">${side("Yes", s.la, s.lb, s.gl)}${side("No", s.ra, s.rb, s.gr)}</div>
         <div class="xl-read"><span>Weighted Gini after <b>${fm(s.w, 3)}</b></span><span>Gini gain <b>${fm(root - s.w, 3)}</b></span></div><p class="xl-note">Gini impurity is 0 for a pure group and 0.5 for a 50/50 mix. The tree tries every feature and threshold and keeps the one with the biggest gain.</p>`;
       el.querySelectorAll("[data-act=f0],[data-act=f1]").forEach(b => b.classList.toggle("on", b.dataset.act === "f" + feat));
@@ -925,6 +939,7 @@
       pts.forEach(([x, y]) => { const d = (x - mean[0]) * u[0] + (y - mean[1]) * u[1], px = mean[0] + d * u[0], py = mean[1] + d * u[1]; v += d * d;
         c.strokeStyle = "rgba(234,88,12,.45)"; c.lineWidth = 1.2; c.beginPath(); c.moveTo(m.X(x), m.Y(y)); c.lineTo(m.X(px), m.Y(py)); c.stroke(); dot(c, m.X(px), m.Y(py), 2.6, P.b); });
       pts.forEach(([x, y]) => dot(c, m.X(x), m.Y(y), 4.2, P.ink + "cc")); c.restore(); v /= pts.length;
+      emit(el, { share: v / total, ang: S.ang, best });
       rd.innerHTML = `<span>Variance along the line <b>${fm(v, 3)}</b></span><span>Share of total variance <b>${Math.round(v / total * 100)}%</b></span><span>PC1 is at <b>${Math.round(best)}°</b></span>`;
     }
     bindSliders(el, S, draw, { ang: v => v + "°" });
@@ -1023,5 +1038,5 @@
     });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
-  window.XLabs = { boot };
+  window.XLabs = { boot, gatePath, gateSVG, G, makeData, rng, gauss, emit, stage, plot, dot, PAL, CL, shade: typeof shade !== "undefined" ? shade : null };
 })();

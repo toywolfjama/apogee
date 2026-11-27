@@ -9,6 +9,7 @@ window.SITE_COURSES = [
     name: "AP Physics 1",
     blurb: "Algebra-based mechanics: motion, forces, energy, momentum, rotation and fluids.",
     units: [
+      { id: "workshop", name: "Workshop: 8 hands-on missions", path: "courses/ap-physics-1/workshop.html", ready: true, workshop: 8 },
       { id: "unit-1", name: "Unit 1: Kinematics", path: "courses/ap-physics-1/unit-1.html", ready: true },
       { id: "unit-2", name: "Unit 2: Force and Translational Dynamics", path: "courses/ap-physics-1/unit-2.html", ready: true },
       { id: "unit-3", name: "Unit 3: Work, Energy & Power (+ Momentum)", path: "courses/ap-physics-1/unit-3.html", ready: true },
@@ -24,6 +25,7 @@ window.SITE_COURSES = [
     name: "AP Computer Science A",
     blurb: "Java: objects and methods, selection and iteration, writing classes, and data collections.",
     units: [
+      { id: "workshop", name: "Workshop: 7 hands-on missions", path: "courses/ap-csa/workshop.html", ready: true, workshop: 7 },
       { id: "unit-1", name: "Unit 1: Using Objects and Methods", path: "courses/ap-csa/unit-1.html", ready: true },
       { id: "unit-2", name: "Unit 2: Selection and Iteration", path: "courses/ap-csa/unit-2.html", ready: true },
       { id: "unit-3", name: "Unit 3: Class Creation", path: "courses/ap-csa/unit-3.html", ready: true },
@@ -35,6 +37,7 @@ window.SITE_COURSES = [
     name: "French",
     blurb: "From your first bonjour to college-level grammar: the basics, then the subjunctive, si clauses and essay writing.",
     units: [
+      { id: "workshop", group: "Workshop", name: "Workshop: 9 hands-on missions", path: "courses/french-1/workshop.html", ready: true, workshop: 9 },
       { id: "unit-1", group: "Level 1 · The basics", name: "Unit 1: Bonjour ! The basics", path: "courses/french-1/unit-1.html", ready: true },
       { id: "unit-2", group: "Level 1 · The basics", name: "Unit 2: People and things", path: "courses/french-1/unit-2.html", ready: true },
       { id: "unit-3", group: "Level 1 · The basics", name: "Unit 3: Verbs in the present", path: "courses/french-1/unit-3.html", ready: true },
@@ -56,6 +59,7 @@ window.SITE_COURSES = [
     name: "Math: AP Precalculus",
     blurb: "The algebra you need first, then AP Precalculus: polynomials, exponentials and logs, trig and polar.",
     units: [
+      { id: "workshop", group: "Workshop", name: "Workshop: 8 hands-on missions", path: "courses/math/workshop.html", ready: true, workshop: 8 },
       { id: "pre-1", group: "Before Precalc · What to know first", name: "Unit 1: Algebra toolkit", path: "courses/math/pre-1.html", ready: true },
       { id: "pre-2", group: "Before Precalc · What to know first", name: "Unit 2: Linear equations and lines", path: "courses/math/pre-2.html", ready: true },
       { id: "pre-3", group: "Before Precalc · What to know first", name: "Unit 3: Quadratics", path: "courses/math/pre-3.html", ready: true },
@@ -72,6 +76,7 @@ window.SITE_COURSES = [
     name: "Intro to Computer Engineering",
     blurb: "Circuits and transistors, binary, logic gates, adders, flip-flops, state machines, processors and memory.",
     units: [
+      { id: "workshop", name: "Workshop: 11 hands-on missions", path: "courses/comp-eng/workshop.html", ready: true, workshop: 11 },
       { id: "ce-1", name: "Unit 1: Circuits and Transistors", path: "courses/comp-eng/ce-1.html", ready: true },
       { id: "ce-2", name: "Unit 2: Number Systems and Data", path: "courses/comp-eng/ce-2.html", ready: true },
       { id: "ce-3", name: "Unit 3: Boolean Logic and Gates", path: "courses/comp-eng/ce-3.html", ready: true },
@@ -85,6 +90,7 @@ window.SITE_COURSES = [
     name: "Machine Learning",
     blurb: "Data and models, regression, classification, generalization, neural networks, clustering and transformers.",
     units: [
+      { id: "workshop", name: "Workshop: 11 hands-on missions", path: "courses/ml/workshop.html", ready: true, workshop: 11 },
       { id: "ml-1", name: "Unit 1: Foundations and Data", path: "courses/ml/ml-1.html", ready: true },
       { id: "ml-2", name: "Unit 2: Linear Regression and Gradient Descent", path: "courses/ml/ml-2.html", ready: true },
       { id: "ml-3", name: "Unit 3: Classification", path: "courses/ml/ml-3.html", ready: true },
@@ -98,6 +104,7 @@ window.SITE_COURSES = [
     name: "SAT",
     blurb: "The digital SAT: strategy, Reading and Writing, Math, and a full-length practice test.",
     units: [
+      { id: "workshop", name: "Workshop: 5 hands-on missions", path: "courses/sat/workshop.html", ready: true, workshop: 5 },
       { id: "sat-1", name: "Format and strategy", path: "courses/sat/sat-1.html", ready: true },
       { id: "sat-tactics", name: "Strategy playbook", path: "courses/sat/sat-tactics.html", ready: true },
       { id: "sat-desmos", name: "Desmos and regression tactics", path: "courses/sat/sat-desmos.html", ready: true },
@@ -115,6 +122,7 @@ window.SITE_COURSES = [
     name: "ACT",
     blurb: "The enhanced ACT: English, Math, Reading, optional Science and Writing, and a practice test.",
     units: [
+      { id: "workshop", name: "Workshop: 4 hands-on missions", path: "courses/act/workshop.html", ready: true, workshop: 4 },
       { id: "act-1", name: "Format and strategy", path: "courses/act/act-1.html", ready: true },
       { id: "act-tactics", name: "Strategy playbook", path: "courses/act/act-tactics.html", ready: true },
       { id: "act-calc", name: "Calculator tactics: Desmos and TI-84", path: "courses/act/act-calc.html", ready: true },

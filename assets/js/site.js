@@ -558,4 +558,22 @@
   revealIn(document);
   // quiz cards are re-rendered on filter changes
   document.querySelectorAll(".quiz").forEach(q => new MutationObserver(() => revealIn(q)).observe(q, { childList: true, subtree: true }));
+  /* link every unit page to its course workshop */
+  try {
+    const c = courses.find(x => x.id === body.dataset.course), w = c && c.units.find(u => u.id === "workshop"), hero = document.querySelector(".hero");
+    if (w && hero && body.dataset.unit !== "workshop" && !hero.querySelector(".ws-chip")) {
+      const a = document.createElement("a"); a.className = "ws-chip"; a.href = root + w.path;
+      a.innerHTML = `<span aria-hidden="true">★</span> Practice it in the workshop <small>${w.workshop} hands-on missions</small> →`;
+      (hero.querySelector("p") || hero).after(a);
+    }
+  } catch (e) {}
+  /* remember recently visited pages for "continue where you left off" on the home page */
+  try {
+    if (body.dataset.course && /\/courses\//.test(location.pathname)) {
+      const K = "margin-recent", path = location.pathname.replace(/^.*?(courses\/)/, "$1");
+      let a = JSON.parse(localStorage.getItem(K) || "[]").filter(x => x.p !== path);
+      a.unshift({ p: path, t: document.title.replace(/ \| Margin$/, ""), c: body.dataset.course, ts: Date.now() });
+      localStorage.setItem(K, JSON.stringify(a.slice(0, 6)));
+    }
+  } catch (e) {}
 })();

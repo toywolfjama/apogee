@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Workshop | Margin</title>
+<meta name="description" content="Interactive Math workshop: hands-on missions with goals, hints and stars.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid" data-root="../../" data-course="math" data-unit="workshop">
+
+<div class="hero">
+  <span class="kicker">Math · Workshop</span>
+  <h1>The <span class="hl">graphing</span> workshop</h1>
+  <p>Match target graphs by dragging sliders, find exact values without a calculator, and race an algebra sprint. If you can match a graph, you understand its equation.</p>
+</div>
+<div class="ws-meter"></div>
+
+<main class="page">
+<div class="chapter" id="ws-ch1" data-title="Lines and Parabolas" data-short="Polynomials">
+<section class="topic mission" id="m-m-line" data-m='{"type": "match", "expr": "m*x+b", "params": {"m": [-4, 4, 0.5, 0, "m"], "b": [-6, 6, 0.5, 0, "b"]}, "target": {"m": 1.5, "b": -2}, "show": "y = {m}x + {b}", "x": [-6, 6], "y": [-8, 8], "gx": 1, "gy": 2, "tol": 0.012, "id": "m-line", "win": "Slope = rise/run = 3/2, and the line crosses the y-axis at −2.", "hints": ["Read the y-intercept first: where does the target cross the y-axis?", "From the intercept, go right 2 and count how far up the line goes."]}'>
+  <h2><span class="pill">Mission 1</span>Match the line</h2>
+  <p class="sub">Drag the sliders until your blue line sits exactly on the dashed orange target.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-m-vertex" data-m='{"type": "match", "expr": "a*(x-h)^2+k", "params": {"a": [-3, 3, 0.5, 1, "a"], "h": [-5, 5, 0.5, 0, "h"], "k": [-6, 6, 0.5, 0, "k"]}, "target": {"a": -0.5, "h": 2, "k": 4}, "show": "y = {a}(x − {h})² + {k}", "x": [-6, 8], "y": [-8, 8], "gx": 1, "gy": 2, "tol": 0.012, "id": "m-vertex", "win": "The vertex is (h, k) = (2, 4). It opens downward and is wider than y = x², so a = −0.5.", "hints": ["The vertex is the highest point. Its coordinates are (h, k).", "From the vertex, move 2 right: the graph drops by 2. a·2² = −2 → a = −0.5."]}'>
+  <h2><span class="pill">Mission 2</span>Match the parabola</h2>
+  <p class="sub">Vertex form: y = a(x − h)² + k. Find a, h and k.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-m-roots" data-m='{"type": "match", "expr": "a*(x-p)*(x-q)", "params": {"a": [-2, 2, 0.25, 1, "a"], "p": [-6, 6, 0.5, 0, "p"], "q": [-6, 6, 0.5, 0, "q"]}, "target": {"a": 0.5, "p": -3, "q": 1}, "show": "y = {a}(x − {p})(x − {q})", "x": [-7, 5], "y": [-8, 8], "gx": 1, "gy": 2, "tol": 0.012, "id": "m-roots", "win": "Zeros at x = −3 and x = 1. At x = 0 the target is −1.5 = a(3)(−1), so a = 0.5.", "hints": ["Set p and q to the two x-intercepts first.", "Then use the y-intercept: y(0) = a·p·q."]}'>
+  <h2><span class="pill">Mission 3</span>Match the zeros</h2>
+  <p class="sub">Factored form: y = a(x − p)(x − q). The zeros are where the graph crosses the x-axis.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+<div class="chapter" id="ws-ch2" data-title="Exponential, Trig and Logs" data-short="Curves">
+<section class="topic mission" id="m-m-exp" data-m='{"type": "match", "expr": "a*b^x", "params": {"a": [0.5, 5, 0.5, 1, "a"], "b": [0.25, 3, 0.25, 1, "b"]}, "target": {"a": 2, "b": 1.5}, "show": "y = {a} · {b}ˣ", "x": [-4, 5], "y": [-1, 16], "gx": 1, "gy": 2, "tol": 0.012, "id": "m-exp", "win": "a = 2 (the y-intercept) and each step right multiplies by 1.5: 2, 3, 4.5, 6.75…", "hints": ["Read y at x = 0: that&#39;s a.", "Compare y at x = 1 with y at x = 0: the ratio is b."]}'>
+  <h2><span class="pill">Mission 4</span>Match the exponential</h2>
+  <p class="sub">y = a · bˣ. a is the starting value at x = 0, b is the growth factor per step.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-m-sin" data-m='{"type": "match", "expr": "A*sin(B*(x-C))+D", "params": {"A": [0, 4, 0.5, 1, "A"], "B": [0.5, 3, 0.5, 1, "B"], "C": [-3, 3, 0.25, 0, "C"], "D": [-3, 3, 0.5, 0, "D"]}, "target": {"A": 2, "B": 2, "C": 0.5, "D": 1}, "show": "y = {A} sin({B}(x − {C})) + {D}", "x": [-4, 4], "y": [-4, 5], "gx": 1, "gy": 1, "tol": 0.012, "id": "m-sin", "win": "Midline y = 1, amplitude 2, period π (so B = 2), and the wave starts its rise at x = 0.5.", "hints": ["The midline is halfway between the max and min.", "Period = 2π / B. Measure the distance between two peaks."]}'>
+  <h2><span class="pill">Mission 5</span>Match the wave</h2>
+  <p class="sub">y = A sin(B(x − C)) + D. Amplitude, frequency, shift, midline.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-m-log" data-m='{"type": "match", "expr": "a*ln(x-h)+k", "params": {"a": [-3, 3, 0.5, 1, "a"], "h": [-4, 4, 0.5, 0, "h"], "k": [-4, 4, 0.5, 0, "k"]}, "target": {"a": 2, "h": -1, "k": 1}, "show": "y = {a} ln(x − {h}) + {k}", "x": [-3, 8], "y": [-6, 6], "gx": 1, "gy": 1, "tol": 0.012, "id": "m-log", "win": "Asymptote at x = −1 gives h = −1. At x = 0, ln(1) = 0 so y = k = 1. Then a stretches it vertically: a = 2.", "hints": ["Find the vertical asymptote: that&#39;s h.", "One unit right of the asymptote, ln(1) = 0, so the graph passes through (h + 1, k)."]}'>
+  <h2><span class="pill">Mission 6</span>Match the logarithm</h2>
+  <p class="sub">y = a · ln(x − h) + k. The vertical asymptote is at x = h.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+<div class="chapter" id="ws-ch3" data-title="No Calculator" data-short="Exact">
+<section class="topic mission" id="m-m-exact" data-m='{"type": "calc", "pass": 0.6, "qs": [{"q": "log₂ 32 = ?", "a": 5, "abs": 0, "x": "2⁵ = 32."}, {"q": "8^(2/3) = ?", "a": 4, "abs": 0, "x": "Cube root of 8 is 2; 2² = 4."}, {"q": "sin(π/6) = ?", "a": 0.5, "abs": 0.001, "show": "1/2", "x": "30° in a 30-60-90 triangle: opposite/hypotenuse = 1/2."}, {"q": "cos(π) = ?", "a": -1, "abs": 0.001, "x": "The point on the unit circle at π is (−1, 0)."}, {"q": "Solve 3ˣ = 81.", "a": 4, "abs": 0, "x": "81 = 3⁴."}, {"q": "ln(e³) = ?", "a": 3, "abs": 0, "x": "ln and eˣ undo each other."}, {"q": "Slope of the line through (2, 5) and (6, −3)?", "a": -2, "abs": 0, "x": "(−3 − 5)/(6 − 2) = −8/4."}], "id": "m-exact", "win": "Exact values come up on every AP Precalc exam, including the no-calculator section."}'>
+  <h2><span class="pill">Mission 7</span>Exact values</h2>
+  <p class="sub">No calculator. Type exact numbers (fractions are fine, e.g. 1/2).</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-m-sprint" data-m='{"type": "sprint", "time": 240, "pass": 0.75, "qs": [{"q": "Solve 3x − 7 = 11.", "a": 6, "x": "3x = 18."}, {"q": "If f(x) = x² − 2x, what is f(−3)?", "a": 15, "x": "9 + 6."}, {"q": "What is the vertex x-coordinate of y = x² − 8x + 3?", "a": 4, "x": "x = −b/(2a) = 8/2."}, {"q": "Simplify (2³ · 2⁴) / 2⁵ to a number.", "a": 4, "x": "2^(3 + 4 − 5) = 2²."}, {"q": "The sum of the roots of x² − 5x + 6 = 0?", "a": 5, "x": "Roots 2 and 3 (or −b/a)."}, {"q": "Evaluate √50 · √2.", "a": 10, "x": "√100."}, {"q": "A quantity doubles every 3 years. Starting at 100, what is it after 9 years?", "a": 800, "x": "Three doublings: 100 · 2³."}, {"q": "Solve |x − 4| = 0.", "a": 4, "x": "Only x = 4."}], "id": "m-sprint", "win": "Fluency with the basics is what frees up time for the hard questions."}'>
+  <h2><span class="pill">Mission 8</span>Algebra sprint</h2>
+  <p class="sub">Eight quick algebra questions in four minutes. Type numbers.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+</main>
+
+<footer>Margin · Math workshop · Drag the sliders until the curves match</footer>
+
+
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/workshop.js"></script>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

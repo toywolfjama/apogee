@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Computer Engineering Workshop | Margin</title>
+<meta name="description" content="Interactive Computer Engineering workshop: hands-on missions with goals, hints and stars.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-ce" data-root="../../" data-course="comp-eng" data-unit="workshop">
+
+<div class="hero">
+  <span class="kicker">Computer Engineering · Workshop</span>
+  <h1>The <span class="hl">hardware</span> workshop</h1>
+  <p>Flip bits, wire gates, write machine code and tune a cache. Each mission has a goal, hints if you need them, and up to three stars.</p>
+</div>
+<div class="ws-meter"></div>
+
+<main class="page">
+<div class="chapter" id="ws-ch1" data-title="Bits and Bytes" data-short="Bits">
+<section class="topic mission" id="m-bits-1" data-m='{"type": "bits", "n": 8, "par": 25, "rounds": [{"t": 5}, {"t": 12}, {"t": 100}, {"t": 255}, {"t": 128}], "id": "bits-1", "win": "Every unsigned number is a sum of place values: 100 = 64 + 32 + 4.", "hints": ["Start from the biggest place value that fits, subtract it, repeat.", "100 = 64 + 32 + 4."]}'>
+  <h2><span class="pill">Mission 1</span>Flip the switches</h2>
+  <p class="sub">A register is a row of switches. Flip bits until the register holds each target number. The clock starts at your first click.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-bits-2" data-m='{"type": "bits", "n": 8, "par": 45, "rounds": [{"t": 60, "as": "hex"}, {"t": 165, "as": "hex"}, {"t": -1, "as": "signed"}, {"t": -100, "as": "signed"}, {"t": 65, "as": "ascii"}, {"t": 122, "as": "ascii"}], "id": "bits-2", "win": "Hex maps 4 bits per digit; negatives use invert-and-add-1; letters are just numbers (&#39;A&#39; = 65).", "hints": ["Each hex digit is 4 bits: 3 = 0011, C = 1100.", "−1 is all ones. For −100: write 100 = 0110 0100, invert to 1001 1011, add 1 → 1001 1100.", "&#39;A&#39; = 65 = 0100 0001; lowercase letters are 32 higher (&#39;a&#39; = 97), so &#39;z&#39; = 122."]}'>
+  <h2><span class="pill">Mission 2</span>Hex, negatives and letters</h2>
+  <p class="sub">Same register, harder targets: hexadecimal, two's complement negatives and ASCII characters.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+<div class="chapter" id="ws-ch2" data-title="Logic Lab" data-short="Gates">
+<section class="topic mission" id="m-gate-xor" data-m='{"type": "gates", "inputs": ["A", "B"], "slots": [{"id": "g", "in": ["A", "B"]}], "outputs": {"Y": "g"}, "target": {"Y": [0, 1, 1, 0]}, "par": 6, "id": "gate-xor", "win": "XOR: 1 when the inputs differ. It&#39;s a 1-bit adder without the carry.", "hints": ["Look at rows 01 and 10 versus 11."]}'>
+  <h2><span class="pill">Mission 3</span>One gate, one job</h2>
+  <p class="sub">Pick the single gate whose output matches the target column.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-gate-ha" data-m='{"type": "gates", "inputs": ["A", "B"], "slots": [{"id": "s", "in": ["A", "B"]}, {"id": "c", "in": ["A", "B"]}], "outputs": {"S": "s", "C": "c"}, "target": {"S": [0, 1, 1, 0], "C": [0, 0, 0, 1]}, "par": 6, "id": "gate-ha", "win": "S = A ⊕ B and C = A · B. Chain these and you can add numbers of any size.", "hints": ["1 + 1 = 10 in binary: sum 0, carry 1."]}'>
+  <h2><span class="pill">Mission 4</span>Build a half adder</h2>
+  <p class="sub">Two outputs this time: the sum bit S and the carry bit C of A + B.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-gate-dm" data-m='{"type": "gates", "inputs": ["A", "B"], "slots": [{"id": "na", "in": ["A"]}, {"id": "nb", "in": ["B"]}, {"id": "g", "in": ["na", "nb"]}], "outputs": {"Y": "g"}, "target": {"Y": [1, 0, 0, 0]}, "palette": ["AND", "OR", "XOR", "NAND", "NOT", "BUF"], "par": 6, "id": "gate-dm", "win": "(A + B)′ = A′ · B′. That&#39;s De Morgan&#39;s law: push the NOT through and flip OR to AND.", "hints": ["NOR is 1 only when both inputs are 0.", "Invert both inputs, then which gate is 1 only when both inverted values are 1?"]}'>
+  <h2><span class="pill">Mission 5</span>De Morgan's trick</h2>
+  <p class="sub">Make a NOR gate's truth table, but you can only use NOT on each input followed by one 2-input gate.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-gate-maj" data-m='{"type": "gates", "inputs": ["A", "B", "C"], "slots": [{"id": "p", "in": ["A", "B"]}, {"id": "q", "in": ["A", "C"]}, {"id": "r", "in": ["B", "C"]}, {"id": "o", "in": ["p", "q", "r"]}], "outputs": {"M": "o"}, "target": {"M": [0, 0, 0, 1, 0, 1, 1, 1]}, "par": 8, "id": "gate-maj", "win": "M = AB + AC + BC: each pair of judges agreeing is enough.", "hints": ["Each of the first three gates should detect a pair voting yes together.", "The last gate fires if any pair agrees."]}'>
+  <h2><span class="pill">Mission 6</span>The voting machine</h2>
+  <p class="sub">Three judges vote (A, B, C). The light turns on when at least two vote yes.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-gate-fa" data-m='{"type": "gates", "inputs": ["A", "B", "Cin"], "slots": [{"id": "x1", "in": ["A", "B"]}, {"id": "x2", "in": ["x1", "Cin"]}, {"id": "a1", "in": ["A", "B"]}, {"id": "a2", "in": ["x1", "Cin"]}, {"id": "o1", "in": ["a1", "a2"]}], "outputs": {"S": "x2", "Cout": "o1"}, "target": {"S": [0, 1, 1, 0, 1, 0, 0, 1], "Cout": [0, 0, 0, 1, 0, 1, 1, 1]}, "par": 12, "id": "gate-fa", "win": "S = A ⊕ B ⊕ Cin, Cout = AB + Cin(A ⊕ B). Thirty-two of these in a row add 32-bit numbers.", "hints": ["S is 1 when an odd number of inputs are 1.", "Cout: either A and B are both 1, or exactly one of them is 1 and Cin is 1."]}'>
+  <h2><span class="pill">Mission 7</span>Boss level: the full adder</h2>
+  <p class="sub">Add three bits A + B + Cin. Five gates, two outputs. This is the circuit inside every adder in your computer.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-kmap-ac" data-m='{"type": "lab", "task": "Which minterms have A = 1 and C = 1? Turn exactly those cells on.", "lab": {"type": "kmap", "vars": ["A", "B", "C", "D"], "ones": [], "title": "Your K-map", "sub": "Click a cell to make it 1."}, "goal": "expr === &#39;AC&#39;", "need": "F = AC", "show": [["Current F =", "expr"]], "id": "kmap-ac", "win": "AC is a group of four: m10, m11, m14, m15. B and D change across the group, so they drop out.", "hints": ["A = 1 means the bottom two rows (11 and 10).", "C = 1 means the columns where CD is 11 or 10. Turn on the four cells where those rows and columns cross."]}'>
+  <h2><span class="pill">Mission 8</span>Draw it on a K-map</h2>
+  <p class="sub">Click cells in the Karnaugh map until the simplest expression is exactly F = AC.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+<div class="chapter" id="ws-ch3" data-title="The Machine" data-short="CPU">
+<section class="topic mission" id="m-cpu-1" data-m='{"type": "cpuprog", "task": "Output the value of M[13] + M[14] − M[15], then stop.", "data": {"13": 9, "14": 6, "15": 4}, "target": [11], "lines": 8, "par": 5, "id": "cpu-1", "win": "LOAD, ADD, SUB, OUT, HALT: five instructions, each one fetched, decoded and executed.", "hints": ["Get M[13] into the accumulator with LOAD.", "LOAD 13 → ADD 14 → SUB 15 → OUT → HALT."]}'>
+  <h2><span class="pill">Mission 9</span>Your first program</h2>
+  <p class="sub">Write machine instructions that output M[13] + M[14] − M[15].</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-cpu-2" data-m='{"type": "cpuprog", "task": "Output 3, 2, 1 and stop. M[14] = 3 and M[15] = 1.", "data": {"14": 3, "15": 1}, "target": [3, 2, 1], "lines": 10, "par": 6, "id": "cpu-2", "win": "A loop is just a conditional jump (JZ) plus an unconditional jump back (JMP).", "hints": ["LOAD 14, then OUT, then SUB 15.", "After subtracting, if ACC is 0 jump to a HALT; otherwise JMP back to the OUT."]}'>
+  <h2><span class="pill">Mission 10</span>Make it loop</h2>
+  <p class="sub">Output 3, 2, 1 using a loop (no copy-pasting three OUTs).</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-cache-1" data-m='{"type": "lab", "task": "Choose a layout, then press “Play: conflict 0, 4, 0, 4”.", "lab": {"type": "cache", "addrBits": 6, "lines": 4, "block": 1, "ways": 1, "seqs": [{"name": "conflict 0, 4, 0, 4", "a": [0, 4, 0, 4, 0, 4, 1, 5]}]}, "goal": "total >= 8 &amp;&amp; rate >= 0.5", "need": "hit rate ≥ 50% on 8 accesses", "show": [["Accesses", "total"], ["Hit rate", "rate", "pct"]], "id": "cache-1", "win": "With 2 ways, addresses 0 and 4 can live in the same set at the same time. Associativity removes conflict misses.", "hints": ["Direct-mapped gives every address exactly one possible line.", "Switch to 2-way set associative, then play again."]}'>
+  <h2><span class="pill">Mission 11</span>Fix the cache conflict</h2>
+  <p class="sub">Play the “conflict” sequence. In a direct-mapped cache addresses 0 and 4 fight over the same line. Change the layout to get a hit rate of at least 50%.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+</main>
+
+<footer>Margin · Computer Engineering workshop · Progress saves in this browser</footer>
+
+
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/labs.js"></script>
+<script src="../../assets/js/workshop.js"></script>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

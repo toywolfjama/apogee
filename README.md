@@ -5,6 +5,7 @@
 - AP Physics 1, AP Computer Science A, French, AP Precalculus, SAT and ACT
 - **Intro to Computer Engineering** (6 units) — `courses/comp-eng/`
 - **Machine Learning** (6 units) — `courses/ml/`
+- **Workshops**: hands-on missions for every course — `courses/<course>/workshop.html` (built by `tools/pages/ws_*.py`)
 
 ## Structure
 
@@ -16,6 +17,7 @@ assets/js/site.js              Header, course menu, chapter menu, quizzes, site 
 assets/js/sims.js              2D animated physics examples (add new types here)
 assets/js/exam.js              Timed practice exam engine (MCQ + FRQ with rubric)
 assets/js/labs.js              Interactive labs for computer engineering and machine learning
+assets/js/workshop.js          Workshop missions (goals, hints, stars, saved progress)
 courses/<course>/<unit>.html   One page per unit
 templates/unit-template.html   Starting point for new units
 ```

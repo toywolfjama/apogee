@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Learning Workshop | Margin</title>
+<meta name="description" content="Interactive Machine Learning workshop: hands-on missions with goals, hints and stars.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-grid th-ml" data-root="../../" data-course="ml" data-unit="workshop">
+
+<div class="hero">
+  <span class="kicker">Machine Learning · Workshop</span>
+  <h1>The <span class="hl">model-training</span> workshop</h1>
+  <p>Fit lines by hand, tune learning rates, draw decision boundaries, beat overfitting and train a neural network. Every mission has a goal you can check live.</p>
+</div>
+<div class="ws-meter"></div>
+
+<main class="page">
+<div class="chapter" id="ws-ch1" data-title="Fitting" data-short="Fitting">
+<section class="topic mission" id="m-ml-fit" data-m='{"type": "lab", "task": "Drag w (slope) and b (intercept). Watch the red residuals shrink.", "lab": {"type": "regress", "noFit": true, "w": -1, "b": 6}, "goal": "mse < 0.35 &amp;&amp; steps == 0", "need": "MSE < 0.35 using sliders only", "show": [["MSE", "mse"], ["w", "w"], ["b", "b"]], "id": "ml-fit", "win": "The best possible line here has MSE ≈ 0.30 (w ≈ 0.93, b ≈ 1.72). You just did by hand what least squares does with a formula.", "hints": ["First get the slope roughly right: the points rise about 1 unit per hour.", "Then slide b until the line passes through the middle of the cloud."]}'>
+  <h2><span class="pill">Mission 1</span>Fit it by eye</h2>
+  <p class="sub">Use only the w and b sliders (no gradient descent) to get the mean squared error below 0.35.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-ml-gd" data-m='{"type": "lab", "task": "Set the learning rate, then use “1 gradient step” or “20 steps”.", "lab": {"type": "regress", "noFit": true, "w": 0, "b": 0}, "goal": "mse < 0.5 &amp;&amp; steps > 0 &amp;&amp; steps <= 60", "need": "MSE < 0.5 within 60 steps", "show": [["MSE", "mse"], ["steps", "steps"]], "id": "ml-gd", "win": "Gradient descent adjusts both parameters at once, always moving downhill on the loss surface.", "hints": ["The default learning rate 0.010 is too slow: 60 steps only gets you to about 0.59.", "Anything from about 0.020 to 0.032 works. At 0.033 or more the steps overshoot and the loss explodes — move the w and b sliders back to 0 to restart."]}'>
+  <h2><span class="pill">Mission 2</span>Let the math do it</h2>
+  <p class="sub">Start from w = 0, b = 0 and let gradient descent fit the line. Get the MSE below 0.5 in 60 steps or fewer by choosing a good learning rate.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-ml-lr1" data-m='{"type": "lab", "task": "Pick the smooth bowl, set α, press “1 step”. Reset and retry as needed.", "lab": {"type": "gd", "curves": ["bowl", "steep"], "lr": 0.2}, "goal": "curve == &#39;bowl&#39; &amp;&amp; steps >= 1 &amp;&amp; steps <= 2 &amp;&amp; Math.abs(w - 3) < 0.05", "need": "|w − 3| < 0.05 in ≤ 2 steps", "show": [["w", "w"], ["steps", "steps"], ["α", "lr"]], "id": "ml-lr1", "win": "For L = (w − 3)²/2 the slope is (w − 3), so α = 1 jumps straight to the minimum. Real losses aren&#39;t this tidy, which is why α is tuned by experiment.", "hints": ["The slope here equals w − 3.", "Step: w − α(w − 3). Which α makes that equal 3 for any w?"]}'>
+  <h2><span class="pill">Mission 3</span>The perfect step size</h2>
+  <p class="sub">On the smooth bowl, choose a learning rate that lands exactly at the bottom (w = 3) in at most 2 steps.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-ml-lr2" data-m='{"type": "lab", "task": "Pick “Bumpy”, then choose a start w and learning rate and run.", "lab": {"type": "gd", "curves": ["bumpy", "bowl"], "lr": 0.2}, "goal": "curve == &#39;bumpy&#39; &amp;&amp; loss < 1.25 &amp;&amp; Math.abs(slope) < 0.05", "need": "loss < 1.25 with slope ≈ 0", "show": [["w", "w"], ["loss", "loss"], ["slope", "slope"]], "id": "ml-lr2", "win": "Gradient descent only sees the local slope. Where you start decides which valley you end up in, which is why neural networks are trained with random restarts and noisy (stochastic) steps.", "hints": ["Starting at w = −2 rolls into a shallow valley near w = −0.5.", "The deepest valley is near w ≈ 2.2. Start between about 1 and 3."]}'>
+  <h2><span class="pill">Mission 4</span>Escape the local minimum</h2>
+  <p class="sub">On the bumpy curve, find the lowest valley (loss below 1.25) and settle there.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+<div class="chapter" id="ws-ch2" data-title="Classifying" data-short="Classifying">
+<section class="topic mission" id="m-ml-line" data-m='{"type": "boundary", "set": "blobs", "seed": 3, "n": 70, "target": 0.95, "id": "ml-line", "win": "That&#39;s what logistic regression learns automatically: the line w · x + b = 0 that best separates the classes.", "hints": ["Points with a black outline are on the wrong side.", "The blobs sit lower-left and upper-right, so the line should run from upper-left to lower-right."]}'>
+  <h2><span class="pill">Mission 5</span>Be the classifier</h2>
+  <p class="sub">Drag the handles to draw a straight line that separates the blue and orange points with at least 95% accuracy.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-ml-circle" data-m='{"type": "lab", "task": "Choose Circle and logistic regression, then train.", "lab": {"type": "classify", "methods": ["logreg", "knn"], "method": "logreg", "sets": ["blobs", "circle", "xor"]}, "goal": "set == &#39;circle&#39; &amp;&amp; method == &#39;logreg&#39; &amp;&amp; acc >= 0.9", "need": "logistic regression ≥ 90% on Circle", "show": [["accuracy", "acc", "pct"], ["steps", "steps"]], "id": "ml-circle", "win": "With x₁², x₂² and x₁x₂ as features the &#39;line&#39; becomes an ellipse. Feature engineering lets a linear model draw curves.", "hints": ["With only x₁ and x₂ the boundary is a straight line, which can&#39;t enclose a circle.", "Click the Features button to add squared features, then train again."]}'>
+  <h2><span class="pill">Mission 6</span>Curved boundaries</h2>
+  <p class="sub">Train logistic regression on the Circle data to at least 90% accuracy.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-ml-recall" data-m='{"type": "lab", "task": "Drag the threshold. Watch what happens to precision.", "lab": {"type": "threshold"}, "goal": "rec >= 0.98 &amp;&amp; Math.abs(sep - 1.4) < 0.01", "need": "recall ≥ 98%", "show": [["recall", "rec", "pct"], ["precision", "prec", "pct"], ["threshold", "t"]], "id": "ml-recall", "win": "Lowering the threshold catches more positives but raises false alarms: recall goes up, precision goes down. Screening tests deliberately accept that trade.", "hints": ["Recall = TP / (TP + FN). To reduce false negatives, call more things positive.", "Move the threshold left, toward 0.2."]}'>
+  <h2><span class="pill">Mission 7</span>Catch every case</h2>
+  <p class="sub">A disease screening test must catch at least 98% of sick patients. Move the threshold to reach recall ≥ 0.98 (keep the model's separation at 1.40).</p>
+  <div class="m-play"></div>
+</section>
+</div>
+<div class="chapter" id="ws-ch3" data-title="Deeper" data-short="Deeper">
+<section class="topic mission" id="m-ml-ovf" data-m='{"type": "lab", "task": "Set the degree to 9 or more, then use regularization.", "lab": {"type": "overfit", "deg": 9}, "goal": "deg >= 9 &amp;&amp; ete < 0.08", "need": "degree ≥ 9, test error < 0.08", "show": [["degree", "deg"], ["train error", "etr"], ["test error", "ete"]], "id": "ml-ovf", "win": "Regularization penalizes huge weights, so even a very flexible model is forced to stay smooth. Flexibility plus a penalty often beats a simple model.", "hints": ["Unregularized, degree 9 threads every training point and wobbles wildly between them.", "Raise λ to around 10⁻⁴ to 10⁻²."]}'>
+  <h2><span class="pill">Mission 8</span>Tame the wiggles</h2>
+  <p class="sub">Use a degree-9 (or higher) polynomial but keep the test error below 0.08.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-ml-xor" data-m='{"type": "lab", "task": "Pick XOR, set the hidden neurons, press Train. If it gets stuck, try new random weights.", "lab": {"type": "nnet", "sets": ["xor", "circle"], "h": 1}, "goal": "set == &#39;xor&#39; &amp;&amp; h <= 3 &amp;&amp; acc >= 0.97", "need": "XOR, ≤ 3 hidden neurons, ≥ 97%", "show": [["accuracy", "acc", "pct"], ["epoch", "epoch"], ["hidden", "h"]], "id": "ml-xor", "win": "One neuron draws one line; XOR needs two. A hidden layer combines simple cuts into a shape no single line can make, and that&#39;s the whole idea of deep learning.", "hints": ["One hidden neuron can only make one straight cut.", "Use 2 or 3 hidden neurons with tanh. If accuracy stalls near 75%, press “New random weights”."]}'>
+  <h2><span class="pill">Mission 9</span>Solve XOR with a neural network</h2>
+  <p class="sub">Train a network with at most 3 hidden neurons to 97% accuracy on the XOR data.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-ml-km" data-m='{"type": "lab", "task": "Choose k, drop centers, then alternate the steps (or Run to the end). Bad starts can get stuck — try again.", "lab": {"type": "kmeans", "k": 2}, "goal": "converged &amp;&amp; k == trueK &amp;&amp; inertia <= ref * 1.02", "need": "right k, converged, lowest inertia", "show": [["k", "k"], ["iterations", "it"], ["inertia", "inertia"]], "id": "ml-km", "win": "k-means always converges, but only to a local minimum. Libraries run it several times from different starts and keep the lowest inertia.", "hints": ["Count the blobs and set k to match.", "If two centers start in the same blob, drop new centers and run again."]}'>
+  <h2><span class="pill">Mission 10</span>Let the clusters find themselves</h2>
+  <p class="sub">Pick the right k and run k-means until it converges on the best clustering (no center stuck between two blobs).</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-ml-quiz" data-m='{"type": "calc", "pass": 0.6, "qs": [{"q": "Cosine similarity of a = (1, 0) and b = (1, 1)? (2 decimals)", "a": 0.7071, "abs": 0.01, "x": "1 / (1 · √2) ≈ 0.71."}, {"q": "Attention scores for one query are (1, 1). What weight does the first token get?", "a": 0.5, "abs": 0.01, "x": "Equal scores → equal weights."}, {"q": "Scores (2, 0) before softmax. Weight on the first token? (2 decimals)", "a": 0.8808, "abs": 0.01, "x": "e²/(e² + 1) ≈ 7.39/8.39 ≈ 0.88."}, {"q": "q = (1, 2), k = (3, 1), vector length d = 4. Scaled score q·k/√d?", "a": 2.5, "abs": 0.01, "x": "q·k = 5, √4 = 2, so 2.5."}, {"q": "Logits (2, 0) at temperature T = 2. Probability of the first token? (2 decimals)", "a": 0.7311, "abs": 0.01, "x": "Divide by T: (1, 0) → e/(e + 1) ≈ 0.73. Higher T is less confident than the 0.88 above."}], "id": "ml-quiz", "win": "Dot products measure similarity, softmax turns them into weights, and temperature controls how sharp those weights are."}'>
+  <h2><span class="pill">Mission 11</span>Attention by hand</h2>
+  <p class="sub">Five quick calculations from the transformer and embeddings unit.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+</main>
+
+<footer>Margin · Machine Learning workshop · Progress saves in this browser</footer>
+
+
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/wa.js"></script>
+<script src="../../assets/js/math.js"></script>
+<script src="../../assets/js/labs.js"></script>
+<script src="../../assets/js/workshop.js"></script>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

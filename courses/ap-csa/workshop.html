@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP Computer Science A Workshop | Margin</title>
+<meta name="description" content="Interactive AP Computer Science A workshop: hands-on missions with goals, hints and stars.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="th-term" data-root="../../" data-course="ap-csa" data-unit="workshop">
+
+<div class="hero">
+  <span class="kicker">AP Computer Science A · Workshop</span>
+  <h1>The <span class="hl">Java</span> workshop</h1>
+  <p>Trace code like a computer, count loop iterations, assemble scrambled programs and race through exam questions.</p>
+</div>
+<div class="ws-meter"></div>
+
+<main class="page">
+<div class="chapter" id="ws-ch1" data-title="Trace" data-short="Trace">
+<section class="topic mission" id="m-csa-trace" data-m='{"type": "calc", "pass": 0.6, "qs": [{"q": "<pre class=\"code\"><code><span class=\"k\">int</span> x = <span class=\"n\">7</span>;\n<span class=\"k\">int</span> y = x / <span class=\"n\">2</span>;\n<span class=\"t\">System</span>.out.println(y + x % <span class=\"n\">2</span>);</code></pre>", "a": "4", "cs": true, "ph": "output", "x": "7 / 2 is integer division → 3; 7 % 2 = 1; 3 + 1 = 4."}, {"q": "<pre class=\"code\"><code><span class=\"k\">String</span> s = <span class=\"s\">\"margin\"</span>;\n<span class=\"t\">System</span>.out.println(s.substring(<span class=\"n\">1</span>, <span class=\"n\">4</span>) + s.length());</code></pre>", "a": "arg6", "cs": true, "ph": "output", "x": "substring(1, 4) takes indexes 1, 2, 3 → \"arg\"; then string + int concatenates 6."}, {"q": "<pre class=\"code\"><code><span class=\"k\">int</span> sum = <span class=\"n\">0</span>;\n<span class=\"k\">for</span> (<span class=\"k\">int</span> i = <span class=\"n\">1</span>; i &amp;lt;= <span class=\"n\">5</span>; i += <span class=\"n\">2</span>) {\n    sum += i;\n}\n<span class=\"t\">System</span>.out.println(sum);</code></pre>", "a": "9", "cs": true, "ph": "output", "x": "i = 1, 3, 5 → 1 + 3 + 5 = 9."}, {"q": "<pre class=\"code\"><code><span class=\"k\">int</span>[] a = {<span class=\"n\">4</span>, <span class=\"n\">1</span>, <span class=\"n\">3</span>};\na[<span class=\"n\">1</span>] = a[<span class=\"n\">0</span>] + a[<span class=\"n\">2</span>];\n<span class=\"t\">System</span>.out.println(a[<span class=\"n\">1</span>] * <span class=\"n\">2</span>);</code></pre>", "a": "14", "cs": true, "ph": "output", "x": "a[1] becomes 4 + 3 = 7; 7 × 2 = 14."}, {"q": "<pre class=\"code\"><code><span class=\"k\">double</span> d = <span class=\"n\">7</span> / <span class=\"n\">2</span>;\n<span class=\"t\">System</span>.out.println(d);</code></pre>", "a": "3.0", "cs": true, "ph": "output", "x": "7 / 2 is computed with ints first (3), then widened to 3.0."}, {"q": "<pre class=\"code\"><code><span class=\"k\">int</span> n = <span class=\"n\">0</span>;\n<span class=\"k\">while</span> (n * n &amp;lt; <span class=\"n\">30</span>) {\n    n++;\n}\n<span class=\"t\">System</span>.out.println(n);</code></pre>", "a": "6", "cs": true, "ph": "output", "x": "5 × 5 = 25 < 30 keeps going; 6 × 6 = 36 stops."}, {"q": "<pre class=\"code\"><code><span class=\"k\">String</span> t = <span class=\"s\">\"\"</span>;\n<span class=\"k\">for</span> (<span class=\"k\">int</span> i = <span class=\"n\">3</span>; i &amp;gt; <span class=\"n\">0</span>; i--) {\n    t += i;\n}\n<span class=\"t\">System</span>.out.println(t);</code></pre>", "a": "321", "cs": true, "ph": "output", "x": "Appends 3, then 2, then 1."}, {"q": "<pre class=\"code\"><code><span class=\"k\">boolean</span> b = (<span class=\"n\">5</span> &amp;gt; <span class=\"n\">3</span>) &amp;amp;&amp;amp; !(<span class=\"n\">2</span> == <span class=\"n\">2</span>);\n<span class=\"t\">System</span>.out.println(b);</code></pre>", "a": "false", "cs": true, "ph": "output", "x": "true &amp;&amp; !true = true &amp;&amp; false = false."}], "id": "csa-trace", "win": "Integer division, string concatenation and loop bounds cause most AP CSA tracing mistakes.", "hints": ["int / int always gives an int: the decimal part is thrown away.", "substring(a, b) includes index a but stops before index b."]}'>
+  <h2><span class="pill">Mission 1</span>Be the computer</h2>
+  <p class="sub">Read each snippet and type exactly what it prints. Every answer was checked by running real Java.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-csa-count" data-m='{"type": "calc", "pass": 0.6, "qs": [{"q": "<pre class=\"code\"><code><span class=\"k\">int</span> count = <span class=\"n\">0</span>;\n<span class=\"k\">for</span> (<span class=\"k\">int</span> i = <span class=\"n\">0</span>; i &amp;lt; <span class=\"n\">10</span>; i += <span class=\"n\">3</span>) {\n    count++;\n}</code></pre>", "a": 4, "abs": 0, "x": "i = 0, 3, 6, 9."}, {"q": "<pre class=\"code\"><code><span class=\"k\">int</span> count = <span class=\"n\">0</span>;\n<span class=\"k\">for</span> (<span class=\"k\">int</span> i = <span class=\"n\">10</span>; i &amp;gt; <span class=\"n\">0</span>; i /= <span class=\"n\">2</span>) {\n    count++;\n}</code></pre>", "a": 4, "abs": 0, "x": "i = 10, 5, 2, 1, then 0 stops."}, {"q": "<pre class=\"code\"><code><span class=\"k\">int</span> count = <span class=\"n\">0</span>;\n<span class=\"k\">for</span> (<span class=\"k\">int</span> i = <span class=\"n\">0</span>; i &amp;lt; <span class=\"n\">3</span>; i++) {\n    <span class=\"k\">for</span> (<span class=\"k\">int</span> j = <span class=\"n\">0</span>; j &amp;lt; i; j++) {\n        count++;\n    }\n}</code></pre>", "a": 3, "abs": 0, "x": "Inner loop runs 0 + 1 + 2 = 3 times."}, {"q": "<pre class=\"code\"><code><span class=\"k\">int</span> count = <span class=\"n\">0</span>;\n<span class=\"k\">for</span> (<span class=\"k\">int</span> i = <span class=\"n\">1</span>; i &amp;lt;= <span class=\"n\">4</span>; i++) {\n    <span class=\"k\">for</span> (<span class=\"k\">int</span> j = <span class=\"n\">1</span>; j &amp;lt;= <span class=\"n\">4</span>; j++) {\n        count++;\n    }\n}</code></pre>", "a": 16, "abs": 0, "x": "4 × 4."}, {"q": "<pre class=\"code\"><code><span class=\"k\">int</span> count = <span class=\"n\">0</span>;\n<span class=\"k\">int</span> k = <span class=\"n\">1</span>;\n<span class=\"k\">while</span> (k &amp;lt; <span class=\"n\">100</span>) {\n    k *= <span class=\"n\">3</span>;\n    count++;\n}</code></pre>", "a": 5, "abs": 0, "x": "k = 3, 9, 27, 81, 243: five multiplications."}], "id": "csa-count", "win": "For nested loops, count the inner loop for each value of the outer variable, then add.", "hints": ["Write down every value the loop variable takes, then count them."]}'>
+  <h2><span class="pill">Mission 2</span>Count the iterations</h2>
+  <p class="sub">How many times does count++ run? Type a number.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+<div class="chapter" id="ws-ch2" data-title="Assemble" data-short="Assemble">
+<section class="topic mission" id="m-par-sum" data-m='{"type": "parsons", "lines": ["int[] nums = {3, 8, 2};", "int total = 0;", "for (int n : nums) {", "    total += n;", "}", "System.out.println(total);"], "task": "Rebuild the program so it prints the sum of the array (13).", "id": "par-sum", "win": "Declare before you use, open the loop, update inside the braces, print after the loop.", "hints": ["The variables must be declared before the loop uses them.", "The print goes after the loop closes, or it would print three times."]}'>
+  <h2><span class="pill">Mission 3</span>Assemble: add up an array</h2>
+  <p class="sub">The lines of a working program are scrambled. Put them back in order.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-par-rev" data-m='{"type": "parsons", "lines": ["String word = \"java\";", "String rev = \"\";", "for (int i = word.length() - 1; i >= 0; i--) {", "    rev += word.charAt(i);", "}", "System.out.println(rev);"], "task": "Rebuild the program so it prints \"avaj\".", "id": "par-rev", "win": "Loop from the last index (length − 1) down to 0, adding one character at a time.", "hints": ["The last valid index is word.length() − 1."]}'>
+  <h2><span class="pill">Mission 4</span>Assemble: reverse a string</h2>
+  <p class="sub">Put the lines in order so the program prints the word backwards.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-par-max" data-m='{"type": "parsons", "lines": ["public static int max(int[] arr) {", "    int max = arr[0];", "    for (int i = 1; i < arr.length; i++) {", "        if (arr[i] > max) {", "            max = arr[i];", "        }", "    }", "    return max;", "}"], "task": "Rebuild max(int[] arr), which returns the largest element.", "id": "par-max", "win": "Start with the first element as the best so far, then let each later element challenge it.", "hints": ["The return statement comes after the loop has checked every element.", "The if goes inside the for loop."]}'>
+  <h2><span class="pill">Mission 5</span>Assemble: find the maximum</h2>
+  <p class="sub">Rebuild the classic find-the-max method.</p>
+  <div class="m-play"></div>
+</section>
+<section class="topic mission" id="m-par-class" data-m='{"type": "parsons", "lines": ["public class Counter {", "    private int count;", "    public Counter() {", "        count = 0;", "    }", "    public void click() {", "        count++;", "    }", "}"], "task": "Rebuild the Counter class.", "id": "par-class", "win": "Instance variables are private; the constructor has the class&#39;s name and no return type; methods change the object&#39;s state.", "hints": ["The constructor&#39;s name matches the class and has no return type."]}'>
+  <h2><span class="pill">Mission 6</span>Assemble: write a class</h2>
+  <p class="sub">Put the class together in the standard order: field, constructor, method.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+<div class="chapter" id="ws-ch3" data-title="Exam Sprint" data-short="Sprint">
+<section class="topic mission" id="m-csa-sprint" data-m='{"type": "sprint", "time": 300, "pass": 0.75, "qs": [{"q": "Which correctly compares the contents of two Strings a and b?", "o": ["a == b", "a.equals(b)", "a = b", "a.compareTo(b) == true"], "a": 1, "x": "== compares references; equals compares characters."}, {"q": "What is 17 % 5?", "o": ["3", "2", "3.4", "12"], "a": 1, "x": "17 = 3 × 5 + 2."}, {"q": "ArrayList list = [5, 7, 9]. After list.remove(0), what is list.get(0)?", "o": ["5", "7", "9", "an error"], "a": 1, "x": "Elements shift left after a removal."}, {"q": "Which loop header visits every index of int[] arr?", "o": ["for (int i = 0; i <= arr.length; i++)", "for (int i = 1; i < arr.length; i++)", "for (int i = 0; i < arr.length; i++)", "for (int i = arr.length; i > 0; i--)"], "a": 2, "x": "Indexes run from 0 to length − 1."}, {"q": "What does (int) 9.99 evaluate to?", "o": ["10", "9", "9.0", "a compile error"], "a": 1, "x": "Casting to int truncates toward zero."}, {"q": "Which statement about constructors is true?", "o": ["They must return void", "They have the same name as the class", "A class can have only one", "They are called with the dot operator"], "a": 1, "x": "No return type, same name, overloading allowed."}, {"q": "Math.random() returns a value in which range?", "o": ["[0, 1]", "[0, 1)", "(0, 1)", "[1, 10]"], "a": 1, "x": "0 inclusive, 1 exclusive."}, {"q": "A method declared private in class A can be called from…", "o": ["any class", "subclasses only", "inside class A only", "classes in the same folder only"], "a": 2, "x": "private = visible only within its own class."}], "id": "csa-sprint", "win": "Fast, careful reading is the skill: most wrong answers come from == vs equals, off-by-one loops and integer division."}'>
+  <h2><span class="pill">Mission 7</span>Exam-style sprint</h2>
+  <p class="sub">Eight AP CSA multiple-choice questions in five minutes.</p>
+  <div class="m-play"></div>
+</section>
+</div>
+</main>
+
+<footer>Margin · AP CSA workshop · Answers checked against real Java</footer>
+
+
+<script src="../../assets/js/courses.js"></script>
+<script src="../../assets/js/workshop.js"></script>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>
