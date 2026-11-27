@@ -1,8 +1,4 @@
-# Margin
 
-*Reach your highest point.*
-
-Free AP review pages: explanations, detailed explanations of each idea, worked examples, and self-checking practice questions.
 
 ## Current content
 
